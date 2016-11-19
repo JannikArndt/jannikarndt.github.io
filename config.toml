@@ -1,0 +1,150 @@
+baseurl = "https://example.org/"
+languageCode = "en-us"
+title = "Jannik Arndt"
+theme = "hugo-creative-theme"
+
+[params]
+
+	# You can use Markdown syntax for urls [text](//url.to/source) for
+	# most longer texts.
+
+	# All icons using Fontawesome's icon font. Look at http://fontawesome.io/icons/
+	# for more icons. The icons are represented by their corresponding
+	# CSS class.
+
+	# All projects of the portfolio are defined in their own files.
+	# You can find example projects at 'exampleSite/data/projects'. Copy the 'projects'
+	# folder into the 'data' directory at the root of this Hugo site.
+	# For more information take a look at the README.
+
+	# To provide some metadata for search engines feel free to add some
+	# information about you and your website.
+	name = "Jannik Arndt"
+	description = "Data Engineer, Software Developer & Musician from Hamburg, Germany"
+
+	# The path must be relative to the static folder
+	favicon = "favicon.ico"
+
+
+	# Navigation
+	[params.navigation]
+		brand = "jannikarndt.de"
+
+		[params.navigation.links]
+			about     = "About"
+			services  = "Software"
+			publications = "Publications"
+			contact   = "Contact"
+
+
+	# Hero section
+	[params.hero]
+		# To change the background of the hero section, replace the 'header.jpg' at './static/img' with your own.
+		slogan     = ""
+		subtitle   = ""
+		buttonText = ""
+
+
+	# About section
+	[params.about]
+		headline    = "About"
+		description = "1989 — Löptin<br>1999–2008 — Preetz<br>2008–2015 — Oldenburg<br>2015–today — Hamburg"
+		buttonText  = ""
+
+
+	# Service section
+	[params.services]
+		headline = "Software"
+
+        [[params.services.list]]
+            icon = "http://jannikarndt.github.io/Canal/bridge.png"
+            title = "Canal"
+            description = "A free and open-source COBOL editor and analysis tool"
+            link = "http://jannikarndt.github.io/Canal/"
+
+        [[params.services.list]]
+			icon = "http://jannikarndt.github.io/Musicista/icon.png"
+			title = "Musicista"
+			description = "A free and open-source framework for computational musicology"
+            link = "http://jannikarndt.github.io/Musicista/"
+
+		[[params.services.list]]
+            icon = "https://avatars3.githubusercontent.com/u/23016863?v=3&s=200"
+            title = "Nice To Know"
+            description = "A collection of mind-maps of things that are nice to know"
+            link = "https://nicetoknow.github.io"
+
+        [[params.services.list]]
+            icon = "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"
+            title = "More"
+            description = "Show Github Repositories"
+            link = "https://github.com/JannikArndt?tab=repositories"
+
+
+    # Portfolio modals
+	#[params.portfolio.modal]
+    #    client = "Client"
+    #    date = "Date"
+    #    category = "Category"
+    #    buttonText = "Close"
+
+    # Publications section
+    [params.publications]
+        headline = "Publications"
+
+        [[params.publications.years]]
+            year = "2014"
+
+            [[params.publications.years.entry]]
+                text = "Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit, 2014."
+                link = "http://www.jannikarndt.de/publikationen/musicista/"
+
+            [[params.publications.years.entry]]
+                text = "Jannik Arndt: “Erkennung von Motiv- und Themenvariationen”, in Gesellschaft für Informatik (Hrsg.): *Informatiktage 2014*, LNI S-13, Potsdam, 2014 (ISBN 978-3-88579-447-9)"
+                link = "http://www.jannikarndt.de/media/docs/Erkennung%20von%20Motiv-%20und%20Themenvariationen.pdf"
+            
+            [[params.publications.years.entry]]
+                text = "Jannik Arndt, Thomas Meents, Bernd Nottbeck: “Multidimensional Process Mining mit dem Process Cube Explorer”, in Gesellschaft für Informatik (Hrsg.): *Informatiktage 2014*, LNI S-13, Potsdam, 2014 (ISBN 978-3-88579-447-9)"
+                link = "http://www.jannikarndt.de/media/docs/Multidimensional%20Process%20Mining%20mit%20dem%20Process%20Cube%20Explorer.pdf"
+
+        [[params.publications.years]]
+            year = "2013"
+
+            [[params.publications.years.entry]]
+                text = "Jannik Arndt: “Genetic Mining und Heuristic Mining”. 2013."
+                link = "http://www.jannikarndt.de/media/docs/Genetic%20Mining%20und%20Heuristic%20Mining.pdf"
+
+            [[params.publications.years.entry]]
+                text = "Ira Diethelm, Jannik Arndt, Malte Dünnebier, Jörn Syrbe: “Informatics in Schools: Local Proceedings of the 6th International Conference ISSEP 2013 - Selected Papers”, *Commentarii informaticae didacticae*, Universitätsverlag Potsdam, 2013."
+                link = "http://opus.kobv.de/ubp/volltexte/2013/6368/"
+
+        [[params.publications.years]]
+            year = "2012"
+
+            [[params.publications.years.entry]]
+                text = "Jannik Arndt: “Forderungen an ein Datenmodell für Rekombination als Ansatz für Künstliche Kreativität”, in Proc. *3rd IEEE Germany Student Conference*, Passau, 2012."
+                link = "http://www.jannikarndt.de/media/docs/Forderungen%20an%20ein%20Datenmodell.pdf"
+
+            [[params.publications.years.entry]]
+                text = "Jannik Arndt: “Rekombination — Einführung in die Künstliche Kreativität”. Bachelorarbeit, 2012."
+                link = "http://www.jannikarndt.de/publikationen/rekombination/"
+
+        [[params.publications.years]]
+            year = "misc"
+
+            [[params.publications.years.entry]]
+                text = "Einführung in LaTeX"
+                link = "http://www.jannikarndt.de/wp-content/uploads/2014/01/Einführung-in-LaTeX.pdf"
+
+            [[params.publications.years.entry]]
+                text = "Einführung in das wissenschaftliche Schreiben"
+                link = "http://www.student.uni-oldenburg.de/jannik.arndt/ews.html"
+
+	# Contact section
+	[params.contact]
+        github = "https://github.com/JannikArndt"
+        twitter = "https://twitter.com/JannikArndt"
+        facebook = "https://www.facebook.com/jannik.arndt"
+        linkedin = "https://www.linkedin.com/in/jannikarndt"
+        xing = "https://www.xing.com/profile/Jannik_Arndt"
+		email = "jannik@jannikarndt.de"

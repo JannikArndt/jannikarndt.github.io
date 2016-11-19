@@ -1,0 +1,32 @@
+{{ "<!-- CONTACT -->" | safeHTML }}
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 text-center">
+                {{ if .Site.Params.contact.github }}
+                    <a href="{{ .Site.Params.contact.github }}" target="_blank"><i class="fa fa-github fa-3x">&nbsp;</i></a>
+                {{ end }}
+
+                {{ if .Site.Params.contact.twitter }}
+                    <a href="{{ .Site.Params.contact.twitter }}" target="_blank"><i class="fa fa-twitter fa-3x">&nbsp;</i></a>
+                {{ end }}
+
+                {{ if .Site.Params.contact.facebook }}
+                    <a href="{{ .Site.Params.contact.facebook }}" target="_blank"><i class="fa fa-facebook fa-3x">&nbsp;</i></a>
+                {{ end }}
+
+                {{ if .Site.Params.contact.linkedin }}
+                    <a href="{{ .Site.Params.contact.linkedin }}" target="_blank"><i class="fa fa-linkedin fa-3x">&nbsp;</i></a>
+                {{ end }}
+
+                {{ if .Site.Params.contact.xing }}
+                    <a href="{{ .Site.Params.contact.xing }}" target="_blank"><i class="fa fa-xing fa-3x">&nbsp;</i></a>
+                {{ end }}
+
+                {{ if .Site.Params.contact.email }}
+                     <a href="mailto:{{ .Site.Params.contact.email }}"><i class="fa fa-envelope-o fa-3x">&nbsp;</i></a>
+                {{ end }}
+             </div>
+        </div>
+    </div>
+</section>
