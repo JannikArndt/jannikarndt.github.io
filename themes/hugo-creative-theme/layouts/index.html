@@ -8,9 +8,7 @@
             {{ partial "nav.html" . }}
         {{ end }}
 
-        {{ if .Site.Params.hero }}
-            {{ partial "hero.html" . }}
-        {{ end }}
+        {{ partial "hero.html" . }}
 
         {{ if .Site.Params.about }}
             {{ partial "about.html" . }}

@@ -4,46 +4,19 @@ title = "Jannik Arndt"
 theme = "hugo-creative-theme"
 
 [params]
-
-	# You can use Markdown syntax for urls [text](//url.to/source) for
-	# most longer texts.
-
-	# All icons using Fontawesome's icon font. Look at http://fontawesome.io/icons/
-	# for more icons. The icons are represented by their corresponding
-	# CSS class.
-
-	# All projects of the portfolio are defined in their own files.
-	# You can find example projects at 'exampleSite/data/projects'. Copy the 'projects'
-	# folder into the 'data' directory at the root of this Hugo site.
-	# For more information take a look at the README.
-
-	# To provide some metadata for search engines feel free to add some
-	# information about you and your website.
 	name = "Jannik Arndt"
 	description = "Data Engineer, Software Developer & Musician from Hamburg, Germany"
-
-	# The path must be relative to the static folder
 	favicon = "favicon.ico"
-
 
 	# Navigation
 	[params.navigation]
 		brand = "jannikarndt.de"
 
 		[params.navigation.links]
-			about     = "About"
-			services  = "Software"
+			about        = "About"
+			services     = "Software"
 			publications = "Publications"
-			contact   = "Contact"
-
-
-	# Hero section
-	[params.hero]
-		# To change the background of the hero section, replace the 'header.jpg' at './static/img' with your own.
-		slogan     = ""
-		subtitle   = ""
-		buttonText = ""
-
+			contact      = "Contact"
 
 	# About section
 	[params.about]
@@ -79,14 +52,6 @@ theme = "hugo-creative-theme"
             title = "More"
             description = "Show Github Repositories"
             link = "https://github.com/JannikArndt?tab=repositories"
-
-
-    # Portfolio modals
-	#[params.portfolio.modal]
-    #    client = "Client"
-    #    date = "Date"
-    #    category = "Category"
-    #    buttonText = "Close"
 
     # Publications section
     [params.publications]

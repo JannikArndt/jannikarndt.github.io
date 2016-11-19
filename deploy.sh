@@ -13,14 +13,13 @@ cd public
 git add -A
 
 # Commit changes.
-msg="rebuilding site `date`"
 if [ $# -eq 1 ]
     then msg="$1"
 else
-    echo -e "\033[1mCommit message: "
-    read newmsg
-    echo -e "\033[0m"
-    msg=newmsg
+    echo "\033[1mCommit message: "
+    read "newmsg"
+    echo "\033[0m"
+    msg="$newmsg"
 fi
 
 git commit -m "$msg"
