@@ -1,4 +1,4 @@
-baseurl = "https://jannikarndt.github.io"
+baseurl = "http://www.jannikarndt.de"
 languageCode = "en-us"
 title = "Jannik Arndt"
 theme = "hugo-creative-theme"

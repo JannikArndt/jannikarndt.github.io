@@ -16,9 +16,9 @@ git add -A
 if [ $# -eq 1 ]
     then msg="$1"
 else
-    echo "\033[1mCommit message: "
+    echo -e "\033[1mCommit message: "
     read "newmsg"
-    echo "\033[0m"
+    echo -e "\033[0m"
     msg="$newmsg"
 fi
 
