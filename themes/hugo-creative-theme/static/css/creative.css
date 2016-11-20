@@ -86,12 +86,11 @@ aside {
 }
 
 .navbar-default {
-    border-color: rgba(34,34,34,.05);
+    border: none;
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
-    background-color: #fff;
-    -webkit-transition: all .35s;
-    -moz-transition: all .35s;
-    transition: all .35s;
+    -webkit-transition: all 2s;
+    -moz-transition: all 2s;
+    transition: all 2s;
 }
 
 .navbar-default .navbar-header .navbar-brand {
@@ -121,7 +120,7 @@ aside {
 
 .navbar-default .nav > li.active>a,
 .navbar-default .nav>li.active>a:focus {
-    color: #99b5d6!important;
+    color: #88a4c5!important;
     background-color: transparent;
 }
 
@@ -130,13 +129,15 @@ aside {
     background-color: transparent;
 }
 
-@media(min-width:768px) {
+
     .navbar-default {
-        border-color: rgba(255,255,255,.3);
-        background-color: transparent;
+        background-color: rgba(155, 181,213,0.01);
+        transition: all 2s;
     }
 
-    .navbar-default .navbar-header .navbar-brand {
+    .navbar-default .navbar-header .navbar-brand,
+    .navbar-default .nav > li>a,
+    .navbar-default .nav>li>a:focus {
         color: rgba(255,255,255,.7);
     }
 
@@ -150,35 +151,25 @@ aside {
         color: rgba(255,255,255,.7);
     }
 
-    .navbar-default .nav > li>a:hover,
-    .navbar-default .nav>li>a:focus:hover {
-        color: #fff;
-    }
-
     .navbar-default.affix {
-        border-color: rgba(34,34,34,.05);
-        background-color: #fff;
+        background-color: rgba(155, 181,213,.7);
+        transition: all 2s;
     }
 
-    .navbar-default.affix .navbar-header .navbar-brand {
-        font-size: 14px;
-        color: #99b5d6;
-    }
+.navbar-toggle{
+    background-color: rgba(155, 181,213,.7);
+}
 
-    .navbar-default.affix .navbar-header .navbar-brand:hover,
-    .navbar-default.affix .navbar-header .navbar-brand:focus {
-        color: #88a4c5;
-    }
+.navbar-collapse.collapsing{
+    background-color: rgba(155, 181,213,.7);
+}
 
-    .navbar-default.affix .nav > li>a,
-    .navbar-default.affix .nav>li>a:focus {
-        color: #222;
-    }
+.navbar-collapse.in{
+    background-color: rgba(155, 181,213,.7);
+}
 
-    .navbar-default.affix .nav > li>a:hover,
-    .navbar-default.affix .nav>li>a:focus:hover {
-        color: #99b5d6;
-    }
+.navbar-header + .in{
+    background-color: rgba(155, 181,213,.7);
 }
 
 header {
@@ -220,6 +211,10 @@ header .header-content .header-content-inner p {
     font-weight: 300;
     color: rgba(255,255,255,.7);
 }
+
+    header {
+        margin-top: 0px;
+    }
 
 @media(min-width:768px) {
     header {
