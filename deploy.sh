@@ -1,18 +1,25 @@
 #!/bin/bash
 
+# Check if branch is up-to-date
+git fetch
+if [[ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]]
+	then echo "\033[31mCurrent branch is not up-to-date, please pull first!\033[0m"
+	exit
+fi
+
 echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
-echo -e "\033[2m"
 # Build the project.
-hugo
-echo -e "\033[0m"
+echo "\033[2m"
+hugooutput="$(hugo)"
+echo "$hugooutput"
+echo "\033[0m"
+if echo "$hugooutput" | grep "ERROR"
+  then echo "\033[31mError during build, cancelling deployment. 🙁\033[0m"
+  exit
+fi
 
-# Go To Public folder
-cd public
-# Add changes to git.
-git add -A
-
-# Commit changes.
+# Get commit message
 if [ $# -eq 1 ]
     then msg="$1"
 else
@@ -22,10 +29,15 @@ else
     msg="$newmsg"
 fi
 
+# Push to submodule (master branch)
+cd public
+git add -A
 git commit -m "$msg"
-
-# Push source and build repos.
-git push origin master
-
-# Come Back
+git push 
 cd ..
+
+# Push the source (source branch)
+# the hash of the submodule has changed => commit that as well
+git add -A
+git commit -m "$msg"
+git push 
