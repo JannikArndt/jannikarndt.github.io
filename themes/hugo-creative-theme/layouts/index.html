@@ -14,24 +14,16 @@
             {{ partial "about.html" . }}
         {{ end }}
 
+        {{ if .Site.Params.blog }}
+            {{ partial "blog.html" . }}
+        {{ end }}
+
         {{ if .Site.Params.services.list }}
             {{ partial "services.html" . }}
         {{ end }}
 
         {{ if .Site.Params.publications }}
             {{ partial "publications.html" . }}
-        {{ end }}
-
-        {{ if .Site.Data.projects }}
-            {{ partial "portfolio.html" . }}
-        {{ end }}
-
-        {{ if .Site.Params.location }}
-            {{ partial "location.html" . }}
-        {{ end }}
-
-        {{ if .Site.Params.aside }}
-            {{ partial "aside.html" . }}
         {{ end }}
 
         {{ if .Site.Params.contact }}

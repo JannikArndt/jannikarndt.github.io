@@ -1,0 +1,28 @@
+{{ "<!-- BLOG ENTRY -->" | safeHTML }}
+<div class="blogentry">
+<section class="bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05CET" }}">
+                    {{ .Lastmod.Format ( .Site.Params.dateformat | default "January 2, 2006") }}
+                </time>
+                <h1>{{ .Title }}</h1>   
+                <p>by {{ .Params.params.author }}</p>
+                <!--<p>{{ .Keywords }}</p>-->
+            </div>
+            <!--<div class="col-lg-2">{{ .TableOfContents }}</div>-->
+        </div>
+    </div>
+</section>
+
+<article class="bg-light" id="blogentry">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                {{ .Content }}                
+            </div>            
+        </div>
+    </div>
+</article>
+</div>

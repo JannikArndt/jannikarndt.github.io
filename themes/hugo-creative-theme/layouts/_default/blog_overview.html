@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05JST" }}">
+                {{ .Lastmod.Format ( .Site.Params.dateformat | default "Jan 2, 2006") }}
+            </time>
+        </div>
+        <div>
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+        </div>
+        <div class="summary">
+            {{ .Summary }}
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+

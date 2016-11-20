@@ -21,6 +21,11 @@
                         <a class="page-scroll" href="#about">{{ .Site.Params.navigation.links.about }}</a>
                     </li>
                 {{ end }}
+                {{ if .Site.Params.navigation.links.blog }}
+                <li>
+                    <a class="page-scroll" href="#blog">{{ .Site.Params.navigation.links.blog }}</a>
+                </li>
+                {{ end }}
                 {{ if and .Site.Params.services.list .Site.Params.navigation.links.services }}
                     <li>
                         <a class="page-scroll" href="#services">{{ .Site.Params.navigation.links.services }}</a>
@@ -30,11 +35,6 @@
                     <li>
                         <a class="page-scroll" href="#publications">{{ .Site.Params.navigation.links.publications }}</a>
                     </li>
-                {{ end }}
-                {{ if and .Site.Params.location .Site.Params.navigation.links.location }}
-                <li>
-                    <a class="page-scroll" href="#location">{{ .Site.Params.navigation.links.location }}</a>
-                </li>
                 {{ end }}
                 {{ if and .Site.Params.contact .Site.Params.navigation.links.contact }}
                     <li>
