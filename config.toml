@@ -16,14 +16,13 @@ theme = "hugo-creative-theme"
 			about        = "About"
 			services     = "Software"
 			publications = "Publications"
+            blog         = "Blog"
 			contact      = "Contact"
 
 	# About section
 	[params.about]
 		headline    = "About"
 		description = "1989 — Löptin<br>1999–2008 — Preetz<br>2008–2015 — Oldenburg<br>2015–today — Hamburg"
-		buttonText  = ""
-
 
 	# Service section
 	[params.services]
@@ -53,6 +52,10 @@ theme = "hugo-creative-theme"
             description = "Show Github Repositories"
             link = "https://github.com/JannikArndt?tab=repositories"
 
+    # Blog section
+	[params.blog]
+		headline    = "Blog"
+
     # Publications section
     [params.publications]
         headline = "Publications"
@@ -61,7 +64,7 @@ theme = "hugo-creative-theme"
             year = "2014"
 
             [[params.publications.years.entry]]
-                text = "Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit, 2014."
+                text = "Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit,  2014."
                 link = "http://www.jannikarndt.de/publikationen/musicista/"
 
             [[params.publications.years.entry]]
