@@ -17,9 +17,14 @@
             <h2>{{ .year }}</h2>
                 {{ range .entry }}
                         <p class="text-muted">
-                            {{ .text | markdownify  }}
+                            {{ .text | markdownify  }} 
                             {{ if .link }}
-                                <a href="{{ .link }}"><i class="fa fa-external-link"></i></a>
+                                &nbsp;
+                                <a href="{{ .link }}"><i class="fa fa-file-pdf-o"></i></a>
+                            {{ end }}
+                            {{ if .website }} 
+                                &nbsp;
+                                <a href="{{ .website }}"><i class="fa fa-globe"></i></a>
                             {{ end }}
                         </p>
                 {{ end }}

@@ -54,7 +54,7 @@ theme = "hugo-creative-theme"
 
     # Blog section
 	[params.blog]
-		headline    = "Blog"
+		headline = "Blog"
 
     # Publications section
     [params.publications]
@@ -65,22 +65,23 @@ theme = "hugo-creative-theme"
 
             [[params.publications.years.entry]]
                 text = "Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit,  2014."
-                link = "http://www.jannikarndt.de/publikationen/musicista/"
+                link = "http://www.jannikarndt.de/publications/Jannik%20Arndt%20-%20Musicista.pdf"
+                website = "http://jannikarndt.github.io/Musicista/"
 
             [[params.publications.years.entry]]
                 text = "Jannik Arndt: “Erkennung von Motiv- und Themenvariationen”, in Gesellschaft für Informatik (Hrsg.): *Informatiktage 2014*, LNI S-13, Potsdam, 2014 (ISBN 978-3-88579-447-9)"
-                link = "http://www.jannikarndt.de/media/docs/Erkennung%20von%20Motiv-%20und%20Themenvariationen.pdf"
+                link = "http://www.jannikarndt.de/publications/Variationsfindung/Erkennung%20von%20Motiv-%20und%20Themenvariationen.pdf"
             
             [[params.publications.years.entry]]
                 text = "Jannik Arndt, Thomas Meents, Bernd Nottbeck: “Multidimensional Process Mining mit dem Process Cube Explorer”, in Gesellschaft für Informatik (Hrsg.): *Informatiktage 2014*, LNI S-13, Potsdam, 2014 (ISBN 978-3-88579-447-9)"
-                link = "http://www.jannikarndt.de/media/docs/Multidimensional%20Process%20Mining%20mit%20dem%20Process%20Cube%20Explorer.pdf"
+                link = "http://www.jannikarndt.de/publications/Multidimensional%20Process%20Mining%20mit%20dem%20Process%20Cube%20Explorer.pdf"
 
         [[params.publications.years]]
             year = "2013"
 
             [[params.publications.years.entry]]
                 text = "Jannik Arndt: “Genetic Mining und Heuristic Mining”. 2013."
-                link = "http://www.jannikarndt.de/media/docs/Genetic%20Mining%20und%20Heuristic%20Mining.pdf"
+                link = "http://www.jannikarndt.de/publications/Genetic%20Mining%20und%20Heuristic%20Mining.pdf"
 
             [[params.publications.years.entry]]
                 text = "Ira Diethelm, Jannik Arndt, Malte Dünnebier, Jörn Syrbe: “Informatics in Schools: Local Proceedings of the 6th International Conference ISSEP 2013 - Selected Papers”, *Commentarii informaticae didacticae*, Universitätsverlag Potsdam, 2013."
@@ -91,22 +92,19 @@ theme = "hugo-creative-theme"
 
             [[params.publications.years.entry]]
                 text = "Jannik Arndt: “Forderungen an ein Datenmodell für Rekombination als Ansatz für Künstliche Kreativität”, in Proc. *3rd IEEE Germany Student Conference*, Passau, 2012."
-                link = "http://www.jannikarndt.de/media/docs/Forderungen%20an%20ein%20Datenmodell.pdf"
+                link = "http://www.jannikarndt.de/publications/Forderungen%20an%20ein%20Datenmodell.pdf"
 
             [[params.publications.years.entry]]
                 text = "Jannik Arndt: “Rekombination — Einführung in die Künstliche Kreativität”. Bachelorarbeit, 2012."
-                link = "http://www.jannikarndt.de/publikationen/rekombination/"
+                link = "http://www.jannikarndt.de/publications/Rekombination/Jannik%20Arndt%20-%20Rekombination.pdf"
+                website = "http://www.student.uni-oldenburg.de/jannik.arndt/ekk.html"
 
         [[params.publications.years]]
             year = "misc"
 
             [[params.publications.years.entry]]
                 text = "Einführung in LaTeX"
-                link = "http://www.jannikarndt.de/wp-content/uploads/2014/01/Einführung-in-LaTeX.pdf"
-
-            [[params.publications.years.entry]]
-                text = "Einführung in das wissenschaftliche Schreiben"
-                link = "http://www.student.uni-oldenburg.de/jannik.arndt/ews.html"
+                link = "http://www.jannikarndt.de/publications/Einf%C3%BChrung%20in%20LaTeX.pdf"
 
 	# Contact section
 	[params.contact]
