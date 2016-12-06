@@ -22,7 +22,37 @@ theme = "hugo-creative-theme"
 	# About section
 	[params.about]
 		headline    = "About"
-		description = "1989 — Löptin<br>1999–2008 — Preetz<br>2008–2015 — Oldenburg<br>2015–today — Hamburg"
+        mbti = "ENTJ"
+
+        [[params.about.steps]]
+            from = "1989"
+            to   = ""
+            step = "Löptin"
+            link = "https://de.wikipedia.org/wiki/Löptin"
+
+        [[params.about.steps]]
+            from = "1999"
+            to   = "2008"
+            step = "Preetz"
+            link = "http://www.fsg-preetz.de"
+
+        [[params.about.steps]]
+            from = "2008"
+            to   = "2015"
+            step = "Oldenburg"
+            link = "https://www.uni-oldenburg.de"
+
+        [[params.about.steps]]
+            from = "2015"
+            to   = "2016"
+            step = "PPI, Hamburg"
+            link = "http://www.ppi.de"
+
+        [[params.about.steps]]
+            from = "2017"
+            to   = "today"
+            step = "Holisticon, Hamburg"
+            link = "https://www.holisticon.de"
 
 	# Service section
 	[params.services]

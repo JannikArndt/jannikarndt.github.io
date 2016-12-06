@@ -6,14 +6,35 @@
                 {{ with .Site.Params.about.headline }}
                     <h2 class="section-heading">{{ . }}</h2>
                 {{ end }}
-                {{ if and .Site.Params.about.headline .Site.Params.about.description }}
+                {{ if and .Site.Params.about.headline }}
                     <hr class="light">
                 {{ end }}
-                {{ with .Site.Params.about.description }}
-                    <p class="text-faded">{{ . | markdownify }}</p>
+                <br>
+                {{ if .Site.Params.about.mbti }}
+                <div class="row">
+                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
+                        <p>MBTI</p>
+                    </div>
+                    <div class="col-xs-6 text-left">
+                        <p>
+                            <a href="https://www.16personalities.com/{{ .Site.Params.about.mbti }}-personality" target="_blank">
+                                {{ .Site.Params.about.mbti }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <hr class="light">
+                <br>
                 {{ end }}
-                {{ with .Site.Params.about.buttonText }}
-                    <a href="#" class="btn btn-default btn-xl">{{ . }}</a>
+                {{ range .Site.Params.about.steps }}
+                <div class="row">
+                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
+                        <p>{{ .from }}{{ if .to }}–{{ .to }}{{ end }}</p>                        
+                    </div>
+                    <div class="col-xs-6 text-left">
+                        <p><a href="{{ .link }}" target="_blank">{{ .step }}</a></p>
+                    </div>
+                </div>
                 {{ end }}
             </div>
         </div>
