@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
     <head>
+        <title>{{ .Site.Title }} — {{ .Title }}</title>
         {{ partial "head.html" . }}
     </head>
     <body id="page-top">
