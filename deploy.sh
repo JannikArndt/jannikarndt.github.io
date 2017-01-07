@@ -3,19 +3,19 @@
 # Check if branch is up-to-date
 git fetch
 if [[ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]]
-	then echo "\033[31mCurrent branch is not up-to-date, please pull first!\033[0m"
+	then echo -e "\033[31mCurrent branch is not up-to-date, please pull first!\033[0m"
 	exit
 fi
 
 echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
 # Build the project.
-echo "\033[2m"
+echo -e "\033[2m"
 hugooutput="$(hugo)"
-echo "$hugooutput"
-echo "\033[0m"
+echo -e "$hugooutput"
+echo -e "\033[0m"
 if echo "$hugooutput" | grep "ERROR"
-  then echo "\033[31mError during build, cancelling deployment. 🙁\033[0m"
+  then echo -e "\033[31mError during build, cancelling deployment. 🙁\033[0m"
   exit
 fi
 
