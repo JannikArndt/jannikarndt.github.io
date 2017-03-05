@@ -21,14 +21,14 @@ My personal lessons-learned:
 
 ## The requirements
 
-We were looking for a system to write, deploy and schedule ETL jobs. Since we acutally want to move the data, the en-vogue trend of NoETL and queries on source systems doesn't work for us. After [giving up on talend](/blog/2017/01/talend_does_not_work), Pentaho made it quite easy to write the kind of jobs we need. However, making sure these jobs can be deployed to a server and reliably run there turn out as almost impossible. 
+We were looking for a system to write, deploy and schedule ETL jobs. Since we actually want to move the data, the en-vogue trend of NoETL and queries on source systems doesn't work for us. After [giving up on talend](/blog/2017/01/talend_does_not_work), Pentaho made it quite easy to write the kind of jobs we need. However, making sure these jobs can be deployed to a server and reliably run there turn out as almost impossible. 
 
 What I want:
 
 - Deployment in one click (in 2017, Jenkins is nothing new!)
 - Deployment on three development environments (dev, test, prod)
 - Configuration of different schedules for each environment
-- Version control (being able to answer “who change what when?”)
+- Version control (being able to answer “who changed what when?”)
 
 ## Solution #1: Export and Import via GUI
 
@@ -38,7 +38,7 @@ Problems:
 
 - You cannot deploy single jobs
 - Every user needs to have access to production (no-go!)
-- Nothing tracks what acutally changed
+- Nothing tracks what actually changed
 - This needs way more than one click
 - The export does not contain schedules
 
@@ -84,13 +84,13 @@ With this configuration, you can export and import repositories via `pan.sh` and
   -norules=true
 ```
 
-Tip: The directory name is always in lower case, indipendent of what the web UI shows you.
+Tip: The directory name is always in lower case, independent of what the web UI shows you.
 
 Problems:
 
 - You cannot deploy single jobs
 - Every user needs to have access to production (no-go!)
-- Nothing tracks what acutally changed
+- Nothing tracks what actually changed
 - ~~This needs way more than one click~~
 - The export does not contain schedules
 
@@ -110,7 +110,7 @@ Deployment suddenly means starting the complete Pentaho Suite — *twice*!
 
 ## Solution #3: Export and Import via REST
 
-Baffled with why I'm not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you're still unsure if cyclic dependencies are a bad thing, try reading the [API Documentation](https://help.pentaho.com/Documentation/7.0/0R0/070). And if you need to convince someone that generated documentation might be a bad idea, show him [this overview](https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0). Spoiler: both fail to mention *the acutal address of the endpoint*, which is `http://localhost:8080/pentaho/api/repo/...`. Luckily, there are people writing [useful blog entries](https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/). And if you need a tool for trial-and-error, I recommend [Insomnia](https://insomnia.rest).
+Baffled with why I'm not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you're still unsure if cyclic dependencies are a bad thing, try reading the [API Documentation](https://help.pentaho.com/Documentation/7.0/0R0/070). And if you need to convince someone that generated documentation might be a bad idea, show him [this overview](https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0). Spoiler: both fail to mention *the actual address of the endpoint*, which is `http://localhost:8080/pentaho/api/repo/...`. Luckily, there are people writing [useful blog entries](https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/). And if you need a tool for trial-and-error, I recommend [Insomnia](https://insomnia.rest).
 Spending a lot of nerves, I crafted this beauty:
 
 ```bash
@@ -152,9 +152,9 @@ Let's look at our problem-list:
 
 - You cannot deploy single jobs - *but single directories!*
 - ~~Every user needs to have access to production (no-go!)~~ (this can be run on a server)
-- ~~Nothing tracks what acutally changed~~ (you can automatically commit the xml file, thebackup contains one for each job/transaction)
+- ~~Nothing tracks what actually changed~~ (you can automatically commit the xml file, the backup contains one for each job/transaction)
 - ~~This needs way more than one click~~
 - The export does not contain schedules
 - ~~Pentaho Suite is started twice and takes *minutes*~~ (this accesses the repository server directly)
 
-Okay, so this sounds pretty good! What's the problem? *It doesn't work.* The `systemRestore` endpoint happily takes all your data, answeres `200: OK` and *does nothing*. I was told, a ticket would be raised, but so far [I haven't seen any of it](http://jira.pentaho.com/issues/?jql=text%20~~%20%22systemRestore%22) and [the implementation also hasn't changed](https://github.com/pentaho/pentaho-platform/blob/master/extensions/src/main/java/org/pentaho/platform/web/http/api/resources/FileResource.java#L195).
+Okay, so this sounds pretty good! What's the problem? *It doesn't work.* The `systemRestore` endpoint happily takes all your data, answers `200: OK` and *does nothing*. I was told, a ticket would be raised, but so far [I haven't seen any of it](http://jira.pentaho.com/issues/?jql=text%20~~%20%22systemRestore%22) and [the implementation also hasn't changed](https://github.com/pentaho/pentaho-platform/blob/master/extensions/src/main/java/org/pentaho/platform/web/http/api/resources/FileResource.java#L195).

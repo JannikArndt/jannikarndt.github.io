@@ -1,0 +1,26 @@
+{
+    "language": "en_US",
+    "ignoreWordsList": [
+        "Pentaho",
+        "params",
+        "Arndt",
+        "Jannik",
+        "pentaho",
+        "“Community",
+        "Edition”",
+        "“Enterprise",
+        "Kerberos",
+        "NoETL",
+        "talend",
+        "blog",
+        "“who"
+    ],
+    "documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ],
+    "ignoreRegExp": [],
+    "ignoreFileExtensions": [],
+    "checkInterval": 5000
+}
