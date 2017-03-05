@@ -470,6 +470,10 @@ img::-moz-selection {
     background: 0 0;
 }
 
+img{
+    max-width: 100%;
+}
+
 body {
     webkit-tap-highlight-color: #222;
 }

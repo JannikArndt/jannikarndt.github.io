@@ -9,7 +9,7 @@ slug = "talend_does_not_work"
   author = "Jannik Arndt"
 +++
 
-I cannot believe that googleing “talend does not work” does not find *anything* helpful. With this entry I try to fill that void in the intenet.
+I cannot believe that googleing “talend does not work” does not find *anything* helpful. With this entry I try to fill that void in the internet.
 <!--more-->
 
 ## Fail 1: Download
