@@ -17,7 +17,7 @@ My personal lessons-learned:
 - The “Enterprise Edition” (EE) adds scheduling that doesn't work reliably, and a very powerless server.
 - Kerberos is a bitch.
 
-<!-- more -->
+<!--more-->
 
 ## The requirements
 

@@ -14,7 +14,7 @@ Last week one of our programs failed looking up an airplane by its [registration
 
 > When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, `YR-BMA`). When entered in a flight plan, the dash is omitted (for example, `YRBMA`). In some countries that use a number suffix rather than letters, like the United States (`N`), South Korea (`HL`), and Japan (`JA`), the prefix and suffix are connected without a dash.
 
-<!-- more -->
+<!--more-->
 
 Okay, so the _only_ thing in common is a prefix and a main part, separated by a dash, but  that's often dropped. Nice! Also the both parts might consist of letters and numbers. And they vary in length. And most of the time, the prefix designates the country of registration, although there are exceptions, for example [Guernsey](https://en.wikipedia.org/wiki/Guernsey), which is not a part of Great Britain (`G–`) but its property, therefore having the registration `2–` They island has its own airline, [Aurigny](https://en.wikipedia.org/wiki/Aurigny), but all of their 10 aircraft [use the `G-`-Prefix](http://publicapps.caa.co.uk/modalapplication.aspx?catid=1&pagetype=65&appid=1&mode=summary&owner=Aurigny). 
 
