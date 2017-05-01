@@ -69,6 +69,15 @@ p {
     background-color: #222;
 }
 
+.bg-dark blockquote {
+    color: #ddd;
+}
+
+.bg-dark code {
+    background-color: #444;
+    color: #ddd;
+}
+
 .text-faded {
     color: rgba(255,255,255,.7);
 }
