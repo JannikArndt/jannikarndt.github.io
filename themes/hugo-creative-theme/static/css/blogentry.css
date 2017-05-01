@@ -48,3 +48,8 @@ pre {
     border-radius: 0.3rem;
     overflow: scroll;
 }
+
+blockquote {
+    font-style: italic;
+    color: #555;
+}
