@@ -1,0 +1,5 @@
+gems:
+  - jekyll-redirect-from
+
+redirect_to:
+  - http://www.jannikarndt.de
