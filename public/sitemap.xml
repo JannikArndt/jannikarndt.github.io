@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</loc>
+    <lastmod>2017-07-22T05:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</loc>
+    <lastmod>2017-07-21T22:45:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</loc>
+    <lastmod>2017-07-15T17:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</loc>
+    <lastmod>2017-07-02T13:45:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/06/git_in_one_image/</loc>
+    <lastmod>2017-06-18T08:30:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/05/two_speed_it/</loc>
+    <lastmod>2017-05-23T08:30:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</loc>
+    <lastmod>2017-05-01T11:45:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</loc>
+    <lastmod>2017-03-05T17:01:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</loc>
+    <lastmod>2017-03-05T17:01:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</loc>
+    <lastmod>2017-01-07T11:20:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</loc>
+    <lastmod>2017-01-07T11:20:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</loc>
+    <lastmod>2017-01-03T10:12:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</loc>
+    <lastmod>2016-11-23T23:56:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</loc>
+    <lastmod>2016-11-22T23:25:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</loc>
+    <lastmod>2016-11-20T13:37:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/</loc>
+    <lastmod>2017-07-22T05:00:00+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/</loc>
+    <lastmod>2017-07-22T05:00:00+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

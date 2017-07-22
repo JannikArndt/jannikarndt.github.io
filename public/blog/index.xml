@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Jannik Arndt</title>
+    <link>http://www.jannikarndt.de/blog/</link>
+    <description>Recent content in Blogs on Jannik Arndt</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 Jul 2017 05:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="http://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Where bad code comes from</title>
+      <link>http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</link>
+      <pubDate>Sat, 22 Jul 2017 05:00:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</guid>
+      <description>&lt;p&gt;Ever wondered where bad code comes from?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;“This story is done”&lt;/p&gt;
+
+&lt;p&gt;“Shouldn’t someone review it first?”&lt;/p&gt;
+
+&lt;p&gt;“Oh, yeah … erm … I’ll do a quick refactoring first and then…”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;…when that other person is on holiday!
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Storing sparse, key-value-like data in a relational database</title>
+      <link>http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</link>
+      <pubDate>Fri, 21 Jul 2017 22:45:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</guid>
+      <description>&lt;p&gt;Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tough Mudder Norddeutschland 2017</title>
+      <link>http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</link>
+      <pubDate>Sat, 15 Jul 2017 17:00:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A Minor Story Live at Methfesselfest</title>
+      <link>http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</link>
+      <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
+      <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git in one Image</title>
+      <link>http://www.jannikarndt.de/blog/2017/06/git_in_one_image/</link>
+      <pubDate>Sun, 18 Jun 2017 08:30:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/06/git_in_one_image/</guid>
+      <description>&lt;p&gt;I tried to create a single image that contains all the most important &lt;code&gt;git&lt;/code&gt; commands:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Two-speed IT</title>
+      <link>http://www.jannikarndt.de/blog/2017/05/two_speed_it/</link>
+      <pubDate>Tue, 23 May 2017 08:30:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/05/two_speed_it/</guid>
+      <description>&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;You&amp;rsquo;re a corporation. Your IT department is old, slow and can&amp;rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>The real world doesn&#39;t care about encoding</title>
+      <link>http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</link>
+      <pubDate>Mon, 01 May 2017 11:45:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</guid>
+      <description>&lt;p&gt;Last week one of our programs failed looking up an airplane by its &lt;a href=&#34;https://en.wikipedia.org/wiki/Aircraft_registration&#34;&gt;registration&lt;/a&gt;. That&amp;rsquo;s not a surprise, since ac regs are a &lt;em&gt;horrible&lt;/em&gt; identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, &lt;code&gt;YR-BMA&lt;/code&gt;). When entered in a flight plan, the dash is omitted (for example, &lt;code&gt;YRBMA&lt;/code&gt;). In some countries that use a number suffix rather than letters, like the United States (&lt;code&gt;N&lt;/code&gt;), South Korea (&lt;code&gt;HL&lt;/code&gt;), and Japan (&lt;code&gt;JA&lt;/code&gt;), the prefix and suffix are connected without a dash.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Belugas at Finkenwerder</title>
+      <link>http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</link>
+      <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
+      <description>&lt;p&gt;My favourite animal: The Beluga!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Deploying Pentaho jobs into Production</title>
+      <link>http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</link>
+      <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;TL;DR:&lt;/strong&gt; You don&amp;rsquo;t. We eventually gave up on it.&lt;/p&gt;
+
+&lt;p&gt;My personal lessons-learned:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for &lt;em&gt;one-time&lt;/em&gt; data transfer or &lt;em&gt;on-demand&lt;/em&gt; data transfer, but not for resilient, scheduled jobs.&lt;/li&gt;
+&lt;li&gt;The “Enterprise Edition” (EE) adds scheduling that doesn&amp;rsquo;t work reliably, and a very powerless server.&lt;/li&gt;
+&lt;li&gt;Kerberos is a bitch.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Extracting Dimensions from an Oracle Database Table</title>
+      <link>http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</link>
+      <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</guid>
+      <description>Task You have a denormalized table and want to extract a column into a dimension table.
+Caveat You have to keep the ids.
+Extra-Caveat You use an Oracle database.
+Example CARS    id manufacturer_id model_id color     1 1 1 &amp;lsquo;blue&amp;rsquo;   2 1 4 &amp;lsquo;red&amp;rsquo;   3 2 6 &amp;lsquo;black&amp;rsquo;   4 2 8 &amp;lsquo;red&amp;rsquo;    becomes
+CARS    id manufacturer_id model_id color_id     1 1 1 1   2 1 4 2   3 2 6 3   4 2 8 2    COLORS    id name     1 &amp;lsquo;blue&amp;rsquo;   2 &amp;lsquo;red&amp;rsquo;   3 &amp;lsquo;black&amp;rsquo;    Solution:</description>
+    </item>
+    
+    <item>
+      <title>talend does not work</title>
+      <link>http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</link>
+      <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</guid>
+      <description>&lt;p&gt;I cannot believe that googleing “talend does not work” does not find &lt;em&gt;anything&lt;/em&gt; helpful. With this entry I try to fill that void in the internet.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Lessons learned in 2016</title>
+      <link>http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</link>
+      <pubDate>Tue, 03 Jan 2017 10:12:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</guid>
+      <description>#1 Do not fix your code. Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.
+#2 Automate early. You know, CI/CD. Or just clean-up-scripts. Or a complete infrastructure-as-code. Remember: A script to setup something is the best documentation!
+#3 A function must not do more than one thing. If a function name contains “and” there&amp;rsquo;s still work to do.</description>
+    </item>
+    
+    <item>
+      <title>Perfect Home Screen Layout</title>
+      <link>http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</link>
+      <pubDate>Wed, 23 Nov 2016 23:56:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</guid>
+      <description>&lt;p&gt;Being &lt;em&gt;the IT-guy aka personal first-level-support&lt;/em&gt;&amp;trade; for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&amp;rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Bug Fixing in Production</title>
+      <link>http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</link>
+      <pubDate>Tue, 22 Nov 2016 23:25:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2016/11/bugfixing_in_production.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;(via &lt;a href=&#34;https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;amp;theater&#34;&gt;I Love Programming&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;Thank goodness, we don&amp;rsquo;t do &lt;em&gt;production&lt;/em&gt;.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>The 2016-Personal-Website Infrastructure</title>
+      <link>http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</link>
+      <pubDate>Sun, 20 Nov 2016 13:37:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</guid>
+      <description>&lt;p&gt;Since I bought my personal domain name around 2003, I went through several web-solutions,
+using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

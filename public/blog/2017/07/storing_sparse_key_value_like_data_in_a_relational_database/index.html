@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <title>Jannik Arndt — Storing sparse, key-value-like data in a relational database</title>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Jannik Arndt">
+<meta name="description" content="Data Engineer, Software Developer &amp; Musician from Hamburg, Germany">
+<meta name="generator" content="Hugo 0.25" />
+<title>Jannik Arndt</title>
+
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="57x57" href="http://www.jannikarndt.de/favicons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="http://www.jannikarndt.de/favicons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="http://www.jannikarndt.de/favicons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="http://www.jannikarndt.de/favicons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="http://www.jannikarndt.de/favicons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="http://www.jannikarndt.de/favicons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="http://www.jannikarndt.de/favicons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="http://www.jannikarndt.de/favicons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="http://www.jannikarndt.de/favicons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="http://www.jannikarndt.de/favicons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://www.jannikarndt.de/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="http://www.jannikarndt.de/favicons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="manifest" href="http://www.jannikarndt.de/favicons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="favicons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="shortcut icon" href="http://www.jannikarndt.de/favicon.ico">
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="http://www.jannikarndt.de/css/bootstrap.min.css" type="text/css">
+<!-- Custom Fonts -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://www.jannikarndt.de/font-awesome/css/font-awesome.min.css" type="text/css">
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="http://www.jannikarndt.de/css/animate.min.css" type="text/css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="http://www.jannikarndt.de/css/creative.css" type="text/css">
+<link rel="stylesheet" href="http://www.jannikarndt.de/css/modals.css" type="text/css">
+<link rel="stylesheet" href="http://www.jannikarndt.de/css/blogentry.css" type="text/css">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+    <script src="http://www.jannikarndt.de/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    </head>
+    <body id="page-top">
+        <!-- NAVIGATION -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+                <a class="navbar-brand page-scroll" href="http://www.jannikarndt.de#page-top">jannikarndt.de</a>
+            
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="page-scroll" href="#page-top">TOP</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#blog">Blog</a>
+                </li> 
+                <li>
+                    <a class="page-scroll" href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+        
+        <!-- BLOG ENTRY -->
+<div class="blogentry">
+<section class="bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <time datetime="2017-07-21T22:45:00CET">
+                    July 21, 2017
+                </time>
+                <h1>Storing sparse, key-value-like data in a relational database</h1>   
+                <p>by Jannik Arndt</p>
+                
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<article class="bg-light" id="blogentry">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.</p>
+
+<p></p>
+
+<h2 id="background">Background</h2>
+
+<p>The task was to store flight information in a database. The information is transmitted via the IATA SSIM format, which standardizes messages with about 70 different fields. There also are various different types of messages, all of which might contain any of the 70 fields. An example: Airlines can publish their <em>Standard Schedules Messages</em> which contain the seasonal flight schedule, i.e. routes they usually fly on which days of the week. Exceptions from this get their own message (using different fields). Unforeseen changes are published via the <em>Ad hoc Schedules Messages</em> which, of course, use different fields as well. And then there are <em>Movement Messages</em> (from the Airport Handling Manual AHM) which contain the actual information on what each plane does.
+All of these messages make up a flight: The schedules, the ad hoc changes and what actually happened. The contents overlap but rarely match.
+In object oriented thinking, this would be extremely easy: You have an abstract message class, implementations for SSM, ASM and MVT and further classes that extend each of these for special cases.</p>
+
+<p>[image]</p>
+
+<p>Efficiently storing this in a database however is not that easy. You&rsquo;re bound to wind up with a horrifying amount of columns and an awful lot of null entries. The contents will resemble the specification which lists all the elements each message sub-type must or might contain:</p>
+
+<h5 id="messages">MESSAGES</h5>
+
+<table>
+<thead>
+<tr>
+<th>message_id</th>
+<th>sender_id</th>
+<th>foo</th>
+<th>boo</th>
+<th>tip</th>
+<th>bli</th>
+<th>bla</th>
+<th>blubb</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>12</td>
+<td>9</td>
+<td>&lsquo;bar&rsquo;</td>
+<td>null</td>
+<td>&lsquo;top&rsquo;</td>
+<td>null</td>
+<td>null</td>
+<td>null</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>9</td>
+<td>null</td>
+<td>null</td>
+<td>null</td>
+<td>1</td>
+<td>2</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<p>[screenshot p131]</p>
+
+<h2 id="why-not">Why not…?</h2>
+
+<p>Yes, this structure is the reason someone invented document-oriented databases. However it is the only information that would require us to leave the relational world and operate yet another service. Also, the contents are tightly integrated into a lot of other tables, and we <em>love</em> referential integrity.</p>
+
+<h2 id="storing-key-value-pairs-in-a-relational-database">Storing key-value-pairs in a relational database</h2>
+
+<p>You <em>can</em> store key-value-pairs in a database, for example like this:</p>
+
+<h4 id="messages-1">MESSAGES</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>sender_id</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>12</td>
+<td>9</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="values-table">VALUES_TABLE</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>key</th>
+<th>value</th>
+<th>message_id</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>&lsquo;foo&rsquo;</td>
+<td>&lsquo;bar&rsquo;</td>
+<td>12</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>&lsquo;tip&rsquo;</td>
+<td>&lsquo;top&rsquo;</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+
+<p>Now in our case the keys are well defined, so you will have a lot of redundancies there. The idea I was reviewing extracted the keys into yet another table:</p>
+
+<h4 id="messages-2">MESSAGES</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>sender_id</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>12</td>
+<td>9</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="values-table-1">VALUES_TABLE</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>key_id</th>
+<th>value</th>
+<th>message_id</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>&lsquo;bar&rsquo;</td>
+<td>12</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>3</td>
+<td>&lsquo;tip&rsquo;</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+
+<p>and</p>
+
+<h4 id="keys-table">KEYS_TABLE</h4>
+
+<table>
+<thead>
+<tr>
+<th>key_id</th>
+<th>key</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>&lsquo;foo&rsquo;</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>&lsquo;boo&rsquo;</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>&lsquo;tip&rsquo;</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>&lsquo;bli&rsquo;</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>&lsquo;bla&rsquo;</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>&lsquo;blubb&rsquo;</td>
+</tr>
+</tbody>
+</table>
+
+<p>Wonderfull! No nulls, no redundancies, no more than four columns! This idea sounds great!</p>
+
+<h2 id="and-hell-breaks-loose">…and hell breaks loose</h2>
+
+<p>Database design fails can live in production for a long time until they get noticed. And that&rsquo;s when all your precious data is already put into this bad scheme.</p>
+
+<p>In the case of the above solution things get ugly the moment you query for something specific. For example all messages where &lsquo;foo&rsquo; is &lsquo;bar&rsquo;:</p>
+
+<pre><code class="language-sql">SELECT * FROM MESSAGES m 
+         JOIN VALUES_TABLE v ON m.id = v.message_id
+         JOIN KEYS_TABLE k ON v.key_id = k.key_id
+WHERE k.key    = 'foo' 
+  AND v.value  = 'bar'
+</code></pre>
+
+<p>As opposed to</p>
+
+<pre><code class="language-sql">SELECT * FROM MESSAGES m WHERE m.foo = 'bar'
+</code></pre>
+
+<p>The problem only grows when you create this query from your business code: You have to get the &lsquo;foo&rsquo; string from somewhere:</p>
+
+<ul>
+<li>You might hard code it. Yak.</li>
+<li>You might create an enum replicating the <code>KEYS_TABLE</code>. Until that table changes—and beware, not the <em>structure</em>, but the <em>content</em>!</li>
+<li>You might be extra clever and save a <code>JOIN</code>by using the <code>key_id</code> directly!</li>
+</ul>
+
+<p>My best guess is that you&rsquo;d wind up with all three options scattered in your code. Good look.</p>
+
+<h2 id="the-solution-workaround">The solution / workaround</h2>
+
+<p>As I said in the beginning, tables with many columns and null entries might not be very elegant, but databases and developers are used to them.
+Also, document-oriented databases were invented for a reason. This might just be that reason.</p>
+
+<p>There is another option: vertical partitioning. Especially in this use case, where there is a specification that provides the information on where to split:</p>
+
+<h4 id="messages-3">MESSAGES</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>sender_id</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>12</td>
+<td>9</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="messages-part-1">MESSAGES_PART_1</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>foo</th>
+<th>tip</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>12</td>
+<td>&lsquo;bar&rsquo;</td>
+<td>&lsquo;top&rsquo;</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="messages-part-2">MESSAGES_PART_2</h4>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>bli</th>
+<th>bla</th>
+<th>blubb</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>13</td>
+<td>1</td>
+<td>2</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<p>Let&rsquo;s check for our query:</p>
+
+<pre><code class="language-sql">SELECT * FROM MESSAGES m 
+    LEFT JOIN MESSAGES_PART_1 p1 ON m.id = p1.id
+    LEFT JOIN MESSAGES_PART_2 p2 ON m.id = p2.id
+WHERE p1.foo = 'bar'
+</code></pre>
+
+<p>Well… it doesn&rsquo;t suck as much. However, if you&rsquo;re on the <code>INSERT</code> side of the database you&rsquo;re gonna have a bad time…</p>                
+            </div>            
+        </div>
+    </div>
+</article>
+</div>
+
+        
+            <!-- BLOG -->
+<section class="bg-dark" id="blog">
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Blog</h2>
+                    <hr class="light">
+                </div>
+            </div>
+        </div>
+    
+    <div class="container">
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-07-22T05:00:00JST">
+                Jul 22, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/">Where bad code comes from</a></h3>
+        </div>
+        <div class="summary">
+            <p>Ever wondered where bad code comes from?</p>
+
+<blockquote>
+<p>“This story is done”</p>
+
+<p>“Shouldn’t someone review it first?”</p>
+
+<p>“Oh, yeah … erm … I’ll do a quick refactoring first and then…”</p>
+</blockquote>
+
+<p>…when that other person is on holiday!
+</p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-07-21T22:45:00JST">
+                Jul 21, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">Storing sparse, key-value-like data in a relational database</a></h3>
+        </div>
+        <div class="summary">
+            <p>Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.</p>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-07-15T17:00:00JST">
+                Jul 15, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/">Tough Mudder Norddeutschland 2017</a></h3>
+        </div>
+        <div class="summary">
+            <p><img src="/blog/2017/07/tough_mudder/tough_mudder_1.jpg" alt=""></p>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-07-02T13:45:00JST">
+                Jul 2, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/">A Minor Story Live at Methfesselfest</a></h3>
+        </div>
+        <div class="summary">
+            <iframe width="100%" height="400" src="https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-06-18T08:30:00JST">
+                Jun 18, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/06/git_in_one_image/">Git in one Image</a></h3>
+        </div>
+        <div class="summary">
+            <p>I tried to create a single image that contains all the most important <code>git</code> commands:</p>
+
+<p><img src="https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg" alt="" /></p>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-05-23T08:30:00JST">
+                May 23, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/05/two_speed_it/">Two-speed IT</a></h3>
+        </div>
+        <div class="summary">
+            <h2 id="the-problem">The Problem</h2>
+
+<p>You&rsquo;re a corporation. Your IT department is old, slow and can&rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.</p>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-05-01T11:45:00JST">
+                May 1, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/">The real world doesn&#39;t care about encoding</a></h3>
+        </div>
+        <div class="summary">
+            <p>Last week one of our programs failed looking up an airplane by its <a href="https://en.wikipedia.org/wiki/Aircraft_registration">registration</a>. That&rsquo;s not a surprise, since ac regs are a <em>horrible</em> identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states</p>
+
+<blockquote>
+<p>When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, <code>YR-BMA</code>). When entered in a flight plan, the dash is omitted (for example, <code>YRBMA</code>). In some countries that use a number suffix rather than letters, like the United States (<code>N</code>), South Korea (<code>HL</code>), and Japan (<code>JA</code>), the prefix and suffix are connected without a dash.</p>
+</blockquote>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-03-05T17:01:00JST">
+                Mar 5, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/">Belugas at Finkenwerder</a></h3>
+        </div>
+        <div class="summary">
+            <p>My favourite animal: The Beluga!</p>
+
+<p><img src="/blog/2017/04/Beluga_1.jpg" alt=""></p>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-03-05T17:01:00JST">
+                Mar 5, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/">Deploying Pentaho jobs into Production</a></h3>
+        </div>
+        <div class="summary">
+            <p><strong>TL;DR:</strong> You don&rsquo;t. We eventually gave up on it.</p>
+
+<p>My personal lessons-learned:</p>
+
+<ul>
+<li>Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for <em>one-time</em> data transfer or <em>on-demand</em> data transfer, but not for resilient, scheduled jobs.</li>
+<li>The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.</li>
+<li>Kerberos is a bitch.</li>
+</ul>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-01-07T11:20:00JST">
+                Jan 7, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">Extracting Dimensions from an Oracle Database Table</a></h3>
+        </div>
+        <div class="summary">
+            Task You have a denormalized table and want to extract a column into a dimension table.
+Caveat You have to keep the ids.
+Extra-Caveat You use an Oracle database.
+Example CARS    id manufacturer_id model_id color     1 1 1 &lsquo;blue&rsquo;   2 1 4 &lsquo;red&rsquo;   3 2 6 &lsquo;black&rsquo;   4 2 8 &lsquo;red&rsquo;    becomes
+CARS    id manufacturer_id model_id color_id     1 1 1 1   2 1 4 2   3 2 6 3   4 2 8 2    COLORS    id name     1 &lsquo;blue&rsquo;   2 &lsquo;red&rsquo;   3 &lsquo;black&rsquo;    Solution:
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-01-07T11:20:00JST">
+                Jan 7, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/">talend does not work</a></h3>
+        </div>
+        <div class="summary">
+            <p>I cannot believe that googleing “talend does not work” does not find <em>anything</em> helpful. With this entry I try to fill that void in the internet.
+</p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2017-01-03T10:12:00JST">
+                Jan 3, 2017
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/">Lessons learned in 2016</a></h3>
+        </div>
+        <div class="summary">
+            #1 Do not fix your code. Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.
+#2 Automate early. You know, CI/CD. Or just clean-up-scripts. Or a complete infrastructure-as-code. Remember: A script to setup something is the best documentation!
+#3 A function must not do more than one thing. If a function name contains “and” there&rsquo;s still work to do.
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2016-11-23T23:56:00JST">
+                Nov 23, 2016
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/">Perfect Home Screen Layout</a></h3>
+        </div>
+        <div class="summary">
+            <p>Being <em>the IT-guy aka personal first-level-support</em>&trade; for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.</p>
+
+<p></p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2016-11-22T23:25:00JST">
+                Nov 22, 2016
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/">Bug Fixing in Production</a></h3>
+        </div>
+        <div class="summary">
+            <p><img src="/blog/2016/11/bugfixing_in_production.png" alt=""></p>
+
+<p>(via <a href="https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;theater">I Love Programming</a>)</p>
+
+<p>Thank goodness, we don&rsquo;t do <em>production</em>.
+</p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="2016-11-20T13:37:00JST">
+                Nov 20, 2016
+            </time>
+        </div>
+        <div>
+            <h3><a href="http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/">The 2016-Personal-Website Infrastructure</a></h3>
+        </div>
+        <div class="summary">
+            <p>Since I bought my personal domain name around 2003, I went through several web-solutions,
+using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).
+</p>
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+                </div>
+            </div>
+        
+    </div>
+</section>
+        
+
+        
+            <!-- CONTACT -->
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 text-center">
+                
+                    <a href="https://github.com/JannikArndt" target="_blank"><i class="fa fa-github fa-3x">&nbsp;</i></a>
+                
+
+                
+                    <a href="https://twitter.com/JannikArndt" target="_blank"><i class="fa fa-twitter fa-3x">&nbsp;</i></a>
+                
+
+                
+                    <a href="https://www.facebook.com/jannik.arndt" target="_blank"><i class="fa fa-facebook fa-3x">&nbsp;</i></a>
+                
+
+                
+                    <a href="https://www.linkedin.com/in/jannikarndt" target="_blank"><i class="fa fa-linkedin fa-3x">&nbsp;</i></a>
+                
+
+                
+                    <a href="https://www.xing.com/profile/Jannik_Arndt" target="_blank"><i class="fa fa-xing fa-3x">&nbsp;</i></a>
+                
+
+                
+                     <a href="mailto:jannik@jannikarndt.de"><i class="fa fa-envelope-o fa-3x">&nbsp;</i></a>
+                
+             </div>
+        </div>
+    </div>
+</section>
+
+        
+
+        <!-- jQuery -->
+<script src="http://www.jannikarndt.de/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="http://www.jannikarndt.de/js/bootstrap.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="http://www.jannikarndt.de/js/jquery.easing.min.js"></script>
+<script src="http://www.jannikarndt.de/js/jquery.fittext.js"></script>
+<script src="http://www.jannikarndt.de/js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://www.jannikarndt.de/js/creative.js"></script>
+    </body>
+</html>
