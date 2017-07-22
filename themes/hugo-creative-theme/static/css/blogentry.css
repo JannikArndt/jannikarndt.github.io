@@ -19,7 +19,7 @@
 }
 
 code {
-    background-color: #f8f8f8;
+    background-color: #f8f8f8 !important;
     color: rgb(51, 51, 51);
     font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
@@ -39,7 +39,6 @@ pre code {
     overflow: scroll;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
-    line-height: 1.3rem;
 }
 
 pre {
