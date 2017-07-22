@@ -18,8 +18,6 @@ The task was to store flight information in a database. The information is trans
 All of these messages make up a flight: The schedules, the ad hoc changes and what actually happened. The contents overlap but rarely match.
 In object oriented thinking, this would be extremely easy: You have an abstract message class, implementations for SSM, ASM and MVT and further classes that extend each of these for special cases.
 
-[image]
-
 Efficiently storing this in a database however is not that easy. You're bound to wind up with a horrifying amount of columns and an awful lot of null entries. The contents will resemble the specification which lists all the elements each message sub-type must or might contain:
 
 ##### MESSAGES
@@ -29,7 +27,7 @@ Efficiently storing this in a database however is not that easy. You're bound to
 |  13         | 9         | null         | null | null  | 1    | 2    | 42    |
 
 
-[screenshot p131]
+<img src="/blog/2017/07/ssm_spec.png" alt=""> 
 
 ## Why not…?
 
