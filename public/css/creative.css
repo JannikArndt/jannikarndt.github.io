@@ -533,3 +533,16 @@ table tr th :first-child, table tr td :first-child {
 table tr th :last-child, table tr td :last-child {
   margin-bottom: 0;
 }
+
+.summary h1, .summary h2, .summary h3, .summary h4 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.summary code {
+    background-color: transparent !important;
+}
+
+.summary img {
+    background-color: white;
+}
