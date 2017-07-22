@@ -1,6 +1,6 @@
 +++
 title = "Extracting Dimensions from an Oracle Database Table"
-draft = true
+draft = false
 date = "2017-01-07T11:20:00+01:00"
 keywords = [ "Data Engineering", "Database", "Oracle", "ETL" ]
 slug = "extracting_dimensions_from_an_oracle_database_table"
@@ -9,27 +9,62 @@ slug = "extracting_dimensions_from_an_oracle_database_table"
   author = "Jannik Arndt"
 +++
 
-Task: You have a denormalized table and want to extract a column into a dimension table.
+### Task
+You have a denormalized table and want to extract a column into a dimension table.
 
-Caveat: You have to keep the ids.
+### Caveat
+You have to keep the ids.
 
-Extra-Caveat: You use an Oracle database.
+### Extra-Caveat
+You use an Oracle database.
+
+## Example
+
+#### CARS
+
+| id  | manufacturer_id | model_id | color   |
+| --- | --------------- | -------- | ------- |
+| 1   | 1               | 1        | 'blue'  |
+| 2   | 1               | 4        | 'red'   |
+| 3   | 2               | 6        | 'black' |
+| 4   | 2               | 8        | 'red'   |
+
+becomes
+
+#### CARS
+
+| id | manufacturer_id | model_id | color_id   |
+| ---| --------------- | -------- | ---------- |
+| 1  | 1               | 1        | 1          |
+| 2  | 1               | 4        | 2          |
+| 3  | 2               | 6        | 3          |
+| 4  | 2               | 8        | 2          |
+
+#### COLORS
+
+|  id | name    |
+| --- | ------- |
+|  1  | 'blue'  |
+|  2  | 'red'   |
+|  3  | 'black' |
+
 
 Solution:
 
 ```SQL
--- Create table from Select-Statement
-CREATE TABLE DIMENSION_TABLE AS
-  SELECT ROWNUM as DIMENSION_ID, NAMES, SYSTIMESTAMP CREATE_TS FROM
-    (SELECT DENORMALIZED_NAMES FROM FACTS GROUP BY DENORMALIZED_NAMES);
+-- Create new table from Select-Statement
+CREATE TABLE colors AS
+  SELECT ROWNUM as id, name FROM
+    (SELECT color FROM cars GROUP BY color);
 
--- Add constraints to newly create table
-CREATE UNIQUE INDEX DIMENSION_TABLE_DIMENSION_ID_uindex ON DIMENSION_TABLE(DIMENSION_ID);
-ALTER TABLE DIMENSION_TABLE ADD CONSTRAINT DIMENSION_TABLE_DIMENSION_ID_pk PRIMARY KEY (DIMENSION_ID);
-ALTER TABLE DIMENSION_TABLE MODIFY CREATE_TS TIMESTAMP DEFAULT SYSTIMESTAMP;
+-- Add constraints on newly create table
+CREATE UNIQUE INDEX colors_id_uindex ON colors(id);
+ALTER TABLE colors ADD CONSTRAINT colors_id_pk PRIMARY KEY (id);
 
 -- Add reference from fact-table to new dimension
-ALTER TABLE FACTS ADD DIMENSION_FK NUMBER DEFAULT NULL NULL;
-UPDATE FACTS facts SET DIMENSION_FK = (SELECT DIMENSION_ID FROM DIMENSION_TABLE dim WHERE dim.DIMENSION_ID = facts.DENORMALIZED_NAMES);
-ALTER TABLE FACTS DROP COLUMN DENORMALIZED_NAMES;
+ALTER TABLE cars ADD color_id NUMBER DEFAULT NULL NULL;
+UPDATE cars SET color_id = (SELECT id FROM colors WHERE colors.id = cars.color);
+
+-- Delete original column
+ALTER TABLE cars DROP COLUMN color;
 ```

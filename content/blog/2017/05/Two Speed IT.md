@@ -2,17 +2,17 @@
 title = "Two-speed IT"
 draft = false
 date = "2017-05-23T08:30:00+01:00"
-keywords = [  ]
+keywords = [ "Consulting" ]
 slug = "two_speed_it"
 
 [params]
   author = "Jannik Arndt"
 +++
 
-# Two-speed IT
-
 ## The Problem
 You're a corporation. Your IT department is old, slow and can't innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.
+
+<!--more-->
 
 ## The solution
 It's easy: You take the best employees from every department, put them together, give them the highest priority and a lot of funding. Kind of like a startup, but with corporate money. 

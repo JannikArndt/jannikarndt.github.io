@@ -2,7 +2,7 @@
 title = "The real world doesn't care about encoding"
 draft = false
 date = "2017-05-01T11:45:00+01:00"
-keywords = [ "Aircraft" ]
+keywords = [ "Aircraft", "Programming" ]
 slug = "the_real_world_doesnt_care_about_encoding"
 
 [params]

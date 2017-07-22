@@ -2,7 +2,7 @@
 title = "Storing sparse, key-value-like data in a relational database"
 draft = false
 date = "2017-07-21T22:45:00+01:00"
-keywords = [ "Aircraft" ]
+keywords = [ "Programming", "Databases" ]
 slug = "storing_sparse_key_value_like_data_in_a_relational_database"
 
 [params]
@@ -10,6 +10,8 @@ slug = "storing_sparse_key_value_like_data_in_a_relational_database"
 +++
 
 Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.
+
+<!--more-->
 
 ## Background
 The task was to store flight information in a database. The information is transmitted via the IATA SSIM format, which standardizes messages with about 70 different fields. There also are various different types of messages, all of which might contain any of the 70 fields. An example: Airlines can publish their _Standard Schedules Messages_ which contain the seasonal flight schedule, i.e. routes they usually fly on which days of the week. Exceptions from this get their own message (using different fields). Unforeseen changes are published via the _Ad hoc Schedules Messages_ which, of course, use different fields as well. And then there are _Movement Messages_ (from the Airport Handling Manual AHM) which contain the actual information on what each plane does.
