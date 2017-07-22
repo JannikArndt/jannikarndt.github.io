@@ -18,6 +18,8 @@ You have to keep the ids.
 ### Extra-Caveat
 You use an Oracle database.
 
+<!--more-->
+
 ## Example
 
 #### CARS

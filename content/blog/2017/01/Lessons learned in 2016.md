@@ -14,6 +14,8 @@ slug = "lessons_learned_in_2016"
 
 Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.
 
+<!--more-->
+
 ## #2
 ### Automate early.
 
