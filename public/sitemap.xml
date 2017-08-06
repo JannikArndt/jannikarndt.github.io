@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</loc>
+    <lastmod>2017-08-06T17:20:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</loc>
     <lastmod>2017-07-22T05:00:00+01:00</lastmod>
   </url>
@@ -79,7 +84,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/blog/</loc>
-    <lastmod>2017-07-22T05:00:00+01:00</lastmod>
+    <lastmod>2017-08-06T17:20:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -90,7 +95,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/</loc>
-    <lastmod>2017-07-22T05:00:00+01:00</lastmod>
+    <lastmod>2017-08-06T17:20:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   

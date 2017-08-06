@@ -6,10 +6,24 @@
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 Jul 2017 05:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 06 Aug 2017 17:20:00 +0100</lastBuildDate>
     
 	<atom:link href="http://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VERY Quick Start: Terraform</title>
+      <link>http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</link>
+      <pubDate>Sun, 06 Aug 2017 17:20:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;This post contains the absolut essence from the Terraform Getting Started Guide:
+&lt;a href=&#34;https://www.terraform.io/intro/getting-started/install.html&#34;&gt;https://www.terraform.io/intro/getting-started/install.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Where bad code comes from</title>
