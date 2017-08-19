@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
+        <title>Jannik Arndt — Writing case classes to MongoDB in Scala</title>
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,8 +56,7 @@
 
     </head>
     <body id="page-top">
-        
-            <!-- NAVIGATION -->
+        <!-- NAVIGATION -->
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -68,37 +68,21 @@
                 <span class="icon-bar"></span>
             </button>
             
-                <a class="navbar-brand page-scroll" href="#page-top">jannikarndt.de</a>
+                <a class="navbar-brand page-scroll" href="http://www.jannikarndt.de#page-top">jannikarndt.de</a>
             
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                
-                    <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
-                
-                
+                <li>
+                    <a class="page-scroll" href="#page-top">TOP</a>
+                </li>
                 <li>
                     <a class="page-scroll" href="#blog">Blog</a>
+                </li> 
+                <li>
+                    <a class="page-scroll" href="#contact">Contact</a>
                 </li>
-                
-                
-                    <li>
-                        <a class="page-scroll" href="#services">Software</a>
-                    </li>
-                
-                
-                    <li>
-                        <a class="page-scroll" href="#publications">Publications</a>
-                    </li>
-                
-                
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -107,101 +91,207 @@
 </nav>
 
         
-
-        <!-- HEADER -->
-<header>
-    <div class="header-content">
-        <div class="header-content-inner">
-            
-            
-            
-            
-        </div>
-    </div>
-</header>
-
-
-        
-            <!-- ABOUT -->
-<section class="bg-primary" id="about">
+        <!-- BLOG ENTRY -->
+<div class="blogentry">
+<section class="bg-primary">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                
-                    <h2 class="section-heading">About</h2>
-                
-                
-                    <hr class="light">
-                
-                <br>
-                
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
-                        <p>MBTI</p>
-                    </div>
-                    <div class="col-xs-6 text-left">
-                        <p>
-                            <a href="https://www.16personalities.com/ENTJ-personality" target="_blank">
-                                ENTJ
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <hr class="light">
-                <br>
-                
-                
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
-                        <p>1989</p>                        
-                    </div>
-                    <div class="col-xs-6 text-left">
-                        <p><a href="https://de.wikipedia.org/wiki/L%c3%b6ptin" target="_blank">Löptin</a></p>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
-                        <p>1999–2008</p>                        
-                    </div>
-                    <div class="col-xs-6 text-left">
-                        <p><a href="http://www.fsg-preetz.de" target="_blank">Preetz</a></p>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
-                        <p>2008–2015</p>                        
-                    </div>
-                    <div class="col-xs-6 text-left">
-                        <p><a href="https://www.uni-oldenburg.de" target="_blank">Oldenburg</a></p>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
-                        <p>2015–2016</p>                        
-                    </div>
-                    <div class="col-xs-6 text-left">
-                        <p><a href="http://www.ppi.de" target="_blank">PPI, Hamburg</a></p>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-6 col-md-3 col-md-offset-3 text-right">
-                        <p>2017–today</p>                        
-                    </div>
-                    <div class="col-xs-6 text-left">
-                        <p><a href="https://www.holisticon.de" target="_blank">Holisticon, Hamburg</a></p>
-                    </div>
-                </div>
+            <div class="col-lg-8 col-lg-offset-2">
+                <time datetime="2017-08-19T10:05:00CET">
+                    August 19, 2017
+                </time>
+                <h1>Writing case classes to MongoDB in Scala</h1>   
+                <p>by Jannik Arndt</p>
                 
             </div>
+            
         </div>
     </div>
 </section>
 
+<article class="bg-light" id="blogentry">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for <code>java.time</code> classes such as <code>ZonedDateTime</code>, <code>LocalDate</code> or <code>Duration</code>.</p>
+
+<p>This example uses the official <a href="https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11">Mongo Scala Driver</a> in version 2.x and the <a href="https://github.com/ralscha/bsoncodec">bsoncodec</a> project by <a href="https://github.com/ralscha">Ralph Schaer</a>.</p>
+
+<p></p>
+
+<p>First: A complete working example:</p>
+
+<pre><code class="language-scala">import java.math.BigDecimal
+import java.time.{LocalDate, LocalDateTime}
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
+import scala.language.postfixOps
+
+object MongoDbExample {
+
+    def main(args: Array[String]): Unit = {
+        val myParcel = Parcel(
+            sender = Address(&quot;Online Shop 3000&quot;, &quot;E-Commerce-Street&quot;, &quot;Berlin&quot;),
+            receiver = Address(&quot;Jannik&quot;, &quot;Fun-Street&quot;, &quot;Hamburg&quot;),
+            sent = LocalDate.of(2017, 8, 12),
+            received = Some(LocalDateTime.of(2017, 8, 19, 10, 24)),
+            contents = Seq(Content(&quot;Cool Robot&quot;, new BigDecimal(&quot;39.99&quot;)), 
+                           Content(&quot;Drone&quot;, new BigDecimal(&quot;199.99&quot;)))
+        )
+
+        Await.result(DB.parcels.insertOne(myParcel).toFuture, 10 seconds)
+
+        val allParcels = Await.result(DB.parcels.find().toFuture(), 10 seconds)
+        allParcels.foreach(println)
+    }
+
+}
+
+case class Parcel(sender: Address, 
+                  receiver: Address, 
+                  sent: LocalDate, 
+                  received: Option[LocalDateTime], 
+                  contents: Seq[Content])
+
+case class Address(name: String, street: String, city: String)
+
+case class Content(name: String, price: BigDecimal)
+
+object DB {
+    import ch.rasc.bsoncodec.math._
+    import ch.rasc.bsoncodec.time._
+    import org.bson.codecs.configuration.CodecRegistries
+    import org.bson.codecs.configuration.CodecRegistries._
+    import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+    import org.mongodb.scala.bson.codecs.Macros._
+    import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+
+    private val customCodecs = fromProviders(classOf[Parcel], 
+                                             classOf[Address], 
+                                             classOf[Content])
+
+    private val javaCodecs = CodecRegistries.fromCodecs(
+        new LocalDateTimeDateCodec(),
+        new LocalDateDateCodec(),
+        new BigDecimalStringCodec())
+
+    private val codecRegistry = fromRegistries(customCodecs, 
+                                               javaCodecs, 
+                                               DEFAULT_CODEC_REGISTRY)
+
+    private val database: MongoDatabase = MongoClient().getDatabase(&quot;TrackingData&quot;)
+                                                       .withCodecRegistry(codecRegistry)
+
+    val parcels: MongoCollection[Parcel] = database.getCollection(&quot;Parcels&quot;)
+}
+</code></pre>
+
+<p>This results in the following entry:</p>
+
+<pre><code class="language-json">{
+    &quot;_id&quot; : ObjectId(&quot;5997f9ff96ddbad1d424981d&quot;),
+    &quot;sender&quot; : {
+        &quot;name&quot; : &quot;Online Shop 3000&quot;,
+        &quot;street&quot; : &quot;E-Commerce-Street&quot;,
+        &quot;city&quot; : &quot;Berlin&quot;
+    },
+    &quot;receiver&quot; : {
+        &quot;name&quot; : &quot;Jannik&quot;,
+        &quot;street&quot; : &quot;Fun-Street&quot;,
+        &quot;city&quot; : &quot;Hamburg&quot;
+    },
+    &quot;sent&quot; : ISODate(&quot;2017-08-12T00:00:00.000Z&quot;),
+    &quot;received&quot; : ISODate(&quot;2017-08-19T10:24:00.000Z&quot;),
+    &quot;contents&quot; : [ 
+        {
+            &quot;name&quot; : &quot;Cool Robot&quot;,
+            &quot;price&quot; : &quot;39.99&quot;
+        }, 
+        {
+            &quot;name&quot; : &quot;Drone&quot;,
+            &quot;price&quot; : &quot;199.99&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p>The magic is obviously hidden in the <code>DB</code> object. Following <em>just</em> the <a href="http://mongodb.github.io/mongo-scala-driver/2.1/getting-started/quick-tour/">driver documentation</a>, one might start with this simpler version:</p>
+
+<pre><code class="language-scala">object DB {
+    import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+
+    private val database: MongoDatabase = MongoClient().getDatabase(&quot;TrackingData&quot;)
+
+    val parcels: MongoCollection[Parcel] = database.getCollection(&quot;Parcels&quot;)
+}
+</code></pre>
+
+<p>This results in the exception</p>
+
+<pre><code class="language-none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel.
+</code></pre>
+
+<p>Googleing for the problem, you find quite many outdated solutions, such as <a href="https://github.com/salat/salat">salat</a>, which is still maintained but uses the outdated <a href="https://github.com/mongodb/casbah/">casbah</a> driver (aka &ldquo;version 1&rdquo;).</p>
+
+<p>Alex Landa <a href="http://trainologic.com/working-case-classes-mongodb-scala/">explains</a>, that version 2 of the driver fixes this problem with macros:</p>
+
+<blockquote>
+<p>The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).</p>
+</blockquote>
+
+<p>So the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:</p>
+
+<pre><code class="language-scala">object DB {
+    import org.bson.codecs.configuration.CodecRegistries._
+    import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+    import org.mongodb.scala.bson.codecs.Macros._
+    import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+
+    private val customCodecs = fromProviders(classOf[Parcel], 
+                                             classOf[Address], 
+                                             classOf[Content])
+
+    private val codecRegistry = fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY)
+
+    private val database: MongoDatabase = MongoClient().getDatabase(&quot;TrackingData&quot;)
+                                                       .withCodecRegistry(codecRegistry)
+
+    val parcels: MongoCollection[Parcel] = database.getCollection(&quot;Parcels&quot;)
+}
+</code></pre>
+
+<p>This brings us one step further, to the next exception:</p>
+
+<pre><code class="language-none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate.
+</code></pre>
+
+<p>If you try to add <code>classOf[LocalDate]</code> to the list, you get a compile error, stating that</p>
+
+<pre><code class="language-scala">Error:(41, 106) java.time.LocalDate does not have a constructor
+    private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content], classOf[LocalDate])
+</code></pre>
+
+<p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.
+Luckily, <a href="https://github.com/ralscha">Ralph Schaer</a> has already done this — not just for <a href="https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java">LocalDate</a> but for <a href="https://github.com/ralscha/bsoncodec">most of <code>java.time</code>, <code>java.sql</code>, URLs, BigDecimal, <code>javax.money</code>, and more</a>, and for many types you can even decide how to encode them, i.e. to <code>date</code>, <code>document</code> or <code>string</code>.
+That&rsquo;s what the lines</p>
+
+<pre><code class="language-scala">    private val javaCodecs = CodecRegistries.fromCodecs(
+        new LocalDateTimeDateCodec(),
+        new LocalDateDateCodec(),
+        new BigDecimalStringCodec())
         
+    private val codecRegistry = fromRegistries(customCodecs, 
+                                               javaCodecs, 
+                                               DEFAULT_CODEC_REGISTRY)
+</code></pre>
+
+<p>in the final solution (see top of the page) are about.</p>                
+            </div>            
+        </div>
+    </div>
+</article>
+</div>
 
         
             <!-- BLOG -->
@@ -764,196 +854,6 @@ using static html pages, php pages, a custom designed php cms, finally Wordpress
         
 
         
-            <!-- SERVICES -->
-<section id="services">
-    
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Software</h2>
-                    <hr class="primary">
-                </div>
-            </div>
-        </div>
-    
-    <div class="container">
-        <div class="row">
-            
-            <a href="http://jannikarndt.github.io/Canal/" target="_blank">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <img src="http://jannikarndt.github.io/Canal/bridge.png" width="50%" />
-                        <h3>Canal</h3>
-                        
-                            <p class="text-muted">A free and open-source COBOL editor and analysis tool</p>
-                        
-                    </div>
-                </div>
-            </a>
-            
-            <a href="http://jannikarndt.github.io/Musicista/" target="_blank">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <img src="http://jannikarndt.github.io/Musicista/icon.png" width="50%" />
-                        <h3>Musicista</h3>
-                        
-                            <p class="text-muted">A free and open-source framework for computational musicology</p>
-                        
-                    </div>
-                </div>
-            </a>
-            
-            <a href="https://nicetoknow.github.io" target="_blank">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <img src="https://avatars3.githubusercontent.com/u/23016863?v=3&amp;s=200" width="50%" />
-                        <h3>Nice To Know</h3>
-                        
-                            <p class="text-muted">A collection of mind-maps of things that are nice to know</p>
-                        
-                    </div>
-                </div>
-            </a>
-            
-            <a href="https://github.com/JannikArndt?tab=repositories" target="_blank">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="50%" />
-                        <h3>More</h3>
-                        
-                            <p class="text-muted">Show Github Repositories</p>
-                        
-                    </div>
-                </div>
-            </a>
-            
-        </div>
-    </div>
-</section>
-
-        
-
-        
-            <!-- PUBLICATIONS -->
-<section class="bg-primary" id="publications">
-    
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Publications</h2>
-                    <hr class="light">
-                </div>
-            </div>
-        </div>
-    
-    <div class="container">
-        <div class="row">
-            
-            <div class="col-lg-10 col-lg-offset-1">
-            <h2>2014</h2>
-                
-                        <p class="text-muted">
-                            Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit,  2014. 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Jannik%20Arndt%20-%20Musicista.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                             
-                                &nbsp;
-                                <a href="http://jannikarndt.github.io/Musicista/"><i class="fa fa-globe"></i></a>
-                            
-                        </p>
-                
-                        <p class="text-muted">
-                            Jannik Arndt: “Erkennung von Motiv- und Themenvariationen”, in Gesellschaft für Informatik (Hrsg.): <em>Informatiktage 2014</em>, LNI S-13, Potsdam, 2014 (ISBN 978-3-88579-447-9) 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Variationsfindung/Erkennung%20von%20Motiv-%20und%20Themenvariationen.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                            
-                        </p>
-                
-                        <p class="text-muted">
-                            Jannik Arndt, Thomas Meents, Bernd Nottbeck: “Multidimensional Process Mining mit dem Process Cube Explorer”, in Gesellschaft für Informatik (Hrsg.): <em>Informatiktage 2014</em>, LNI S-13, Potsdam, 2014 (ISBN 978-3-88579-447-9) 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Multidimensional%20Process%20Mining%20mit%20dem%20Process%20Cube%20Explorer.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                            
-                        </p>
-                
-            </div>
-            
-            <div class="col-lg-10 col-lg-offset-1">
-            <h2>2013</h2>
-                
-                        <p class="text-muted">
-                            Jannik Arndt: “Genetic Mining und Heuristic Mining”. 2013. 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Genetic%20Mining%20und%20Heuristic%20Mining.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                            
-                        </p>
-                
-                        <p class="text-muted">
-                            Ira Diethelm, Jannik Arndt, Malte Dünnebier, Jörn Syrbe: “Informatics in Schools: Local Proceedings of the 6th International Conference ISSEP 2013 - Selected Papers”, <em>Commentarii informaticae didacticae</em>, Universitätsverlag Potsdam, 2013. 
-                            
-                                &nbsp;
-                                <a href="http://opus.kobv.de/ubp/volltexte/2013/6368/"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                            
-                        </p>
-                
-            </div>
-            
-            <div class="col-lg-10 col-lg-offset-1">
-            <h2>2012</h2>
-                
-                        <p class="text-muted">
-                            Jannik Arndt: “Forderungen an ein Datenmodell für Rekombination als Ansatz für Künstliche Kreativität”, in Proc. <em>3rd IEEE Germany Student Conference</em>, Passau, 2012. 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Forderungen%20an%20ein%20Datenmodell.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                            
-                        </p>
-                
-                        <p class="text-muted">
-                            Jannik Arndt: “Rekombination — Einführung in die Künstliche Kreativität”. Bachelorarbeit, 2012. 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Rekombination/Jannik%20Arndt%20-%20Rekombination.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                             
-                                &nbsp;
-                                <a href="http://www.student.uni-oldenburg.de/jannik.arndt/ekk.html"><i class="fa fa-globe"></i></a>
-                            
-                        </p>
-                
-            </div>
-            
-            <div class="col-lg-10 col-lg-offset-1">
-            <h2>misc</h2>
-                
-                        <p class="text-muted">
-                            Einführung in LaTeX 
-                            
-                                &nbsp;
-                                <a href="http://www.jannikarndt.de/publications/Einf%C3%BChrung%20in%20LaTeX.pdf"><i class="fa fa-file-pdf-o"></i></a>
-                            
-                            
-                        </p>
-                
-            </div>
-            
-        </div>
-    </div>
-</section>
-
-        
-
-        
             <!-- CONTACT -->
 <section id="contact">
     <div class="container">
@@ -986,8 +886,6 @@ using static html pages, php pages, a custom designed php cms, finally Wordpress
         </div>
     </div>
 </section>
-
-        
 
         
 

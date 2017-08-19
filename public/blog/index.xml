@@ -6,10 +6,23 @@
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Aug 2017 17:20:00 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 19 Aug 2017 10:05:00 +0100</lastBuildDate>
     
 	<atom:link href="http://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Writing case classes to MongoDB in Scala</title>
+      <link>http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</link>
+      <pubDate>Sat, 19 Aug 2017 10:05:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
+      <description>&lt;p&gt;Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for &lt;code&gt;java.time&lt;/code&gt; classes such as &lt;code&gt;ZonedDateTime&lt;/code&gt;, &lt;code&gt;LocalDate&lt;/code&gt; or &lt;code&gt;Duration&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>VERY Quick Start: Terraform</title>
