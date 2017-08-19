@@ -119,6 +119,8 @@
 
 <p></p>
 
+<h2 id="the-solution">The solution</h2>
+
 <p>First: A complete working example:</p>
 
 <pre><code class="language-scala">import java.math.BigDecimal
@@ -216,6 +218,10 @@ object DB {
 }
 </code></pre>
 
+<h2 id="how-to-get-there">How to get there</h2>
+
+<h3 id="adding-codecs-for-custom-classes">Adding codecs for custom classes</h3>
+
 <p>The magic is obviously hidden in the <code>DB</code> object. Following <em>just</em> the <a href="http://mongodb.github.io/mongo-scala-driver/2.1/getting-started/quick-tour/">driver documentation</a>, one might start with this simpler version:</p>
 
 <pre><code class="language-scala">object DB {
@@ -261,6 +267,8 @@ object DB {
 }
 </code></pre>
 
+<h3 id="adding-codecs-for-system-classes">Adding codecs for system classes</h3>
+
 <p>This brings us one step further, to the next exception:</p>
 
 <pre><code class="language-none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate.
@@ -272,15 +280,17 @@ object DB {
     private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content], classOf[LocalDate])
 </code></pre>
 
-<p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.
-Luckily, <a href="https://github.com/ralscha">Ralph Schaer</a> has already done this — not just for <a href="https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java">LocalDate</a> but for <a href="https://github.com/ralscha/bsoncodec">most of <code>java.time</code>, <code>java.sql</code>, URLs, BigDecimal, <code>javax.money</code>, and more</a>, and for many types you can even decide how to encode them, i.e. to <code>date</code>, <code>document</code> or <code>string</code>.
-That&rsquo;s what the lines</p>
+<p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.</p>
+
+<p>Luckily, <a href="https://github.com/ralscha">Ralph Schaer</a> has already done this — not just for <a href="https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java">LocalDate</a> but for <a href="https://github.com/ralscha/bsoncodec">most of <code>java.time</code>, <code>java.sql</code>, URLs, BigDecimal, <code>javax.money</code>, and more</a>, and for many types you can even decide how to encode them, i.e. to <code>date</code>, <code>document</code> or <code>string</code>.</p>
+
+<p>That&rsquo;s what the lines</p>
 
 <pre><code class="language-scala">    private val javaCodecs = CodecRegistries.fromCodecs(
         new LocalDateTimeDateCodec(),
         new LocalDateDateCodec(),
         new BigDecimalStringCodec())
-        
+
     private val codecRegistry = fromRegistries(customCodecs, 
                                                javaCodecs, 
                                                DEFAULT_CODEC_REGISTRY)

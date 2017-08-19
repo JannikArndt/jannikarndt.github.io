@@ -15,6 +15,8 @@ This example uses the official [Mongo Scala Driver](https://mvnrepository.com/ar
 
 <!--more-->
 
+## The solution
+
 First: A complete working example:
 
 ```scala
@@ -114,6 +116,10 @@ This results in the following entry:
 }
 ```
 
+## How to get there
+
+### Adding codecs for custom classes
+
 The magic is obviously hidden in the `DB` object. Following _just_ the [driver documentation](http://mongodb.github.io/mongo-scala-driver/2.1/getting-started/quick-tour/), one might start with this simpler version:
 
 ```scala
@@ -160,6 +166,9 @@ object DB {
 }
 ```
 
+
+### Adding codecs for system classes
+
 This brings us one step further, to the next exception:
 
 ```none
@@ -174,7 +183,9 @@ Error:(41, 106) java.time.LocalDate does not have a constructor
 ```
 
 You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a `codec` yourself, extending / implementing `org.bson.codecs.Codec` and overriding `encode` and `decode`.
+
 Luckily, [Ralph Schaer](https://github.com/ralscha) has already done this — not just for [LocalDate](https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java) but for [most of `java.time`, `java.sql`, URLs, BigDecimal, `javax.money`, and more](https://github.com/ralscha/bsoncodec), and for many types you can even decide how to encode them, i.e. to `date`, `document` or `string`.
+
 That's what the lines
 
 ```scala
@@ -182,7 +193,7 @@ That's what the lines
         new LocalDateTimeDateCodec(),
         new LocalDateDateCodec(),
         new BigDecimalStringCodec())
-        
+
     private val codecRegistry = fromRegistries(customCodecs, 
                                                javaCodecs, 
                                                DEFAULT_CODEC_REGISTRY)
