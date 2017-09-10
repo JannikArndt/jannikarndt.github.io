@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</loc>
+    <lastmod>2017-09-10T21:07:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</loc>
     <lastmod>2017-08-19T10:05:00+01:00</lastmod>
   </url>
@@ -89,7 +94,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/blog/</loc>
-    <lastmod>2017-08-19T10:05:00+01:00</lastmod>
+    <lastmod>2017-09-10T21:07:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -100,7 +105,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/</loc>
-    <lastmod>2017-08-19T10:05:00+01:00</lastmod>
+    <lastmod>2017-09-10T21:07:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   

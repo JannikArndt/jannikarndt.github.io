@@ -6,10 +6,21 @@
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Aug 2017 10:05:00 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 10 Sep 2017 21:07:00 +0100</lastBuildDate>
     
 	<atom:link href="http://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
+      <link>http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</link>
+      <pubDate>Sun, 10 Sep 2017 21:07:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
+      <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
+Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
+ create a JIRA account and then create a ticket for a new project.</description>
+    </item>
     
     <item>
       <title>Writing case classes to MongoDB in Scala</title>
