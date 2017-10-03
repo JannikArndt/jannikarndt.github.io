@@ -1,0 +1,55 @@
+==================================================================
+https://keybase.io/jannikarndt
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://www.jannikarndt.de
+  * I am jannikarndt (https://keybase.io/jannikarndt) on keybase.
+  * I have a public key ASAq2Gbqv40eg19VYZgvUiY3982pGXauBnstO9DRI0ba5go
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01202ad866eabf8d1e835f5561982f522637f7cda91976ae067b2d3bd0d12346dae60a",
+      "host": "keybase.io",
+      "kid": "01202ad866eabf8d1e835f5561982f522637f7cda91976ae067b2d3bd0d12346dae60a",
+      "uid": "2fb1232e6dd25eb4b538b9150495a919",
+      "username": "jannikarndt"
+    },
+    "merkle_root": {
+      "ctime": 1507019209,
+      "hash": "35f13ed63bd9a6e3ac77c486c94d0755b7ee34a1e7ef0c62471b0d8b0bd8fff74f5dc088a1d9b7945f114517ae99f7bb1e38b9b6ffe1702878fd45f8c6ac031f",
+      "hash_meta": "17ed12fd07d5edcac9e225d473c320dd9a3d174c75e4e9db440617aaf7ad2668",
+      "seqno": 1487755
+    },
+    "service": {
+      "hostname": "www.jannikarndt.de",
+      "protocol": "http:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.32"
+  },
+  "ctime": 1507019233,
+  "expire_in": 504576000,
+  "prev": "9c2a4dcc7c5110ced3391cbd868e80cec1f577c28580126be48da90f5cadd8cf",
+  "seqno": 27,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgKthm6r+NHoNfVWGYL1ImN/fNqRl2rgZ7LTvQ0SNG2uYKp3BheWxvYWTFA017ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwMmFkODY2ZWFiZjhkMWU4MzVmNTU2MTk4MmY1MjI2MzdmN2NkYTkxOTc2YWUwNjdiMmQzYmQwZDEyMzQ2ZGFlNjBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwMmFkODY2ZWFiZjhkMWU4MzVmNTU2MTk4MmY1MjI2MzdmN2NkYTkxOTc2YWUwNjdiMmQzYmQwZDEyMzQ2ZGFlNjBhIiwidWlkIjoiMmZiMTIzMmU2ZGQyNWViNGI1MzhiOTE1MDQ5NWE5MTkiLCJ1c2VybmFtZSI6Imphbm5pa2FybmR0In0sIm1lcmtsZV9yb290Ijp7ImN0aW1lIjoxNTA3MDE5MjA5LCJoYXNoIjoiMzVmMTNlZDYzYmQ5YTZlM2FjNzdjNDg2Yzk0ZDA3NTViN2VlMzRhMWU3ZWYwYzYyNDcxYjBkOGIwYmQ4ZmZmNzRmNWRjMDg4YTFkOWI3OTQ1ZjExNDUxN2FlOTlmN2JiMWUzOGI5YjZmZmUxNzAyODc4ZmQ0NWY4YzZhYzAzMWYiLCJoYXNoX21ldGEiOiIxN2VkMTJmZDA3ZDVlZGNhYzllMjI1ZDQ3M2MzMjBkZDlhM2QxNzRjNzVlNGU5ZGI0NDA2MTdhYWY3YWQyNjY4Iiwic2Vxbm8iOjE0ODc3NTV9LCJzZXJ2aWNlIjp7Imhvc3RuYW1lIjoid3d3Lmphbm5pa2FybmR0LmRlIiwicHJvdG9jb2wiOiJodHRwOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC4zMiJ9LCJjdGltZSI6MTUwNzAxOTIzMywiZXhwaXJlX2luIjo1MDQ1NzYwMDAsInByZXYiOiI5YzJhNGRjYzdjNTExMGNlZDMzOTFjYmQ4NjhlODBjZWMxZjU3N2MyODU4MDEyNmJlNDhkYTkwZjVjYWRkOGNmIiwic2Vxbm8iOjI3LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQCiqnJw73xdvkDhjeZpU5DNN5BKQFJ6n4p+ZUdDpqxOz2kh9Vtet8RC4uA1MPzrkH4C7Zna6ZI3cyam7tbYNyw+oc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCBN9318/QWf85BVSqd5CfT5lAvHzEH54MCvi+zc3lfPuaN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jannikarndt
+
+==================================================================
