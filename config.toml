@@ -71,10 +71,10 @@ theme = "hugo-creative-theme"
             link = "http://jannikarndt.github.io/Musicista/"
 
 		[[params.services.list]]
-            icon = "https://avatars3.githubusercontent.com/u/23016863?v=3&s=200"
-            title = "Nice To Know"
-            description = "A collection of mind-maps of things that are nice to know"
-            link = "https://nicetoknow.github.io"
+            icon = "https://github.com/JannikArndt/DataMover/raw/master/Resources/logo.png"
+            title = "DataMover"
+            description = "Out of the box scheduling, logging, monitoring and data governance for your scala ETL jobs"
+            link = "https://github.com/JannikArndt/DataMover"
 
         [[params.services.list]]
             icon = "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"
