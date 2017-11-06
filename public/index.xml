@@ -6,10 +6,21 @@
     <description>Recent content on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 Sep 2017 21:07:00 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 04 Nov 2017 16:50:00 +0100</lastBuildDate>
     
 	<atom:link href="http://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hamburg as seen from the Michel</title>
+      <link>http://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</link>
+      <pubDate>Sat, 04 Nov 2017 16:50:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
