@@ -278,3 +278,26 @@ case class Person(…, dogs: Seq[Dog])
 ```
 
 and than write `"dogs": null` in your JSON.
+
+### Test 5: Weird collection of things
+
+Now sometimes these JavaScript-guys just dump all their objects into an array and throw it at your server, letting you duck-type the hell out of it. For example:
+
+```json
+[
+  { "person": [ "John", 42, true, [ "John Jr.", "Mary" ] ] },
+  { "street": "Main Rd.", "city": "Somewhere" },
+  { "dogs": null },
+  { "hobby": "football", "on": "Mondays" },
+  { "hobby": "dancing", "on": "Fridays" }
+]
+```
+
+While it is incredibly easy to turn this into a proper object in JavaScript
+
+```javascript
+var goodObject = Object.assign({}, { "person" : person }, { "street" : street }, … )
+```
+
+you can't always convince them to. Let's see how `spray-json` deals with this:
+
