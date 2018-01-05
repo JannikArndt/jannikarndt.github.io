@@ -1,6 +1,6 @@
 +++
 title = "Choosing an ND-Filter"
-draft = false
+draft = true
 date = "2018-01-04T19:00:00+01:00"
 keywords = [ "Photography", "Buyer's Guide", "ND", "Filter", "Neutral Density", "Long Exposure", "Test" ]
 slug = "choosing_an_nd_filter"

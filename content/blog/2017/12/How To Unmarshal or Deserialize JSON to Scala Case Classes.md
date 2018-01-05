@@ -1,6 +1,6 @@
 +++
 title = "How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes"
-draft = false
+draft = true
 date = "2017-12-16T14:00:00+01:00"
 keywords = [ "Programming", "Scala", "How-To", "Tutorial", "Case Class", "JSON4S", "Jackson" ]
 slug = "How_To_Unmarshal_Or_Deserialize_Or_Parse_Json_To_Scala_Case_Classes"

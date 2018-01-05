@@ -2,7 +2,7 @@
 title = "Lessons learned in 2017"
 draft = false
 date = "2017-11-11T17:00:00+01:00"
-keywords = [ "Programming" ]
+keywords = [ "Programming", "Lessons Learned" ]
 slug = "lessons_learned_in_2017"
 
 [params]
