@@ -53,7 +53,6 @@ So I set up a scene and started taking the same image with each filter:
 | --------  |
 | <img src="/blog/2018/01/NDFilter/color/Scene1_1_NoFilter.JPG" width="33%" alt=""> ƒ/4, 1/100, ISO 800, Auto White Balance |
 
-
 | DolDer 1 | DolDer 2 | K&F |
 | -------- | -------- | --- |
 | <img src="/blog/2018/01/NDFilter/color/Scene1_2_DolDer1.JPG" alt=""> | <img src="/blog/2018/01/NDFilter/color/Scene1_3_DolDer2.JPG" alt=""> | <img src="/blog/2018/01/NDFilter/color/Scene1_4_KF.JPG" alt=""> |
@@ -61,7 +60,6 @@ So I set up a scene and started taking the same image with each filter:
 | Haida 1 | Haida 2 | Hoya |
 | ------- | ------- | ---- |
 | <img src="/blog/2018/01/NDFilter/color/Scene1_5_Haida1.JPG" alt=""> | <img src="/blog/2018/01/NDFilter/color/Scene1_6_Haida2.JPG" alt=""> | <img src="/blog/2018/01/NDFilter/color/Scene1_7_Hoya.JPG" alt=""> |
-
 
 | No Filter  | DolDer 1 | DolDer 2 | K&F | Haida 1 | Haida 2 | Hoya |
 | -----------| -------- | -------- | --- | ------- | ------- | ---- |

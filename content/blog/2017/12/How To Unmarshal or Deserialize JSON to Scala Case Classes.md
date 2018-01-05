@@ -301,4 +301,3 @@ var goodObject = Object.assign({}, { "person" : person }, { "street" : street },
 ```
 
 you can't always convince them to. Let's see how `spray-json` deals with this:
-

@@ -8,5 +8,12 @@
         "markdown",
         "scala",
         "java"
-    ]
+    ],
+    "markdownlint.config": {
+        "default": true,
+        "first-header-h1": false,
+        "commands-show-output": false,
+        "no-inline-html": false,
+        "first-line-h1": false
+    }
 }

@@ -21,13 +21,14 @@ I tried to keep the control variables constant:
 * Camera (Nikon D7100), lens (Nikon AF Nikkor 50mm 1:1,8D) and scene, obviously
 * Camera mounted on a tripod
 * 2 second self timer, so pressing the shutter release doesn't blur the image
-* All images in RAW format, imported in Nikons ViewNX-i app, Sharpness turned to 10 (max) and exported als full resolution jpegs. 
+* All images in RAW format, imported in Nikon's ViewNX-i app, Sharpness turned to 10 (max) and exported als full resolution jpegs.
 
 ### Aperture, Shutter Speed and ISO
 
-As you might know, the brightness of an image is influences by the aperture (how much light is going through the lens), the shutter speed (for how long is the light coming through the lens) and ISO (how sensitive is the film/chip). 
+As you might know, the brightness of an image is influences by the aperture (how much light is going through the lens), the shutter speed (for how long is the light coming through the lens) and ISO (how sensitive is the film/chip).
 
-But varying these also has other effects: 
+But varying these also has other effects:
+
 * A small aperture (i.e. wide open lens, for example ƒ/1.8) results in the depth of field effect you use for portraits. A closed lens (e.g. ƒ/22) makes sharper images, but lets through very little light.
 * A long exposure, i.e. low shutter speed, for example 1 sec, lets through a lot of light but everything that moves is blurred — including the whole picture, if you move the camera. A short exposure/high shutter speed (e.g. 1/600 sec) “freezes” the image, but also lets through very little light
 * A high ISO can help if you don't get enough light otherwise, but it results in “noise”. This is an area where camera models still improve with every iteration.
@@ -95,7 +96,7 @@ Since the differences are very subtle, I chose three areas that I zoomed in on:
 | f/8      | 1/100 s       | 6400 | <a href="/blog/2017/11/sharpest_photo/DSC_0142_cropped_3.jpg"><img src="/blog/2017/11/sharpest_photo/DSC_0142_cropped_3.jpg" alt=""></a> |
 
 My favorite here is definitely the ƒ/14, 0.8s, ISO 100. I can hardly spot a difference to the ƒ/22, but 0.8s vs 2s _can_ make a difference if the wind hits your tripod (remember, this is Hamburg!).
-Also turning up the ISO is _no_ option if your aiming for sharp images. 
+Also turning up the ISO is _no_ option if your aiming for sharp images.
 
 ### Second motif
 
