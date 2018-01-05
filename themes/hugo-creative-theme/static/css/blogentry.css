@@ -1,8 +1,8 @@
-.blogentry p{
+.blogentry p {
     line-height: 1.8;
 }
 
-.blogentry h2{
+.blogentry h2 {
     margin: 60px 0 20px 0;
 }
 
@@ -10,12 +10,12 @@
     padding-bottom: 50px;
 }
 
-.blogentry article{
+.blogentry article {
     padding: 50px 0;
 }
 
-.blogentry a{
-     color: #2A75BA;
+.blogentry a {
+    color: #2A75BA;
 }
 
 code {
@@ -51,4 +51,60 @@ pre {
 blockquote {
     font-style: italic;
     color: #555;
+}
+
+aside.toc {
+    padding: 14px;
+    margin: 10px;
+    max-width: 450px;
+    border: solid 1px lightgray;
+    font-size: 12px;
+}
+
+@media(min-width:768px) {
+    aside.toc {
+        margin-left: 40px;
+    }
+}
+
+@media(min-width:1220px) {
+    aside.toc {
+        position: -webkit-sticky;
+        position: sticky;
+        float: left;
+        left: 50px;
+        top: 100px;
+        width: 200px;
+        margin: 0;
+    }
+}
+
+@media(min-width:1439px) {
+    aside.toc {
+        position: -webkit-sticky;
+        position: sticky;
+        float: left;
+        left: 50px;
+        top: 100px;
+        width: 300px;
+        margin: 0;
+    }
+}
+
+aside.toc ul {
+    padding-left: 0px;
+    margin-left: 0px;
+    list-style-type: none;
+}
+
+aside.toc nav>ul>li {
+    margin-top: 14px;
+}
+
+aside.toc ul ul li {
+    margin-top: 4px;
+}
+
+aside.toc ul ul {
+    padding-left: 14px;
 }
