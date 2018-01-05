@@ -4,6 +4,7 @@ draft = false
 date = "2017-09-10T21:07:00+01:00"
 keywords = [ "Scala", "Maven", "Open Source", "DataMover", "Sonatype" ]
 slug = "releasing_a_scala_maven_project_to_maven_central"
+toc = true
 
 [params]
   author = "Jannik Arndt"

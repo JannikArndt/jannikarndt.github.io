@@ -4,6 +4,7 @@ draft = false
 date = "2017-08-19T10:05:00+01:00"
 keywords = [ "Scala", "Case Class", "MongoDB", "Tutorial", "How-To" ]
 slug = "writing_case_classes_to_mongodb_in_scala"
+toc = true
 
 [params]
   author = "Jannik Arndt"

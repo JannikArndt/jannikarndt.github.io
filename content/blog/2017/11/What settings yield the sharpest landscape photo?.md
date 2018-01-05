@@ -4,6 +4,7 @@ draft = false
 date = "2017-11-07T18:00:00+01:00"
 keywords = [ "Photography", "Hamburg", "Nikon", "ISO", "Aperture", "Shutter Speed", "Landscape", "How To" ]
 slug = "what_settings_yield_the_sharpest_landscape_photo"
+toc = true
 
 [params]
   author = "Jannik Arndt"

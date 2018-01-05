@@ -4,6 +4,7 @@ draft = false
 date = "2017-08-06T17:20:00+01:00"
 keywords = [ "Cloud", "Infrastructure as Code" ]
 slug = "very_quick_start_terraform"
+toc = true
 
 [params]
   author = "Jannik Arndt"

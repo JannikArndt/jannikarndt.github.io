@@ -4,6 +4,7 @@ draft = false
 date = "2017-07-21T22:45:00+01:00"
 keywords = [ "Programming", "Databases" ]
 slug = "storing_sparse_key_value_like_data_in_a_relational_database"
+toc = true
 
 [params]
   author = "Jannik Arndt"

@@ -4,6 +4,7 @@ draft = false
 date = "2016-11-20T13:37:00+01:00"
 keywords = [ "Web", "Hugo" ]
 slug = "The_2016-Personal-Website_Infrastructure"
+toc = true
 
 [params]
   author = "Jannik Arndt"
