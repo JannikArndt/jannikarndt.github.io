@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Jannik Arndt — Deploying Pentaho jobs into Production</title>
+        <title>Jannik Arndt — Lessons learned in 2017</title>
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -97,10 +97,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-03-05T17:01:00CET ">
-                        March 5, 2017
+                    <time datetime=" 2017-11-11T17:00:00CET ">
+                        November 11, 2017
                     </time>
-                    <h1>Deploying Pentaho jobs into Production</h1>
+                    <h1>Lessons learned in 2017</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -115,161 +115,62 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p><strong>TL;DR:</strong> You don&rsquo;t. We eventually gave up on it.</p>
+                    <h2 id="1">#1</h2>
 
-<p>My personal lessons-learned:</p>
+<h3 id="conway-s-law">Conway’s Law</h3>
 
-<ul>
-<li>Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for <em>one-time</em> data transfer or <em>on-demand</em> data transfer, but not for resilient, scheduled jobs.</li>
-<li>The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.</li>
-<li>Kerberos is a bitch.</li>
-</ul>
+<blockquote>
+<p>&ldquo;organizations which design systems &hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&rdquo;</p>
+</blockquote>
+
+<p>So true.</p>
 
 <p></p>
 
-<h2 id="the-requirements">The requirements</h2>
+<h2 id="2">#2</h2>
 
-<p>We were looking for a system to write, deploy and schedule ETL jobs. Since we actually want to move the data, the en-vogue trend of NoETL and queries on source systems doesn&rsquo;t work for us. After <a href="/blog/2017/01/talend_does_not_work">giving up on talend</a>, Pentaho made it quite easy to write the kind of jobs we need. However, making sure these jobs can be deployed to a server and reliably run there turn out as almost impossible.</p>
+<h3 id="dev-ops-is-awesome">Dev-Ops is awesome</h3>
 
-<p>What I want:</p>
+<p>But also a lot of work that’s hard to anticipate.</p>
 
-<ul>
-<li>Deployment in one click (in 2017, Jenkins is nothing new!)</li>
-<li>Deployment on three development environments (dev, test, prod)</li>
-<li>Configuration of different schedules for each environment</li>
-<li>Version control (being able to answer “who changed what when?”)</li>
-</ul>
+<h2 id="3">#3</h2>
 
-<h2 id="solution-1-export-and-import-via-gui">Solution #1: Export and Import via GUI</h2>
+<h3 id="clearly-defined-interfaces-clearly-need-to-be-tested">Clearly defined interfaces clearly need to be tested</h3>
 
-<p>I was surprised that the <a href="https://help.pentaho.com/Documentation/7.0/0D0/1A0/010/020">official recommendation</a> is <a href="https://help.pentaho.com/Documentation/7.0/0P0/Managing_the_Pentaho_Repository/Backup_and_Restore_Pentaho_Repositories">exporting</a> and <a href="https://help.pentaho.com/Documentation/7.0/0P0/Managing_the_Pentaho_Repository/Import_and_Export_PDI_Content">importing the complete repository</a>.</p>
+<p>We didn’t test ours, and it took other dev <em>forever</em> to track down a bug in <em>our</em> system.</p>
 
-<p>Problems:</p>
+<h2 id="4">#4</h2>
 
-<ul>
-<li>You cannot deploy single jobs</li>
-<li>Every user needs to have access to production (no-go!)</li>
-<li>Nothing tracks what actually changed</li>
-<li>This needs way more than one click</li>
-<li>The export does not contain schedules</li>
-</ul>
+<h3 id="deal-with-the-bugs-you-have-not-the-ones-you-might-encounter">Deal with the bugs you have, not the ones you <em>might</em> encounter</h3>
 
-<h2 id="solution-2-export-and-import-via-shell-script">Solution #2: Export and Import via Shell Script</h2>
+<p>Your software will <em>never</em> handle all possibilities. Invest the time into good monitoring, rather than anticipating <em>every</em> possibility.</p>
 
-<p>The page also suggest using shell access. This sounds a lot closer to a one-click-solution. You need to have both repositories configured in your application. These settings are stored in <code>~~/.kettle/repositories.xml</code> and matched <em>by name</em>:</p>
+<h2 id="5">#5</h2>
 
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;repositories&gt;
-  &lt;repository&gt;    
-    &lt;id&gt;PentahoEnterpriseRepository&lt;/id&gt;
-    &lt;name&gt;MyRepository&lt;/name&gt;
-    &lt;description&gt;Pentaho repository&lt;/description&gt;
-    &lt;is_default&gt;false&lt;/is_default&gt;
-    &lt;repository_location_url&gt;http&amp;#x3a;&amp;#x2f;&amp;#x2f;localhost&amp;#x3a;8080&amp;#x2f;pentaho
-      &lt;/repository_location_url&gt;
-    &lt;version_comment_mandatory&gt;N&lt;/version_comment_mandatory&gt;
-  &lt;/repository&gt;  
-&lt;/repositories&gt;
-</code></pre>
+<h3 id="how-to-set-up-a-robust-environment">How to set up a robust environment</h3>
 
-<p>With this configuration, you can export and import repositories via <code>pan.sh</code> and <code>import.sh</code>:</p>
+<ol>
+<li>Set up a dev, test and production stage.</li>
+<li>Set up continuous deployment into all stages.</li>
+<li>Set up a monitoring system.</li>
+<li>Start coding.</li>
+</ol>
 
-<pre><code class="language-bash">./pan.sh 
-  -rep=MyRepository 
-  -user=Jannik 
-  -pass=password 
-  -dir=home/jannik 
-  -exprep=&quot;pentaho_export.xml&quot; 
-  -logfile=&quot;export.log&quot;
+<h2 id="6">#6</h2>
 
-./import.sh 
-  -rep=&quot;Pentaho Repository&quot; 
-  -user=Jannik 
-  -pass=password 
-  -dir=home/import 
-  -file=&quot;pentaho_export.xml&quot; 
-  -logfile=&quot;export.log&quot; 
-  -replace=true 
-  -comment=&quot;New Version&quot; 
-  -norules=true
-</code></pre>
+<h3 id="your-system-doesn-t-need-every-bit-of-new-technology">Your system doesn’t need <em>every</em> bit of new technology</h3>
 
-<p>Tip: The directory name is always in lower case, independent of what the web UI shows you.</p>
+<p>And it probably doesn’t have “Big Data”.</p>
 
-<p>Problems:</p>
+<h2 id="7">#7</h2>
 
-<ul>
-<li>You cannot deploy single jobs</li>
-<li>Every user needs to have access to production (no-go!)</li>
-<li>Nothing tracks what actually changed</li>
-<li><del>This needs way more than one click</del></li>
-<li>The export does not contain schedules</li>
-</ul>
+<h3 id="monolithfirst">MonolithFirst</h3>
 
-<p>Is that all? No. If you take a look at <code>pan.sh</code> you&rsquo;ll find, what it really does:</p>
+<p>As Martin Fowler <a href="https://martinfowler.com/bliki/MonolithFirst.html">writes</a>:</p>
 
-<pre><code class="language-bash">&quot;$DIR/spoon.sh&quot; -main org.pentaho.di.pan.Pan -initialDir &quot;$INITIALDIR/&quot; &quot;$@&quot;
-````
-
-The same for `import.sh`:
-
-```bash
-&quot;$DIR/spoon.sh&quot; -main org.pentaho.di.imp.Import &quot;$@&quot;
-</code></pre>
-
-<p>Deployment suddenly means starting the complete Pentaho Suite — <em>twice</em>!</p>
-
-<h2 id="solution-3-export-and-import-via-rest">Solution #3: Export and Import via REST</h2>
-
-<p>Baffled with why I&rsquo;m not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you&rsquo;re still unsure if cyclic dependencies are a bad thing, try reading the <a href="https://help.pentaho.com/Documentation/7.0/0R0/070">API Documentation</a>. And if you need to convince someone that generated documentation might be a bad idea, show him <a href="https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0">this overview</a>. Spoiler: both fail to mention <em>the actual address of the endpoint</em>, which is <code>http://localhost:8080/pentaho/api/repo/...</code>. Luckily, there are people writing <a href="https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/">useful blog entries</a>. And if you need a tool for trial-and-error, I recommend <a href="https://insomnia.rest">Insomnia</a>.
-Spending a lot of nerves, I crafted this beauty:</p>
-
-<pre><code class="language-bash">#!/bin/sh
-
-source_url=$1
-target_url=$2
-
-echo &quot;\033[1mDeploying from ${source_url} to ${target_url} \033[0m&quot;
-echo &quot;\033[0;32mExporting backup…\033[0m&quot;
-
-# password encrypted via encr.sh
-curl -H &quot;Authorization: Basic EncryptedPassword&quot; -H &quot;Content-Type: application/json&quot; -i ${source_url}api/repo/files/backup -o Backup.zip
-
-echo &quot;\033[0;32mUnzipping backup…\033[0m&quot;
-unzip -o -q Backup.zip
-
-echo &quot;\033[0;32mDeleting zip-file…\033[0m&quot;
-rm Backup.zip
-
-echo &quot;\033[0;32mDeleting home-folder…\033[0m&quot;
-rm -r home/
-
-# delete everything you don't want to deploy
-
-# add, commit and push to a git here
-
-echo &quot;\033[0;32mCreating new zip-file for deployment…\033[0m&quot;
-zip -r -q Backup.zip '_datasources/' 'etc/' 'exportManifest.xml' 'metastore.mzip' 'public/'
-
-echo &quot;\033[0;32mDeploying...\033[0m&quot;
-curl -H &quot;Authorization: Basic EncryptedPassword&quot; -H &quot;Content-Type: multipart/form-data&quot; -H &quot;overwrite: true&quot; -F &quot;fileUpload=@Backup.zip&quot; -i ${target_url}api/repo/files/systemRestore
-
-echo &quot;\033[0;32mCleaning up…\033[0m&quot;
-rm Backup.zip
-</code></pre>
-
-<p>Let&rsquo;s look at our problem-list:</p>
-
-<ul>
-<li>You cannot deploy single jobs - <em>but single directories!</em></li>
-<li><del>Every user needs to have access to production (no-go!)</del> (this can be run on a server)</li>
-<li><del>Nothing tracks what actually changed</del> (you can automatically commit the xml file, the backup contains one for each job/transaction)</li>
-<li><del>This needs way more than one click</del></li>
-<li>The export does not contain schedules</li>
-<li><del>Pentaho Suite is started twice and takes <em>minutes</em></del> (this accesses the repository server directly)</li>
-</ul>
-
-<p>Okay, so this sounds pretty good! What&rsquo;s the problem? <em>It doesn&rsquo;t work.</em> The <code>systemRestore</code> endpoint happily takes all your data, answers <code>200: OK</code> and <em>does nothing</em>. I was told, a ticket would be raised, but so far <a href="http://jira.pentaho.com/issues/?jql=text%20~~%20%22systemRestore%22">I haven&rsquo;t seen any of it</a> and <a href="https://github.com/pentaho/pentaho-platform/blob/master/extensions/src/main/java/org/pentaho/platform/web/http/api/resources/FileResource.java#L195">the implementation also hasn&rsquo;t changed</a>.</p>
+<blockquote>
+<p>you shouldn&rsquo;t start a new project with microservices, even if you&rsquo;re sure your application will be big enough to make it worthwhile</p>
+</blockquote>
                 </div>
             </div>
         </div>

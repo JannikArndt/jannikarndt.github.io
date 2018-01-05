@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Jannik Arndt">
 <meta name="description" content="Data Engineer, Software Developer &amp; Musician from Hamburg, Germany">
-<meta name="generator" content="Hugo 0.30.2" />
+<meta name="generator" content="Hugo 0.31.1" />
 <title>Jannik Arndt</title>
 
 <!-- Favicon -->
@@ -93,27 +93,72 @@
         
         <!-- BLOG ENTRY -->
 <div class="blogentry">
-<section class="bg-primary">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <time datetime="2017-07-21T22:45:00CET">
-                    July 21, 2017
-                </time>
-                <h1>Storing sparse, key-value-like data in a relational database</h1>   
-                <p>by Jannik Arndt</p>
+    <section class="bg-primary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <time datetime=" 2017-07-21T22:45:00CET ">
+                        July 21, 2017
+                    </time>
+                    <h1>Storing sparse, key-value-like data in a relational database</h1>
+                    <p>by Jannik Arndt</p>
+                    
+                </div>
                 
             </div>
-            
         </div>
-    </div>
-</section>
+    </section>
 
-<article class="bg-light" id="blogentry">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <p>Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.</p>
+    <article class="bg-light" id="blogentry">
+        
+        <aside class="toc page-scroll">
+            <div class="toc_title"><a href="#page-top" class="page-scroll">Storing sparse, key-value-like data in a relational database</a></div>
+            <div class="toc_content"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#background">Background</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#messages">MESSAGES</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#why-not">Why not…?</a></li>
+<li><a href="#storing-key-value-pairs-in-a-relational-database">Storing key-value-pairs in a relational database</a>
+<ul>
+<li>
+<ul>
+<li><a href="#messages-1">MESSAGES</a></li>
+<li><a href="#values-table">VALUES_TABLE</a></li>
+<li><a href="#messages-2">MESSAGES</a></li>
+<li><a href="#values-table-1">VALUES_TABLE</a></li>
+<li><a href="#keys-table">KEYS_TABLE</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#and-hell-breaks-loose">…and hell breaks loose</a></li>
+<li><a href="#the-solution-workaround">The solution / workaround</a>
+<ul>
+<li>
+<ul>
+<li><a href="#messages-3">MESSAGES</a></li>
+<li><a href="#messages-part-1">MESSAGES_PART_1</a></li>
+<li><a href="#messages-part-2">MESSAGES_PART_2</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav></div>
+        </aside>
+        
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <p>Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.</p>
 
 <p></p>
 
@@ -437,11 +482,11 @@ Also, document-oriented databases were invented for a reason. This might just be
 WHERE p1.foo = 'bar'
 </code></pre>
 
-<p>Well… it doesn&rsquo;t suck as much. However, if you&rsquo;re on the <code>INSERT</code> side of the database you&rsquo;re gonna have a bad time…</p>                
-            </div>            
+<p>Well… it doesn&rsquo;t suck as much. However, if you&rsquo;re on the <code>INSERT</code> side of the database you&rsquo;re gonna have a bad time…</p>
+                </div>
+            </div>
         </div>
-    </div>
-</article>
+    </article>
 </div>
 
         
@@ -465,54 +510,137 @@ WHERE p1.foo = 'bar'
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-11-07T18:00:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-11-23T20:00:00JST ">
+                Nov 23, 2017
+            </time>
+        </div>
+        <div>
+            <h3>
+                <a href="http://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">Terraform on Google Cloud Engine Quickstart</a>
+            </h3>
+        </div>
+        <div class="summary">
+            <p>This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).</p>
+
+<p></p>
+        </div>
+        
+        <div>
+            <a href="http://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">Read More…</a>
+        </div>
+        
+        <br>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-11-11T17:00:00JST ">
+                Nov 11, 2017
+            </time>
+        </div>
+        <div>
+            <h3>
+                <a href="http://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/">Lessons learned in 2017</a>
+            </h3>
+        </div>
+        <div class="summary">
+            <h2 id="1">#1</h2>
+
+<h3 id="conway-s-law">Conway’s Law</h3>
+
+<blockquote>
+<p>&ldquo;organizations which design systems &hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&rdquo;</p>
+</blockquote>
+
+<p>So true.</p>
+
+<p></p>
+        </div>
+        
+        <div>
+            <a href="http://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/">Read More…</a>
+        </div>
+        
+        <br>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-11-07T18:00:00JST ">
                 Nov 7, 2017
             </time>
         </div>
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/">What settings yield the sharpest landscape photo?</a></h3>
+            <h3>
+                <a href="http://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/">What settings yield the sharpest landscape photo?</a>
+            </h3>
         </div>
         <div class="summary">
             <p>I was quite surprised at how difficult it is to get <em>absolutely</em> razor sharp images out of a very good (high-end-consumer/semi-pro) DSLR camera, namely the Nikon D7100. So I made the test: What settings in terms of aperture, shutter speed and ISO yield the sharpest landscape image?</p>
 
 <p></p>
         </div>
+        
+        <div>
+            <a href="http://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/">Read More…</a>
+        </div>
+        
+        <br>
         <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
 
-
                 </div>
             </div>
+        
         
             <div class="row">
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-11-04T16:50:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-11-04T16:50:00JST ">
                 Nov 4, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/">Hamburg as seen from the Michel</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/">Hamburg as seen from the Michel</a>
         </div>
-        <div class="summary">
-            <p><a href="/blog/2017/11/hamburg_vom_michel_aus_1.jpg"><img src="/blog/2017/11/hamburg_vom_michel_aus_1.jpg" alt=""></a></p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -521,27 +649,22 @@ WHERE p1.foo = 'bar'
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-09-10T21:07:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-09-10T21:07:00JST ">
                 Sep 10, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a>
         </div>
-        <div class="summary">
-            If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
-Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project.
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -550,29 +673,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-08-19T10:05:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-08-19T10:05:00JST ">
                 Aug 19, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">Writing case classes to MongoDB in Scala</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">Writing case classes to MongoDB in Scala</a>
         </div>
-        <div class="summary">
-            <p>Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for <code>java.time</code> classes such as <code>ZonedDateTime</code>, <code>LocalDate</code> or <code>Duration</code>.</p>
-
-<p>This example uses the official <a href="https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11">Mongo Scala Driver</a> in version 2.x and the <a href="https://github.com/ralscha/bsoncodec">bsoncodec</a> project by <a href="https://github.com/ralscha">Ralph Schaer</a>.</p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -581,30 +697,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-08-06T17:20:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-08-06T17:20:00JST ">
                 Aug 6, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">VERY Quick Start: Terraform</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">VERY Quick Start: Terraform</a>
         </div>
-        <div class="summary">
-            <blockquote>
-<p>This post contains the absolut essence from the Terraform Getting Started Guide:
-<a href="https://www.terraform.io/intro/getting-started/install.html">https://www.terraform.io/intro/getting-started/install.html</a></p>
-</blockquote>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -613,36 +721,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-07-22T05:00:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-07-22T05:00:00JST ">
                 Jul 22, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/">Where bad code comes from</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/">Where bad code comes from</a>
         </div>
-        <div class="summary">
-            <p>Ever wondered where bad code comes from?</p>
-
-<blockquote>
-<p>“This story is done”</p>
-
-<p>“Shouldn’t someone review it first?”</p>
-
-<p>“Oh, yeah … erm … I’ll do a quick refactoring first and then…”</p>
-</blockquote>
-
-<p>…when that other person is on holiday!
-</p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -651,27 +745,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-07-21T22:45:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-07-21T22:45:00JST ">
                 Jul 21, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">Storing sparse, key-value-like data in a relational database</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">Storing sparse, key-value-like data in a relational database</a>
         </div>
-        <div class="summary">
-            <p>Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.</p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -680,27 +769,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-07-15T17:00:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-07-15T17:00:00JST ">
                 Jul 15, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/">Tough Mudder Norddeutschland 2017</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/">Tough Mudder Norddeutschland 2017</a>
         </div>
-        <div class="summary">
-            <p><img src="/blog/2017/07/tough_mudder/tough_mudder_1.jpg" alt=""></p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -709,27 +793,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-07-02T13:45:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-07-02T13:45:00JST ">
                 Jul 2, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/">A Minor Story Live at Methfesselfest</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/">A Minor Story Live at Methfesselfest</a>
         </div>
-        <div class="summary">
-            <iframe width="100%" height="400" src="https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -738,29 +817,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-06-18T08:30:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-06-18T08:30:00JST ">
                 Jun 18, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/06/git_in_one_image/">Git in one Image</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/06/git_in_one_image/">Git in one Image</a>
         </div>
-        <div class="summary">
-            <p>I tried to create a single image that contains all the most important <code>git</code> commands:</p>
-
-<p><img src="https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg" alt="" /></p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -769,29 +841,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-05-23T08:30:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-05-23T08:30:00JST ">
                 May 23, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/05/two_speed_it/">Two-speed IT</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/05/two_speed_it/">Two-speed IT</a>
         </div>
-        <div class="summary">
-            <h2 id="the-problem">The Problem</h2>
-
-<p>You&rsquo;re a corporation. Your IT department is old, slow and can&rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.</p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -800,31 +865,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-05-01T11:45:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-05-01T11:45:00JST ">
                 May 1, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/">The real world doesn&#39;t care about encoding</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/">The real world doesn&#39;t care about encoding</a>
         </div>
-        <div class="summary">
-            <p>Last week one of our programs failed looking up an airplane by its <a href="https://en.wikipedia.org/wiki/Aircraft_registration">registration</a>. That&rsquo;s not a surprise, since ac regs are a <em>horrible</em> identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states</p>
-
-<blockquote>
-<p>When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, <code>YR-BMA</code>). When entered in a flight plan, the dash is omitted (for example, <code>YRBMA</code>). In some countries that use a number suffix rather than letters, like the United States (<code>N</code>), South Korea (<code>HL</code>), and Japan (<code>JA</code>), the prefix and suffix are connected without a dash.</p>
-</blockquote>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -833,29 +889,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-03-05T17:01:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-03-05T17:01:00JST ">
                 Mar 5, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/">Belugas at Finkenwerder</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/">Belugas at Finkenwerder</a>
         </div>
-        <div class="summary">
-            <p>My favourite animal: The Beluga!</p>
-
-<p><img src="/blog/2017/04/Beluga_1.jpg" alt=""></p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -864,35 +913,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-03-05T17:01:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-03-05T17:01:00JST ">
                 Mar 5, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/">Deploying Pentaho jobs into Production</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/">Deploying Pentaho jobs into Production</a>
         </div>
-        <div class="summary">
-            <p><strong>TL;DR:</strong> You don&rsquo;t. We eventually gave up on it.</p>
-
-<p>My personal lessons-learned:</p>
-
-<ul>
-<li>Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for <em>one-time</em> data transfer or <em>on-demand</em> data transfer, but not for resilient, scheduled jobs.</li>
-<li>The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.</li>
-<li>Kerberos is a bitch.</li>
-</ul>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -901,37 +937,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-01-07T11:20:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-01-07T11:20:00JST ">
                 Jan 7, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">Extracting Dimensions from an Oracle Database Table</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">Extracting Dimensions from an Oracle Database Table</a>
         </div>
-        <div class="summary">
-            <h3 id="task">Task</h3>
-
-<p>You have a denormalized table and want to extract a column into a dimension table.</p>
-
-<h3 id="caveat">Caveat</h3>
-
-<p>You have to keep the ids.</p>
-
-<h3 id="extra-caveat">Extra-Caveat</h3>
-
-<p>You use an Oracle database.</p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -940,26 +961,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-01-07T11:20:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-01-07T11:20:00JST ">
                 Jan 7, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/">talend does not work</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/">talend does not work</a>
         </div>
-        <div class="summary">
-            <p>I cannot believe that googleing “talend does not work” does not find <em>anything</em> helpful. With this entry I try to fill that void in the internet.
-</p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -968,31 +985,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2017-01-03T10:12:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2017-01-03T10:12:00JST ">
                 Jan 3, 2017
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/">Lessons learned in 2016</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/">Lessons learned in 2016</a>
         </div>
-        <div class="summary">
-            <h2 id="1">#1</h2>
-
-<h3 id="do-not-fix-your-code">Do not fix your code.</h3>
-
-<p>Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.</p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -1001,27 +1009,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2016-11-23T23:56:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2016-11-23T23:56:00JST ">
                 Nov 23, 2016
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/">Perfect Home Screen Layout</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/">Perfect Home Screen Layout</a>
         </div>
-        <div class="summary">
-            <p>Being <em>the IT-guy aka personal first-level-support</em>&trade; for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.</p>
-
-<p></p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -1030,30 +1033,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2016-11-22T23:25:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2016-11-22T23:25:00JST ">
                 Nov 22, 2016
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/">Bug Fixing in Production</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/">Bug Fixing in Production</a>
         </div>
-        <div class="summary">
-            <p><img src="/blog/2016/11/bugfixing_in_production.png" alt=""></p>
-
-<p>(via <a href="https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;theater">I Love Programming</a>)</p>
-
-<p>Thank goodness, we don&rsquo;t do <em>production</em>.
-</p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
@@ -1062,27 +1057,22 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <time datetime="2016-11-20T13:37:00JST">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2016-11-20T13:37:00JST ">
                 Nov 20, 2016
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3><a href="http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/">The 2016-Personal-Website Infrastructure</a></h3>
+            <a href="http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/">The 2016-Personal-Website Infrastructure</a>
         </div>
-        <div class="summary">
-            <p>Since I bought my personal domain name around 2003, I went through several web-solutions,
-using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).
-</p>
-        </div>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
 </div>
-
 
                 </div>
             </div>
