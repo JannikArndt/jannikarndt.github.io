@@ -15,9 +15,11 @@ body {
 }
 
 hr {
-    max-width: 50px;
+    max-width: 150px;
     border-color: #99b5d6;
     border-width: 3px;
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
 hr.light {
