@@ -59,7 +59,12 @@ This guy hiked 8 hours a day for 29 days, reducing his body fat from 13% to 5%.
 * <http://www.greenharbor.com/fffolder/carkeet.html>
 * <https://news.ycombinator.com/item?id=13839177>
 
+---
 
+### Anton Chekhov: How to Become a Cultured Person
+
+* <https://medium.com/the-polymath-project/anton-chekhov-how-to-become-a-cultured-person-f4bf9e8889f3>
+* <https://news.ycombinator.com/item?id=13866586>
 
 
 
@@ -87,6 +92,13 @@ Because IAM. And there is [an Azure version](https://www.expeditedssl.com/azure-
 * <https://news.ycombinator.com/item?id=13566951>
 
 The best way to understand the idea of a blockchain.
+
+---
+
+### Practical Color Theory for People Who Code
+
+* <https://tallys.github.io/color-theory/>
+* <https://news.ycombinator.com/item?id=13880891>
 
 
 
@@ -231,3 +243,4 @@ I probably use `open .` the most, because sometimes the Finder is just cleaner.
 * <https://news.ycombinator.com/item?id=13857887>
 
 or the cloud-hosted alternative: <http://gomez.wtf/set-up-a-cheap-cloud-hosted-adblocker-in-an-hour-for-2-50-a-month/>
+
