@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Jannik Arndt — Hamburg as seen from the Michel</title>
+        <title>Jannik Arndt — How to use a Raspberry Pi 3 with Apple Home</title>
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -97,10 +97,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-11-04T16:50:00CET ">
-                        November 4, 2017
+                    <time datetime=" 2018-01-13T12:40:00CET ">
+                        January 13, 2018
                     </time>
-                    <h1>Hamburg as seen from the Michel</h1>
+                    <h1>How to use a Raspberry Pi 3 with Apple Home</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -111,21 +111,224 @@
 
     <article class="bg-light" id="blogentry">
         
+        <aside class="toc page-scroll">
+            <div class="toc_title"><a href="#page-top" class="page-scroll">How to use a Raspberry Pi 3 with Apple Home</a></div>
+            <div class="toc_content"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-set-up-the-pi">1. Set up the pi</a></li>
+<li><a href="#2-install-mosquitto-and-homebridge">2. Install <code>mosquitto</code> and <code>homebridge</code></a></li>
+<li><a href="#3-configure-mosquitto">3. Configure <code>mosquitto</code></a></li>
+<li><a href="#4-configure-homebridge">4. Configure <code>homebridge</code></a></li>
+<li><a href="#5-start-homebridge-on-startup">5. Start homebridge on startup</a></li>
+<li><a href="#6-add-smart-devices">6. Add smart devices</a></li>
+</ul></li>
+</ul>
+</nav></div>
+        </aside>
+        
 
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p><a href="/blog/2017/11/hamburg_vom_michel_aus_1.jpg"><img src="/blog/2017/11/hamburg_vom_michel_aus_1.jpg" alt=""></a></p>
+                    <p>“Hey Siri, turn on the bedroom lights!” I want that. Here&rsquo;s how I did it:</p>
+
+<ul>
+<li>I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch).</li>
+<li>I bought a raspberry pi (33€).</li>
+<li>I installed an MQTT broker and homebridge on the pi.</li>
+</ul>
 
 <p></p>
 
-<p><a href="/blog/2017/11/hamburg_vom_michel_aus_2.jpg"><img src="/blog/2017/11/hamburg_vom_michel_aus_2.jpg" alt=""></a></p>
+<h2 id="1-set-up-the-pi">1. Set up the pi</h2>
 
-<p><a href="/blog/2017/11/hamburg_vom_michel_aus_3.jpg"><img src="/blog/2017/11/hamburg_vom_michel_aus_3.jpg" alt=""></a></p>
+<p>=&gt; See <a href="http://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a></p>
 
-<p>Shot on iPhone 8.</p>
+<h2 id="2-install-mosquitto-and-homebridge">2. Install <code>mosquitto</code> and <code>homebridge</code></h2>
 
-<p><img src="/blog/2017/11/hamburg_vom_michel_aus_ueberblick.png" alt=""></p>
+<p>…and everything else you need:</p>
+
+<pre><code class="language-zsh">➜  ~ sudo apt-get update &amp;&amp; sudo apt-get upgrade
+➜  ~ sudo apt-get install mosquitto
+➜  ~ sudo apt-get install make
+➜  ~ sudo apt-get install nodejs
+➜  ~ sudo apt-get install libavahi-compat-libdnssd-dev
+➜  ~ sudo apt-get install npm
+
+➜  ~ sudo npm install -g homebridge
+➜  ~ sudo npm install -g homebridge-mqtt-switch-tasmota  # for sonoff devices
+</code></pre>
+
+<h2 id="3-configure-mosquitto">3. Configure <code>mosquitto</code></h2>
+
+<p>The default for <code>mosquitto</code> is to run without any security. Let&rsquo;s not do this. This creates a user “home” with a password:</p>
+
+<pre><code class="language-zsh">➜  ~ sudo mosquitto_passwd -c /etc/mosquitto/passwd home
+Password: yourpassword
+Reenter password: yourpassword
+</code></pre>
+
+<p>This will create a password file. You can look at it with</p>
+
+<pre><code class="language-zsh">➜  ~ cat /etc/mosquitto/passwd
+home:$6$yjSnOc95804YRW/E$lokE/zzg4XwKj1BJPOxXDq4njkeovnecAvtYCOmNYgn5v/c8sHP08LnH7rDP0uU59hzmV/5iTXsudDrO6RMWPl+A==
+</code></pre>
+
+<p>Now we need to tell <code>mosquitto</code> to use this password file:</p>
+
+<pre><code class="language-zsh">➜  ~ sudo nano /etc/mosquitto/mosquitto.conf
+</code></pre>
+
+<p>Add the lines</p>
+
+<pre><code class="language-config">password_file /etc/mosquitto/passwd
+allow_anonymous false
+</code></pre>
+
+<p>Exit with <code>ctrl + x</code>, <code>y</code> and <code>enter</code>.</p>
+
+<p>Now restart the daemon:</p>
+
+<pre><code class="language-zsh">➜  ~ sudo systemctl restart mosquitto
+</code></pre>
+
+<p>You can check the status with</p>
+
+<pre><code class="language-zsh">➜  ~ sudo /etc/init.d/mosquitto status
+</code></pre>
+
+<h2 id="4-configure-homebridge">4. Configure <code>homebridge</code></h2>
+
+<p>First we&rsquo;ll create a config file for homebridge and open it:</p>
+
+<pre><code class="language-zsh">➜  ~ mkdir ~/.homebridge
+➜  ~ touch ~/.homebridge/config.json
+➜  ~ nano ~/.homebridge/config.json
+</code></pre>
+
+<p><img src="../pi/homebridge_config.png" alt="" /></p>
+
+<p>Your config should look something like this:</p>
+
+<pre><code class="language-json">{
+  &quot;bridge&quot;: {
+    &quot;name&quot;: &quot;Raspberry Pi&quot;,
+    &quot;username&quot;: &quot;XX:XX:XX:XX:XX:XX&quot;,
+    &quot;port&quot;: 51826,
+    &quot;pin&quot;: &quot;XXX-XX-XXX&quot;
+  },
+
+  &quot;platforms&quot;: [],
+
+  &quot;accessories&quot;: [{
+      &quot;accessory&quot;: &quot;mqtt-switch-tasmota&quot;,
+
+      &quot;name&quot;: &quot;My Smart Device&quot;,
+
+      &quot;url&quot;: &quot;mqtt://127.0.0.1&quot;,
+      &quot;username&quot;: &quot;home&quot;,
+      &quot;password&quot;: &quot;your password from step 3&quot;,
+
+      &quot;topics&quot;: {
+        &quot;statusGet&quot;: &quot;stat/topic_for_this_device/POWER&quot;,
+        &quot;statusSet&quot;: &quot;cmnd/topic_for_this_device/POWER&quot;,
+        &quot;stateGet&quot;: &quot;tele/topic_for_this_device/STATE&quot;
+      }
+    },
+    {}
+  ]
+}
+</code></pre>
+
+<p>For more information have a look at the <a href="https://github.com/nfarina/homebridge/blob/master/config-sample.json">config.json sample</a> or the page of the plugin you&rsquo;re using (<a href="https://github.com/MacWyznawca/homebridge-mqtt-switch-tasmota/blob/master/config.json">mqtt-switch-tasmota</a> in my case).</p>
+
+<p>If you don&rsquo;t like <code>nano</code> you can also copy the file to your computer, edit it there and then copy it back:</p>
+
+<pre><code class="language-zsh">➜  ~ scp pi@192.168.31.231:.homebridge/config.json ~/Downloads/homebridge.json
+config.json                                         100% 1830   149.2KB/s   00:00
+# edit
+➜  ~ scp ~/Downloads/homebridge.json pi@192.168.31.231:.homebridge/config.json
+homebridge.json                                     100% 1457   268.4KB/s   00:00
+</code></pre>
+
+<p>But beware: Do <em>not</em> edit the file in TextEdit, as it changes the format.</p>
+
+<p>You should now be able to start the <code>homebridge</code> app:</p>
+
+<pre><code class="language-zsh">homebridge
+</code></pre>
+
+<p><img src="../pi/homebridge_start.png" alt="" /></p>
+
+<h2 id="5-start-homebridge-on-startup">5. Start homebridge on startup</h2>
+
+<p>Great! Now all that&rsquo;s left is to create a user and a service to run <code>homebridge</code> on startup. For this I followed <a href="https://timleland.com/setup-homebridge-to-start-on-bootup/">this guide</a>:</p>
+
+<ol>
+<li><p>Create a file for default parameters</p>
+
+<pre><code class="language-zsh">➜  ~ sudo nano /etc/default/homebridge
+</code></pre>
+
+<p>and paste <code>HOMEBRIDGE_OPTS=-U /var/homebridge</code> into the file. Quit with <code>ctrl + x</code>, <code>y</code>, <code>enter</code>.</p></li>
+
+<li><p>Create a service in <code>systemd</code></p>
+
+<pre><code class="language-zsh">➜  ~ sudo nano /etc/systemd/system/homebridge.service
+</code></pre>
+
+<p>and paste</p>
+
+<pre><code class="language-ini">[Unit]
+Description=Node.js HomeKit Server
+After=syslog.target network-online.target
+#
+[Service]
+Type=simple
+User=homebridge
+EnvironmentFile=/etc/default/homebridge
+ExecStart=/usr/local/bin/homebridge $HOMEBRIDGE_OPTS
+Restart=on-failure
+RestartSec=10
+KillMode=process
+#
+[Install]
+WantedBy=multi-user.target
+</code></pre></li>
+
+<li><p>Create a user <code>homebridge</code></p>
+
+<pre><code class="language-zsh">➜  ~ sudo useradd --system homebridge
+</code></pre></li>
+
+<li><p>Create a directory for the config</p>
+
+<pre><code class="language-zsh">➜  ~ sudo mkdir /var/homebridge
+➜  ~ sudo cp ~/.homebridge/config.json /var/homebridge/
+➜  ~ sudo cp -r ~/.homebridge/persist /var/homebridge
+</code></pre></li>
+
+<li><p>Start the service</p>
+
+<pre><code class="language-zsh">➜  ~ sudo chmod -R 0777 /var/homebridge
+➜  ~ sudo systemctl daemon-reload
+➜  ~ sudo systemctl enable homebridge
+➜  ~ sudo systemctl start homebridge
+➜  ~ systemctl status homebridge
+</code></pre></li>
+</ol>
+
+<p>Notice that the <code>config.json</code> is now copied to a different folder, so if you change the one in <code>~/.homebridge/</code> you need to copy it to <code>/var/homebridge/</code> afterwards!</p>
+
+<pre><code class="language-zsh">➜  ~ sudo cp ~/.homebridge/config.json /var/homebridge/
+➜  ~ sudo systemctl restart homebridge
+</code></pre>
+
+<h2 id="6-add-smart-devices">6. Add smart devices</h2>
+
+<p>You now have control center for you smart devices! <a href="http://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/">Here is a guide on how to connect them!</a></p>
                 </div>
             </div>
         </div>

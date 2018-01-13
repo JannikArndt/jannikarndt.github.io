@@ -3,6 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</loc>
+    <lastmod>2018-01-13T20:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</loc>
+    <lastmod>2018-01-13T19:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</loc>
+    <lastmod>2018-01-13T12:40:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</loc>
+    <lastmod>2018-01-13T12:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</loc>
     <lastmod>2017-11-23T20:00:00+01:00</lastmod>
   </url>
@@ -114,7 +134,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/blog/</loc>
-    <lastmod>2017-11-23T20:00:00+01:00</lastmod>
+    <lastmod>2018-01-13T20:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -125,7 +145,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/</loc>
-    <lastmod>2017-11-23T20:00:00+01:00</lastmod>
+    <lastmod>2018-01-13T20:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
