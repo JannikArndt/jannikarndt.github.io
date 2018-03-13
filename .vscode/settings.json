@@ -15,5 +15,6 @@
         "commands-show-output": false,
         "no-inline-html": false,
         "first-line-h1": false
-    }
+    },
+    "cSpell.enabled": false
 }
