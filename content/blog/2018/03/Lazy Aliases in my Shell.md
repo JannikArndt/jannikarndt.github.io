@@ -1,6 +1,6 @@
 +++
 title = "Lazy Aliases in my Shell"
-draft = true
+draft = false
 date = "2018-03-13T12:00:00+01:00"
 keywords = [ "Shell", "Bash", "ZSH", "Oh-My-ZSH", "DevOps" ]
 slug = "lazy_aliases_in_my_shell"

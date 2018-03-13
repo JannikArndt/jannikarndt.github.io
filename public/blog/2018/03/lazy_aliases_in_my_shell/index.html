@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Jannik Arndt — Lessons learned in 2016</title>
+        <title>Jannik Arndt — Lazy Aliases in my Shell</title>
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -97,10 +97,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-01-03T10:12:00CET ">
-                        January 3, 2017
+                    <time datetime=" 2018-03-13T12:00:00CET ">
+                        March 13, 2018
                     </time>
-                    <h1>Lessons learned in 2016</h1>
+                    <h1>Lazy Aliases in my Shell</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -115,43 +115,40 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2 id="1">#1</h2>
+                    
 
-<h3 id="do-not-fix-your-code">Do not fix your code.</h3>
+<p>I reduced the startup time of my shell by one second. Here&rsquo;s how:</p>
 
-<p>Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.</p>
+<h2 id="what-i-do">What I do</h2>
 
-<p></p>
+<p>I work <em>a lot</em> with the shell (or “Terminal” app on MacOS), mostly <code>kubectl</code>, <code>git</code>, <code>terraform</code> and <code>docker</code>. And of course I use the absolutely best shell of all, <a href="http://ohmyz.sh">oh-my-zsh</a>.</p>
 
-<h2 id="2">#2</h2>
+<h2 id="the-problem">The Problem</h2>
 
-<h3 id="automate-early">Automate early.</h3>
+<p>I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&rsquo;s annoying, because usually when I open a new tab, I want to <em>quickly</em> check on something, like the logs of a pod or if I have committed something in a different project.</p>
 
-<p>You know, CI/CD. Or just clean-up-scripts. Or a complete infrastructure-as-code. Remember: A script to setup something is the best documentation!</p>
+<p>I inserted some <code>gdate +%s.%N</code> commands in my <code>.zshrc</code> to find out, at which point the slowdown was occurring. (<code>gdate</code> is the gnu-version of <code>date</code> and can be installed with <code>brew install coreutils</code>.)</p>
 
-<h2 id="3">#3</h2>
+<p>The problem lies in the <code>kubectl</code> plugin, which creates the completions-list via <code>source &lt;(kubectl completion zsh)</code>. This creates a <em>huge</em> list of instructions.</p>
 
-<h3 id="a-function-must-not-do-more-than-one-thing">A function must not do more than one thing.</h3>
+<h2 id="the-solution">The Solution</h2>
 
-<p>If a function name contains “and” there&rsquo;s still work to do. Build small pieces.</p>
+<ol>
+<li>The <code>kubectl</code> plugin also defines the <code>alias k=kubectl</code>, which shaves seconds, if not minutes off my daily work.</li>
+<li>When I start a new shell, I expect it to be fast. When I check on something in the Kubernetes cluster I expect it to go through the network, i.e. to be slow.</li>
+</ol>
 
-<h2 id="4">#4</h2>
+<p>So I delayed the initialization of the <code>kubectl completion</code> until I first call something:</p>
 
-<h3 id="side-effects-are-the-root-of-all-evil">Side effects are the root of all evil.</h3>
+<pre><code class="language-bash">function k() {
+  source &lt;(kubectl completion zsh)
+  alias k=kubectl
+  kubectl $@
+}
+</code></pre>
 
-<p>If you need side effects (like database or file outputs), let it be the <em>only</em> thing a function does.</p>
+<p>This way, when I write <code>k get pods</code> for the first time, it creates the autocompletion list, rebinds what <code>k</code> does and then runs the command I wanted in the first place. All following <code>k get pods</code> go directly to <code>kubectl</code>.</p>
 
-<h2 id="5">#5</h2>
-
-<h3 id="it-s-all-about-data">It&rsquo;s all about data.</h3>
-
-<p>Business logic is just a concept to change data.</p>
-
-<h2 id="6">#6</h2>
-
-<h3 id="a-system-is-defined-by-its-input-and-output">A system is defined by its input and output.</h3>
-
-<p>Every description of anything should focus on these two things first.</p>
                 </div>
             </div>
         </div>
