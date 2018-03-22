@@ -6,10 +6,21 @@
     <description>Recent content on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Mar 2018 12:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 22 Mar 2018 07:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How to add an SSH Key as a Kubernetes Secret</title>
+      <link>http://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</link>
+      <pubDate>Thu, 22 Mar 2018 07:00:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</guid>
+      <description>&lt;p&gt;Adding an ssh-file as a secret sounds easy, but there are pitfalls.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Lazy Aliases in my Shell</title>

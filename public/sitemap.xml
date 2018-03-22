@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</loc>
+    <lastmod>2018-03-22T07:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</loc>
     <lastmod>2018-03-13T12:00:00+01:00</lastmod>
   </url>
@@ -139,7 +144,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/blog/</loc>
-    <lastmod>2018-03-13T12:00:00+01:00</lastmod>
+    <lastmod>2018-03-22T07:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -150,7 +155,7 @@
   
   <url>
     <loc>http://www.jannikarndt.de/</loc>
-    <lastmod>2018-03-13T12:00:00+01:00</lastmod>
+    <lastmod>2018-03-22T07:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
