@@ -6,10 +6,45 @@
     <description>Recent content on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Mar 2018 07:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 08 Apr 2018 12:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Boberg</title>
+      <link>http://www.jannikarndt.de/blog/2018/04/boberg/</link>
+      <pubDate>Sun, 08 Apr 2018 12:00:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2018/04/boberg/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Alsterpanorama</title>
+      <link>http://www.jannikarndt.de/blog/2018/04/alsterpanorama/</link>
+      <pubDate>Sat, 07 Apr 2018 13:38:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hochwasserbassin</title>
+      <link>http://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</link>
+      <pubDate>Sat, 07 Apr 2018 12:35:00 +0100</pubDate>
+      
+      <guid>http://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>How to add an SSH Key as a Kubernetes Secret</title>
