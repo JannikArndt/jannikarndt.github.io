@@ -20,9 +20,9 @@ Since quite a lot of research, trial-and-error and configuration have lead to th
 
 ## From plain text to html
 
-The basis is a bunch of `markdown`-files, `go`-templates and the [hugo](http://gohugo.io/)-templating engine. I have tried and failed hugo before, in October, because there was [no easy way](https://gohugo.io/templates/debugging/) to debug anything, and my preferred way of learning is through debugging, as opposed to reading the [docs](https://gohugo.io/templates/go-templates/). My inability to take any given template as it is makes it worse.
+The basis is a bunch of `markdown`-files, `go`-templates and the [hugo](https://gohugo.io/)-templating engine. I have tried and failed hugo before, in October, because there was [no easy way](https://gohugo.io/templates/debugging/) to debug anything, and my preferred way of learning is through debugging, as opposed to reading the [docs](https://gohugo.io/templates/go-templates/). My inability to take any given template as it is makes it worse.
 
-This time however I found a [template](http://themes.gohugo.io/theme/creative/) I was quite pleased with. The starting point is the following directory-structure:
+This time however I found a [template](https://themes.gohugo.io/theme/creative/) I was quite pleased with. The starting point is the following directory-structure:
 
 ``` none
 master
@@ -47,10 +47,10 @@ I fought long and hard to press my content into to `config.toml`, I'll spare you
 
 ``` toml
 [[params.services.list]]
-    icon = "http://jannikarndt.github.io/Canal/bridge.png"
+    icon = "https://jannikarndt.github.io/Canal/bridge.png"
     title = "Canal"
     description = "A free and open-source COBOL editor and analysis tool"
-    link = "http://jannikarndt.github.io/Canal/"
+    link = "https://jannikarndt.github.io/Canal/"
 ```
 
 whereas a publication looks like this:
@@ -58,7 +58,7 @@ whereas a publication looks like this:
 ``` toml
 [[params.publications.years.entry]]
     text = "Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit, 2014."
-    link = "http://www.jannikarndt.de/publikationen/musicista/"
+    link = "https://www.jannikarndt.de/publikationen/musicista/"
 ```
 
 All software entries are displayed via the following [template](https://github.com/JannikArndt/jannikarndt.github.io/blob/source/themes/hugo-creative-theme/layouts/partials/services.html)
@@ -105,13 +105,13 @@ The hugo-engine itselft supports my trial-and-error-approach wonderfully by offe
 
 ## Deployment (1)
 
-I have gathered a little experience with hugo deployment on [github pages](https://pages.github.com) while working on [NiceToKnowIT](http://nicetoknow.github.io/IT/), and there is also an [extensive guide](https://gohugo.io/tutorials/github-pages-blog/) on the hugo site. The problem is
+I have gathered a little experience with hugo deployment on [github pages](https://pages.github.com) while working on [NiceToKnowIT](https://nicetoknow.github.io/IT/), and there is also an [extensive guide](https://gohugo.io/tutorials/github-pages-blog/) on the hugo site. The problem is
 
 1. github pages requires the content at the root of a repository
 2. hugo creates the content into the `public` folder
 3. both are non-negotiable
 
-The workaround is to “embed” the gh-pages repository (or branch) in the `public` folder of the source repository. Apparently there are [two ways](http://stackoverflow.com/questions/31769820/differences-between-git-submodule-and-subtree) to do this, `submodule` and `subtree`. I went ahead and chose the wrong way ([1](https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/), [2](https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/), [3](https://ayende.com/blog/4746/the-problem-with-git-submodules), [4](http://somethingsinistral.net/blog/git-submodules-are-probably-not-the-answer/), [5](http://slopjong.de/2013/06/04/git-why-submodules-are-evil/), I read none of those, but I now know how to use the `--force`): `submodule`. The steps are easy:
+The workaround is to “embed” the gh-pages repository (or branch) in the `public` folder of the source repository. Apparently there are [two ways](https://stackoverflow.com/questions/31769820/differences-between-git-submodule-and-subtree) to do this, `submodule` and `subtree`. I went ahead and chose the wrong way ([1](https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/), [2](https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/), [3](https://ayende.com/blog/4746/the-problem-with-git-submodules), [4](https://somethingsinistral.net/blog/git-submodules-are-probably-not-the-answer/), [5](https://slopjong.de/2013/06/04/git-why-submodules-are-evil/), I read none of those, but I now know how to use the `--force`): `submodule`. The steps are easy:
 
 - delete `public` folder
 - `git submodule add -b master git@github.com:JannikArndt/jannikarndt.github.io.git public``

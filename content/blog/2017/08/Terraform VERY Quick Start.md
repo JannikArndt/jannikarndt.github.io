@@ -208,7 +208,7 @@ To view a dependency graph:
 $ terraform graph > graph.dot
 ```
 And open with graphviz:
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 617.8 332">
+<svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 617.8 332">
   <g class="graph" transform="translate(4 328)">
     <path fill="#fff" stroke="transparent" d="M-4 4v-332h617.8V4H-4z"/>
     <g class="node">

@@ -147,7 +147,7 @@ Fortunately, I didn't touch a Windows machine all year :)
 * <https://www.blockloop.io/mastering-bash-and-terminal/>
 * <https://news.ycombinator.com/item?id=13400350>
 
-Although I, of course, use [oh my zsh](http://ohmyz.sh) and have converted several others over the past year.
+Although I, of course, use [oh my zsh](https://ohmyz.sh) and have converted several others over the past year.
 
 ---
 

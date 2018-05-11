@@ -121,7 +121,7 @@ The [requirements](http://central.sonatype.org/pages/requirements.html) for a re
       <connection>scm:git:git://github.com/JannikArndt/DataMover.git</connection>
       <developerConnection>scm:git:ssh://github.com:JannikArndt/DataMover.git
       </developerConnection>
-      <url>http://github.com/JannikArndt/DataMover/tree/master</url>
+      <url>https://github.com/JannikArndt/DataMover/tree/master</url>
     </scm>
 ```
 - And you may need the staging repository in the `distributionManagement` section:
