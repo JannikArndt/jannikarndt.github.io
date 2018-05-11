@@ -2,56 +2,56 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Jannik Arndt</title>
-    <link>http://www.jannikarndt.de/blog/</link>
+    <link>https://www.jannikarndt.de/blog/</link>
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 08 Apr 2018 12:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Boberg</title>
-      <link>http://www.jannikarndt.de/blog/2018/04/boberg/</link>
+      <link>https://www.jannikarndt.de/blog/2018/04/boberg/</link>
       <pubDate>Sun, 08 Apr 2018 12:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/04/boberg/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+      <guid>https://www.jannikarndt.de/blog/2018/04/boberg/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Alsterpanorama</title>
-      <link>http://www.jannikarndt.de/blog/2018/04/alsterpanorama/</link>
+      <link>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</link>
       <pubDate>Sat, 07 Apr 2018 13:38:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+      <guid>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Hochwasserbassin</title>
-      <link>http://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</link>
+      <link>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</link>
       <pubDate>Sat, 07 Apr 2018 12:35:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+      <guid>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>How to add an SSH Key as a Kubernetes Secret</title>
-      <link>http://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</link>
+      <link>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</link>
       <pubDate>Thu, 22 Mar 2018 07:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</guid>
+      <guid>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</guid>
       <description>&lt;p&gt;Adding an ssh-file as a secret sounds easy, but there are pitfalls.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -59,10 +59,10 @@
     
     <item>
       <title>Lazy Aliases in my Shell</title>
-      <link>http://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</link>
+      <link>https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</link>
       <pubDate>Tue, 13 Mar 2018 12:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</guid>
+      <guid>https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</guid>
       <description>I reduced the startup time of my shell by one second. Here&amp;rsquo;s how:
 What I do I work a lot with the shell (or “Terminal” app on MacOS), mostly kubectl, git, terraform and docker. And of course I use the absolutely best shell of all, oh-my-zsh.
 The Problem I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&amp;rsquo;s annoying, because usually when I open a new tab, I want to quickly check on something, like the logs of a pod or if I have committed something in a different project.</description>
@@ -70,10 +70,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>How to use a Raspberry Pi for your Time Machine backups</title>
-      <link>http://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</link>
+      <link>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</link>
       <pubDate>Sat, 13 Jan 2018 20:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</guid>
+      <guid>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</guid>
       <description>&lt;p&gt;Apples Time Machine is a great backup solution, you only have to do &lt;em&gt;one&lt;/em&gt; thing: Connect your disk from time to time.&lt;/p&gt;
 
 &lt;p&gt;Since that is way harder than it sounds, there&amp;rsquo;s a second option: Buy a &lt;a href=&#34;https://www.apple.com/de/shop/product/ME177Z/A&#34;&gt;329€ Time Capsule&lt;/a&gt; and do backups over wifi!&lt;/p&gt;
@@ -85,10 +85,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>How to install Tasmota on a Sonoff device without opening it</title>
-      <link>http://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</link>
+      <link>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</link>
       <pubDate>Sat, 13 Jan 2018 19:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</guid>
+      <guid>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</guid>
       <description>&lt;p&gt;Sonoff takes the standard ESP8266 chip and adds two things:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -103,10 +103,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>How to use a Raspberry Pi 3 with Apple Home</title>
-      <link>http://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</link>
+      <link>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</link>
       <pubDate>Sat, 13 Jan 2018 12:40:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</guid>
+      <guid>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</guid>
       <description>&lt;p&gt;“Hey Siri, turn on the bedroom lights!” I want that. Here&amp;rsquo;s how I did it:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -120,10 +120,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</title>
-      <link>http://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</link>
+      <link>https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</link>
       <pubDate>Sat, 13 Jan 2018 12:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</guid>
+      <guid>https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</guid>
       <description>&lt;p&gt;I bought a raspberry pi as a smart home automation server. Here&amp;rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -131,10 +131,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>Terraform on Google Cloud Engine Quickstart</title>
-      <link>http://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</link>
+      <link>https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</link>
       <pubDate>Thu, 23 Nov 2017 20:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</guid>
       <description>&lt;p&gt;This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -142,10 +142,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>Lessons learned in 2017</title>
-      <link>http://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/</link>
+      <link>https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/</link>
       <pubDate>Sat, 11 Nov 2017 17:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/</guid>
       <description>&lt;h2 id=&#34;1&#34;&gt;#1&lt;/h2&gt;
 
 &lt;h3 id=&#34;conway-s-law&#34;&gt;Conway’s Law&lt;/h3&gt;
@@ -161,10 +161,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>What settings yield the sharpest landscape photo?</title>
-      <link>http://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</link>
+      <link>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</link>
       <pubDate>Tue, 07 Nov 2017 18:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</guid>
       <description>&lt;p&gt;I was quite surprised at how difficult it is to get &lt;em&gt;absolutely&lt;/em&gt; razor sharp images out of a very good (high-end-consumer/semi-pro) DSLR camera, namely the Nikon D7100. So I made the test: What settings in terms of aperture, shutter speed and ISO yield the sharpest landscape image?&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -172,21 +172,21 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
     
     <item>
       <title>Hamburg as seen from the Michel</title>
-      <link>http://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</link>
+      <link>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</link>
       <pubDate>Sat, 04 Nov 2017 16:50:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+      <guid>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
-      <link>http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</link>
+      <link>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</link>
       <pubDate>Sun, 10 Sep 2017 21:07:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
       <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
  create a JIRA account and then create a ticket for a new project.</description>
@@ -194,10 +194,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Writing case classes to MongoDB in Scala</title>
-      <link>http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</link>
+      <link>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</link>
       <pubDate>Sat, 19 Aug 2017 10:05:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
       <description>&lt;p&gt;Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for &lt;code&gt;java.time&lt;/code&gt; classes such as &lt;code&gt;ZonedDateTime&lt;/code&gt;, &lt;code&gt;LocalDate&lt;/code&gt; or &lt;code&gt;Duration&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;
@@ -207,10 +207,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>VERY Quick Start: Terraform</title>
-      <link>http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</link>
+      <link>https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</link>
       <pubDate>Sun, 06 Aug 2017 17:20:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;This post contains the absolut essence from the Terraform Getting Started Guide:
 &lt;a href=&#34;https://www.terraform.io/intro/getting-started/install.html&#34;&gt;https://www.terraform.io/intro/getting-started/install.html&lt;/a&gt;&lt;/p&gt;
@@ -221,10 +221,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Where bad code comes from</title>
-      <link>http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</link>
+      <link>https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</link>
       <pubDate>Sat, 22 Jul 2017 05:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</guid>
       <description>&lt;p&gt;Ever wondered where bad code comes from?&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -241,10 +241,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Storing sparse, key-value-like data in a relational database</title>
-      <link>http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</link>
+      <link>https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</link>
       <pubDate>Fri, 21 Jul 2017 22:45:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</guid>
       <description>&lt;p&gt;Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -252,21 +252,21 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Tough Mudder Norddeutschland 2017</title>
-      <link>http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</link>
+      <link>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</link>
       <pubDate>Sat, 15 Jul 2017 17:00:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+      <guid>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>A Minor Story Live at Methfesselfest</title>
-      <link>http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</link>
+      <link>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</link>
       <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
       <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -274,10 +274,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Git in one Image</title>
-      <link>http://www.jannikarndt.de/blog/2017/06/git_in_one_image/</link>
+      <link>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</link>
       <pubDate>Sun, 18 Jun 2017 08:30:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/06/git_in_one_image/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</guid>
       <description>&lt;p&gt;I tried to create a single image that contains all the most important &lt;code&gt;git&lt;/code&gt; commands:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
@@ -287,10 +287,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Two-speed IT</title>
-      <link>http://www.jannikarndt.de/blog/2017/05/two_speed_it/</link>
+      <link>https://www.jannikarndt.de/blog/2017/05/two_speed_it/</link>
       <pubDate>Tue, 23 May 2017 08:30:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/05/two_speed_it/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/05/two_speed_it/</guid>
       <description>&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
 
 &lt;p&gt;You&amp;rsquo;re a corporation. Your IT department is old, slow and can&amp;rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.&lt;/p&gt;
@@ -300,10 +300,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>The real world doesn&#39;t care about encoding</title>
-      <link>http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</link>
+      <link>https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</link>
       <pubDate>Mon, 01 May 2017 11:45:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</guid>
       <description>&lt;p&gt;Last week one of our programs failed looking up an airplane by its &lt;a href=&#34;https://en.wikipedia.org/wiki/Aircraft_registration&#34;&gt;registration&lt;/a&gt;. That&amp;rsquo;s not a surprise, since ac regs are a &lt;em&gt;horrible&lt;/em&gt; identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -315,23 +315,23 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Belugas at Finkenwerder</title>
-      <link>http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</link>
+      <link>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</link>
       <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
       <description>&lt;p&gt;My favourite animal: The Beluga!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Deploying Pentaho jobs into Production</title>
-      <link>http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</link>
+      <link>https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</link>
       <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</guid>
       <description>&lt;p&gt;&lt;strong&gt;TL;DR:&lt;/strong&gt; You don&amp;rsquo;t. We eventually gave up on it.&lt;/p&gt;
 
 &lt;p&gt;My personal lessons-learned:&lt;/p&gt;
@@ -347,10 +347,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Extracting Dimensions from an Oracle Database Table</title>
-      <link>http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</link>
+      <link>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</link>
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</guid>
       <description>&lt;h3 id=&#34;task&#34;&gt;Task&lt;/h3&gt;
 
 &lt;p&gt;You have a denormalized table and want to extract a column into a dimension table.&lt;/p&gt;
@@ -368,20 +368,20 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>talend does not work</title>
-      <link>http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</link>
+      <link>https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</link>
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</guid>
       <description>&lt;p&gt;I cannot believe that googleing “talend does not work” does not find &lt;em&gt;anything&lt;/em&gt; helpful. With this entry I try to fill that void in the internet.
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Lessons learned in 2016</title>
-      <link>http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</link>
+      <link>https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</link>
       <pubDate>Tue, 03 Jan 2017 10:12:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</guid>
+      <guid>https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</guid>
       <description>&lt;h2 id=&#34;1&#34;&gt;#1&lt;/h2&gt;
 
 &lt;h3 id=&#34;do-not-fix-your-code&#34;&gt;Do not fix your code.&lt;/h3&gt;
@@ -393,10 +393,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Perfect Home Screen Layout</title>
-      <link>http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</link>
+      <link>https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</link>
       <pubDate>Wed, 23 Nov 2016 23:56:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</guid>
+      <guid>https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</guid>
       <description>&lt;p&gt;Being &lt;em&gt;the IT-guy aka personal first-level-support&lt;/em&gt;&amp;trade; for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&amp;rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -404,11 +404,11 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>Bug Fixing in Production</title>
-      <link>http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</link>
+      <link>https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</link>
       <pubDate>Tue, 22 Nov 2016 23:25:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;http://www.jannikarndt.de/blog/2016/11/bugfixing_in_production.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+      <guid>https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2016/11/bugfixing_in_production.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;(via &lt;a href=&#34;https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;amp;theater&#34;&gt;I Love Programming&lt;/a&gt;)&lt;/p&gt;
 
@@ -418,10 +418,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     
     <item>
       <title>The 2016-Personal-Website Infrastructure</title>
-      <link>http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</link>
+      <link>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</link>
       <pubDate>Sun, 20 Nov 2016 13:37:00 +0100</pubDate>
       
-      <guid>http://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</guid>
+      <guid>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</guid>
       <description>&lt;p&gt;Since I bought my personal domain name around 2003, I went through several web-solutions,
 using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).
 &lt;/p&gt;</description>
