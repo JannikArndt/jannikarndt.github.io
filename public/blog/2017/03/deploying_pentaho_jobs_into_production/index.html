@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Jannik Arndt — Deploying Pentaho jobs into Production</title>
+        <title>Deploying Pentaho jobs into Production</title>
+        <meta name="description" content="TL;DR: You don&rsquo;t. We eventually gave up on it.
+
+My personal lessons-learned:
+
+
+Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs.
+The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.
+Kerberos is a bitch.
+
+
+">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Jannik Arndt">
-<meta name="description" content="Data Engineer, Software Developer &amp; Musician from Hamburg, Germany">
-<meta name="generator" content="Hugo 0.41" />
-<title>Jannik Arndt</title>
 
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="57x57" href="https://www.jannikarndt.de/favicons/apple-icon-57x57.png">

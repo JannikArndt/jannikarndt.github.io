@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
     <head>
-        <title>{{ .Site.Title }} — {{ .Title }}</title>
+        <title>{{ .Title }}</title>
+        <meta name="description" content="{{ .Summary }}">
         {{ partial "head.html" . }}
     </head>
     <body id="page-top">

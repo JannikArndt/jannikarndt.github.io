@@ -2,6 +2,7 @@ baseurl = "https://www.jannikarndt.de"
 languageCode = "en-us"
 title = "Jannik Arndt"
 theme = "hugo-creative-theme"
+disableHugoGeneratorInject = "true"
 
 [params]
 	name = "Jannik Arndt"
