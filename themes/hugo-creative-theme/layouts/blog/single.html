@@ -3,6 +3,7 @@
     <head>
         <title>{{ .Title }}</title>
         <meta name="description" content="{{ .Summary }}">
+        <meta name="keywords" content="{{ delimit .Keywords ", " }}">
         {{ partial "head.html" . }}
     </head>
     <body id="page-top">
