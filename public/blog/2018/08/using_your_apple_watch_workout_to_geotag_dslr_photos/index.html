@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Extracting Dimensions from an Oracle Database Table</title>
-        <meta name="description" content="Task
-
-You have a denormalized table and want to extract a column into a dimension table.
-
-Caveat
-
-You have to keep the ids.
-
-Extra-Caveat
-
-You use an Oracle database.
+        <title>Using your Apple Watch Workout to Geotag DSLR Photos</title>
+        <meta name="description" content="I want my photos to have location info in them, and Nikon wants way too much money for that. So I&rsquo;ll do this: Let my Apple Watch track where I go, using the Outdoor Walk, export the route as GPX and use exiftool to tag all my images. Here&rsquo;s how I do that.
 
 ">
-        <meta name="keywords" content="Data Engineering, Database, Oracle, ETL">
+        <meta name="keywords" content="Apple, Apple Watch, Outdoor Walk, Geotag, GPS, Route, Photography, exiftool">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -108,10 +98,10 @@ You use an Oracle database.
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-01-07T11:20:00CET ">
-                        January 7, 2017
+                    <time datetime=" 2018-08-05T16:00:00CET ">
+                        August 5, 2018
                     </time>
-                    <h1>Extracting Dimensions from an Oracle Database Table</h1>
+                    <h1>Using your Apple Watch Workout to Geotag DSLR Photos</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -126,156 +116,42 @@ You use an Oracle database.
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h3 id="task">Task</h3>
-
-<p>You have a denormalized table and want to extract a column into a dimension table.</p>
-
-<h3 id="caveat">Caveat</h3>
-
-<p>You have to keep the ids.</p>
-
-<h3 id="extra-caveat">Extra-Caveat</h3>
-
-<p>You use an Oracle database.</p>
+                    <p>I want my photos to have location info in them, and Nikon wants <em>way too much</em> money for that. So I&rsquo;ll do this: Let my Apple Watch track where I go, using the <em>Outdoor Walk</em>, export the route as GPX and use <em>exiftool</em> to tag all my images. Here&rsquo;s how I do that.</p>
 
 <p></p>
 
-<h2 id="example">Example</h2>
+<h2 id="export-gpx">Export GPX</h2>
 
-<h4 id="cars">CARS</h4>
+<p>Apples apps don&rsquo;t come with an export option, so I use the wonderful little app called <a href="http://www.rungap.com">RunGap</a>. An in-app-purchase for 2.29€ allows my to export a GPX file of my workout:</p>
 
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>manufacturer_id</th>
-<th>model_id</th>
-<th>color</th>
-</tr>
-</thead>
+<p>
+<a href="/blog/2018/08/RunGap1.png"><img src="/blog/2018/08/RunGap1.png" alt="" width="45%"></a>
+<a href="/blog/2018/08/RunGap2.png"><img src="/blog/2018/08/RunGap2.png" alt="" width="45%"></a>
+</p>
 
-<tbody>
-<tr>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>&lsquo;blue&rsquo;</td>
-</tr>
+<p>There&rsquo;s also a great website that let&rsquo;s you analyse the contents of that file:</p>
 
-<tr>
-<td>2</td>
-<td>1</td>
-<td>4</td>
-<td>&lsquo;red&rsquo;</td>
-</tr>
+<p><a href="https://www.j-berkemeier.de/ShowGPX.html" target="_blank"><img src="/blog/2018/08/ShowGPX.png" alt=""></a></p>
 
-<tr>
-<td>3</td>
-<td>2</td>
-<td>6</td>
-<td>&lsquo;black&rsquo;</td>
-</tr>
+<h2 id="write-gps-into-exif">Write GPS into EXIF</h2>
 
-<tr>
-<td>4</td>
-<td>2</td>
-<td>8</td>
-<td>&lsquo;red&rsquo;</td>
-</tr>
-</tbody>
-</table>
+<p>Next, I use <em>the</em> software to edit EXIF data, written in Perl, first published in 2003, still state of the art today: <a href="http://owl.phy.queensu.ca/~phil/exiftool/"><em>exiftool</em></a>. You can install it via</p>
 
-<p>becomes</p>
-
-<h4 id="cars-1">CARS</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>manufacturer_id</th>
-<th>model_id</th>
-<th>color_id</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>1</td>
-<td>4</td>
-<td>2</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>2</td>
-<td>6</td>
-<td>3</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>2</td>
-<td>8</td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="colors">COLORS</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>1</td>
-<td>&lsquo;blue&rsquo;</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>&lsquo;red&rsquo;</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>&lsquo;black&rsquo;</td>
-</tr>
-</tbody>
-</table>
-
-<p>Solution:</p>
-
-<pre><code class="language-SQL">-- Create new table from Select-Statement
-CREATE TABLE colors AS
-  SELECT ROWNUM as id, name FROM
-    (SELECT color FROM cars GROUP BY color);
-
--- Add constraints on newly create table
-CREATE UNIQUE INDEX colors_id_uindex ON colors(id);
-ALTER TABLE colors ADD CONSTRAINT colors_id_pk PRIMARY KEY (id);
-
--- Add reference from fact-table to new dimension
-ALTER TABLE cars ADD color_id NUMBER DEFAULT NULL NULL;
-UPDATE cars SET color_id = (SELECT id FROM colors WHERE colors.id = cars.color);
-
--- Delete original column
-ALTER TABLE cars DROP COLUMN color;
+<pre><code class="language-bash">brew install exiftool
 </code></pre>
+
+<p>(on a mac, of course).</p>
+
+<p>Then the command is pretty straightforward:</p>
+
+<pre><code class="language-bash">➜ ~ exiftool -geotag=myRoute.gpx ~/Pictures/UntaggedPictures/
+    1 directories scanned
+   83 image files updated
+</code></pre>
+
+<p>…and it&rsquo;s done!</p>
+
+<p>The <em>exiftool</em> can do <em>way</em> more, by the way, they have a <a href="https://www.sno.phy.queensu.ca/~phil/exiftool/geotag.html">page dedicated just for geotagging</a>. But for starters, this does the job pretty well!</p>
                 </div>
             </div>
         </div>

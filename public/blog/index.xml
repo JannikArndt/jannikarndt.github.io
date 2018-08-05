@@ -6,10 +6,21 @@
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 May 2018 23:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 05 Aug 2018 16:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using your Apple Watch Workout to Geotag DSLR Photos</title>
+      <link>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</link>
+      <pubDate>Sun, 05 Aug 2018 16:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</guid>
+      <description>&lt;p&gt;I want my photos to have location info in them, and Nikon wants &lt;em&gt;way too much&lt;/em&gt; money for that. So I&amp;rsquo;ll do this: Let my Apple Watch track where I go, using the &lt;em&gt;Outdoor Walk&lt;/em&gt;, export the route as GPX and use &lt;em&gt;exiftool&lt;/em&gt; to tag all my images. Here&amp;rsquo;s how I do that.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Kirschblütenfeuerwerk</title>
