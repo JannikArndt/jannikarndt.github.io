@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Storing sparse, key-value-like data in a relational database</title>
-        <meta name="description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.
+        <title>Examining a PostgreSQL with psql or pgcli</title>
+        <meta name="description" content="The PostgreSQL installation comes with a great tool, psql, to administer and inspect the database. pgcli extends this with syntax highlighting and autocompletion.
 
 ">
-        <meta name="keywords" content="Programming, Databases">
+        <meta name="keywords" content="DevOps">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,10 +98,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-07-21T22:45:00CET ">
-                        July 21, 2017
+                    <time datetime=" 2018-08-16T15:00:00CET ">
+                        August 16, 2018
                     </time>
-                    <h1>Storing sparse, key-value-like data in a relational database</h1>
+                    <h1>Examining a PostgreSQL with psql or pgcli</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -113,42 +113,27 @@
     <article class="bg-light" id="blogentry">
         
         <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">Storing sparse, key-value-like data in a relational database</a></div>
+            <div class="toc_title"><a href="#page-top" class="page-scroll">Examining a PostgreSQL with psql or pgcli</a></div>
             <div class="toc_content"><nav id="TableOfContents">
 <ul>
 <li>
 <ul>
-<li><a href="#background">Background</a>
+<li><a href="#starting-and-connecting">Starting and Connecting</a>
 <ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#messages">MESSAGES</a></li>
+<li><a href="#the-user">The User</a></li>
+<li><a href="#the-database">The Database</a></li>
+<li><a href="#the-password">The Password</a></li>
+<li><a href="#the-port">The Port</a></li>
+<li><a href="#summing-up">Summing up</a></li>
 </ul></li>
-</ul></li>
-</ul></li>
-<li><a href="#why-not">Why not…?</a></li>
-<li><a href="#storing-key-value-pairs-in-a-relational-database">Storing key-value-pairs in a relational database</a>
+<li><a href="#looking-around">Looking around</a>
 <ul>
-<li>
-<ul>
-<li><a href="#messages-1">MESSAGES</a></li>
-<li><a href="#values-table">VALUES_TABLE</a></li>
-<li><a href="#messages-2">MESSAGES</a></li>
-<li><a href="#values-table-1">VALUES_TABLE</a></li>
-<li><a href="#keys-table">KEYS_TABLE</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#and-hell-breaks-loose">…and hell breaks loose</a></li>
-<li><a href="#the-solution-workaround">The solution / workaround</a>
-<ul>
-<li>
-<ul>
-<li><a href="#messages-3">MESSAGES</a></li>
-<li><a href="#messages-part-1">MESSAGES_PART_1</a></li>
-<li><a href="#messages-part-2">MESSAGES_PART_2</a></li>
-</ul></li>
+<li><a href="#databases">Databases</a></li>
+<li><a href="#tables">Tables</a></li>
+<li><a href="#views">Views</a></li>
+<li><a href="#detailed-information">Detailed Information</a></li>
+<li><a href="#users-roles">Users / Roles</a></li>
+<li><a href="#recap">Recap</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -159,331 +144,335 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p>Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.</p>
+                    <p>The PostgreSQL installation comes with a great tool, <code>psql</code>, to administer and inspect the database. <a href="https://www.pgcli.com"><code>pgcli</code></a> extends this with syntax highlighting and autocompletion.</p>
 
 <p></p>
 
-<h2 id="background">Background</h2>
+<h2 id="starting-and-connecting">Starting and Connecting</h2>
 
-<p>The task was to store flight information in a database. The information is transmitted via the IATA SSIM format, which standardizes messages with about 70 different fields. There also are various different types of messages, all of which might contain any of the 70 fields. An example: Airlines can publish their <em>Standard Schedules Messages</em> which contain the seasonal flight schedule, i.e. routes they usually fly on which days of the week. Exceptions from this get their own message (using different fields). Unforeseen changes are published via the <em>Ad hoc Schedules Messages</em> which, of course, use different fields as well. And then there are <em>Movement Messages</em> (from the Airport Handling Manual AHM) which contain the actual information on what each plane does.
-All of these messages make up a flight: The schedules, the ad hoc changes and what actually happened. The contents overlap but rarely match.
-In object oriented thinking, this would be extremely easy: You have an abstract message class, implementations for SSM, ASM and MVT and further classes that extend each of these for special cases.</p>
+<p><code>psql</code> comes with you local PostgreSQL installation, <code>pgcli</code> can be installed via <code>brew install pgcli</code> or <code>pip install pgcli</code>.</p>
 
-<p>Efficiently storing this in a database however is not that easy. You&rsquo;re bound to wind up with a horrifying amount of columns and an awful lot of null entries. The contents will resemble the specification which lists all the elements each message sub-type must or might contain:</p>
+<p>When you start the tool, you need to specify the connection. PostgreSQL can be accessed via <em>TCP/IP</em> or <em>Unix Sockets</em>. If you installed <a href="https://postgresapp.com/">Postgres.app</a>, TCP will be the standard and you only need to specify the host (<code>h</code>):</p>
 
-<h5 id="messages">MESSAGES</h5>
-
-<table>
-<thead>
-<tr>
-<th>message_id</th>
-<th>sender_id</th>
-<th>foo</th>
-<th>boo</th>
-<th>tip</th>
-<th>bli</th>
-<th>bla</th>
-<th>blubb</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>null</td>
-<td>&lsquo;top&rsquo;</td>
-<td>null</td>
-<td>null</td>
-<td>null</td>
-</tr>
-
-<tr>
-<td>13</td>
-<td>9</td>
-<td>null</td>
-<td>null</td>
-<td>null</td>
-<td>1</td>
-<td>2</td>
-<td>42</td>
-</tr>
-</tbody>
-</table>
-
-<p><img src="/blog/2017/07/ssm_spec.png" alt=""></p>
-
-<h2 id="why-not">Why not…?</h2>
-
-<p>Yes, this structure is the reason someone invented document-oriented databases. However it is the only information that would require us to leave the relational world and operate yet another service. Also, the contents are tightly integrated into a lot of other tables, and we <em>love</em> referential integrity.</p>
-
-<h2 id="storing-key-value-pairs-in-a-relational-database">Storing key-value-pairs in a relational database</h2>
-
-<p>You <em>can</em> store key-value-pairs in a database, for example like this:</p>
-
-<h4 id="messages-1">MESSAGES</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>sender_id</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-</tr>
-
-<tr>
-<td>13</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="values-table">VALUES_TABLE</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>key</th>
-<th>value</th>
-<th>message_id</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>1</td>
-<td>&lsquo;foo&rsquo;</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>12</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>&lsquo;tip&rsquo;</td>
-<td>&lsquo;top&rsquo;</td>
-<td>12</td>
-</tr>
-</tbody>
-</table>
-
-<p>Now in our case the keys are well defined, so you will have a lot of redundancies there. The idea I was reviewing extracted the keys into yet another table:</p>
-
-<h4 id="messages-2">MESSAGES</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>sender_id</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-</tr>
-
-<tr>
-<td>13</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="values-table-1">VALUES_TABLE</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>key_id</th>
-<th>value</th>
-<th>message_id</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>1</td>
-<td>1</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>12</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>3</td>
-<td>&lsquo;tip&rsquo;</td>
-<td>12</td>
-</tr>
-</tbody>
-</table>
-
-<p>and</p>
-
-<h4 id="keys-table">KEYS_TABLE</h4>
-
-<table>
-<thead>
-<tr>
-<th>key_id</th>
-<th>key</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>1</td>
-<td>&lsquo;foo&rsquo;</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>&lsquo;boo&rsquo;</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>&lsquo;tip&rsquo;</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>&lsquo;bli&rsquo;</td>
-</tr>
-
-<tr>
-<td>5</td>
-<td>&lsquo;bla&rsquo;</td>
-</tr>
-
-<tr>
-<td>6</td>
-<td>&lsquo;blubb&rsquo;</td>
-</tr>
-</tbody>
-</table>
-
-<p>Wonderfull! No nulls, no redundancies, no more than four columns! This idea sounds great!</p>
-
-<h2 id="and-hell-breaks-loose">…and hell breaks loose</h2>
-
-<p>Database design fails can live in production for a long time until they get noticed. And that&rsquo;s when all your precious data is already put into this bad scheme.</p>
-
-<p>In the case of the above solution things get ugly the moment you query for something specific. For example all messages where &lsquo;foo&rsquo; is &lsquo;bar&rsquo;:</p>
-
-<pre><code class="language-sql">SELECT * FROM MESSAGES m 
-         JOIN VALUES_TABLE v ON m.id = v.message_id
-         JOIN KEYS_TABLE k ON v.key_id = k.key_id
-WHERE k.key    = 'foo' 
-  AND v.value  = 'bar'
+<pre><code class="language-bash">$ psql -h localhost
 </code></pre>
 
-<p>As opposed to</p>
-
-<pre><code class="language-sql">SELECT * FROM MESSAGES m WHERE m.foo = 'bar'
-</code></pre>
-
-<p>The problem only grows when you create this query from your business code: You have to get the &lsquo;foo&rsquo; string from somewhere:</p>
+<p>This assumes three things:</p>
 
 <ul>
-<li>You might hard code it. Yak.</li>
-<li>You might create an enum replicating the <code>KEYS_TABLE</code>. Until that table changes—and beware, not the <em>structure</em>, but the <em>content</em>!</li>
-<li>You might be extra clever and save a <code>JOIN</code>by using the <code>key_id</code> directly!</li>
+<li>the user is your OS user</li>
+<li>the database name is the same as the user</li>
+<li>connections from localhost are automatically trusted</li>
+<li>the port is 5432</li>
 </ul>
 
-<p>My best guess is that you&rsquo;d wind up with all three options scattered in your code. Good look.</p>
+<p>Let&rsquo;s go into details here:</p>
 
-<h2 id="the-solution-workaround">The solution / workaround</h2>
+<h3 id="the-user">The User</h3>
 
-<p>As I said in the beginning, tables with many columns and null entries might not be very elegant, but databases and developers are used to them.
-Also, document-oriented databases were invented for a reason. This might just be that reason.</p>
+<p>To be precise, PostgreSQL doesn&rsquo;t have users, it has roles. Roles you can login with are created as <code>ROLE WITH LOGIN</code>. A standard installation usually comes with a role for the OS account and a <code>postgres</code> role. To add more roles, you need to login first.</p>
 
-<p>There is another option: vertical partitioning. Especially in this use case, where there is a specification that provides the information on where to split:</p>
+<p>Tip: Users can be listed with the <code>\du+</code> command!</p>
 
-<h4 id="messages-3">MESSAGES</h4>
+<h3 id="the-database">The Database</h3>
 
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>sender_id</th>
-</tr>
-</thead>
+<p>The OS user and the postgres role have a corresponding database, which is automatically selected. However, if you create a new role and try to log in as that role, you will likely receive the error</p>
 
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-</tr>
-
-<tr>
-<td>13</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="messages-part-1">MESSAGES_PART_1</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>foo</th>
-<th>tip</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>12</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>&lsquo;top&rsquo;</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="messages-part-2">MESSAGES_PART_2</h4>
-
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>bli</th>
-<th>bla</th>
-<th>blubb</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>13</td>
-<td>1</td>
-<td>2</td>
-<td>42</td>
-</tr>
-</tbody>
-</table>
-
-<p>Let&rsquo;s check for our query:</p>
-
-<pre><code class="language-sql">SELECT * FROM MESSAGES m 
-    LEFT JOIN MESSAGES_PART_1 p1 ON m.id = p1.id
-    LEFT JOIN MESSAGES_PART_2 p2 ON m.id = p2.id
-WHERE p1.foo = 'bar'
+<pre><code class="language-bash">$ psql -h localhost -p 5432 -U foo
+FATAL:  database &quot;foo&quot; does not exist
 </code></pre>
 
-<p>Well… it doesn&rsquo;t suck as much. However, if you&rsquo;re on the <code>INSERT</code> side of the database you&rsquo;re gonna have a bad time…</p>
+<p>Thus you&rsquo;ll have to specify the database you want to connect to as well:</p>
+
+<pre><code class="language-bash">$ psql -h localhost -p 5432 -U foo -d postgres
+</code></pre>
+
+<p>By the way: During a session you can always change the database you&rsquo;re connected to with <code>\c &lt;databasename&gt;</code>, but you cannot be connected to no database at any moment.</p>
+
+<h3 id="the-password">The Password</h3>
+
+<p>In a fresh installation, your OS user and the postgres role do not have a password set. This would usually mean that you cannot use that role to login with, <em>but</em> the standard <em>Client Authentication Configuration</em>, i.e. the <code>pg_hba.conf</code> file is configured to <code>trust</code> all connections from <code>localhost</code> or <code>127.0.0.1/32</code>.</p>
+
+<p>Actually assigning a password to a role won&rsquo;t change anything, only if you change the line in the <code>pg_hba.conf</code> too will you be asked to provide a password when logging in:</p>
+
+<pre><code class="language-conf"># TYPE  DATABASE        USER            ADDRESS                 METHOD
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+</code></pre>
+
+<blockquote>
+<p>Tip: Starting with PostgreSQL 10, you can also use <code>scram-sha-256</code> for password hashing.</p>
+</blockquote>
+
+<p>Since you don&rsquo;t want to pass the password as a command line parameter, since it is then leaked into the history-file, you can add an entry to a <code>.pgpass</code> file in your $HOME:</p>
+
+<pre><code class="language-ini"># hostname:port:database:username:password
+localhost:5432:*:postgres:mySuperSecretPassword
+</code></pre>
+
+<p>Now everytime you connect to a PostgreSQL instance on <code>localhost</code> port <code>5432</code> and <em>any</em> database using the <code>postgres</code> role, the password is filled in automatically.</p>
+
+<h3 id="the-port">The Port</h3>
+
+<p>Since you can run multiple PostgreSQL instances on the same machine but all are reached via <code>localhost</code>, you need to provide different ports for every instance. If oyu only have one instance, the standard port is <code>5432</code>.</p>
+
+<h3 id="summing-up">Summing up</h3>
+
+<p>So in essence, the command</p>
+
+<pre><code class="language-bash">$ psql -h localhost
+</code></pre>
+
+<p>does the same as</p>
+
+<pre><code class="language-bash">$ psql -h localhost -p 5432 -U &lt;os-user&gt; -d &lt;os-user&gt;
+Password for user postgres: ...
+</code></pre>
+
+<h2 id="looking-around">Looking around</h2>
+
+<p>While you can execute any SQL statement you want using the <code>psql</code> tool, there are a few shortcuts that make your life easier (if you can remember them). To list them all, write <code>\?</code> or have a look at <a href="http://gpdb.docs.pivotal.io/gs/43/pdf/PSQLQuickRef.pdf">this cheat sheet</a>:</p>
+
+<h3 id="databases">Databases</h3>
+
+<p>I like to start listing all databases in the current instance, using</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:jannikarndt=# \l+
+
+                          List of databases
+┌─────────────┬─────────────┬─────┬─────────┬────────────┬──────────────┐
+│    Name     │    Owner    │ ... │  Size   │ Tablespace │ Description  │
+├─────────────┼─────────────┼─────┼─────────┼────────────┼──────────────┤
+│ jannikarndt │ jannikarndt │ ... │ 7709 kB │ pg_default │ ...          │
+│ mywebshop   │ jannikarndt │ ... │ 14 MB   │ pg_default │ ...          │
+│ postgres    │ postgres    │ ... │ 8005 kB │ pg_default │ ...          │
+│ template0   │ postgres    │ ... │ 7577 kB │ pg_default │ ...          │
+│ template1   │ postgres    │ ... │ 7577 kB │ pg_default │ ...          │
+└─────────────┴─────────────┴─────┴─────────┴────────────┴──────────────┘
+(5 rows)
+</code></pre>
+
+<p><small>(slightly abbreviated by the columns <code>Encoding</code>, <code>Collate</code>, <code>Ctype</code>, <code>Access privileges</code> and <code>Tablespace</code>)</small></p>
+
+<p>As you see, one of the databases is larger then the others. That might be an interesting one.</p>
+
+<p>To list tables in that database, we first have to connect to it:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:jannikarndt=# \dn+
+
+                           List of schemas
+┌────────┬──────────┬──────────────────────┬────────────────────────┐
+│  Name  │  Owner   │  Access privileges   │      Description       │
+├────────┼──────────┼──────────────────────┼────────────────────────┤
+│ public │ postgres │ postgres=UC/postgres↵│ standard public schema │
+│        │          │ =UC/postgres         │                        │
+└────────┴──────────┴──────────────────────┴────────────────────────┘
+(1 row)
+
+jannikarndt@[local]:jannikarndt=# \c mywebshop
+You are now connected to database &quot;mywebshop&quot; as user &quot;jannikarndt&quot;.
+
+jannikarndt@[local]:mywebshop=# \dn+
+
+                           List of schemas
+┌─────────┬──────────┬──────────────────────┬────────────────────────┐
+│  Name   │  Owner   │  Access privileges   │      Description       │
+├─────────┼──────────┼──────────────────────┼────────────────────────┤
+│ public  │ postgres │ postgres=UC/postgres↵│ standard public schema │
+│         │          │ =UC/postgres         │                        │
+│ webshop │ postgres │                      │                        │
+└─────────┴──────────┴──────────────────────┴────────────────────────┘
+(2 rows)
+</code></pre>
+
+<p>Note that the first and the second entry for <code>public</code> are <em>different</em> schemas! The first is <code>jannikarndt.public</code>, the second is <code>mywebshop.public</code>.</p>
+
+<h3 id="tables">Tables</h3>
+
+<p>Next, let&rsquo;s <strong>list all tables</strong> in the <code>webshop</code> schema. Running <code>\dt+</code> unfortunately will either result in</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# \dt+
+Did not find any relations.
+</code></pre>
+
+<p>or showing tables that have nothing to do with the <code>webshop</code> schema:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# \dt+
+
+                         List of relations
+┌────────┬──────────────┬───────┬──────────┬─────────┬─────────────┐
+│ Schema │     Name     │ Type  │  Owner   │  Size   │ Description │
+├────────┼──────────────┼───────┼──────────┼─────────┼─────────────┤
+│ public │ public_table │ table │ postgres │ 0 bytes │             │
+└────────┴──────────────┴───────┴──────────┴─────────┴─────────────┘
+(1 row)
+</code></pre>
+
+<p>This is because if you don&rsquo;t enter a <em>search path</em>, <code>psql</code> will use your <em>current</em> search path, which points to the schema with your username and the public schema:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# SHOW search_path
+mywebshop-# ;
+┌─────────────────┐
+│   search_path   │
+├─────────────────┤
+│ &quot;$user&quot;, public │
+└─────────────────┘
+(1 row)
+</code></pre>
+
+<p>To list the tables of the <code>webshop</code> schema, you have to either <strong>set the search path</strong> using <code>SET search_path TO webshop;</code> or <strong>make it explicit in the query</strong>:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# \dt+ webshop.*
+
+                         List of relations
+┌─────────┬─────────────────┬───────┬──────────┬─────────┬────────────────────┐
+│ Schema  │      Name       │ Type  │  Owner   │  Size   │    Description     │
+├─────────┼─────────────────┼───────┼──────────┼─────────┼────────────────────┤
+│ webshop │ address         │ table │ postgres │ 136 kB  │ Addresses for r... │
+│ webshop │ articles        │ table │ postgres │ 2872 kB │ Instance of a p... │
+│ webshop │ colors          │ table │ postgres │ 48 kB   │ Colors with nam... │
+│ webshop │ customer        │ table │ postgres │ 152 kB  │ Basic customer ... │
+│ webshop │ labels          │ table │ postgres │ 112 kB  │ Brands / labels... │
+│ webshop │ order           │ table │ postgres │ 176 kB  │ Metadata for an... │
+│ webshop │ order_positions │ table │ postgres │ 384 kB  │ Articles that a... │
+│ webshop │ products        │ table │ postgres │ 112 kB  │ Groups articles... │
+│ webshop │ sizes           │ table │ postgres │ 16 kB   │ Colors with nam... │
+│ webshop │ stock           │ table │ postgres │ 928 kB  │ Amount of artic... │
+└─────────┴─────────────────┴───────┴──────────┴─────────┴────────────────────┘
+(10 rows)
+</code></pre>
+
+<p>Setting the search path allows you to <strong>query multiple schemas</strong>:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# SET search_path TO webshop,public;
+SET
+jannikarndt@[local]:mywebshop=# \dt
+
+               List of relations
+┌─────────┬─────────────────┬───────┬──────────┐
+│ Schema  │      Name       │ Type  │  Owner   │
+├─────────┼─────────────────┼───────┼──────────┤
+│ public  │ public_table    │ table │ postgres │
+│ webshop │ address         │ table │ postgres │
+│ ...     │ ...             │ ...   │ ...      │
+└─────────┴─────────────────┴───────┴──────────┘
+(11 rows)
+</code></pre>
+
+<p>To query <em>all</em> schemas, run <code>\dt+ *.*</code>, but beware, this also lists the tables in <code>information_schema</code> and <code>pg_catalog</code>, so… a lot.</p>
+
+<h3 id="views">Views</h3>
+
+<p>Attention: <code>\dt</code> only lists <em>tables</em>, not views. Those need to be queried seperately:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# \dv+ webshop.*
+
+                               List of relations
+┌─────────┬──────────────────────────┬──────┬──────────┬─────────┬─────────────┐
+│ Schema  │           Name           │ Type │  Owner   │  Size   │ Description │
+├─────────┼──────────────────────────┼──────┼──────────┼─────────┼─────────────┤
+│ webshop │ most_ordered_products    │ view │ postgres │ 0 bytes │             │
+│ webshop │ numbers_sold_per_article │ view │ postgres │ 0 bytes │             │
+│ webshop │ numbers_sold_per_product │ view │ postgres │ 0 bytes │             │
+└─────────┴──────────────────────────┴──────┴──────────┴─────────┴─────────────┘
+(3 rows)
+</code></pre>
+
+<h3 id="detailed-information">Detailed Information</h3>
+
+<p>Next, you can get all information on a single table with <code>\d+ &lt;schema&gt;.&lt;tablename&gt;</code>:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# \d webshop.order
+
+                        Table &quot;webshop.order&quot;
+┌───────────────────┬────────────────┬──────┬──────────┬─────────────────┐
+│      Column       │     Type       │ Coll │ Nullable │    Default      │
+├───────────────────┼────────────────┼──────┼──────────┼─────────────────┤
+│ id                │ integer        │      │ not null │ nextval(ord...  │
+│ customerid        │ integer        │      │          │                 │
+│ ordertimestamp    │ timestamp w... │      │          │ now()           │
+│ shippingaddressid │ integer        │      │          │                 │
+│ total             │ money          │      │          │                 │
+│ shippingcost      │ money          │      │          │                 │
+│ created           │ timestamp w... │      │          │ now()           │
+│ updated           │ timestamp w... │      │          │                 │
+└───────────────────┴────────────────┴──────┴──────────┴─────────────────┘
+Indexes:
+    &quot;order_pkey&quot; PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    &quot;fk_order_to_customer&quot; FOREIGN KEY (customerid) REFERENCES customer(id)
+    &quot;order_shippingaddressid_fkey&quot; FOREIGN KEY (shippingaddressid) REFERENCES address(id)
+Referenced by:
+    TABLE &quot;order_positions&quot; CONSTRAINT &quot;order_positions_orderid_fkey&quot; 
+    FOREIGN KEY (orderid) REFERENCES &quot;order&quot;(id)
+</code></pre>
+
+<p>Or for views:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:mywebshop=# \d+ webshop.most_ordered_products
+
+                          View &quot;webshop.most_ordered_products&quot;
+┌──────────────────────┬─────────┬───────────┬──────────┬─────────┬──────────┬──────┐
+│        Column        │  Type   │ Collation │ Nullable │ Default │ Storage  │ Desc │
+├──────────────────────┼─────────┼───────────┼──────────┼─────────┼──────────┼──────┤
+│ id                   │ integer │           │          │         │ plain    │      │
+│ label                │ text    │           │          │         │ extended │      │
+│ product              │ text    │           │          │         │ extended │      │
+│ number_products_sold │ numeric │           │          │         │ main     │      │
+└──────────────────────┴─────────┴───────────┴──────────┴─────────┴──────────┴──────┘
+View definition:
+ SELECT products.id,
+    labels.name AS label,
+    products.name AS product,
+    numbers_sold_per_product.number_products_sold
+   FROM products products
+     JOIN labels ON products.labelid = labels.id
+     JOIN numbers_sold_per_product ON products.id = numbers_sold_per_product.productid
+  ORDER BY numbers_sold_per_product.number_products_sold DESC
+ LIMIT 20;
+</code></pre>
+
+<p>Note that appending the <code>+</code> gives you the <code>CREATE</code>-statement for the view.</p>
+
+<h3 id="users-roles">Users / Roles</h3>
+
+<p>Finally, we should also have a look at the users:</p>
+
+<pre><code class="language-bash">jannikarndt@[local]:jannikarndt=# \du+
+
+                                List of roles
+┌──────────────┬────────────────────────────────────┬────────────────┬─────────────┐
+│  Role name   │       Attributes                   │   Member of    │ Description │
+├──────────────┼────────────────────────────────────┼────────────────┼─────────────┤
+│ analytics    │                                    │ {readonly}     │             │
+│ jannikarndt  │ Superuser, Create role, Create DB  │ {}             │             │
+│ mobile_app   │                                    │ {write_access} │             │
+│ postgres     │ Superuser, Create role, Create DB, │                │             │
+│              │ Replication, Bypass RLS            │                │             │
+│ readonly     │ Cannot login                       │ {}             │             │
+│ web_app      │                                    │ {write_access} │             │
+│ write_access │ Cannot login                       │ {}             │             │
+└──────────────┴────────────────────────────────────┴────────────────┴─────────────┘
+</code></pre>
+
+<p>Officially, PostgreSQL doesn&rsquo;t have users, only roles. The command however still uses the <code>u</code>.</p>
+
+<p>You can see here, that there are two roles that cannot login (<code>readonly</code> and <code>write_access</code>). These are typically used to defined permissions. The roles that <em>can</em> login (<code>analytics</code>, <code>web_app</code> and <code>mobile_app</code>) are member of one of these roles so the admin doesn&rsquo;t have to care about setting permissions for each of them.</p>
+
+<h3 id="recap">Recap</h3>
+
+<p>To sum it up, these are the most important commands:</p>
+
+<pre><code class="language-sql">\l+                     -- list databases
+\c                      -- connect to a database
+\dn+                    -- list schemas
+\dt+ &lt;schema&gt;.*         -- list tables
+\dv+ &lt;schema&gt;.*         -- list views
+\d+ &lt;schema&gt;.&lt;relname&gt;  -- describe table or view
+\du+                    -- list users / roles
+</code></pre>
                 </div>
             </div>
         </div>

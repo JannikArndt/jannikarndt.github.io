@@ -6,10 +6,21 @@
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Aug 2018 16:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 16 Aug 2018 15:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Examining a PostgreSQL with psql or pgcli</title>
+      <link>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</link>
+      <pubDate>Thu, 16 Aug 2018 15:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</guid>
+      <description>&lt;p&gt;The PostgreSQL installation comes with a great tool, &lt;code&gt;psql&lt;/code&gt;, to administer and inspect the database. &lt;a href=&#34;https://www.pgcli.com&#34;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; extends this with syntax highlighting and autocompletion.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Using your Apple Watch Workout to Geotag DSLR Photos</title>

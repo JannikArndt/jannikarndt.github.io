@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</loc>
+    <lastmod>2018-08-16T15:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</loc>
     <lastmod>2018-08-05T16:00:00+01:00</lastmod>
   </url>
@@ -174,7 +179,7 @@
   
   <url>
     <loc>https://www.jannikarndt.de/blog/</loc>
-    <lastmod>2018-08-05T16:00:00+01:00</lastmod>
+    <lastmod>2018-08-16T15:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -185,7 +190,7 @@
   
   <url>
     <loc>https://www.jannikarndt.de/</loc>
-    <lastmod>2018-08-05T16:00:00+01:00</lastmod>
+    <lastmod>2018-08-16T15:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
