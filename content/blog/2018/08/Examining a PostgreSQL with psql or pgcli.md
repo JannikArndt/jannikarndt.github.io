@@ -37,7 +37,7 @@ Let's go into details here:
 
 To be precise, PostgreSQL doesn't have users, it has roles. Roles you can login with are created as `ROLE WITH LOGIN`. A standard installation usually comes with a role for the OS account and a `postgres` role. To add more roles, you need to login first.
 
-Tip: Users can be listed with the `\du+` command!
+> Tip: Users can be listed with the `\du+` command!
 
 ### The Database
 
@@ -105,6 +105,8 @@ Password for user postgres: ...
 While you can execute any SQL statement you want using the `psql` tool, there are a few shortcuts that make your life easier (if you can remember them). To list them all, write `\?` or have a look at [this cheat sheet](http://gpdb.docs.pivotal.io/gs/43/pdf/PSQLQuickRef.pdf):
 
 ### Databases
+
+> Tip: If you don't have a database to play with, try out [this example dump](https://github.com/JannikArndt/PostgreSQLSampleDatabase)!
 
 I like to start listing all databases in the current instance, using
 
