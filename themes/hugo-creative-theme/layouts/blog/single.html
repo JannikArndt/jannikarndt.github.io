@@ -8,17 +8,9 @@
     </head>
     <body id="page-top">
         {{ partial "nav_absolute.html" . }}
-        
         {{ partial "blog_entry.html" . }}
-
-        {{ if .Site.Params.blog }}
-            {{ partial "blog.html" . }}
-        {{ end }}
-
-        {{ if .Site.Params.contact }}
-            {{ partial "contact.html" . }}
-        {{ end }}
-
+        {{ partial "blog.html" . }}
+        {{ partial "contact.html" . }}
         {{ partial "js.html" . }}
     </body>
 </html>
