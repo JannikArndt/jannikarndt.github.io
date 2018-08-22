@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>talend does not work</title>
-        <meta name="description" content="I cannot believe that googleing “talend does not work” does not find anything helpful. With this entry I try to fill that void in the internet.
+        <title>3 Ways How Passwords Get Leaked</title>
+        <meta name="description" content="You don&rsquo;t need to “get hacked” to have your security compromised. Often enough you&rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.
+
 ">
-        <meta name="keywords" content="Data Engineering, talend">
+        <meta name="keywords" content="DevOps, Security, Programming, Passwords, Leak, git">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,10 +97,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-01-07T11:20:00CET ">
-                        January 7, 2017
+                    <time datetime=" 2018-07-22T07:00:00CET ">
+                        July 22, 2018
                     </time>
-                    <h1>talend does not work</h1>
+                    <h1>3 Ways How Passwords Get Leaked</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -114,59 +115,152 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p>I cannot believe that googleing “talend does not work” does not find <em>anything</em> helpful. With this entry I try to fill that void in the internet.
-</p>
+                    <p>You don&rsquo;t need to “get hacked” to have your security compromised. Often enough you&rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.</p>
 
-<h2 id="fail-1-download">Fail 1: Download</h2>
+<p></p>
 
-<p>You can download <code>talend</code> on their <a href="https://info.talend.com/prodevaltedi.html">website</a> — except you can&rsquo;t. After filling out all the information (pro-tip: store them in LastPass to insert them the next couple of times) you have to accept the terms of use—except you can&rsquo;t!</p>
+<h2 id="1-checked-into-git">1. Checked into git</h2>
 
-<p><img src="/blog/2017/01/talend1.png" width="50%"  alt=""></p>
+<p>Checking credentials into git is such a regular thing that toughworks have created their own <a href="https://thoughtworks.github.io/talisman/">tool to prevent this</a>.</p>
 
-<p>There is no event listener. What the&hellip;?</p>
+<h3 id="what-you-can-do-about-it">What you can do about it</h3>
 
-<p>There&rsquo;s a trick: Select the &ldquo;Phone&rdquo;-field and <code>alt + tab</code> until you arrive at the checkbox, then hit <code>space</code>.</p>
+<p>If it&rsquo;s already pushed, you&rsquo;ll have to rotate the crendentials.</p>
 
-<p>Next: Enjoy your modern webbrowser prohibiting a site to cross-reference <code>http</code> from <code>https</code></p>
+<p>To at least soften the embarrasment, you can use <code>git commit --amend</code>, and then <code>git push -f</code>, but that might</p>
 
-<p><img src="/blog/2017/01/talend2.png" width="50%"  alt=""></p>
+<ol>
+<li>get you into even bigger trouble, because your team will hate you,</li>
+<li>not work, for example if you pushed to a merge request in Gitlab it will keep the old code, despite what&rsquo;s stored in git</li>
+<li>lead you (or others) to think that you don&rsquo;t have to rotate the keys. You do.</li>
+</ol>
 
-<p>But there is a download-link hidden inside the plethora of error messages:</p>
+<h3 id="how-to-prevent-this">How to prevent this</h3>
 
-<p><img src="/blog/2017/01/talend3.png" width="50%"  alt=""></p>
+<ol>
+<li>Don&rsquo;t add passwords to the code, read them from the environment.</li>
+<li>Use <a href="https://github.com/direnv/direnv">direnv</a> to have different environments for each project.</li>
+<li>Add the <code>.envrc</code> to your <code>~/.gitignore_global</code> (for yourself) <em>and</em> the project&rsquo;s <code>.gitignore</code> (for the others).</li>
+</ol>
 
-<p>If you&rsquo;re looking for these, here you go:</p>
+<p>You might also consider <a href="https://thoughtworks.github.io/talisman/">talisman</a>, but for me it had way too many false positives.</p>
 
-<pre><code>https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-mac-dlm.dmg
-https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-linux-x64-installer.run
-https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-win-dlm.exe
+<p>Also, if you <em>want</em> to store credentials inside git, try out <a href="https://github.com/AGWA/git-crypt">git-crypt</a>. But beware: You have to first add a filename to <code>.gitattributes</code> and <em>then</em> add the file to git.</p>
+
+<h2 id="2-dumped-from-the-environment">2. Dumped from the Environment</h2>
+
+<p>When your application crashes, it often helps to know the environment. That&rsquo;s why tools like <a href="https://sentry.io/welcome/">sentry</a> will collect and display all environments variables with any error.</p>
+
+<p>But you might also write them to the standard out yourself, to have <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> pick them up.</p>
+
+<h3 id="what-you-can-do-about-it-1">What you can do about it</h3>
+
+<p>If you notice credentials showing up in another tool or a place where they don&rsquo;t belong: Rotate.
+This is especially true for tools that tend to be used by <em>a lot</em> of people in your organization, which is usually the case for an Elastic stack.</p>
+
+<h3 id="how-to-prevent-this-1">How to prevent this</h3>
+
+<p>It depends on the tools you use. Be aware of the possibility, try what happens when errors are reported and work around it.</p>
+
+<h2 id="3-written-to-the-chat">3. Written to the Chat</h2>
+
+<p>“I can&rsquo;t get this to run, can you send me the command?”</p>
+
+<p>Using passwords in command line arguments should be a no-go, but <a href="http://www.liquibase.org/documentation/command_line.html#examples">liquibase</a> for example enforces this behaviour.</p>
+
+<h3 id="what-you-can-do-about-it-2">What you can do about it</h3>
+
+<p>Would you really consider your chat as secure? Rather rotate.</p>
+
+<h3 id="how-to-prevent-this-2">How to prevent this</h3>
+
+<p>In the liquibase example, you can write a wrapper-bash-script that reads the password from the environment, like this one:</p>
+
+<pre><code class="language-bash">#!/bin/sh
+
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+ENV=$1
+COMMAND=${@:2}
+
+function usage {
+    echo &quot;Usage: ./lb &lt;env&gt; &lt;command&gt;&quot;
+    echo &quot;  &lt;env&gt;     = local, dev, prod&quot;
+    echo &quot;  &lt;command&gt; = update, status, rollbackCount 1, ...&quot;
+    echo &quot;&quot;
+    echo &quot;Configure your .envrc for database access:&quot;
+    echo &quot;&quot;
+    echo &quot;${BLUE}# local&quot;
+    echo &quot;export HOST_PORT_DB_LOCAL=localhost:5431/postgres&quot;
+    echo &quot;export DB_USER_LOCAL=postgres&quot;
+    echo &quot;export DB_PASSWORD_LOCAL=...\n&quot;
+    echo &quot;# dev&quot;
+    echo &quot;export HOST_PORT_DB_DEV=localhost:5434/postgres&quot;
+    echo &quot;export DB_USER_DEV=postgres&quot;
+    echo &quot;export DB_PASSWORD_DEV=...\n&quot;
+    echo &quot;# prod&quot;
+    echo &quot;export HOST_PORT_DB_PROD=localhost:5433/postgres&quot;
+    echo &quot;export DB_USER_PROD=postgres&quot;
+    echo &quot;export DB_PASSWORD_PROD=...${NC}&quot;
+}
+
+function setDbConnection {
+    case $ENV in
+        &quot;local&quot;)
+        HOST_PORT_DB=${HOST_PORT_DB_LOCAL}
+        DB_USER=${DB_USER_LOCAL}
+        DB_PASSWORD=${DB_PASSWORD_LOCAL}
+        ;;
+        &quot;dev&quot;)
+        HOST_PORT_DB=${HOST_PORT_DB_DEV}
+        DB_USER=${DB_USER_DEV}
+        DB_PASSWORD=${DB_PASSWORD_DEV}
+        ;;
+        &quot;prod&quot;)
+        HOST_PORT_DB=${HOST_PORT_DB_PROD}
+        DB_USER=${DB_USER_PROD}
+        DB_PASSWORD=${DB_PASSWORD_PROD}
+        ;;
+        *)
+        echo &quot;${RED}Error: Missing environment!\n${NC}&quot;
+        usage
+        exit 1
+    esac
+
+    if [[ -z &quot;${HOST_PORT_DB}&quot; || -z &quot;${DB_USER}&quot; || -z &quot;${DB_PASSWORD}&quot; ]]; then
+      echo &quot;${RED}Error: \$HOST_PORT_DB, \$DB_USER or \$DB_PASSWORD is not defined!\n${NC}&quot;
+      usage
+      exit 1
+    fi
+}
+
+function checkForPostgresDriver {
+    if [ ! -f ./postgresql.jar ]; then
+        echo &quot;${BLUE}Missing postgresql.jar, downloading…${NC}\n&quot;
+        curl -o postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.2.3.jar
+    fi
+}
+
+function runLiquibase {
+    liquibase \
+          --driver=org.postgresql.Driver \
+          --classpath=./postgresql.jar \
+          --changeLogFile=changelog.xml \
+          --contexts=$ENV \
+          --url=&quot;jdbc:postgresql://$HOST_PORT_DB&quot; \
+          --username=$DB_USER \
+          --password=$DB_PASSWORD \
+        ${COMMAND}
+}
+
+
+setDbConnection
+checkForPostgresDriver
+echo &quot;${BLUE}Running liquibase on ${HOST_PORT_DB} with context ${NC}$ENV${BLUE} and command(s) ${NC}${COMMAND}${BLUE}…\n${NC}&quot;
+runLiquibase
 </code></pre>
-
-<p>They won&rsquo;t help you, because they might be offline. If not, you get one of the greatest tools of all times—not.</p>
-
-<h2 id="fail-2-the-download-tool">Fail 2: The Download-Tool</h2>
-
-<p>Pretty simple: You start it, it does nothing:</p>
-
-<p><img src="/blog/2017/01/talend4.png" width="50%"  alt=""></p>
-
-<p>Reminds me of “A Sharepoint that <em>does</em> throw errors is a good Sharepoint”.</p>
-
-<h2 id="fail-3-the-zip-file">Fail 3: The ZIP-File</h2>
-
-<p>Okay, while you wait for the download tool to do <em>anything</em>, you can also try out the ZIP-download-option. This link surprisingly worked! And it contains a <code>Talend-Studio-macosx-cocoa.app</code> file!</p>
-
-<p>An unsigned one, of course, because why make things easy? The common advise you find on the internet is to turn off <code>Gatekeeper</code>, Apples system tool to prevent you from running malicious code (i.e. from developers who do not pay apple 100$/year). The easy way to get around this is to <em>right-click</em> a file and then click <em>open</em>. One would suspect this to do the exact same thing as double clicking the file, but watch and learn: It gives you an extra button:</p>
-
-<p><img src="/blog/2017/01/talend5.png" width="50%"  alt=""></p>
-
-<p>And the next thing you see is: “The Talend-Studio-macosx-cocoa executable launcher was unable to locate its companion share library”.</p>
-
-<p><img src="/blog/2017/01/talend6.png" width="50%"  alt=""></p>
-
-<p>WHAT?</p>
-
-<p>This is a hard one: You need to right-click the app, choose <code>Show package contents</code>, navigate to <code>Contents:MacOS:Talend-Studio-macosx-cocoa</code> and execute <em>that</em>. Voilà! It starts!</p>
                 </div>
             </div>
         </div>
