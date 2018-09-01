@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</loc>
+    <lastmod>2018-08-31T17:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</loc>
     <lastmod>2018-08-22T09:00:00+01:00</lastmod>
   </url>
@@ -189,7 +194,7 @@
   
   <url>
     <loc>https://www.jannikarndt.de/blog/</loc>
-    <lastmod>2018-08-22T09:00:00+01:00</lastmod>
+    <lastmod>2018-08-31T17:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -200,7 +205,7 @@
   
   <url>
     <loc>https://www.jannikarndt.de/</loc>
-    <lastmod>2018-08-22T09:00:00+01:00</lastmod>
+    <lastmod>2018-08-31T17:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
