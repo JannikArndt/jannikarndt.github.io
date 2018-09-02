@@ -10,9 +10,9 @@ toc = false
   author = "Jannik Arndt"
 +++
 
-While the [Akka](https://doc.akka.io/docs/) documentation is incredibly well written, it has surprisingly few images. Since _I_ visualize concepts to remember them, here is my take on how [Event Sourcing in Akka Persistence] works:
+While the [Akka](https://doc.akka.io/docs/) documentation is incredibly well written, it has surprisingly few images. Since _I_ visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:
 
-<a href="/blog/2018/08/AkkaPersistence.svg"><img src="/blog/2018/08/AkkaPersistence.svg" alt=""></a>
+<a href="/blog/2018/08/AkkaPersistence.svg"><img src="/blog/2018/08/AkkaPersistence.svg" alt="" onerror="this.onerror=null; this.src='/blog/2018/08/AkkaPersistence.png'"></a>
 
 <!--more-->
 
