@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
-        <meta name="description" content="If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
-Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project.">
-        <meta name="keywords" content="Scala, Maven, Open Source, DataMover, Sonatype">
+        <title>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</title>
+        <meta name="description" content="This example show how to write a reactive reader for the AWS Simple Queue Service, using Scala and alpakka (respective akka streams).
+
+">
+        <meta name="keywords" content="Programming, Scala, akka, alpakka, localstack, reactive programming, aws, simple queue service, message queue">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -97,10 +97,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-09-10T21:07:00CET ">
-                        September 10, 2017
+                    <time datetime=" 2018-10-07T18:00:00CET ">
+                        October 7, 2018
                     </time>
-                    <h1>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</h1>
+                    <h1>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -112,20 +112,23 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     <article class="bg-light" id="blogentry">
         
         <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a></div>
+            <div class="toc_title"><a href="#page-top" class="page-scroll">How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</a></div>
             <div class="toc_content"><nav id="TableOfContents">
 <ul>
 <li>
 <ul>
-<li><a href="#step-1-claim-your-group-id">Step 1: Claim your Group ID</a></li>
-<li><a href="#step-2-deploy-your-first-snapshot">Step 2: Deploy your first Snapshot</a></li>
-<li><a href="#step-3-deploy-your-first-release">Step 3: Deploy your first Release</a>
+<li><a href="#sqs-basics">SQS Basics</a></li>
+<li><a href="#this-project">This Project</a></li>
+<li><a href="#imports-build-sbt">Imports / build.sbt</a></li>
+<li><a href="#sqsservice-scala">SqsService.scala</a></li>
+<li><a href="#creating-an-sqsclient">Creating an <code>SqsClient</code></a></li>
+<li><a href="#creating-the-flow">Creating the Flow</a></li>
+<li><a href="#bonus-functions">Bonus Functions</a></li>
+<li><a href="#testing">Testing</a>
 <ul>
-<li><a href="#step-3a-beef-up-your-pom-xml">Step 3a: Beef up your <code>pom.xml</code></a></li>
-<li><a href="#step-3b-and-3c-create-sources-and-javadoc">Step 3b and 3c: Create sources and javadoc</a></li>
-<li><a href="#step-3d-sign-your-name-across-my-heart-your-deployables">Step 3d: Sign your name across <del>my heart</del> your deployables</a></li>
-<li><a href="#step-3e-actually-deploy">Step 3e: Actually deploy</a></li>
-<li><a href="#step-3f-release">Step 3f: Release</a></li>
+<li><a href="#mocking-aws-sqs">Mocking AWS SQS</a></li>
+<li><a href="#mocking-the-function">Mocking the Function</a></li>
+<li><a href="#dealing-with-message-queues">Dealing with Message Queues</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -136,273 +139,363 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    
+                    <p>This example show how to write a reactive reader for the AWS <em>Simple Queue Service</em>, using Scala and alpakka (respective akka streams).</p>
 
-<p>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a <code>pom.xml</code>. While this can work, it brings a few extra caveats if you want to submit your project to <a href="https://search.maven.org">Maven Central</a> (aka <a href="http://central.sonatype.org/pages/ossrh-guide.html">Sonatype OSSRH</a>).</p>
+<p></p>
 
-<!-- more -->
+<h2 id="sqs-basics">SQS Basics</h2>
 
-<h2 id="step-1-claim-your-group-id">Step 1: Claim your Group ID</h2>
+<p>SQS is a AWS-managed message queue service. It can contain several queues. If a message is read from the queue, it is internally set to <em>invisible</em> for <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html#configuring-visibility-timeout">30 seconds</a>. If you don&rsquo;t delete it after these 30 seconds, it becomes visible again. This is great for resilient, distributed microservices: If one instance of a service dies in the middle of handling a message, the message will re-appear and be handled by another instance. It is important though that you do the deletion step <em>last</em>.</p>
 
-<p>When you first publish something to the Sonatype OSSRH, you have to</p>
+<h2 id="this-project">This Project</h2>
+
+<p>You can find the complete source code on <a href="https://github.com/JannikArndt/reactive-sqs">https://github.com/JannikArndt/reactive-sqs</a>.</p>
+
+<h2 id="imports-build-sbt">Imports / build.sbt</h2>
+
+<p>Let&rsquo;s start with adding dependencies to our <code>build.sbt</code>:</p>
+
+<pre><code class="language-scala">name := &quot;reactive-sqs&quot;
+
+scalaVersion := &quot;2.12.7&quot;
+
+version := &quot;1.0&quot;
+
+libraryDependencies ++= Seq(
+  // https://mvnrepository.com/artifact/com.lightbend.akka/akka-stream-alpakka-sqs
+  &quot;com.lightbend.akka&quot; %% &quot;akka-stream-alpakka-sqs&quot; % &quot;0.20&quot;,
+
+  // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
+  &quot;com.typesafe.scala-logging&quot; %% &quot;scala-logging&quot; % &quot;3.9.0&quot;,
+  &quot;org.slf4j&quot; % &quot;slf4j-simple&quot; % &quot;1.7.25&quot;,
+  
+  // https://mvnrepository.com/artifact/com.typesafe.akka/akka-testkit
+  &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % &quot;2.5.16&quot; % Test,
+  // https://mvnrepository.com/artifact/org.scalatest/scalatest
+  &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.5&quot; % Test,
+  // https://mvnrepository.com/artifact/org.mockito/mockito-core
+  &quot;org.mockito&quot; % &quot;mockito-core&quot; % &quot;2.23.0&quot;
+)
+</code></pre>
+
+<p>Since the <code>com.amazonaws.aws-java-sdk-sqs</code>-library is included in <code>akka-stream-alpakka-sqs</code>, we only need that one. I&rsquo;m also using <code>scala-logging</code>, and for tests the <code>akka-testkit</code>, <code>scalatest</code> and <code>mockito</code>.</p>
+
+<h2 id="sqsservice-scala">SqsService.scala</h2>
+
+<p>Next we&rsquo;ll write the <code>SqsService.scala</code>. Its job is to create a flow and handle the messages. As parameters I want to give it the <code>queueUrl</code>, a function to handle messages and the maximum amount of messages that are handled in parallel:</p>
+
+<pre><code class="language-scala">object SqsService {
+
+  case class MyMessage(content: String)
+
+  def create(queueUrl: String, maxMessagesInFlight: Int)
+            (messageHandler: MyMessage =&gt; Unit) = ???
+}
+</code></pre>
+
+<p>I can call this function from my <code>Main.scala</code>:</p>
+
+<pre><code class="language-scala">SqsService.create(&quot;http://localhost:4576/queue/myqueue&quot;, 20) { message =&gt;
+      println(s&quot;Doing logic with ${message.content}&quot;)
+    }
+</code></pre>
+
+<p>Since <code>alpakka</code> is running on <code>akka streams</code>, I will also have to provide an <code>ActorSystem()</code>.
+The return value of my <code>create</code> function is dictated by <code>akka streams</code>: a tuple of a <code>KillSwitch</code> and a <code>Future[Done]</code>. These enable me to stop the stream and wait for its completion. So the complete <code>Main</code> is</p>
+
+<pre><code class="language-scala">import akka.Done
+import akka.actor.ActorSystem
+import akka.stream._
+
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+import scala.io.StdIn
+import scala.language.postfixOps
+
+object Main extends App {
+
+  implicit val system = ActorSystem()
+
+  val (killSwitch, completion): (KillSwitch, Future[Done]) =
+    SqsService.create(&quot;http://localhost:4576/queue/myqueue&quot;, 20) { message =&gt;
+      println(s&quot;Doing logic with ${message.content}&quot;)
+    }
+
+  println(s&quot;Running service. Press enter to stop.&quot;)
+  StdIn.readLine()
+
+  killSwitch.shutdown()
+  Await.ready(completion, 10 seconds)
+  SqsService.stop()
+  system.terminate()
+}
+</code></pre>
+
+<h2 id="creating-an-sqsclient">Creating an <code>SqsClient</code></h2>
+
+<p>The first thing our <code>SqsService</code> needs to do is create an <code>AmazonSQSAsyncClient</code>. The <em>last</em> thing it needs to do is to shut it down — otherwise it won&rsquo;t let you exit the program:</p>
+
+<pre><code class="language-scala">object SqsService extends StrictLogging {
+
+  case class MyMessage(content: String)
+
+  implicit private val sqsClient: AmazonSQSAsync =
+    AmazonSQSAsyncClientBuilder
+      .standard()
+      .withRegion(&quot;eu-central-1&quot;)
+      .build()
+
+  def stop(): Unit = sqsClient.shutdown()
+
+  def create(queueUrl: String, maxMessagesInFlight: Int)
+            (messageHandler: MyMessage =&gt; Unit) = ???
+}
+</code></pre>
+
+<h2 id="creating-the-flow">Creating the Flow</h2>
+
+<p>Next, we&rsquo;ll implement the <code>create</code> function to create a <code>Flow</code>. The basic stream is build by this:</p>
+
+<pre><code class="language-scala">source
+  .via(flow)
+  .toMat(sink)(Keep.both)
+  .run()
+</code></pre>
+
+<p>As <code>source</code> we&rsquo;ll use</p>
+
+<pre><code class="language-scala">SqsSource(queueUrl).viaMat(KillSwitches.single)(Keep.right)
+</code></pre>
+
+<p>This combines a <code>SqsSource</code> that emits <code>sqs.model.Message</code>s with a <code>KillSwitch</code> and makes sure the <code>KillSwitch</code> is returned. The return type is <code>Source[Message, UniqueKillSwitch]</code>.</p>
+
+<p>As sink we use <code>SqsAckSink(queueUrl, SqsAckSinkSettings(maxMessagesInFlight))</code>. It needs to receive the <code>queueUrl</code> because that&rsquo;s where it sends the <code>delete</code>-commands to delete/acknowledge the currently invisible message.</p>
+
+<p>The <code>Flow</code> is created in two steps: Step one creates a flow from a function and defines attributes:</p>
+
+<pre><code class="language-scala">val flow = Flow
+  .fromFunction(handleMessage(messageHandler))
+  .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider))
+</code></pre>
+
+<p>The <code>supervisionStrategy</code> decides what happens if an exception is thrown inside the flow. The standard strategy is to complete the stream with failure, i.e. one bad message will crash the entire program. The <code>resumingDecider</code> simply ignores elements that result in exceptions. This means you need to implement error handling inside the <code>messageHandler</code>.</p>
+
+<p>The function itself reads the <code>body</code> from the message and hands it to the <code>messageHandler</code> we defined in the <code>Main</code>. It then returns a tuple of the original message and a delete-action. This is the input needed by the <code>SqsAckSink</code>:</p>
+
+<pre><code class="language-scala">private def handleMessage(messageHandler: MyMessage =&gt; Unit) = { message: Message =&gt;
+    messageHandler(MyMessage(message.getBody))
+    (message, MessageAction.Delete)
+  }
+</code></pre>
+
+<p>Now there&rsquo;s only one thing left: The <code>run()</code> part, where the stream is <em>materialized</em>, needs an <code>ActorMaterializer</code>:</p>
+
+<pre><code class="language-scala">implicit val mat: ActorMaterializer = ActorMaterializer()
+</code></pre>
+
+<p>The complete code is</p>
+
+<pre><code class="language-scala">object SqsService extends StrictLogging {
+
+  case class MyMessage(content: String)
+
+  implicit private val sqsClient: AmazonSQSAsync =
+    AmazonSQSAsyncClientBuilder
+      .standard()
+      .withRegion(&quot;eu-central-1&quot;)
+      .build()
+
+  def stop(): Unit = sqsClient.shutdown()
+
+  def create(queueUrl: String, maxMessagesInFlight: Int)
+            (messageHandler: MyMessage =&gt; Unit)
+            (implicit system: ActorSystem): (KillSwitch, Future[Done]) = {
+
+    implicit val mat: ActorMaterializer = ActorMaterializer()
+
+    val source = SqsSource(queueUrl).viaMat(KillSwitches.single)(Keep.right)
+    val sink = SqsAckSink(queueUrl, SqsAckSinkSettings(maxMessagesInFlight))
+    val flow = Flow
+      .fromFunction(handleMessage(messageHandler))
+      .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider))
+
+    source
+      .via(flow)
+      .toMat(sink)(Keep.both)
+      .run()
+  }
+
+  private def handleMessage(messageHandler: MyMessage =&gt; Unit) = { message: Message =&gt;
+    messageHandler(MyMessage(message.getBody))
+    (message, MessageAction.Delete)
+  }
+}
+</code></pre>
+
+<h2 id="bonus-functions">Bonus Functions</h2>
+
+<p>The <code>AmazonSqsClient</code> has one big caveat: it <em>does not fail</em> if the queue you&rsquo;re subscribing to doesn&rsquo;t exist. That&rsquo;s why I wrote two extra functions:</p>
+
+<pre><code class="language-scala">import scala.collection.JavaConverters._
+
+def findAvailableQueues(queueNamePrefix: String): Seq[String] =
+    sqsClient.listQueues(queueNamePrefix).getQueueUrls.asScala.toVector
+</code></pre>
+
+<p>This is just a Scala-wrapper around the library function. The second function calls a library function that <em>does</em> fail if the queue doesn&rsquo;t exist:</p>
+
+<pre><code class="language-scala">def assertQueueExists(queueUrl: String): Unit =
+  try {
+    sqsClient.getQueueAttributes(queueUrl, Seq(&quot;All&quot;).asJava)
+    logger.info(s&quot;Queue at $queueUrl found.&quot;)
+  } catch {
+    case queueDoesNotExistException: QueueDoesNotExistException =&gt;
+      logger.error(s&quot;The queue with url $queueUrl does not exist.&quot;)
+      throw queueDoesNotExistException
+  }
+</code></pre>
+
+<p>The advantage of <code>assertQueueExists</code> over checking if the url is contained in the list of all available queues is, that you don&rsquo;t need the permission to list all queues.</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>Testing our <code>SqsService</code> has three challenges: It is using an AWS service, it is running asynchronously and message queues have a live of their own.</p>
+
+<h3 id="mocking-aws-sqs">Mocking AWS SQS</h3>
+
+<p>Luckily, others have had the need to test AWS services as well, and created <a href="https://github.com/localstack/localstack">Localstack</a>. It provides a Docker image that runs these services locally:</p>
+
+<pre><code class="language-bash">docker run -d --env SERVICES=&quot;sqs&quot; --env TMPDIR=&quot;/tmp&quot; \
+    --name &quot;localstack&quot; \
+    --publish 4576:4576 \
+    --rm localstack/localstack
+</code></pre>
+
+<p>You list the services you want to use in the <code>SERVICES</code> variable and expose their respective port (<code>--publish</code>). The container is started in <a href="https://docs.docker.com/engine/reference/run/#detached--d"><em>detached</em> mode</a> (<code>-d</code>) and <a href="https://docs.docker.com/engine/reference/run/#clean-up---rm">cleans up</a> after it is removed or the daemon exits (<code>--rm</code>).</p>
+
+<p>If you want to access the Localstack-version of a service via the <em>aws</em> cli, you can use the <code>--endpoint-url</code>:</p>
+
+<pre><code class="language-bash">aws --endpoint-url=http://localhost:4576 sqs send-message\
+    --queue-url &quot;http://localhost:4576/queue/myqueue&quot;\
+    --message-body &quot;Hallo&quot;
+</code></pre>
+
+<h3 id="mocking-the-function">Mocking the Function</h3>
+
+<p>Our test will basically be “is this function called if a message arrives in SQS?”. For this we need</p>
 
 <ul>
-<li><a href="https://issues.sonatype.org/secure/Signup!default.jspa">create a JIRA account</a> and then</li>
-<li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">create a ticket for a new project</a>.</li>
+<li>the Localstack-version of SQS running</li>
+<li>a seperate SQSClient</li>
+<li>a queue dedicated for this test</li>
+<li>a way to test if a function gets called</li>
+<li>a way to wait for the round trip (test =&gt; Sqs =&gt; tested code =&gt; test)</li>
 </ul>
 
-<p>The first question that is usually asked in the ticket is</p>
+<p>We use the AWS client library thats included in <code>alpakka</code> to create a client in our test class:</p>
 
-<blockquote>
-<p>Do you own the domain [your group id]? If not, please read:
-<a href="http://central.sonatype.org/pages/choosing-your-coordinates.html">http://central.sonatype.org/pages/choosing-your-coordinates.html</a></p>
-</blockquote>
-
-<p>You can speed up the process by stating that you do own it in the description. Here is an example: <a href="https://issues.sonatype.org/browse/OSSRH-34281">https://issues.sonatype.org/browse/OSSRH-34281</a></p>
-
-<p><img src="/blog/2017/09/jiraticket.png" alt="The jira ticket on issues.sonatype.org" /></p>
-
-<p>About three minutes (or <a href="http://central.sonatype.org/articles/2014/Feb/27/why-the-wait/">up to 2 business days</a>) later, you have your own repository!</p>
-
-<h2 id="step-2-deploy-your-first-snapshot">Step 2: Deploy your first Snapshot</h2>
-
-<blockquote>
-<p>This is a condensed version of the <a href="http://central.sonatype.org/pages/apache-maven.html">official doc</a>.</p>
-</blockquote>
-
-<p>All you need to deploy your first snapshot is to</p>
-
-<ol>
-<li><p>add the snapshot repository to the <code>distributionManagement</code> section of your <code>pom.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;distributionManagement&gt;
-  &lt;snapshotRepository&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
-  &lt;/snapshotRepository&gt;
-&lt;/distributionManagement&gt;
-</code></pre></li>
-
-<li><p>add the <a href="https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin"><code>nexus-staging-maven-plugin</code></a> to your <code>pom.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;build&gt;
-  &lt;plugins&gt;
-    &lt;plugin&gt;
-      &lt;groupId&gt;org.sonatype.plugins&lt;/groupId&gt;
-      &lt;artifactId&gt;nexus-staging-maven-plugin&lt;/artifactId&gt;
-      &lt;version&gt;1.6.7&lt;/version&gt;
-      &lt;extensions&gt;true&lt;/extensions&gt;
-      &lt;configuration&gt;
-        &lt;serverId&gt;ossrh&lt;/serverId&gt;
-        &lt;nexusUrl&gt;https://oss.sonatype.org/&lt;/nexusUrl&gt;
-        &lt;autoReleaseAfterClose&gt;true&lt;/autoReleaseAfterClose&gt;
-      &lt;/configuration&gt;
-    &lt;/plugin&gt;
-    ...
-  &lt;/plugins&gt;
-&lt;/build&gt;
-</code></pre></li>
-
-<li><p>add your credentials to your <code>settings.xml</code> (on macOS in <code>~/.m2/settings.xml</code>):</p>
-
-<pre><code class="language-xml">&lt;settings&gt;
-  &lt;servers&gt;
-    &lt;server&gt;
-      &lt;id&gt;ossrh&lt;/id&gt;
-      &lt;username&gt;your-jira-id&lt;/username&gt;
-      &lt;password&gt;your-jira-pwd&lt;/password&gt;
-    &lt;/server&gt;
-  &lt;/servers&gt;
-&lt;/settings&gt;
+<pre><code class="language-scala">val awsSqsClient: AmazonSQSAsync = AmazonSQSAsyncClientBuilder
+  .standard()
+  .withEndpointConfiguration(new EndpointConfiguration(&quot;http://localhost:4576&quot;, &quot;eu-central-1&quot;))
+  .build()
 </code></pre>
 
-<p>Since you don&rsquo;t want your password to be written in clear text, you should generate a <em>User Token</em>. Head to <a href="https://oss.sonatype.org/#profile">https://oss.sonatype.org/#profile</a> and choose &ldquo;User Token&rdquo; in the dropdown menu.
-<img src="/blog/2017/09/usertoken.png" alt="Creating a user token" /></p></li>
+<p>Note that the endpoint connects to the Localstack-version running in docker.</p>
 
-<li><p>Make sure the version in your <code>pom.xml</code> ends in <code>-SNAPSHOT</code> and then</p>
+<p>Next, we&rsquo;ll create a queue:</p>
 
-<pre><code class="language-bash">mvn clean deploy
-</code></pre></li>
-</ol>
-
-<p>Et voilà! A few seconds later your snapshot is deployed. Now let&rsquo;s get to the hard part…</p>
-
-<h2 id="step-3-deploy-your-first-release">Step 3: Deploy your first Release</h2>
-
-<p>The <a href="http://central.sonatype.org/pages/requirements.html">requirements</a> for a release are a bit tougher than those for a snapshot.</p>
-
-<h3 id="step-3a-beef-up-your-pom-xml">Step 3a: Beef up your <code>pom.xml</code></h3>
-
-<ul>
-<li>The version in the <code>pom.xml</code> may <em>not</em> end in <code>-SNAPSHOT</code></li>
-<li>The <code>pom.xml</code> may not contain any snapshot-dependencies</li>
-
-<li><p>The <code>pom.xml</code> must contain the <code>name</code>, <code>description</code>, <code>url</code>, <code>license</code>, <code>developer</code> and <code>scm</code> tags, for example:</p>
-
-<pre><code class="language-xml">&lt;name&gt;DataMover&lt;/name&gt;
-&lt;description&gt;Out of the box scheduling, logging, monitoring and data governance.&lt;/description&gt;
-&lt;url&gt;https://github.com/JannikArndt/DataMover&lt;/url&gt;
-&lt;licenses&gt;
-  &lt;license&gt;
-    &lt;name&gt;MIT License&lt;/name&gt;
-    &lt;url&gt;http://www.opensource.org/licenses/mit-license.php&lt;/url&gt;
-  &lt;/license&gt;
-&lt;/licenses&gt;
-&lt;developers&gt;
-  &lt;developer&gt;
-    &lt;name&gt;Jannik Arndt&lt;/name&gt;
-    &lt;email&gt;jannik@jannikarndt.de&lt;/email&gt;
-  &lt;/developer&gt;
-&lt;/developers&gt;   
-
-&lt;scm&gt;
-  &lt;connection&gt;scm:git:git://github.com/JannikArndt/DataMover.git&lt;/connection&gt;
-  &lt;developerConnection&gt;scm:git:ssh://github.com:JannikArndt/DataMover.git
-  &lt;/developerConnection&gt;
-  &lt;url&gt;https://github.com/JannikArndt/DataMover/tree/master&lt;/url&gt;
-&lt;/scm&gt;
-</code></pre></li>
-
-<li><p>And you may need the staging repository in the <code>distributionManagement</code> section:</p>
-
-<pre><code class="language-xml">&lt;distributionManagement&gt;
-&lt;snapshotRepository&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
-&lt;/snapshotRepository&gt;
-&lt;repository&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;url&gt;https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url&gt;
-&lt;/repository&gt;
-&lt;/distributionManagement&gt;
+<pre><code class="language-scala">val queueUrl: String = awsSqsClient.createQueue(&quot;integrationtest&quot;).getQueueUrl
 </code></pre>
 
-<p><em>(there are so many different ways to configure the repository that I&rsquo;m not really sure about this)</em></p></li>
-</ul>
+<p>Since we&rsquo;re running on akka, with it&rsquo;s own <code>ExecutionContext</code>, and the <code>SqsClient</code> has it&rsquo;s own <code>ExecutionContext</code> as well, we should terminate both when the tests are done:</p>
 
-<h3 id="step-3b-and-3c-create-sources-and-javadoc">Step 3b and 3c: Create sources and javadoc</h3>
-
-<p>You must upload a <code>…-javadoc.jar</code> and <code>…-sources.jar</code> with the <code>….pom</code> and the <code>….jar</code>. This is a bit difficult if you write Scala code, so there used to be the option to disable this requirement on a per-project basis. The <a href="http://central.sonatype.org/pages/requirements.html#supply-javadoc-and-sources">currently suggested solution</a> is to fake it:</p>
-
-<blockquote>
-<p>If, for some reason (for example, license issue or it&rsquo;s a Scala project), you can not provide <code>-sources.jar</code> or <code>-javadoc.jar</code> , please make fake <code>-sources.jar</code> or <code>-javadoc.jar</code> with simple README inside to pass the checking. We do not want to disable the rules because some people tend to skip it if they have an option and we want to keep the quality of the user experience as high as possible.</p>
-</blockquote>
-
-<p>However, being a scala dev you probably don&rsquo;t fancy faking anything. <a href="http://davidb.github.io/scala-maven-plugin/example_doc.html"><code>scala-maven-plugin</code></a> to the rescue! In the <code>build</code> section of your <code>pom.xml</code>, you probably already have used the <code>scala-maven-plugin</code> to compile your project. Extend it with the following executions:</p>
-
-<pre><code class="language-xml">&lt;plugin&gt;
-    &lt;!-- https://mvnrepository.com/artifact/net.alchim31.maven/scala-maven-plugin --&gt;
-    &lt;groupId&gt;net.alchim31.maven&lt;/groupId&gt;
-    &lt;artifactId&gt;scala-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;3.2.2&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;compile&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-        &lt;execution&gt;                         &lt;!-- from here --&gt;
-            &lt;id&gt;attach-javadocs&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;doc-jar&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-        &lt;execution&gt;
-            &lt;id&gt;attach-sources&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;add-source&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;                        &lt;!-- to here --&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
+<pre><code class="language-scala">override def afterAll(): Unit = {
+  awsSqsClient.shutdown()
+  shutdown(system)
+  super.afterAll()
+}
 </code></pre>
 
-<p>Now you don&rsquo;t even need the <code>maven-release-plugin</code>, <code>maven-source-plugin</code> or <code>maven-javadoc-plugin</code> anymore!</p>
+<p>We&rsquo;ll use <em>Mockito</em> to verify that the function we&rsquo;ll give to our <code>SqsService</code> is actually called. Mockito needs a <code>class</code> to create a mock, so:</p>
 
-<p>Let&rsquo;s head for the dragon…</p>
+<pre><code class="language-scala">class TestClass {
+  def testFunction(message: MyMessage): Unit = Unit
+}
 
-<h3 id="step-3d-sign-your-name-across-my-heart-your-deployables">Step 3d: Sign your name across <del>my heart</del> your deployables</h3>
-
-<blockquote>
-<p>Warning: This section contains dirty workarounds. Nothing else.</p>
-</blockquote>
-
-<p>You need to provide a <em>valid</em> gpg-signature for the  <code>…-javadoc.jar</code>, <code>…-sources.jar</code>, <code>….pom</code> and the <code>….jar</code>. This means these files may not change between signing and deployment. If you create them (via <code>mvn clean install</code>), sign them and then try to <code>mvn deploy</code> them, however, they <em>will</em> change.</p>
-
-<p>Now you can try one of the <a href="http://central.sonatype.org/pages/apache-maven.html#manually-releasing-the-deployment-to-the-central-repository">many other ways</a> to deploy, but we&rsquo;ve already got so far, with javadoc and sources and everything, let&rsquo;s not throw this all away!</p>
-
-<blockquote>
-<p>“Vorwärts immer, rückwärts nimmer.”</p>
-
-<p><small>(Carl Latann, unlucky musician only know for being cited by Erich “Fowler” Honecker)</small></p>
-</blockquote>
-
-<p>First things first: Add the <a href="http://maven.apache.org/plugins/maven-gpg-plugin/"><code>maven-gpg-plugin</code></a> to your <code>pom.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;plugin&gt;
-  &lt;!-- GPG signing --&gt;
-  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-  &lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;
-  &lt;version&gt;1.6&lt;/version&gt;
-  &lt;executions&gt;
-    &lt;execution&gt;
-      &lt;id&gt;sign-artifacts&lt;/id&gt;
-      &lt;phase&gt;verify&lt;/phase&gt;
-      &lt;goals&gt;
-        &lt;goal&gt;sign&lt;/goal&gt;
-      &lt;/goals&gt;
-    &lt;/execution&gt;
-  &lt;/executions&gt;
-&lt;/plugin&gt;
+val mock: TestClass = mock[TestClass]
 </code></pre>
 
-<p>This is supposedly running in the verify phase of the <a href="http://maven.apache.org/ref/3.5.0/maven-core/lifecycles.html#default_Lifecycle">maven lifecycle</a>. <a href="http://maven.apache.org/ref/3.5.0/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging">Or not</a>. It means, though, that you <em>can</em> invoke <code>mvn gpg:sign</code> to create the needed <code>.asc</code> files.</p>
+<p>Since we&rsquo;re mocking the <code>testFunction</code>, we don&rsquo;t need to implement it.</p>
 
-<p>This assumes that you have <a href="http://brewformulas.org/gnupg2">gpg installed</a> and the <code>gpg-agent</code> is running. Also, you need to provide the password to your key —devil or deep blue sea— either as a console argument or in plain text in your <code>settings.xml</code>:</p>
+<p>It is good practice to put any values that appear in the test <em>input</em> as well as the <em>output</em> into a variable, so you can easily spot the expectation:</p>
 
-<pre><code class="language-xml">&lt;profile&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;activation&gt;
-        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-    &lt;/activation&gt;
-    &lt;properties&gt;
-        &lt;gpg.executable&gt;gpg2&lt;/gpg.executable&gt;
-        &lt;gpg.passphrase&gt;iShouldNotBeInPlainText&lt;/gpg.passphrase&gt;
-    &lt;/properties&gt;
-&lt;/profile&gt;
+<pre><code class="language-scala">val messageBody = &quot;Example Body&quot;
 </code></pre>
 
-<p>The <a href="http://maven.apache.org/plugins/maven-gpg-plugin/usage.html">manual</a> claims that you could encrypt the passphrase, but that&rsquo;s just a lie. I have spend <em>a lot</em> of time on this, but no success. If anyone manages to read an encrypted passphrase, please <a href="mailto:jannik@jannikarndt.de">let me know</a>!</p>
+<p>Now we&rsquo;re ready to write the test!</p>
 
-<p>Well, this was bad. Let&rsquo;s go for the big finale…</p>
+<pre><code class="language-scala">&quot;SqsService&quot; should &quot;receive a message&quot; in {
 
-<h3 id="step-3e-actually-deploy">Step 3e: Actually deploy</h3>
-
-<p>Okay, <em>usually</em> a <code>mvn deploy</code> goes through the complete lifecycle and does all the required steps, but we&rsquo;ve added a few non-standard steps, so…well…this works:</p>
-
-<pre><code class="language-bash">mvn clean package source:jar gpg:sign install:install deploy:deploy
+  // Arrange
+  SqsService.create(queueUrl, maxMessagesInFlight = 20)(mock.testFunction)
+  
+  // Act: Send message to SQS (synchronous)
+  awsSqsClient.sendMessage(queueUrl, messageBody)
+  
+  // Assert
+  verify(mock, Mockito.timeout(1000)).testFunction(MyMessage(messageBody))
+}
 </code></pre>
 
-<p>But wait, there&rsquo;s more!</p>
+<p>The <code>Mockito.timeout(1000)</code> will <a href="https://static.javadoc.io/org.mockito/mockito-core/2.2.9/org/mockito/verification/VerificationWithTimeout.html">wait a second for the result</a>. Make sure to use <code>timeout</code> instead of <code>after</code>, because with <code>timeout</code> the test succeeds directly when the function is called, while after waits the full second.</p>
 
-<h3 id="step-3f-release">Step 3f: Release</h3>
+<h3 id="dealing-with-message-queues">Dealing with Message Queues</h3>
 
-<p>Head over to <a href="https://oss.sonatype.org/#stagingRepositories">https://oss.sonatype.org/#stagingRepositories</a> and (if your prefix starts with anything after &lsquo;c&rsquo;) scroll to the bottom, where you find <em>your repository</em>!</p>
+<p>Now the tests will <em>mostly</em> work. However, since it depends on an outside component, namely the SQS, it <em>will</em> fail, from time to time.</p>
 
-<p><img src="/blog/2017/09/nexusrelease.png" alt="nexusrelease" /></p>
+<pre><code class="language-markdown">[info] MainSpec:
+[info] SqsService
+[info] - should receive a message *** FAILED ***
+[info]   org.mockito.exceptions.verification.WantedButNotInvoked: Wanted but not invoked:
+[info] testClass.testFunction(
+[info]     MyMessage(Example Body)
+[info] );
+[info] -&gt; at MainSpec.$anonfun$new$1(MainSpec.scala:64)
+</code></pre>
 
-<p>The naming is a bit weird here: The repository is now <em>open</em>, which means you can continue deploying into it. To move forward you have to <em>close</em> it. This is where you&rsquo;ll get problems if you skipped a step (I told you so!).</p>
+<p>It might also fail because the round trip takes longer on you CI-server or you broke the code. Try setting the timeout to around 100 ms to replicate the behavior. Now what&rsquo;s <em>really bad</em> is that your <em>next</em> test <em>will fail as well</em>:</p>
 
-<p>If everything worked, you should see something like this:</p>
+<pre><code class="language-markdown">[info] MainSpec:
+[info] SqsService
+[info] - should receive a message *** FAILED ***
+[info]   org.mockito.exceptions.verification.TooManyActualInvocations: testClass.testFunction(
+[info]     MyMessage(Example Body)
+[info] );
+[info] Wanted 1 time:
+[info] -&gt; at MainSpec.$anonfun$new$1(MainSpec.scala:64)
+[info] But was 2 times:
+[info] -&gt; at MainSpec.$anonfun$new$2(MainSpec.scala:58)
+[info] -&gt; at MainSpec.$anonfun$new$2(MainSpec.scala:58)
+</code></pre>
 
-<p><img src="/blog/2017/09/closedrepository.png" alt="closedrepository" /></p>
+<p>That&rsquo;s because the message from the previous test is still in the queue! Luckily, this can be worked around with <code>BeforeAndAfterEach</code>:</p>
 
-<p>And now you can finally <em>Release</em> your work! Enjoy your work, give yourself a pat on the shoulder and then head back to your code, increase the version to the next <code>-SNAPSHOT</code> and start fixing those bugs you <em>know</em> are still in there…</p>
+<pre><code class="language-scala">var queueUrl: String = &quot;&quot;
 
-<p>Oh, and don&rsquo;t forget to comment on the ticket, otherwise nobody will find your code:</p>
+override def beforeEach(): Unit = {
+  queueUrl = awsSqsClient.createQueue(&quot;integrationtest&quot;).getQueueUrl
+  println(&quot;--- Created queue ---&quot;)
+  super.beforeEach()
+}
 
-<p><img src="/blog/2017/09/jiracomment.png" alt="jiracomment" /></p>
+override def afterEach(): Unit = {
+  awsSqsClient.deleteQueue(queueUrl)
+  println(&quot;--- Deleted queue ---&quot;)
+  super.afterEach()
+}
+</code></pre>
 
+<p>This way, one failed test won&rsquo;t affect the next.</p>
                 </div>
             </div>
         </div>

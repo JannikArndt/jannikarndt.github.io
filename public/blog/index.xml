@@ -6,10 +6,21 @@
     <description>Recent content in Blogs on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 Aug 2018 17:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 07 Oct 2018 18:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</title>
+      <link>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</link>
+      <pubDate>Sun, 07 Oct 2018 18:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</guid>
+      <description>&lt;p&gt;This example show how to write a reactive reader for the AWS &lt;em&gt;Simple Queue Service&lt;/em&gt;, using Scala and alpakka (respective akka streams).&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>How Event Sourcing in Akka Persistent Actors Works</title>
