@@ -519,6 +519,58 @@ override def afterEach(): Unit = {
     <div class="col-md-8">
         <div>
             <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
+            <time datetime=" 2018-10-28T13:00:00JST ">
+                Oct 28, 2018
+            </time>
+        </div>
+        <div>
+            <h3>
+                <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">oAuth2 with Akka HTTP</a>
+            </h3>
+        </div>
+        <div class="summary">
+            <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
+
+<ul>
+<li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
+<li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
+<li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
+</ul>
+
+<p>From the server&rsquo;s point of view:</p>
+
+<ul>
+<li><code>/</code> — publicly accessible, do nothing,</li>
+<li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
+<li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
+</ul>
+
+<p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
+
+<p></p>
+        </div>
+        
+        <div>
+            <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">Read More…</a>
+        </div>
+        
+        <br>
+        <br>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
             <time datetime=" 2018-10-27T19:00:00JST ">
                 Oct 27, 2018
             </time>
@@ -584,36 +636,23 @@ override def afterEach(): Unit = {
                 </div>
             </div>
         
+        
             <div class="row">
                 <div class="col-lg-12">
                 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-2">
         <div>
             <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
             <time datetime=" 2018-08-31T17:00:00JST ">
                 Aug 31, 2018
             </time>
         </div>
+    </div>
+    <div class="col-md-6">
         <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/">How Event Sourcing in Akka Persistent Actors Works</a>
-            </h3>
+            <a href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/">How Event Sourcing in Akka Persistent Actors Works</a>
         </div>
-        <div class="summary">
-            <p>While the <a href="https://doc.akka.io/docs/">Akka</a> documentation is incredibly well written, it has surprisingly few images. Since <em>I</em> visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:</p>
-
-<p><a href="/blog/2018/08/AkkaPersistence.svg"><img src="/blog/2018/08/AkkaPersistence.svg" alt="" onerror="this.onerror=null; this.src='/blog/2018/08/AkkaPersistence.png'"></a></p>
-
-<p></p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
         <br>
     </div>
     <div class="col-md-2"></div>
@@ -621,7 +660,6 @@ override def afterEach(): Unit = {
 
                 </div>
             </div>
-        
         
             <div class="row">
                 <div class="col-lg-12">

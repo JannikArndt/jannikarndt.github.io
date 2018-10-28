@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>How to use a Raspberry Pi for your Time Machine backups</title>
-        <meta name="description" content="Apples Time Machine is a great backup solution, you only have to do one thing: Connect your disk from time to time.
+        <title>oAuth2 with Akka HTTP</title>
+        <meta name="description" content="This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:
 
-Since that is way harder than it sounds, there&rsquo;s a second option: Buy a 329€ Time Capsule and do backups over wifi!
 
-That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with a Raspberry Pi 3 and an external hard drive.
+/ — publicly accessible, returns “Welcome!”,
+/auth — provide your username and password, receive an access_token in return,
+/api — secured by oAuth, send the access_token in a header to gain access.
+
+
+From the server&rsquo;s point of view:
+
+
+/ — publicly accessible, do nothing,
+/auth — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an access_token, return it,
+/api — receive authorization header, check if access_token is in list of valid tokens.
+
+
+Since oAuth tokens are short lived, the server also has to invalidate expired tokens.
 
 ">
-        <meta name="keywords" content="Raspberry Pi, Raspberry Pi 3, Setup, How to, MacOS, Time Machine, Backup, Time Capsule">
+        <meta name="keywords" content="Programming, Scala, akka, Akka HTTP, oAuth2, App, Tutorial, How-To">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,10 +110,10 @@ That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2018-01-13T20:00:00CET ">
-                        January 13, 2018
+                    <time datetime=" 2018-10-28T13:00:00CET ">
+                        October 28, 2018
                     </time>
-                    <h1>How to use a Raspberry Pi for your Time Machine backups</h1>
+                    <h1>oAuth2 with Akka HTTP</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -113,28 +125,17 @@ That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with
     <article class="bg-light" id="blogentry">
         
         <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">How to use a Raspberry Pi for your Time Machine backups</a></div>
+            <div class="toc_title"><a href="#page-top" class="page-scroll">oAuth2 with Akka HTTP</a></div>
             <div class="toc_content"><nav id="TableOfContents">
 <ul>
-<li><a href="#on-the-pi">On the pi</a>
+<li>
 <ul>
-<li><a href="#1-connect-usb-drive-to-pi">1. Connect USB drive to pi</a></li>
-<li><a href="#2-find-drive">2. Find drive</a></li>
-<li><a href="#3-format-drive">3. Format drive</a></li>
-<li><a href="#4-install-netatalk">4. Install <code>netatalk</code></a></li>
-<li><a href="#5-create-a-mount-point">5. Create a mount point</a></li>
-<li><a href="#6-add-mount-to-file-system-table-fstab-https-en-wikipedia-org-wiki-fstab">6. Add mount to <a href="https://en.wikipedia.org/wiki/Fstab">file system table (<code>fstab</code>)</a></a></li>
-<li><a href="#7-mount-device">7. Mount device</a></li>
-<li><a href="#8-make-it-accessible">8. Make it accessible</a></li>
-<li><a href="#9-make-the-drive-known-to-netatalk">9. Make the drive known to <code>netatalk</code></a></li>
-<li><a href="#10-restart-netatalk">10. Restart <code>netatalk</code></a></li>
-<li><a href="#11-restart-the-pi">11. Restart the pi</a></li>
-</ul></li>
-<li><a href="#on-the-mac">On the Mac</a>
-<ul>
-<li><a href="#1-allow-unsupported-devices">1. Allow unsupported devices</a></li>
-<li><a href="#2-find-the-remote-disk">2. Find the remote disk</a></li>
-<li><a href="#3-add-the-disk-to-time-machine">3. Add the disk to Time Machine</a></li>
+<li><a href="#build-sbt"><code>build.sbt</code></a></li>
+<li><a href="#start-a-webserver">Start a <code>WebServer</code></a></li>
+<li><a href="#basic-auth">Basic Auth</a></li>
+<li><a href="#oauth">oAuth</a></li>
+<li><a href="#expire-sessions">Expire Sessions</a></li>
+<li><a href="#complete-example">Complete Example</a></li>
 </ul></li>
 </ul>
 </nav></div>
@@ -144,107 +145,286 @@ That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p>Apples Time Machine is a great backup solution, you only have to do <em>one</em> thing: Connect your disk from time to time.</p>
+                    <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
 
-<p>Since that is way harder than it sounds, there&rsquo;s a second option: Buy a <a href="https://www.apple.com/de/shop/product/ME177Z/A">329€ Time Capsule</a> and do backups over wifi!</p>
+<ul>
+<li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
+<li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
+<li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
+</ul>
 
-<p>That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with a Raspberry Pi 3 and an external hard drive.</p>
+<p>From the server&rsquo;s point of view:</p>
+
+<ul>
+<li><code>/</code> — publicly accessible, do nothing,</li>
+<li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
+<li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
+</ul>
+
+<p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
 
 <p></p>
 
-<p>This guide is based on <a href="https://www.bersling.com/2017/01/02/time-capsule-time-machine-through-raspberry-pi/">https://www.bersling.com/2017/01/02/time-capsule-time-machine-through-raspberry-pi/</a>, but tries to be more comprehensive and also includes a few workarounds for problems I encountered.</p>
+<h2 id="build-sbt"><code>build.sbt</code></h2>
 
-<h1 id="on-the-pi">On the pi</h1>
+<p>This minimal example requires the following imports in your <code>build.sbt</code>:</p>
 
-<h2 id="1-connect-usb-drive-to-pi">1. Connect USB drive to pi</h2>
+<pre><code class="language-scala">name := &quot;oAuth-example&quot;
+scalaVersion := &quot;2.12.7&quot;
+version := &quot;1.0&quot;
 
-<h2 id="2-find-drive">2. Find drive</h2>
-
-<pre><code class="language-zsh">➜  ~ lsblk -o KNAME,TYPE,SIZE,MODEL
-KNAME     TYPE   SIZE MODEL
-sda       disk 465.8G MK5065GSXF      &lt;= probably that one
-mmcblk0   disk  14.9G
-mmcblk0p1 part  41.5M
-mmcblk0p2 part  14.9G
+libraryDependencies ++= Seq(
+  &quot;com.typesafe.akka&quot; %% &quot;akka-http&quot; % &quot;10.1.5&quot;,
+  &quot;com.typesafe.akka&quot; %% &quot;akka-stream&quot; % &quot;2.5.17&quot;,
+  &quot;de.heikoseeberger&quot; %% &quot;akka-http-json4s&quot; % &quot;1.22.0&quot;,
+  &quot;org.json4s&quot; %% &quot;json4s-native&quot; % &quot;3.6.1&quot;,
+  &quot;com.typesafe.scala-logging&quot; %% &quot;scala-logging&quot; % &quot;3.9.0&quot;,
+  &quot;org.slf4j&quot; % &quot;slf4j-simple&quot; % &quot;1.7.25&quot;
+)
 </code></pre>
 
-<h2 id="3-format-drive">3. Format drive</h2>
+<h2 id="start-a-webserver">Start a <code>WebServer</code></h2>
 
-<pre><code class="language-zsh">➜  ~ sudo mkfs.ext4 /dev/sda
+<p>The basic <code>WebServer</code> can be started using the following code:</p>
+
+<pre><code class="language-scala">import akka.http.scaladsl.server._
+import com.typesafe.scalalogging.StrictLogging
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    val port: Int = sys.env.getOrElse(&quot;PORT&quot;, &quot;8080&quot;).toInt
+    WebServer.startServer(&quot;0.0.0.0&quot;, port)
+  }
+}
+
+object WebServer extends HttpApp with StrictLogging {
+
+  override protected def routes: Route =
+    pathEndOrSingleSlash {
+      get {
+        complete(&quot;Welcome!&quot;)
+      }
+    }
+}
 </code></pre>
 
-<h2 id="4-install-netatalk">4. Install <code>netatalk</code></h2>
+<p>You can test it in the console:</p>
 
-<pre><code class="language-zsh">➜  ~ sudo apt-get update
-➜  ~ sudo apt-get upgrade
-➜  ~ sudo apt-get install netatalk
+<pre><code class="language-zsh">➜ ~ curl --request GET --url http://localhost:8080
+Welcome!
 </code></pre>
 
-<h2 id="5-create-a-mount-point">5. Create a mount point</h2>
+<h2 id="basic-auth">Basic Auth</h2>
 
-<pre><code class="language-zsh">➜  ~ sudo mkdir /mnt/TimeMachine
+<p>Next, we&rsquo;ll add the <code>auth</code> endpoint:</p>
+
+<pre><code class="language-scala">path(&quot;auth&quot;) {
+  authenticateBasic(realm = &quot;auth&quot;, BasicAuthAuthenticator) { user =&gt;
+    post {
+      // do stuff with user
+    }
+  }
+}
 </code></pre>
 
-<h2 id="6-add-mount-to-file-system-table-fstab-https-en-wikipedia-org-wiki-fstab">6. Add mount to <a href="https://en.wikipedia.org/wiki/Fstab">file system table (<code>fstab</code>)</a></h2>
+<p>This calls a <code>BasicAuthAuthenticator</code> function which goes through the list of <code>validBasicAuthCredentials</code> and compares <code>username</code> and <code>password</code>. Note that <code>p.verify(user.password)</code> does a <em>constant time comparison</em> to make this <a href="https://doc.akka.io/docs/akka-http/current/routing-dsl/directives/security-directives/index.html#credentials-and-timing-attacks">invulnerable against timing attacks</a>:</p>
 
-<pre><code class="language-zsh">➜  ~ sudo nano /etc/fstab
+<pre><code class="language-scala">case class BasicAuthCredentials(username: String, password: String)
+
+private val validBasicAuthCredentials = Seq(BasicAuthCredentials(&quot;jannik&quot;, &quot;p4ssw0rd&quot;))
+
+private def BasicAuthAuthenticator(credentials: Credentials) =
+  credentials match {
+    case p @ Credentials.Provided(_) =&gt;
+      validBasicAuthCredentials
+        .find(user =&gt; user.username == p.identifier &amp;&amp; p.verify(user.password))
+    case _ =&gt; None
+  }
 </code></pre>
 
-<p>Insert the mount post at the end of the file:
-<code>/dev/sda /mnt/TimeMachine auto defaults 0 2</code>
-and exit with <code>ctrl + x</code>, <code>y</code>, <code>enter</code>.</p>
+<p>Our code then creates an <code>access_token</code>, stores it in a list and returns it:</p>
 
-<h2 id="7-mount-device">7. Mount device</h2>
+<pre><code class="language-scala">private val loggedInUsers = mutable.ArrayBuffer.empty[LoggedInUser]
 
-<pre><code class="language-zsh">➜  ~ sudo mount /dev/sda
+case class oAuthToken(access_token: String = java.util.UUID.randomUUID().toString,
+                      token_type: String = &quot;bearer&quot;,
+                      expires_in: Int = 3600)
+
+case class LoggedInUser(basicAuthCredentials: BasicAuthCredentials,
+                        oAuthToken: oAuthToken = new oAuthToken,
+                        loggedInAt: LocalDateTime = LocalDateTime.now())
 </code></pre>
 
-<h2 id="8-make-it-accessible">8. Make it accessible</h2>
+<p>Inside the <code>/auth</code> route:</p>
 
-<pre><code class="language-zsh">➜  ~ sudo chmod 777 /mnt/TimeMachine
+<pre><code class="language-scala">path(&quot;auth&quot;) {
+  authenticateBasic(realm = &quot;auth&quot;, BasicAuthAuthenticator) { user =&gt;
+    post {
+      val loggedInUser = LoggedInUser(user)
+      loggedInUsers.append(loggedInUser)
+      complete(loggedInUser.oAuthToken)
+    }
+  }
+}
 </code></pre>
 
-<h2 id="9-make-the-drive-known-to-netatalk">9. Make the drive known to <code>netatalk</code></h2>
+<p>To make this work with JSON, I also added the following lines:</p>
 
-<pre><code class="language-zsh">➜  ~ sudo nano /etc/netatalk/AppleVolumes.default
+<pre><code class="language-scala">import de.heikoseeberger.akkahttpjson4s.Json4sSupport._
+implicit val formats: DefaultFormats.type = DefaultFormats
+implicit val serialization: Serialization.type = native.Serialization
 </code></pre>
 
-<p>Add <code>/mnt/TimeMachine &quot;Time Machine&quot; options:tm</code> at the end, then exit with <code>ctrl + x</code>, <code>y</code>, <code>enter</code></p>
+<p>Try getting an <code>access_token</code> via</p>
 
-<h2 id="10-restart-netatalk">10. Restart <code>netatalk</code></h2>
-
-<pre><code class="language-zsh">➜  ~ sudo service netatalk restart
+<pre><code class="language-zsh">➜  ~ curl --request POST --url http://localhost:8080/auth --header 'authorization: Basic amFubmlrOnA0c3N3MHJk'
+{&quot;access_token&quot;:&quot;2e510027-0eb9-4367-b310-68e1bab9dc3d&quot;, &quot;token_type&quot;:&quot;bearer&quot;, &quot;expires_in&quot;:3600}
 </code></pre>
 
-<h2 id="11-restart-the-pi">11. Restart the pi</h2>
+<h2 id="oauth">oAuth</h2>
 
-<pre><code class="language-zsh">➜  ~ sudo reboot
+<p>The <code>/api</code> endpoint looks very similar:</p>
+
+<pre><code class="language-scala">path(&quot;api&quot;) {
+  authenticateOAuth2(realm = &quot;api&quot;, oAuthAuthenticator) { validToken =&gt;
+    complete(s&quot;It worked! user = $validToken&quot;)
+  }
+}
 </code></pre>
 
-<h1 id="on-the-mac">On the Mac</h1>
+<p>It calls the <code>oAuthAuthenticator</code> function which looks through the list of <code>loggedInUsers</code>.</p>
 
-<h2 id="1-allow-unsupported-devices">1. Allow unsupported devices</h2>
-
-<p>In Terminal, make Time Machine show unsupported devices with</p>
-
-<pre><code class="language-zsh">➜  ~ defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes 1
+<pre><code class="language-scala">private def oAuthAuthenticator(credentials: Credentials): Option[LoggedInUser] =
+  credentials match {
+    case p @ Credentials.Provided(_) =&gt;
+      loggedInUsers.find(user =&gt; p.verify(user.oAuthToken.access_token))
+    case _ =&gt; None
+  }
 </code></pre>
 
-<h2 id="2-find-the-remote-disk">2. Find the remote disk</h2>
+<p>You call this endpoint via</p>
 
-<p>Open the Finder and click on <code>raspberrypi</code> in the network interfaces</p>
+<pre><code class="language-zsh">➜  ~ curl --request GET --url http://localhost:8080/api --header 'authorization: Bearer 2e510027-0eb9-4367-b310-68e1bab9dc3d' 
+&quot;It worked! user = LoggedInUser(BasicAuthCredentials(jannik,p4ssw0rd),oAuthToken(2e510027-0eb9-4367-b310-68e1bab9dc3d,bearer,3600),2018-10-28T12:58:33.048)&quot;
+</code></pre>
 
-<p><img src="../pi/finder_connect.png" alt="" /></p>
+<h2 id="expire-sessions">Expire Sessions</h2>
 
-<p>Connect as <code>pi</code> and your password. Then double click the <code>Time Machine</code> disk:</p>
+<p>For the final touches, we can hook into the <code>ActorSystem</code> to schedule a <code>cleanUpExpiredUsers()</code> function:</p>
 
-<p><img src="../pi/finder_connect_2.png" alt="" /></p>
+<pre><code class="language-scala">override def postHttpBinding(binding: Http.ServerBinding): Unit = {
+  systemReference.get().scheduler.schedule(5 minutes, 5 minutes)(cleanUpExpiredUsers())(systemReference.get().dispatcher)
+  super.postHttpBinding(binding)
+}
 
-<h2 id="3-add-the-disk-to-time-machine">3. Add the disk to Time Machine</h2>
+private def cleanUpExpiredUsers(): Unit =
+  loggedInUsers
+    .filter(user =&gt; user.loggedInAt
+                        .plusSeconds(user.oAuthToken.expires_in)
+                        .isBefore(LocalDateTime.now()))
+    .foreach(loggedInUsers -= _)
+</code></pre>
 
-<p>Head to the Time Machine Preferences and add the new disk:</p>
+<p>If you look inside the <a href="https://github.com/akka/akka-http/blob/master/akka-http/src/main/scala/akka/http/scaladsl/server/HttpApp.scala#L87">HttpApp</a> you&rsquo;ll notice that the <code>ActorSystem</code> isn&rsquo;t initialized until <code>startServer()</code> is called. Therefore we can only access it afterwards. This is easily done by overriding <a href="https://github.com/akka/akka-http/blob/master/akka-http/src/main/scala/akka/http/scaladsl/server/HttpApp.scala#L140"><code>postHttpBinding()</code></a>.</p>
 
-<p><img src="../pi/time_machine_new_disk.png" alt="" /></p>
+<p>Since we store the time of login, we can simply add the <code>expires_in</code> to that an check if that <code>LocalDateTime</code> is in the past. If so, the session has expired and we remove the user from the <code>loggedInUsers</code> list.</p>
+
+<h2 id="complete-example">Complete Example</h2>
+
+<p>And now the complete example:</p>
+
+<pre><code class="language-scala">import java.time.LocalDateTime
+
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.server._
+import akka.http.scaladsl.server.directives.Credentials
+import com.typesafe.scalalogging.StrictLogging
+import org.json4s.native.Serialization
+import org.json4s.{DefaultFormats, native}
+
+import scala.collection.mutable
+import scala.concurrent.duration._
+import scala.language.postfixOps
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    val port: Int = sys.env.getOrElse(&quot;PORT&quot;, &quot;8080&quot;).toInt
+    WebServer.startServer(&quot;0.0.0.0&quot;, port)
+  }
+}
+
+object WebServer extends HttpApp with StrictLogging {
+
+  import de.heikoseeberger.akkahttpjson4s.Json4sSupport._
+
+  implicit val formats: DefaultFormats.type = DefaultFormats
+  implicit val serialization: Serialization.type = native.Serialization
+
+  // TODO load from external source
+  private val validBasicAuthCredentials = Seq(BasicAuthCredentials(&quot;jannik&quot;, &quot;p4ssw0rd&quot;))
+
+  // TODO persist to make sessions survive restarts
+  private val loggedInUsers = mutable.ArrayBuffer.empty[LoggedInUser]
+
+  override def postHttpBinding(binding: Http.ServerBinding): Unit = {
+    systemReference.get().scheduler.schedule(5 minutes, 5 minutes)(cleanUpExpiredUsers())(systemReference.get().dispatcher)
+    super.postHttpBinding(binding)
+  }
+
+  override protected def routes: Route =
+    pathEndOrSingleSlash {
+      get {
+        complete(&quot;Welcome!&quot;)
+      }
+    } ~
+      path(&quot;auth&quot;) {
+        authenticateBasic(realm = &quot;auth&quot;, BasicAuthAuthenticator) { user =&gt;
+          post {
+            val loggedInUser = LoggedInUser(user)
+            loggedInUsers.append(loggedInUser)
+            complete(loggedInUser.oAuthToken)
+          }
+        }
+      } ~
+      path(&quot;api&quot;) {
+        authenticateOAuth2(realm = &quot;api&quot;, oAuthAuthenticator) { validToken =&gt;
+          complete(s&quot;It worked! user = $validToken&quot;)
+        }
+      }
+
+  private def BasicAuthAuthenticator(credentials: Credentials): Option[BasicAuthCredentials] =
+    credentials match {
+      case p @ Credentials.Provided(_) =&gt;
+        validBasicAuthCredentials.find(user =&gt; user.username == p.identifier &amp;&amp; p.verify(user.password))
+      case _ =&gt; None
+    }
+
+  private def oAuthAuthenticator(credentials: Credentials): Option[LoggedInUser] =
+    credentials match {
+      case p @ Credentials.Provided(_) =&gt;
+        loggedInUsers.find(user =&gt; p.verify(user.oAuthToken.access_token))
+      case _ =&gt; None
+    }
+
+  private def cleanUpExpiredUsers(): Unit =
+    loggedInUsers
+      .filter(user =&gt; user.loggedInAt.plusSeconds(user.oAuthToken.expires_in).isBefore(LocalDateTime.now()))
+      .foreach(loggedInUsers -= _)
+
+  case class BasicAuthCredentials(username: String, password: String)
+
+  case class oAuthToken(access_token: String = java.util.UUID.randomUUID().toString,
+                        token_type: String = &quot;bearer&quot;,
+                        expires_in: Int = 3600)
+
+  case class LoggedInUser(basicAuthCredentials: BasicAuthCredentials,
+                          oAuthToken: oAuthToken = new oAuthToken,
+                          loggedInAt: LocalDateTime = LocalDateTime.now())
+
+}
+</code></pre>
+
+<p>The next steps would be to fill the <code>validBasicAuthCredentials</code> from somewhere outside the code and store the <code>loggedInUsers</code> outside the runtime to make sessions survive restarts.</p>
                 </div>
             </div>
         </div>
