@@ -6,10 +6,19 @@
     <description>Recent content on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Oct 2018 13:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 04 Dec 2018 21:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Exception-Proof For-Comprehensions</title>
+      <link>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</link>
+      <pubDate>Tue, 04 Dec 2018 21:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</guid>
+      <description>&lt;p&gt;I recently created a &lt;em&gt;wonderful&lt;/em&gt; bug.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>oAuth2 with Akka HTTP</title>
@@ -33,9 +42,7 @@
 &lt;li&gt;&lt;code&gt;/api&lt;/code&gt; — receive &lt;code&gt;authorization&lt;/code&gt; header, check if &lt;code&gt;access_token&lt;/code&gt; is in list of valid tokens.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Since oAuth tokens are short lived, the server also has to invalidate expired tokens.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;Since oAuth tokens are short lived, the server also has to invalidate expired tokens.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -44,9 +51,7 @@
       <pubDate>Sat, 27 Oct 2018 19:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</guid>
-      <description>&lt;p&gt;Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -55,9 +60,7 @@
       <pubDate>Sun, 07 Oct 2018 18:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</guid>
-      <description>&lt;p&gt;This example show how to write a reactive reader for the AWS &lt;em&gt;Simple Queue Service&lt;/em&gt;, using Scala and alpakka (respective akka streams).&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;This example show how to write a reactive reader for the AWS &lt;em&gt;Simple Queue Service&lt;/em&gt;, using Scala and alpakka (respective akka streams).&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -68,9 +71,7 @@
       <guid>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</guid>
       <description>&lt;p&gt;While the &lt;a href=&#34;https://doc.akka.io/docs/&#34;&gt;Akka&lt;/a&gt; documentation is incredibly well written, it has surprisingly few images. Since &lt;em&gt;I&lt;/em&gt; visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -79,9 +80,7 @@
       <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</guid>
-      <description>&lt;p&gt;Changing the password for a PostgreSQL database user involves two steps: The change in the database and the change in the application code. This blog post describes how to do this without any downtime or failed authentication tries.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Changing the password for a PostgreSQL database user involves two steps: The change in the database and the change in the application code. This blog post describes how to do this without any downtime or failed authentication tries.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -90,9 +89,7 @@
       <pubDate>Thu, 16 Aug 2018 15:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</guid>
-      <description>&lt;p&gt;The PostgreSQL installation comes with a great tool, &lt;code&gt;psql&lt;/code&gt;, to administer and inspect the database. &lt;a href=&#34;https://www.pgcli.com&#34;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; extends this with syntax highlighting and autocompletion.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;The PostgreSQL installation comes with a great tool, &lt;code&gt;psql&lt;/code&gt;, to administer and inspect the database. &lt;a href=&#34;https://www.pgcli.com&#34;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; extends this with syntax highlighting and autocompletion.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -101,9 +98,7 @@
       <pubDate>Sun, 05 Aug 2018 16:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</guid>
-      <description>&lt;p&gt;I want my photos to have location info in them, and Nikon wants &lt;em&gt;way too much&lt;/em&gt; money for that. So I&amp;rsquo;ll do this: Let my Apple Watch track where I go, using the &lt;em&gt;Outdoor Walk&lt;/em&gt;, export the route as GPX and use &lt;em&gt;exiftool&lt;/em&gt; to tag all my images. Here&amp;rsquo;s how I do that.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;I want my photos to have location info in them, and Nikon wants &lt;em&gt;way too much&lt;/em&gt; money for that. So I&amp;rsquo;ll do this: Let my Apple Watch track where I go, using the &lt;em&gt;Outdoor Walk&lt;/em&gt;, export the route as GPX and use &lt;em&gt;exiftool&lt;/em&gt; to tag all my images. Here&amp;rsquo;s how I do that.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -112,9 +107,7 @@
       <pubDate>Sun, 22 Jul 2018 07:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/</guid>
-      <description>&lt;p&gt;You don&amp;rsquo;t need to “get hacked” to have your security compromised. Often enough you&amp;rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;You don&amp;rsquo;t need to “get hacked” to have your security compromised. Often enough you&amp;rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -123,9 +116,7 @@
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -134,9 +125,7 @@
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -145,9 +134,7 @@
       <pubDate>Sun, 08 Apr 2018 12:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/04/boberg/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -156,9 +143,7 @@
       <pubDate>Sat, 07 Apr 2018 13:38:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -169,9 +154,7 @@
       <guid>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -180,9 +163,7 @@
       <pubDate>Thu, 22 Mar 2018 07:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</guid>
-      <description>&lt;p&gt;Adding an ssh-file as a secret sounds easy, but there are pitfalls.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Adding an ssh-file as a secret sounds easy, but there are pitfalls.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -206,9 +187,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 
 &lt;p&gt;Since that is way harder than it sounds, there&amp;rsquo;s a second option: Buy a &lt;a href=&#34;https://www.apple.com/de/shop/product/ME177Z/A&#34;&gt;329€ Time Capsule&lt;/a&gt; and do backups over wifi!&lt;/p&gt;
 
-&lt;p&gt;That&amp;rsquo;s too expensive? Here&amp;rsquo;s how to build your own Time Capsule with a Raspberry Pi 3 and an external hard drive.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;That&amp;rsquo;s too expensive? Here&amp;rsquo;s how to build your own Time Capsule with a Raspberry Pi 3 and an external hard drive.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -224,9 +203,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 &lt;li&gt;a custom OS and an app to control the devices.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Unfortunately, the second addition &lt;em&gt;also&lt;/em&gt; means that all communication goes through Sonoff&amp;rsquo;s servers. Here&amp;rsquo;s how to get rid of that. Without soldering or connecting anything.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;Unfortunately, the second addition &lt;em&gt;also&lt;/em&gt; means that all communication goes through Sonoff&amp;rsquo;s servers. Here&amp;rsquo;s how to get rid of that. Without soldering or connecting anything.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -241,9 +218,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 &lt;li&gt;I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch).&lt;/li&gt;
 &lt;li&gt;I bought a raspberry pi (33€).&lt;/li&gt;
 &lt;li&gt;I installed an MQTT broker and homebridge on the pi.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -252,9 +227,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
       <pubDate>Sat, 13 Jan 2018 12:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</guid>
-      <description>&lt;p&gt;I bought a raspberry pi as a smart home automation server. Here&amp;rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;I bought a raspberry pi as a smart home automation server. Here&amp;rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -263,9 +236,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
       <pubDate>Thu, 23 Nov 2017 20:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</guid>
-      <description>&lt;p&gt;This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -282,9 +253,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 &lt;p&gt;&amp;ldquo;organizations which design systems &amp;hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&amp;rdquo;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;So true.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;So true.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -293,9 +262,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
       <pubDate>Tue, 07 Nov 2017 18:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</guid>
-      <description>&lt;p&gt;I was quite surprised at how difficult it is to get &lt;em&gt;absolutely&lt;/em&gt; razor sharp images out of a very good (high-end-consumer/semi-pro) DSLR camera, namely the Nikon D7100. So I made the test: What settings in terms of aperture, shutter speed and ISO yield the sharpest landscape image?&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;I was quite surprised at how difficult it is to get &lt;em&gt;absolutely&lt;/em&gt; razor sharp images out of a very good (high-end-consumer/semi-pro) DSLR camera, namely the Nikon D7100. So I made the test: What settings in terms of aperture, shutter speed and ISO yield the sharpest landscape image?&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -304,9 +271,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
       <pubDate>Sat, 04 Nov 2017 16:50:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -328,9 +293,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <guid>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
       <description>&lt;p&gt;Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for &lt;code&gt;java.time&lt;/code&gt; classes such as &lt;code&gt;ZonedDateTime&lt;/code&gt;, &lt;code&gt;LocalDate&lt;/code&gt; or &lt;code&gt;Duration&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -342,9 +305,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <description>&lt;blockquote&gt;
 &lt;p&gt;This post contains the absolut essence from the Terraform Getting Started Guide:
 &lt;a href=&#34;https://www.terraform.io/intro/getting-started/install.html&#34;&gt;https://www.terraform.io/intro/getting-started/install.html&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -363,8 +324,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 &lt;p&gt;“Oh, yeah … erm … I’ll do a quick refactoring first and then…”&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;…when that other person is on holiday!
-&lt;/p&gt;</description>
+&lt;p&gt;…when that other person is on holiday!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -373,9 +333,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Fri, 21 Jul 2017 22:45:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</guid>
-      <description>&lt;p&gt;Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -384,9 +342,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Sat, 15 Jul 2017 17:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -395,9 +351,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
-      <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;</description>
     </item>
     
     <item>
@@ -408,9 +362,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <guid>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</guid>
       <description>&lt;p&gt;I tried to create a single image that contains all the most important &lt;code&gt;git&lt;/code&gt; commands:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -421,9 +373,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <guid>https://www.jannikarndt.de/blog/2017/05/two_speed_it/</guid>
       <description>&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
 
-&lt;p&gt;You&amp;rsquo;re a corporation. Your IT department is old, slow and can&amp;rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;You&amp;rsquo;re a corporation. Your IT department is old, slow and can&amp;rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -436,9 +386,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 
 &lt;blockquote&gt;
 &lt;p&gt;When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, &lt;code&gt;YR-BMA&lt;/code&gt;). When entered in a flight plan, the dash is omitted (for example, &lt;code&gt;YRBMA&lt;/code&gt;). In some countries that use a number suffix rather than letters, like the United States (&lt;code&gt;N&lt;/code&gt;), South Korea (&lt;code&gt;HL&lt;/code&gt;), and Japan (&lt;code&gt;JA&lt;/code&gt;), the prefix and suffix are connected without a dash.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -449,9 +397,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <guid>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
       <description>&lt;p&gt;My favourite animal: The Beluga!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -468,9 +414,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 &lt;li&gt;Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for &lt;em&gt;one-time&lt;/em&gt; data transfer or &lt;em&gt;on-demand&lt;/em&gt; data transfer, but not for resilient, scheduled jobs.&lt;/li&gt;
 &lt;li&gt;The “Enterprise Edition” (EE) adds scheduling that doesn&amp;rsquo;t work reliably, and a very powerless server.&lt;/li&gt;
 &lt;li&gt;Kerberos is a bitch.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -489,9 +433,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 
 &lt;h3 id=&#34;extra-caveat&#34;&gt;Extra-Caveat&lt;/h3&gt;
 
-&lt;p&gt;You use an Oracle database.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;You use an Oracle database.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -500,8 +442,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</guid>
-      <description>&lt;p&gt;I cannot believe that googleing “talend does not work” does not find &lt;em&gt;anything&lt;/em&gt; helpful. With this entry I try to fill that void in the internet.
-&lt;/p&gt;</description>
+      <description>&lt;p&gt;I cannot believe that googleing “talend does not work” does not find &lt;em&gt;anything&lt;/em&gt; helpful. With this entry I try to fill that void in the internet.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -514,9 +455,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 
 &lt;h3 id=&#34;do-not-fix-your-code&#34;&gt;Do not fix your code.&lt;/h3&gt;
 
-&lt;p&gt;Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -525,9 +464,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Wed, 23 Nov 2016 23:56:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</guid>
-      <description>&lt;p&gt;Being &lt;em&gt;the IT-guy aka personal first-level-support&lt;/em&gt;&amp;trade; for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&amp;rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Being &lt;em&gt;the IT-guy aka personal first-level-support&lt;/em&gt;&amp;trade; for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&amp;rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -540,8 +477,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 
 &lt;p&gt;(via &lt;a href=&#34;https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;amp;theater&#34;&gt;I Love Programming&lt;/a&gt;)&lt;/p&gt;
 
-&lt;p&gt;Thank goodness, we don&amp;rsquo;t do &lt;em&gt;production&lt;/em&gt;.
-&lt;/p&gt;</description>
+&lt;p&gt;Thank goodness, we don&amp;rsquo;t do &lt;em&gt;production&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -551,8 +487,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       
       <guid>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</guid>
       <description>&lt;p&gt;Since I bought my personal domain name around 2003, I went through several web-solutions,
-using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).
-&lt;/p&gt;</description>
+using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</loc>
+    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</loc>
     <lastmod>2018-10-28T13:00:00+01:00</lastmod>
   </url>
@@ -209,7 +214,7 @@
   
   <url>
     <loc>https://www.jannikarndt.de/blog/</loc>
-    <lastmod>2018-10-28T13:00:00+01:00</lastmod>
+    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -220,7 +225,7 @@
   
   <url>
     <loc>https://www.jannikarndt.de/</loc>
-    <lastmod>2018-10-28T13:00:00+01:00</lastmod>
+    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   

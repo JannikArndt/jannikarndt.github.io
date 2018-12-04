@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
-        <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
-        <meta name="description" content="If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
-Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project.">
-        <meta name="keywords" content="Scala, Maven, Open Source, DataMover, Sonatype">
+        <title>Exception-Proof For-Comprehensions</title>
+        <meta name="description" content="I recently created a wonderful bug.">
+        <meta name="keywords" content="Programming, Scala, Exception, Bugfixing, Lessons Learned, Tutorial, How-To">
         <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -94,10 +92,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-09-10T21:07:00CET ">
-                        September 10, 2017
+                    <time datetime=" 2018-12-04T21:00:00CET ">
+                        December 4, 2018
                     </time>
-                    <h1>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</h1>
+                    <h1>Exception-Proof For-Comprehensions</h1>
                     <p>by Jannik Arndt</p>
                     
                 </div>
@@ -108,298 +106,122 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 
     <article class="bg-light" id="blogentry">
         
-        <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a></div>
-            <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#step-1-claim-your-group-id">Step 1: Claim your Group ID</a></li>
-<li><a href="#step-2-deploy-your-first-snapshot">Step 2: Deploy your first Snapshot</a></li>
-<li><a href="#step-3-deploy-your-first-release">Step 3: Deploy your first Release</a>
-<ul>
-<li><a href="#step-3a-beef-up-your-pom-xml">Step 3a: Beef up your <code>pom.xml</code></a></li>
-<li><a href="#step-3b-and-3c-create-sources-and-javadoc">Step 3b and 3c: Create sources and javadoc</a></li>
-<li><a href="#step-3d-sign-your-name-across-my-heart-your-deployables">Step 3d: Sign your name across <del>my heart</del> your deployables</a></li>
-<li><a href="#step-3e-actually-deploy">Step 3e: Actually deploy</a></li>
-<li><a href="#step-3f-release">Step 3f: Release</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav></div>
-        </aside>
-        
 
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    
+                    <p>I recently created a <em>wonderful</em> bug.</p>
 
-<p>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a <code>pom.xml</code>. While this can work, it brings a few extra caveats if you want to submit your project to <a href="https://search.maven.org">Maven Central</a> (aka <a href="http://central.sonatype.org/pages/ossrh-guide.html">Sonatype OSSRH</a>).</p>
+<p>Have a look at this code and tell me: Do you need to look out for exceptions?</p>
 
-<!-- more -->
+<pre><code class="language-scala">import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
-<h2 id="step-1-claim-your-group-id">Step 1: Claim your Group ID</h2>
+object Main extends App {
 
-<p>When you first publish something to the Sonatype OSSRH, you have to</p>
+  val myFuture: Future[Int] = for {
+    foo &lt;- doFoo()
+    bar &lt;- doBar()
+  } yield foo + bar
+  
+  def doFoo(): Future[Int] = Future(throw new Throwable)
 
-<ul>
-<li><a href="https://issues.sonatype.org/secure/Signup!default.jspa">create a JIRA account</a> and then</li>
-<li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">create a ticket for a new project</a>.</li>
-</ul>
+  def doBar(): Future[Int] = Future(3)
 
-<p>The first question that is usually asked in the ticket is</p>
-
-<blockquote>
-<p>Do you own the domain [your group id]? If not, please read:
-<a href="http://central.sonatype.org/pages/choosing-your-coordinates.html">http://central.sonatype.org/pages/choosing-your-coordinates.html</a></p>
-</blockquote>
-
-<p>You can speed up the process by stating that you do own it in the description. Here is an example: <a href="https://issues.sonatype.org/browse/OSSRH-34281">https://issues.sonatype.org/browse/OSSRH-34281</a></p>
-
-<p><img src="/blog/2017/09/jiraticket.png" alt="The jira ticket on issues.sonatype.org" /></p>
-
-<p>About three minutes (or <a href="http://central.sonatype.org/articles/2014/Feb/27/why-the-wait/">up to 2 business days</a>) later, you have your own repository!</p>
-
-<h2 id="step-2-deploy-your-first-snapshot">Step 2: Deploy your first Snapshot</h2>
-
-<blockquote>
-<p>This is a condensed version of the <a href="http://central.sonatype.org/pages/apache-maven.html">official doc</a>.</p>
-</blockquote>
-
-<p>All you need to deploy your first snapshot is to</p>
-
-<ol>
-<li><p>add the snapshot repository to the <code>distributionManagement</code> section of your <code>pom.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;distributionManagement&gt;
-  &lt;snapshotRepository&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
-  &lt;/snapshotRepository&gt;
-&lt;/distributionManagement&gt;
-</code></pre></li>
-
-<li><p>add the <a href="https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin"><code>nexus-staging-maven-plugin</code></a> to your <code>pom.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;build&gt;
-  &lt;plugins&gt;
-    &lt;plugin&gt;
-      &lt;groupId&gt;org.sonatype.plugins&lt;/groupId&gt;
-      &lt;artifactId&gt;nexus-staging-maven-plugin&lt;/artifactId&gt;
-      &lt;version&gt;1.6.7&lt;/version&gt;
-      &lt;extensions&gt;true&lt;/extensions&gt;
-      &lt;configuration&gt;
-        &lt;serverId&gt;ossrh&lt;/serverId&gt;
-        &lt;nexusUrl&gt;https://oss.sonatype.org/&lt;/nexusUrl&gt;
-        &lt;autoReleaseAfterClose&gt;true&lt;/autoReleaseAfterClose&gt;
-      &lt;/configuration&gt;
-    &lt;/plugin&gt;
-    ...
-  &lt;/plugins&gt;
-&lt;/build&gt;
-</code></pre></li>
-
-<li><p>add your credentials to your <code>settings.xml</code> (on macOS in <code>~/.m2/settings.xml</code>):</p>
-
-<pre><code class="language-xml">&lt;settings&gt;
-  &lt;servers&gt;
-    &lt;server&gt;
-      &lt;id&gt;ossrh&lt;/id&gt;
-      &lt;username&gt;your-jira-id&lt;/username&gt;
-      &lt;password&gt;your-jira-pwd&lt;/password&gt;
-    &lt;/server&gt;
-  &lt;/servers&gt;
-&lt;/settings&gt;
+  myFuture onComplete {
+    case Success(value)     =&gt; println(s&quot;It's a $value&quot;)
+    case Failure(exception) =&gt; println(s&quot;Something went wrong: $exception&quot;)
+  }
+}
 </code></pre>
 
-<p>Since you don&rsquo;t want your password to be written in clear text, you should generate a <em>User Token</em>. Head to <a href="https://oss.sonatype.org/#profile">https://oss.sonatype.org/#profile</a> and choose &ldquo;User Token&rdquo; in the dropdown menu.
-<img src="/blog/2017/09/usertoken.png" alt="Creating a user token" /></p></li>
+<p>Nahhh, probably not, because</p>
 
-<li><p>Make sure the version in your <code>pom.xml</code> ends in <code>-SNAPSHOT</code> and then</p>
-
-<pre><code class="language-bash">mvn clean deploy
-</code></pre></li>
-</ol>
-
-<p>Et voilà! A few seconds later your snapshot is deployed. Now let&rsquo;s get to the hard part…</p>
-
-<h2 id="step-3-deploy-your-first-release">Step 3: Deploy your first Release</h2>
-
-<p>The <a href="http://central.sonatype.org/pages/requirements.html">requirements</a> for a release are a bit tougher than those for a snapshot.</p>
-
-<h3 id="step-3a-beef-up-your-pom-xml">Step 3a: Beef up your <code>pom.xml</code></h3>
-
-<ul>
-<li>The version in the <code>pom.xml</code> may <em>not</em> end in <code>-SNAPSHOT</code></li>
-<li>The <code>pom.xml</code> may not contain any snapshot-dependencies</li>
-
-<li><p>The <code>pom.xml</code> must contain the <code>name</code>, <code>description</code>, <code>url</code>, <code>license</code>, <code>developer</code> and <code>scm</code> tags, for example:</p>
-
-<pre><code class="language-xml">&lt;name&gt;DataMover&lt;/name&gt;
-&lt;description&gt;Out of the box scheduling, logging, monitoring and data governance.&lt;/description&gt;
-&lt;url&gt;https://github.com/JannikArndt/DataMover&lt;/url&gt;
-&lt;licenses&gt;
-  &lt;license&gt;
-    &lt;name&gt;MIT License&lt;/name&gt;
-    &lt;url&gt;http://www.opensource.org/licenses/mit-license.php&lt;/url&gt;
-  &lt;/license&gt;
-&lt;/licenses&gt;
-&lt;developers&gt;
-  &lt;developer&gt;
-    &lt;name&gt;Jannik Arndt&lt;/name&gt;
-    &lt;email&gt;jannik@jannikarndt.de&lt;/email&gt;
-  &lt;/developer&gt;
-&lt;/developers&gt;   
-
-&lt;scm&gt;
-  &lt;connection&gt;scm:git:git://github.com/JannikArndt/DataMover.git&lt;/connection&gt;
-  &lt;developerConnection&gt;scm:git:ssh://github.com:JannikArndt/DataMover.git
-  &lt;/developerConnection&gt;
-  &lt;url&gt;https://github.com/JannikArndt/DataMover/tree/master&lt;/url&gt;
-&lt;/scm&gt;
-</code></pre></li>
-
-<li><p>And you may need the staging repository in the <code>distributionManagement</code> section:</p>
-
-<pre><code class="language-xml">&lt;distributionManagement&gt;
-&lt;snapshotRepository&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
-&lt;/snapshotRepository&gt;
-&lt;repository&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;url&gt;https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url&gt;
-&lt;/repository&gt;
-&lt;/distributionManagement&gt;
+<pre><code class="language-scala">Future{
+  throw new Throwable
+}
 </code></pre>
 
-<p><em>(there are so many different ways to configure the repository that I&rsquo;m not really sure about this)</em></p></li>
-</ul>
+<p>is the same as</p>
 
-<h3 id="step-3b-and-3c-create-sources-and-javadoc">Step 3b and 3c: Create sources and javadoc</h3>
-
-<p>You must upload a <code>…-javadoc.jar</code> and <code>…-sources.jar</code> with the <code>….pom</code> and the <code>….jar</code>. This is a bit difficult if you write Scala code, so there used to be the option to disable this requirement on a per-project basis. The <a href="http://central.sonatype.org/pages/requirements.html#supply-javadoc-and-sources">currently suggested solution</a> is to fake it:</p>
-
-<blockquote>
-<p>If, for some reason (for example, license issue or it&rsquo;s a Scala project), you can not provide <code>-sources.jar</code> or <code>-javadoc.jar</code> , please make fake <code>-sources.jar</code> or <code>-javadoc.jar</code> with simple README inside to pass the checking. We do not want to disable the rules because some people tend to skip it if they have an option and we want to keep the quality of the user experience as high as possible.</p>
-</blockquote>
-
-<p>However, being a scala dev you probably don&rsquo;t fancy faking anything. <a href="http://davidb.github.io/scala-maven-plugin/example_doc.html"><code>scala-maven-plugin</code></a> to the rescue! In the <code>build</code> section of your <code>pom.xml</code>, you probably already have used the <code>scala-maven-plugin</code> to compile your project. Extend it with the following executions:</p>
-
-<pre><code class="language-xml">&lt;plugin&gt;
-    &lt;!-- https://mvnrepository.com/artifact/net.alchim31.maven/scala-maven-plugin --&gt;
-    &lt;groupId&gt;net.alchim31.maven&lt;/groupId&gt;
-    &lt;artifactId&gt;scala-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;3.2.2&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;compile&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-        &lt;execution&gt;                         &lt;!-- from here --&gt;
-            &lt;id&gt;attach-javadocs&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;doc-jar&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-        &lt;execution&gt;
-            &lt;id&gt;attach-sources&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;add-source&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;                        &lt;!-- to here --&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
+<pre><code class="language-scala">Future.apply(throw new Throwable)
 </code></pre>
 
-<p>Now you don&rsquo;t even need the <code>maven-release-plugin</code>, <code>maven-source-plugin</code> or <code>maven-javadoc-plugin</code> anymore!</p>
+<p>is the same as</p>
 
-<p>Let&rsquo;s head for the dragon…</p>
-
-<h3 id="step-3d-sign-your-name-across-my-heart-your-deployables">Step 3d: Sign your name across <del>my heart</del> your deployables</h3>
-
-<blockquote>
-<p>Warning: This section contains dirty workarounds. Nothing else.</p>
-</blockquote>
-
-<p>You need to provide a <em>valid</em> gpg-signature for the  <code>…-javadoc.jar</code>, <code>…-sources.jar</code>, <code>….pom</code> and the <code>….jar</code>. This means these files may not change between signing and deployment. If you create them (via <code>mvn clean install</code>), sign them and then try to <code>mvn deploy</code> them, however, they <em>will</em> change.</p>
-
-<p>Now you can try one of the <a href="http://central.sonatype.org/pages/apache-maven.html#manually-releasing-the-deployment-to-the-central-repository">many other ways</a> to deploy, but we&rsquo;ve already got so far, with javadoc and sources and everything, let&rsquo;s not throw this all away!</p>
-
-<blockquote>
-<p>“Vorwärts immer, rückwärts nimmer.”</p>
-
-<p><small>(Carl Latann, unlucky musician only know for being cited by Erich “Fowler” Honecker)</small></p>
-</blockquote>
-
-<p>First things first: Add the <a href="http://maven.apache.org/plugins/maven-gpg-plugin/"><code>maven-gpg-plugin</code></a> to your <code>pom.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;plugin&gt;
-  &lt;!-- GPG signing --&gt;
-  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-  &lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;
-  &lt;version&gt;1.6&lt;/version&gt;
-  &lt;executions&gt;
-    &lt;execution&gt;
-      &lt;id&gt;sign-artifacts&lt;/id&gt;
-      &lt;phase&gt;verify&lt;/phase&gt;
-      &lt;goals&gt;
-        &lt;goal&gt;sign&lt;/goal&gt;
-      &lt;/goals&gt;
-    &lt;/execution&gt;
-  &lt;/executions&gt;
-&lt;/plugin&gt;
+<pre><code class="language-scala">Future.unit.map(_ =&gt; throw new Throwable)
 </code></pre>
 
-<p>This is supposedly running in the verify phase of the <a href="http://maven.apache.org/ref/3.5.0/maven-core/lifecycles.html#default_Lifecycle">maven lifecycle</a>. <a href="http://maven.apache.org/ref/3.5.0/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging">Or not</a>. It means, though, that you <em>can</em> invoke <code>mvn gpg:sign</code> to create the needed <code>.asc</code> files.</p>
+<p>is the same as</p>
 
-<p>This assumes that you have <a href="http://brewformulas.org/gnupg2">gpg installed</a> and the <code>gpg-agent</code> is running. Also, you need to provide the password to your key —devil or deep blue sea— either as a console argument or in plain text in your <code>settings.xml</code>:</p>
-
-<pre><code class="language-xml">&lt;profile&gt;
-    &lt;id&gt;ossrh&lt;/id&gt;
-    &lt;activation&gt;
-        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-    &lt;/activation&gt;
-    &lt;properties&gt;
-        &lt;gpg.executable&gt;gpg2&lt;/gpg.executable&gt;
-        &lt;gpg.passphrase&gt;iShouldNotBeInPlainText&lt;/gpg.passphrase&gt;
-    &lt;/properties&gt;
-&lt;/profile&gt;
+<pre><code class="language-scala">Future.successful(()).transform(_ map (_ =&gt; throw new Throwable))
 </code></pre>
 
-<p>The <a href="http://maven.apache.org/plugins/maven-gpg-plugin/usage.html">manual</a> claims that you could encrypt the passphrase, but that&rsquo;s just a lie. I have spend <em>a lot</em> of time on this, but no success. If anyone manages to read an encrypted passphrase, please <a href="mailto:jannik@jannikarndt.de">let me know</a>!</p>
+<p>and this <code>transform</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/concurrent/Future.scala#L257">is defined as</a></p>
 
-<p>Well, this was bad. Let&rsquo;s go for the big finale…</p>
-
-<h3 id="step-3e-actually-deploy">Step 3e: Actually deploy</h3>
-
-<p>Okay, <em>usually</em> a <code>mvn deploy</code> goes through the complete lifecycle and does all the required steps, but we&rsquo;ve added a few non-standard steps, so…well…this works:</p>
-
-<pre><code class="language-bash">mvn clean package source:jar gpg:sign install:install deploy:deploy
+<pre><code class="language-scala">def transform[S](f: Try[T] =&gt; Try[S])(implicit executor: ExecutionContext): Future[S]
 </code></pre>
 
-<p>But wait, there&rsquo;s more!</p>
+<p>and therefore the <code>map</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L105">is defined as</a></p>
 
-<h3 id="step-3f-release">Step 3f: Release</h3>
+<pre><code class="language-scala">def map[U](f: T =&gt; U): Try[U]
+</code></pre>
 
-<p>Head over to <a href="https://oss.sonatype.org/#stagingRepositories">https://oss.sonatype.org/#stagingRepositories</a> and (if your prefix starts with anything after &lsquo;c&rsquo;) scroll to the bottom, where you find <em>your repository</em>!</p>
+<p>and <code>Try</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L207-L216">has the constructor</a></p>
 
-<p><img src="/blog/2017/09/nexusrelease.png" alt="nexusrelease" /></p>
+<pre><code class="language-scala">object Try {
+  /** Constructs a `Try` using the by-name parameter.  This
+   * method will ensure any non-fatal exception is caught and a
+   * `Failure` object is returned.
+   */
+  def apply[T](r: =&gt; T): Try[T] =
+    try Success(r) catch {
+      case NonFatal(e) =&gt; Failure(e)
+    }
+}
+</code></pre>
 
-<p>The naming is a bit weird here: The repository is now <em>open</em>, which means you can continue deploying into it. To move forward you have to <em>close</em> it. This is where you&rsquo;ll get problems if you skipped a step (I told you so!).</p>
+<p>and <em>there we finally have our try-catch-block!</em> So we don&rsquo;t have to care about exceptions in <code>Future</code>s, right?</p>
 
-<p>If everything worked, you should see something like this:</p>
+<h2 id="the-catch">The Catch</h2>
 
-<p><img src="/blog/2017/09/closedrepository.png" alt="closedrepository" /></p>
+<p>While the conclusion is correct, and exceptions inside futures will be caught, <em>not all the code is inside a future!</em></p>
 
-<p>And now you can finally <em>Release</em> your work! Enjoy your work, give yourself a pat on the shoulder and then head back to your code, increase the version to the next <code>-SNAPSHOT</code> and start fixing those bugs you <em>know</em> are still in there…</p>
+<p>The <code>for</code> comprehension de-sugared is the same as</p>
 
-<p>Oh, and don&rsquo;t forget to comment on the ticket, otherwise nobody will find your code:</p>
+<pre><code class="language-scala">doFoo().flatMap(foo =&gt; doBar().map(bar =&gt; foo + bar))
+</code></pre>
 
-<p><img src="/blog/2017/09/jiracomment.png" alt="jiracomment" /></p>
+<p>and although <code>doFoo()</code> <em>returns</em> a <code>Future</code>, there can be parts that are <em>not</em> inside that <code>Future</code>:</p>
 
+<pre><code class="language-scala">def doFoo(): Future[Int] = {
+  throw new Throwable
+  Future(3)
+}
+</code></pre>
+
+<p>BÄM! Now there&rsquo;s no <code>try</code> around the <code>throw</code> and the <code>Throwable</code> will bubble to the top and kill your program.</p>
+
+<h2 id="the-solution">The Solution</h2>
+
+<p>Obviously, when returning a <code>Future</code> you shouldn&rsquo;t throw exceptions. But if you&rsquo;re the caller and don&rsquo;t have any influence on this, this will save you:</p>
+
+<pre><code class="language-scala">val myFuture: Future[Int] = for {
+  _   &lt;- Future.unit
+  foo &lt;- doFoo()
+  bar &lt;- doBar()
+} yield foo + bar
+</code></pre>
+
+<p>It&rsquo;s pretty much the same way the standard library does it: Start with something successful and <code>map</code> your way from there!</p>
+
+<p>De-sugared, this would be</p>
+
+<pre><code class="language-scala">Future.unit.flatMap(_ =&gt; doFoo().flatMap(foo =&gt; doBar().map(bar =&gt; foo + bar)))
+</code></pre>
+
+<p>What a mess, just to be on the safe side.</p>
                 </div>
             </div>
         </div>
