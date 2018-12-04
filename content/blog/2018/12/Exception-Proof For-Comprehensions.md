@@ -28,9 +28,9 @@ object Main extends App {
     bar <- doBar()
   } yield foo + bar
   
-  def doFoo(): Future[Int] = Future(throw new Throwable)
+  def doFoo(): Future[Int] = ???
 
-  def doBar(): Future[Int] = Future(3)
+  def doBar(): Future[Int] = ???
 
   myFuture onComplete {
     case Success(value)     => println(s"It's a $value")
