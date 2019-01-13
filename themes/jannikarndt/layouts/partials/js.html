@@ -1,13 +1,12 @@
 <script src="{{ "js/jquery-3.3.1.min.js" | absURL }}"></script>
 <script src="{{ "js/jquery-ui.min.js" | absURL }}"></script>
 <script src="{{ "js/highlight.pack.js" | absURL }}"></script>
-<script src="{{ "js/wow.js" | absURL }}"></script>
-<script src="{{ "js/bootstrap.min.js" | absURL }}"></script>
 <script lang="">(function ($) {
         "use strict";
 
         hljs.initHighlightingOnLoad();
 
+        // smooth scrolling on anchor click
         $('a[href*="#"]').on('click', function (e) {
             e.preventDefault();
 
@@ -16,11 +15,13 @@
             }, 500, 'easeInOutExpo');
         });
 
-        // Closes the Responsive Menu on Menu Item Click
-        $('.navbar-collapse ul li a').click(function () {
-            $('.navbar-toggle:visible').click();
+        // toggle menu
+        $('.navbar-toggle').click(function () {
+            $(".navbar-toggle").toggleClass("collapsed");
+            $(".navbar-collapse").toggleClass("collapse");
         });
 
+        // paint navbar when scrolled
         $(document).scroll(function () {
             $(".navbar").toggleClass("navbar-scrolled", $(this).scrollTop() > 50);
         });
