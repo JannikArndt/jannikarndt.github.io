@@ -83,3 +83,7 @@
 .navbar-collapse.in{
     background-color: rgba(155, 181,213,.7);
 }
+
+.navbar-scrolled {
+    background-color: rgba(155, 181,213,.7);
+  }
