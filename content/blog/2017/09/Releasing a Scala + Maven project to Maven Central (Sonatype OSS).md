@@ -85,8 +85,8 @@ Since you don't want your password to be written in clear text, you should gener
 ![Creating a user token](/blog/2017/09/usertoken.png)
 
 4. Make sure the version in your `pom.xml` ends in `-SNAPSHOT` and then
-```shell
-    mvn clean deploy
+ ```shell
+$     mvn clean deploy
 ```
 
 Et voilà! A few seconds later your snapshot is deployed. Now let's get to the hard part…

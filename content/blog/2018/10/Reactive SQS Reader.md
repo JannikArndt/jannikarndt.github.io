@@ -250,7 +250,7 @@ Testing our `SqsService` has three challenges: It is using an AWS service, it is
 Luckily, others have had the need to test AWS services as well, and created [Localstack](https://github.com/localstack/localstack). It provides a Docker image that runs these services locally:
 
 ```shell
-docker run -d --env SERVICES="sqs" --env TMPDIR="/tmp" \
+$ docker run -d --env SERVICES="sqs" --env TMPDIR="/tmp" \
     --name "localstack" \
     --publish 4576:4576 \
     --rm localstack/localstack
@@ -261,7 +261,7 @@ You list the services you want to use in the `SERVICES` variable and expose thei
 If you want to access the Localstack-version of a service via the _aws_ cli, you can use the `--endpoint-url`:
 
 ```shell
-aws --endpoint-url=http://localhost:4576 sqs send-message\
+$ aws --endpoint-url=http://localhost:4576 sqs send-message\
     --queue-url "http://localhost:4576/queue/myqueue"\
     --message-body "Hallo"
 ```

@@ -144,7 +144,7 @@ But beware: Do _not_ edit the file in TextEdit, as it changes the format.
 You should now be able to start the `homebridge` app:
 
 ```shell
-homebridge
+$ homebridge
 ```
 
 ![](../pi/homebridge_start.png)
