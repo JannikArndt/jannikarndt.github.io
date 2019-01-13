@@ -1,10 +1,22 @@
-{{ "<!-- jQuery -->" | safeHTML }}
-<script src="{{ "js/jquery.js" | absURL }}"></script>
-{{ "<!-- Bootstrap Core JavaScript -->" | safeHTML }}
-<script src="{{ "js/bootstrap.min.js" | absURL }}"></script>
-{{ "<!-- Plugin JavaScript -->" | safeHTML }}
-<script src="{{ "js/jquery.easing.min.js" | absURL }}"></script>
-<script src="{{ "js/jquery.fittext.js" | absURL }}"></script>
-<script src="{{ "js/wow.min.js" | absURL }}"></script>
-{{ "<!-- Custom Theme JavaScript -->" | safeHTML }}
-<script src="{{ "js/creative.js" | absURL }}"></script>
+<script src="{{ "js/jquery-3.3.1.min.js" | absURL }}"></script>
+<script src="{{ "js/jquery-ui.min.js" | absURL }}"></script>
+<script src="{{ $.Site.BaseURL }}/{{ "js/highlight.pack.js" }}"></script>
+<script lang="">(function($) {
+    "use strict";
+
+    hljs.initHighlightingOnLoad();
+
+    $('a[href*="#"]').on('click', function (e) {
+        e.preventDefault();
+    
+        $('html, body').animate({
+            scrollTop: ($($(this).attr('href')).offset().top - 50)
+        }, 500, 'easeInOutExpo');
+    });
+
+    // Closes the Responsive Menu on Menu Item Click
+    $('.navbar-collapse ul li a').click(function() {
+        $('.navbar-toggle:visible').click();
+    });
+
+})(jQuery);</script>
