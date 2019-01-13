@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Postgresql on Jannik Arndt</title>
+    <link>https://www.jannikarndt.de/tags/postgresql/</link>
+    <description>Recent content in Postgresql on Jannik Arndt</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 22 Aug 2018 09:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="https://www.jannikarndt.de/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Rotating PostgreSQL Passwords with no downtime</title>
+      <link>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</link>
+      <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</guid>
+      <description>&lt;p&gt;Changing the password for a PostgreSQL database user involves two steps: The change in the database and the change in the application code. This blog post describes how to do this without any downtime or failed authentication tries.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Examining a PostgreSQL with psql or pgcli</title>
+      <link>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</link>
+      <pubDate>Thu, 16 Aug 2018 15:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</guid>
+      <description>&lt;p&gt;The PostgreSQL installation comes with a great tool, &lt;code&gt;psql&lt;/code&gt;, to administer and inspect the database. &lt;a href=&#34;https://www.pgcli.com&#34;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; extends this with syntax highlighting and autocompletion.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

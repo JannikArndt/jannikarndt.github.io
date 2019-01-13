@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Scala on Jannik Arndt</title>
+    <link>https://www.jannikarndt.de/tags/scala/</link>
+    <description>Recent content in Scala on Jannik Arndt</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Dec 2018 21:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="https://www.jannikarndt.de/tags/scala/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Exception-Proof For-Comprehensions</title>
+      <link>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</link>
+      <pubDate>Tue, 04 Dec 2018 21:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</guid>
+      <description>&lt;p&gt;I recently created a &lt;em&gt;wonderful&lt;/em&gt; bug.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>oAuth2 with Akka HTTP</title>
+      <link>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</link>
+      <pubDate>Sun, 28 Oct 2018 13:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</guid>
+      <description>&lt;p&gt;This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/&lt;/code&gt; — publicly accessible, returns “Welcome!”,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/auth&lt;/code&gt; — provide your &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt;, receive an &lt;code&gt;access_token&lt;/code&gt; in return,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/api&lt;/code&gt; — secured by oAuth, send the &lt;code&gt;access_token&lt;/code&gt; in a header to gain access.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;From the server&amp;rsquo;s point of view:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/&lt;/code&gt; — publicly accessible, do nothing,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/auth&lt;/code&gt; — receive basic auth credentials, verify they&amp;rsquo;re in the list of known credentials, create an &lt;code&gt;access_token&lt;/code&gt;, return it,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/api&lt;/code&gt; — receive &lt;code&gt;authorization&lt;/code&gt; header, check if &lt;code&gt;access_token&lt;/code&gt; is in list of valid tokens.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Since oAuth tokens are short lived, the server also has to invalidate expired tokens.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Akka HTTP on Heroku</title>
+      <link>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</link>
+      <pubDate>Sat, 27 Oct 2018 19:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</guid>
+      <description>&lt;p&gt;Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</title>
+      <link>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</link>
+      <pubDate>Sun, 07 Oct 2018 18:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</guid>
+      <description>&lt;p&gt;This example show how to write a reactive reader for the AWS &lt;em&gt;Simple Queue Service&lt;/em&gt;, using Scala and alpakka (respective akka streams).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How Event Sourcing in Akka Persistent Actors Works</title>
+      <link>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</link>
+      <pubDate>Fri, 31 Aug 2018 17:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</guid>
+      <description>&lt;p&gt;While the &lt;a href=&#34;https://doc.akka.io/docs/&#34;&gt;Akka&lt;/a&gt; documentation is incredibly well written, it has surprisingly few images. Since &lt;em&gt;I&lt;/em&gt; visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
