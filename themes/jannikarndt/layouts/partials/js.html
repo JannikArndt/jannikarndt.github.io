@@ -1,22 +1,22 @@
 <script src="{{ "js/jquery-3.3.1.min.js" | absURL }}"></script>
 <script src="{{ "js/jquery-ui.min.js" | absURL }}"></script>
 <script src="{{ "js/highlight.pack.js" | absURL }}"></script>
-<script lang="">(function($) {
-    "use strict";
+<script lang="">(function ($) {
+        "use strict";
 
-    hljs.initHighlightingOnLoad();
+        hljs.initHighlightingOnLoad();
 
-    $('a[href*="#"]').on('click', function (e) {
-        e.preventDefault();
-    
-        $('html, body').animate({
-            scrollTop: ($($(this).attr('href')).offset().top - 50)
-        }, 500, 'easeInOutExpo');
-    });
+        $('a[href*="#"]').on('click', function (e) {
+            e.preventDefault();
 
-    // Closes the Responsive Menu on Menu Item Click
-    $('.navbar-collapse ul li a').click(function() {
-        $('.navbar-toggle:visible').click();
-    });
+            $('html, body').animate({
+                scrollTop: ($($(this).attr('href')).offset().top - 50)
+            }, 500, 'easeInOutExpo');
+        });
 
-})(jQuery);</script>
+        // Closes the Responsive Menu on Menu Item Click
+        $('.navbar-collapse ul li a').click(function () {
+            $('.navbar-toggle:visible').click();
+        });
+        
+    })(jQuery);</script>
