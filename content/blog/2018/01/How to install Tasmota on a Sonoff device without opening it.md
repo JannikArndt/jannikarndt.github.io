@@ -28,10 +28,10 @@ The two repositories I'm using are
 
 First you need to clone (=download) the repository and install the requirements. For this you need `git` and `pip`.
 
-```zsh
-➜  ~ git clone https://github.com/mirko/SonOTA
-➜  ~ cd SonOTA
-➜  ~ pip3 install --user -r requirements.txt
+```shell
+$ git clone https://github.com/mirko/SonOTA
+$ cd SonOTA
+$ pip3 install --user -r requirements.txt
 ```
 
 ## 2. Allow incoming and outgoing connections
@@ -42,8 +42,8 @@ I also noticed LittleSnitch and TripMode trying to block connections. If you hav
 
 ## 3. Start SonOTA script
 
-```zsh
-➜  ~ ./sonota.py
+```shell
+$ ./sonota.py
 Current IPs: ['192.168.31.210']
 Select IP address of the WiFi interface:
     0: 192.168.31.210
@@ -71,7 +71,7 @@ In config mode, the Sonoff broadcasts its own wifi.
 
 ## 6. Let the script configure the sonoff
 
-```zsh
+```shell
 >> HTTP GET /10.10.7.1/device
 # ...
 >> HTTP POST /10.10.7.1/ap
@@ -86,7 +86,7 @@ Starting stage2...
 
 The device now joins your wifi and ends providing its own (`ITEAD-100001XXXX`). Your computer will most likely switch back to your usual wifi.
 
-```zsh
+```shell
 ....Current IPs: ['192.168.31.210']
 ~~ Starting web server (HTTP port: 8080, HTTPS port 8443)
 ~~ Waiting for device to connect
@@ -112,7 +112,7 @@ If you have successfully connected to "FinalStage" and this is not the IP Addres
 
 ## 7. Switch to `FinalStage` Wifi
 
-```zsh
+```shell
 If you have successfully connected to "FinalStage" and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
 ..Current IPs: []
 .Sending file: /ota/image_arduino.bin
@@ -152,7 +152,7 @@ The idea here is that you have an MQTT broker somewhere to exchange messages bet
 
 If you want to try without a raspberry pi, you can run the broker on your computer:
 
-```zsh
+```shell
 brew install mosquitto
 mosquitto
 ```
@@ -161,7 +161,7 @@ Username and Password defaults are empty.
 
 If `brew` has problems linking `mosquitto`, try
 
-```zsh
+```shell
 sudo mkdir /usr/local/sbin
 sudo chown -R `whoami`:admin /usr/local/sbin
 brew link mosquitto

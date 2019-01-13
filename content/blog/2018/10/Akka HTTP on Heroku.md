@@ -22,29 +22,29 @@ First, [create a new app on Heroku](https://dashboard.heroku.com/new-app). The e
 
 Next, setup you local `sbt` project. My way would be
 
-```zsh
-➜ sbt new jannikarndt/scala.g8
+```shell
+$ sbt new jannikarndt/scala.g8
 ```
 
 Do the `git` thing:
 
-```zsh
-➜ git init
-➜ git add .
-➜ git commit -m "Template"  
+```shell
+$ git init
+$ git add .
+$ git commit -m "Template"  
 ```
 
 and next, connect the repository to Heroku. If you haven't already, install their cli first:
 
-```zsh
-➜ brew install heroku/brew/heroku
+```shell
+$ brew install heroku/brew/heroku
 ...
-➜ heroku login
+$ heroku login
 heroku: Enter your login credentials
 Email: your@mail.com
 Password: ************
 Logged in as your@mail.com
-➜ heroku git:remote -a yourproject
+$ heroku git:remote -a yourproject
 set git remote heroku to https://git.heroku.com/yourproject.git
 ```
 
@@ -101,7 +101,7 @@ sbt> stage
 
 but on Heroku it will actually crash the app:
 
-```log
+```apache
 heroku[web.1]: State changed from starting to crashed
 app[web.1]: Error: Main method not found in class Main, please define the main method as:
 app[web.1]: public static void main(String[] args)
@@ -162,16 +162,16 @@ object WebServer extends HttpApp {
 
 After you tested locally running
 
-```zsh
-➜ sbt compile stage
+```shell
+$ sbt compile stage
 ```
 
 (because that's exactly the command that will be run on Heroku's server) and maybe `sbt run` or `sbt reStart`, you can finally deploy.
 
 Since you already connected our git to the remote repository, all you have to do is `push`:
 
-```zsh
-➜ git push --set-upstream heroku master
+```shell
+$ git push --set-upstream heroku master
 Enumerating objects: 13, done.
 Counting objects: 100% (13/13), done.
 Delta compression using up to 4 threads

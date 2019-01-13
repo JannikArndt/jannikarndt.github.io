@@ -33,7 +33,7 @@ resource "kubernetes_secret" "ssh_key_verstehensystem_csv_ingest_bwh" {
 
 (see [Docs](https://www.terraform.io/docs/providers/kubernetes/r/secret.html)) or with `kubectl`:
 
-```bash
+```shell
 $ kubectl create secret generic my-ssh-key --from-file=id_rsa=/path/to/local-ssh-keys
 ```
 
@@ -82,6 +82,6 @@ The docs [state](https://kubernetes.io/docs/concepts/configuration/secret/#using
 
 In my experience, the `yaml` spec _also_ does not support octal notation, so you need to convert:
 
-```bash
+```shell
 400 = (4 * 8^2) + (4 * 8^1) + (4 * 8^0) = (4 * 64) + (0 * 8) + (0 * 1) = 256 + 0 + 0 = 256
 ```

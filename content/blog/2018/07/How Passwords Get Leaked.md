@@ -66,7 +66,7 @@ Would you really consider your chat as secure? Rather rotate.
 
 In the liquibase example, you can write a wrapper-bash-script that reads the password from the environment, like this one:
 
-```bash
+```shell
 #!/bin/sh
 
 RED='\033[0;31m'

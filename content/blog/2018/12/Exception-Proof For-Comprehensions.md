@@ -39,7 +39,7 @@ object Main extends App {
 }
 ```
 
-Nahhh, probably not, because 
+Nahhh, probably not, because
 
 ```scala
 Future{
@@ -47,19 +47,19 @@ Future{
 }
 ```
 
-is the same as 
+is the same as
 
 ```scala
 Future.apply(throw new Throwable)
 ```
 
-is the same as 
+is the same as
 
 ```scala
 Future.unit.map(_ => throw new Throwable)
 ```
 
-is the same as 
+is the same as
 
 ```scala
 Future.successful(()).transform(_ map (_ => throw new Throwable))

@@ -20,7 +20,7 @@ The PostgreSQL installation comes with a great tool, `psql`, to administer and i
 
 When you start the tool, you need to specify the connection. PostgreSQL can be accessed via *TCP/IP* or *Unix Sockets*. If you installed [Postgres.app](https://postgresapp.com/), TCP will be the standard and you only need to specify the host (`h`):
 
-```bash
+```shell
 $ psql -h localhost
 ```
 
@@ -43,14 +43,14 @@ To be precise, PostgreSQL doesn't have users, it has roles. Roles you can login 
 
 The OS user and the postgres role have a corresponding database, which is automatically selected. However, if you create a new role and try to log in as that role, you will likely receive the error
 
-```bash
+```shell
 $ psql -h localhost -p 5432 -U foo
 FATAL:  database "foo" does not exist
 ```
 
 Thus you'll have to specify the database you want to connect to as well:
 
-```bash
+```shell
 $ psql -h localhost -p 5432 -U foo -d postgres
 ```
 
@@ -62,7 +62,7 @@ In a fresh installation, your OS user and the postgres role do not have a passwo
 
 Actually assigning a password to a role won't change anything, only if you change the line in the `pg_hba.conf` too will you be asked to provide a password when logging in:
 
-```conf
+```ini
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 # IPv4 local connections:
 host    all             all             127.0.0.1/32            md5
@@ -89,13 +89,13 @@ Since you can run multiple PostgreSQL instances on the same machine but all are 
 
 So in essence, the command
 
-```bash
+```shell
 $ psql -h localhost
 ```
 
 does the same as
 
-```bash
+```shell
 $ psql -h localhost -p 5432 -U <os-user> -d <os-user>
 Password for user postgres: ...
 ```
@@ -110,7 +110,7 @@ While you can execute any SQL statement you want using the `psql` tool, there ar
 
 I like to start listing all databases in the current instance, using
 
-```bash
+```shell
 jannikarndt@[local]:jannikarndt=# \l+
 
                           List of databases
@@ -132,7 +132,7 @@ As you see, one of the databases is larger then the others. That might be an int
 
 To list tables in that database, we first have to connect to it:
 
-```bash
+```shell
 jannikarndt@[local]:jannikarndt=# \dn+
 
                            List of schemas
@@ -166,14 +166,14 @@ Note that the first and the second entry for `public` are _different_ schemas! T
 
 Next, let's **list all tables** in the `webshop` schema. Running `\dt+` unfortunately will either result in 
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# \dt+
 Did not find any relations.
 ```
 
 or showing tables that have nothing to do with the `webshop` schema:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# \dt+
 
                          List of relations
@@ -187,7 +187,7 @@ jannikarndt@[local]:mywebshop=# \dt+
 
 This is because if you don't enter a _search path_, `psql` will use your _current_ search path, which points to the schema with your username and the public schema:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# SHOW search_path
 mywebshop-# ;
 ┌─────────────────┐
@@ -200,7 +200,7 @@ mywebshop-# ;
 
 To list the tables of the `webshop` schema, you have to either **set the search path** using `SET search_path TO webshop;` or **make it explicit in the query**:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# \dt+ webshop.*
 
                          List of relations
@@ -223,7 +223,7 @@ jannikarndt@[local]:mywebshop=# \dt+ webshop.*
 
 Setting the search path allows you to **query multiple schemas**:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# SET search_path TO webshop,public;
 SET
 jannikarndt@[local]:mywebshop=# \dt
@@ -245,7 +245,7 @@ To query _all_ schemas, run `\dt+ *.*`, but beware, this also lists the tables i
 
 Attention: `\dt` only lists _tables_, not views. Those need to be queried seperately:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# \dv+ webshop.*
 
                                List of relations
@@ -263,7 +263,7 @@ jannikarndt@[local]:mywebshop=# \dv+ webshop.*
 
 Next, you can get all information on a single table with `\d+ <schema>.<tablename>`:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# \d webshop.order
 
                         Table "webshop.order"
@@ -291,7 +291,7 @@ Referenced by:
 
 Or for views:
 
-```bash
+```shell
 jannikarndt@[local]:mywebshop=# \d+ webshop.most_ordered_products
 
                           View "webshop.most_ordered_products"
@@ -321,7 +321,7 @@ Note that appending the `+` gives you the `CREATE`-statement for the view.
 
 Finally, we should also have a look at the users:
 
-```bash
+```shell
 jannikarndt@[local]:jannikarndt=# \du+
 
                                 List of roles

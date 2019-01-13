@@ -85,7 +85,7 @@ Since you don't want your password to be written in clear text, you should gener
 ![Creating a user token](/blog/2017/09/usertoken.png)
 
 4. Make sure the version in your `pom.xml` ends in `-SNAPSHOT` and then
-```bash
+```shell
     mvn clean deploy
 ```
 
@@ -234,7 +234,7 @@ Well, this was bad. Let's go for the big finale…
 
 Okay, _usually_ a `mvn deploy` goes through the complete lifecycle and does all the required steps, but we've added a few non-standard steps, so…well…this works:
 
-```bash
+```shell
 mvn clean package source:jar gpg:sign install:install deploy:deploy
 ```
 

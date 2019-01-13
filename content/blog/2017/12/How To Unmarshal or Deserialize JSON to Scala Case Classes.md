@@ -98,7 +98,7 @@ I am going to provide examples for `spray-json`, `json4s` and `jackson`, since t
 
 `build.sbt`:
 
-```sbt
+```scala
 libraryDependencies += "io.spray" %%  "spray-json" % "1.3.3"
 ```
 
@@ -260,7 +260,7 @@ val person     = jsonAst.convertTo[Person]
 
 Since `Person` uses the `Address` class, the `jsonFormat2(Address)` needs to be defined _before_ the `jsonFormat6(Person)`. Otherwise you will get
 
-```sbt
+```scala
 [error] SprayJsonTest_Nested.scala:20:43: could not find implicit value for evidence parameter of type sprayJsonTests.PersonJsonProtocol.JF[Option[sprayJsonTests.Address]]
 ```
 
@@ -268,7 +268,7 @@ Since `Person` uses the `Address` class, the `jsonFormat2(Address)` needs to be 
 
 While some libraries treat empty lists or sequences the same as `None`, `spray-json` will throw a
 
-```sbt
+```scala
 spray.json.DeserializationException: Expected Collection as JsArray, but got null
 ```
 

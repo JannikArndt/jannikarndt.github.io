@@ -16,7 +16,7 @@ toc = true
 <!--more-->
 
 ## Preparation
-```bash
+```shell
 brew install terraform
 ```
 
@@ -34,21 +34,21 @@ resource "aws_instance" "example" {
 AMI = [Amazon Machine Images](https://cloud-images.ubuntu.com/locator/ec2/)
 
 AWS credentials are stored in environment vars:
-```bash
+```shell
 export AWS_ACCESS_KEY_ID=...
 export AWS_SECRET_ACCESS_KEY=...
 ```
 
 ## Init
 
-```bash
+```shell
 $ terraform init
 ...
 Terraform has been successfully initialized!
 ...
 ```
 
-```bash
+```shell
 $ terraform plan -out planfile
   + aws_instance.example
       ami:                          "ami-2757f631"
@@ -56,7 +56,7 @@ $ terraform plan -out planfile
 ...
 ```
 
-```bash
+```shell
 $ terraform apply planfile
 aws_instance.example: Creating...
 ...
@@ -67,7 +67,7 @@ aws_instance.example: Still creating... (40s elapsed)
 aws_instance.example: Creation complete (ID: i-00b2e1a29daee4371)
 ```
 
-```bash
+```shell
 $ terraform show
 aws_instance.example:
   id = i-00b2e1a29daee4371
@@ -91,7 +91,7 @@ resource "aws_instance" "example" {
 }
 ```
 
-```bash
+```shell
 $ terraform plan
 Refreshing Terraform state in-memory prior to plan...
 aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371)
@@ -102,7 +102,7 @@ aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371)
 ...
 ```
 
-```bash
+```shell
 $ terraform apply
 aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371)
 aws_instance.example: Destroying... (ID: i-00b2e1a29daee4371)
@@ -117,7 +117,7 @@ aws_instance.example: Creation complete (ID: i-05a8f2e88ae0faace)
 
 ## Destroy
 
-```bash
+```shell
 $ terraform plan -destroy
 Refreshing Terraform state in-memory prior to plan...
 ...
@@ -125,7 +125,7 @@ Refreshing Terraform state in-memory prior to plan...
 ...
 ```
 
-```bash
+```shell
 $ terraform destroy
 aws_instance.example: Refreshing state... (ID: i-05a8f2e88ae0faace)
 ...
@@ -162,7 +162,7 @@ resource "aws_eip" "ip" {
 }
 ```
 
-```bash
+```shell
 $ terraform apply planfile 
 aws_instance.example: Creating...
 ...
@@ -173,12 +173,12 @@ aws_eip.ip: Creation complete (ID: eipalloc-6be79a58)
 
 Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 ```
-```bash
+```shell
 $ terraform refresh
 aws_instance.example: Refreshing state... (ID: i-0478b3c5b6a085287)
 aws_eip.ip: Refreshing state... (ID: eipalloc-6be79a58)
 ```
-```bash
+```shell
 $ terraform show
 aws_eip.ip:
   id = eipalloc-6be79a58
@@ -204,7 +204,7 @@ resource "aws_eip" "ip" {
 }
 ```
 To view a dependency graph:
-```bash
+```shell
 $ terraform graph > graph.dot
 ```
 And open with graphviz:
@@ -295,7 +295,7 @@ output "ip" {
 }
 ```
 Provisioners are only run, when a resource is first created!
-```bash
+```shell
 $ terraform destroy
 ...
 $ terraform apply

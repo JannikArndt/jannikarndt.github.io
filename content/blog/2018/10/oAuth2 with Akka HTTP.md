@@ -73,8 +73,8 @@ object WebServer extends HttpApp with StrictLogging {
 
 You can test it in the console:
 
-```zsh
-➜ ~ curl --request GET --url http://localhost:8080
+```shell
+$ ~ curl --request GET --url http://localhost:8080
 Welcome!
 ```
 
@@ -146,8 +146,8 @@ implicit val serialization: Serialization.type = native.Serialization
 
 Try getting an `access_token` via
 
-```zsh
-➜  ~ curl --request POST --url http://localhost:8080/auth --header 'authorization: Basic amFubmlrOnA0c3N3MHJk'
+```shell
+$ curl --request POST --url http://localhost:8080/auth --header 'authorization: Basic amFubmlrOnA0c3N3MHJk'
 {"access_token":"2e510027-0eb9-4367-b310-68e1bab9dc3d", "token_type":"bearer", "expires_in":3600}
 ```
 
@@ -176,8 +176,8 @@ private def oAuthAuthenticator(credentials: Credentials): Option[LoggedInUser] =
 
 You call this endpoint via
 
-```zsh
-➜  ~ curl --request GET --url http://localhost:8080/api --header 'authorization: Bearer 2e510027-0eb9-4367-b310-68e1bab9dc3d' 
+```shell
+$ curl --request GET --url http://localhost:8080/api --header 'authorization: Bearer 2e510027-0eb9-4367-b310-68e1bab9dc3d' 
 "It worked! user = LoggedInUser(BasicAuthCredentials(jannik,p4ssw0rd),oAuthToken(2e510027-0eb9-4367-b310-68e1bab9dc3d,bearer,3600),2018-10-28T12:58:33.048)"
 ```
 

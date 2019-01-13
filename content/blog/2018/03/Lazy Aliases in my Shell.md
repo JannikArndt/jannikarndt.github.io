@@ -30,7 +30,7 @@ The problem lies in the `kubectl` plugin, which creates the completions-list via
 
 So I delayed the initialization of the `kubectl completion` until I first call something:
 
-```bash
+```shell
 function k() {
   source <(kubectl completion zsh)
   alias k=kubectl

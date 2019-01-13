@@ -24,7 +24,7 @@ The basis is a bunch of `markdown`-files, `go`-templates and the [hugo](https://
 
 This time however I found a [template](https://themes.gohugo.io/theme/creative/) I was quite pleased with. The starting point is the following directory-structure:
 
-``` none
+```none
 master
 ├─ content (empty)
 ├─ public (where the results are generated into)
@@ -45,7 +45,7 @@ master
 
 I fought long and hard to press my content into to `config.toml`, I'll spare you the details and refere to the [actual file](https://github.com/JannikArndt/jannikarndt.github.io/blob/source/config.toml). What I really like is being able to create a custom structure for each content element, for example a software reference consist of
 
-``` toml
+```toml
 [[params.services.list]]
     icon = "https://jannikarndt.github.io/Canal/bridge.png"
     title = "Canal"
@@ -55,7 +55,7 @@ I fought long and hard to press my content into to `config.toml`, I'll spare you
 
 whereas a publication looks like this:
 
-``` toml
+```toml
 [[params.publications.years.entry]]
     text = "Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit, 2014."
     link = "https://www.jannikarndt.de/publikationen/musicista/"
@@ -133,7 +133,7 @@ If everything worked you now have
 
 The next step is to combine the website with my url. My first approach was `RedirectMatch` in the `.htaccess` file:
 
-``` apache
+```apache
 RedirectMatch 301 ^/$ https://jannikarndt.github.io
 ```
 

@@ -26,44 +26,44 @@ toc = true
 
 …and everything else you need:
 
-```zsh
-➜  ~ sudo apt-get update && sudo apt-get upgrade
-➜  ~ sudo apt-get install mosquitto
-➜  ~ sudo apt-get install make
-➜  ~ sudo apt-get install nodejs
-➜  ~ sudo apt-get install libavahi-compat-libdnssd-dev
-➜  ~ sudo apt-get install npm
+```shell
+$ sudo apt-get update && sudo apt-get upgrade
+$ sudo apt-get install mosquitto
+$ sudo apt-get install make
+$ sudo apt-get install nodejs
+$ sudo apt-get install libavahi-compat-libdnssd-dev
+$ sudo apt-get install npm
 
-➜  ~ sudo npm install -g homebridge
-➜  ~ sudo npm install -g homebridge-mqtt-switch-tasmota  # for sonoff devices
+$ sudo npm install -g homebridge
+$ sudo npm install -g homebridge-mqtt-switch-tasmota  # for sonoff devices
 ```
 
 ## 3. Configure `mosquitto`
 
 The default for `mosquitto` is to run without any security. Let's not do this. This creates a user “home” with a password:
 
-```zsh
-➜  ~ sudo mosquitto_passwd -c /etc/mosquitto/passwd home
+```shell
+$ sudo mosquitto_passwd -c /etc/mosquitto/passwd home
 Password: yourpassword
 Reenter password: yourpassword
 ```
 
 This will create a password file. You can look at it with
 
-```zsh
-➜  ~ cat /etc/mosquitto/passwd
+```shell
+$ cat /etc/mosquitto/passwd
 home:$6$yjSnOc95804YRW/E$lokE/zzg4XwKj1BJPOxXDq4njkeovnecAvtYCOmNYgn5v/c8sHP08LnH7rDP0uU59hzmV/5iTXsudDrO6RMWPl+A==
 ```
 
 Now we need to tell `mosquitto` to use this password file:
 
-```zsh
-➜  ~ sudo nano /etc/mosquitto/mosquitto.conf
+```shell
+$ sudo nano /etc/mosquitto/mosquitto.conf
 ```
 
 Add the lines
 
-```config
+```ini
 password_file /etc/mosquitto/passwd
 allow_anonymous false
 ```
@@ -72,24 +72,24 @@ Exit with `ctrl + x`, `y` and `enter`.
 
 Now restart the daemon:
 
-```zsh
-➜  ~ sudo systemctl restart mosquitto
+```shell
+$ sudo systemctl restart mosquitto
 ```
 
 You can check the status with
 
-```zsh
-➜  ~ sudo /etc/init.d/mosquitto status
+```shell
+$ sudo /etc/init.d/mosquitto status
 ```
 
 ## 4. Configure `homebridge`
 
 First we'll create a config file for homebridge and open it:
 
-```zsh
-➜  ~ mkdir ~/.homebridge
-➜  ~ touch ~/.homebridge/config.json
-➜  ~ nano ~/.homebridge/config.json
+```shell
+$ mkdir ~/.homebridge
+$ touch ~/.homebridge/config.json
+$ nano ~/.homebridge/config.json
 ```
 
 ![](../pi/homebridge_config.png)
@@ -131,11 +131,11 @@ For more information have a look at the [config.json sample](https://github.com/
 
 If you don't like `nano` you can also copy the file to your computer, edit it there and then copy it back:
 
-```zsh
-➜  ~ scp pi@192.168.31.231:.homebridge/config.json ~/Downloads/homebridge.json
+```shell
+$ scp pi@192.168.31.231:.homebridge/config.json ~/Downloads/homebridge.json
 config.json                                         100% 1830   149.2KB/s   00:00
 # edit
-➜  ~ scp ~/Downloads/homebridge.json pi@192.168.31.231:.homebridge/config.json
+$ scp ~/Downloads/homebridge.json pi@192.168.31.231:.homebridge/config.json
 homebridge.json                                     100% 1457   268.4KB/s   00:00
 ```
 
@@ -143,7 +143,7 @@ But beware: Do _not_ edit the file in TextEdit, as it changes the format.
 
 You should now be able to start the `homebridge` app:
 
-```zsh
+```shell
 homebridge
 ```
 
@@ -154,14 +154,14 @@ homebridge
 Great! Now all that's left is to create a user and a service to run `homebridge` on startup. For this I followed [this guide](https://timleland.com/setup-homebridge-to-start-on-bootup/):
 
 1. Create a file for default parameters
-  ```zsh
-  ➜  ~ sudo nano /etc/default/homebridge
+  ```shell
+  $ sudo nano /etc/default/homebridge
   ```
   and paste `HOMEBRIDGE_OPTS=-U /var/homebridge` into the file. Quit with `ctrl + x`, `y`, `enter`.
 
 1. Create a service in `systemd`
-  ```zsh
-  ➜  ~ sudo nano /etc/systemd/system/homebridge.service
+  ```shell
+  $ sudo nano /etc/systemd/system/homebridge.service
   ```
   and paste
   ```ini
@@ -183,31 +183,31 @@ Great! Now all that's left is to create a user and a service to run `homebridge`
   ```
 
 1. Create a user `homebridge`
-  ```zsh
-  ➜  ~ sudo useradd --system homebridge
+  ```shell
+  $ sudo useradd --system homebridge
   ```
 
 1. Create a directory for the config
-  ```zsh
-  ➜  ~ sudo mkdir /var/homebridge
-  ➜  ~ sudo cp ~/.homebridge/config.json /var/homebridge/
-  ➜  ~ sudo cp -r ~/.homebridge/persist /var/homebridge
+  ```shell
+  $ sudo mkdir /var/homebridge
+  $ sudo cp ~/.homebridge/config.json /var/homebridge/
+  $ sudo cp -r ~/.homebridge/persist /var/homebridge
   ```
 
 1. Start the service
-  ```zsh
-  ➜  ~ sudo chmod -R 0777 /var/homebridge
-  ➜  ~ sudo systemctl daemon-reload
-  ➜  ~ sudo systemctl enable homebridge
-  ➜  ~ sudo systemctl start homebridge
-  ➜  ~ systemctl status homebridge
+  ```shell
+  $ sudo chmod -R 0777 /var/homebridge
+  $ sudo systemctl daemon-reload
+  $ sudo systemctl enable homebridge
+  $ sudo systemctl start homebridge
+  $ systemctl status homebridge
   ```
 
 Notice that the `config.json` is now copied to a different folder, so if you change the one in `~/.homebridge/` you need to copy it to `/var/homebridge/` afterwards!
 
-```zsh
-➜  ~ sudo cp ~/.homebridge/config.json /var/homebridge/
-➜  ~ sudo systemctl restart homebridge
+```shell
+$ sudo cp ~/.homebridge/config.json /var/homebridge/
+$ sudo systemctl restart homebridge
 ```
 
 ## 6. Add smart devices

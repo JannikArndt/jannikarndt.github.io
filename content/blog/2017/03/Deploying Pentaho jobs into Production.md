@@ -63,7 +63,7 @@ The page also suggest using shell access. This sounds a lot closer to a one-clic
 
 With this configuration, you can export and import repositories via `pan.sh` and `import.sh`:
 
-```bash
+```shell
 ./pan.sh 
   -rep=MyRepository 
   -user=Jannik 
@@ -96,13 +96,13 @@ Problems:
 
 Is that all? No. If you take a look at `pan.sh` you'll find, what it really does:
 
-```bash
+```shell
 "$DIR/spoon.sh" -main org.pentaho.di.pan.Pan -initialDir "$INITIALDIR/" "$@"
-````
+```
 
 The same for `import.sh`:
 
-```bash
+```shell
 "$DIR/spoon.sh" -main org.pentaho.di.imp.Import "$@"
 ```
 
@@ -113,7 +113,7 @@ Deployment suddenly means starting the complete Pentaho Suite — *twice*!
 Baffled with why I'm not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you're still unsure if cyclic dependencies are a bad thing, try reading the [API Documentation](https://help.pentaho.com/Documentation/7.0/0R0/070). And if you need to convince someone that generated documentation might be a bad idea, show him [this overview](https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0). Spoiler: both fail to mention *the actual address of the endpoint*, which is `http://localhost:8080/pentaho/api/repo/...`. Luckily, there are people writing [useful blog entries](https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/). And if you need a tool for trial-and-error, I recommend [Insomnia](https://insomnia.rest).
 Spending a lot of nerves, I crafted this beauty:
 
-```bash
+```shell
 #!/bin/sh
 
 source_url=$1

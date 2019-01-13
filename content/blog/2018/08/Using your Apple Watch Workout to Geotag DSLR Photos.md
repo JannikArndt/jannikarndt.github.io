@@ -30,7 +30,7 @@ There's also a great website that let's you analyse the contents of that file:
 
 Next, I use _the_ software to edit EXIF data, written in Perl, first published in 2003, still state of the art today: [_exiftool_](http://owl.phy.queensu.ca/~phil/exiftool/). You can install it via
 
-```bash
+```shell
 brew install exiftool
 ```
 
@@ -38,8 +38,8 @@ brew install exiftool
 
 Then the command is pretty straightforward:
 
-```bash
-➜ ~ exiftool -geotag=myRoute.gpx ~/Pictures/UntaggedPictures/
+```shell
+$ ~ exiftool -geotag=myRoute.gpx ~/Pictures/UntaggedPictures/
     1 directories scanned
    83 image files updated
 ```

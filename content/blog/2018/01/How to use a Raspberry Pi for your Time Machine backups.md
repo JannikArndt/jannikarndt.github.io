@@ -26,8 +26,8 @@ This guide is based on <https://www.bersling.com/2017/01/02/time-capsule-time-ma
 
 ## 2. Find drive
 
-```zsh
-➜  ~ lsblk -o KNAME,TYPE,SIZE,MODEL
+```shell
+$ lsblk -o KNAME,TYPE,SIZE,MODEL
 KNAME     TYPE   SIZE MODEL
 sda       disk 465.8G MK5065GSXF      <= probably that one
 mmcblk0   disk  14.9G
@@ -37,28 +37,28 @@ mmcblk0p2 part  14.9G
 
 ## 3. Format drive
 
-```zsh
-➜  ~ sudo mkfs.ext4 /dev/sda
+```shell
+$ sudo mkfs.ext4 /dev/sda
 ```
 
 ## 4. Install `netatalk`
 
-```zsh
-➜  ~ sudo apt-get update
-➜  ~ sudo apt-get upgrade
-➜  ~ sudo apt-get install netatalk
+```shell
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ sudo apt-get install netatalk
 ```
 
 ## 5. Create a mount point
 
-```zsh
-➜  ~ sudo mkdir /mnt/TimeMachine
+```shell
+$ sudo mkdir /mnt/TimeMachine
 ```
 
 ## 6. Add mount to [file system table (`fstab`)](https://en.wikipedia.org/wiki/Fstab)
 
-```zsh
-➜  ~ sudo nano /etc/fstab
+```shell
+$ sudo nano /etc/fstab
 ```
 
 Insert the mount post at the end of the file:
@@ -67,34 +67,34 @@ and exit with `ctrl + x`, `y`, `enter`.
 
 ## 7. Mount device
 
-```zsh
-➜  ~ sudo mount /dev/sda
+```shell
+$ sudo mount /dev/sda
 ```
 
 ## 8. Make it accessible
 
-```zsh
-➜  ~ sudo chmod 777 /mnt/TimeMachine
+```shell
+$ sudo chmod 777 /mnt/TimeMachine
 ```
 
 ## 9. Make the drive known to `netatalk`
 
-```zsh
-➜  ~ sudo nano /etc/netatalk/AppleVolumes.default
+```shell
+$ sudo nano /etc/netatalk/AppleVolumes.default
 ```
 
 Add `/mnt/TimeMachine "Time Machine" options:tm` at the end, then exit with `ctrl + x`, `y`, `enter`
 
 ## 10. Restart `netatalk`
 
-```zsh
-➜  ~ sudo service netatalk restart
+```shell
+$ sudo service netatalk restart
 ```
 
 ## 11. Restart the pi
 
-```zsh
-➜  ~ sudo reboot
+```shell
+$ sudo reboot
 ```
 
 # On the Mac
@@ -103,8 +103,8 @@ Add `/mnt/TimeMachine "Time Machine" options:tm` at the end, then exit with `ctr
 
 In Terminal, make Time Machine show unsupported devices with
 
-```zsh
-➜  ~ defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes 1
+```shell
+$ defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes 1
 ```
 
 ## 2. Find the remote disk

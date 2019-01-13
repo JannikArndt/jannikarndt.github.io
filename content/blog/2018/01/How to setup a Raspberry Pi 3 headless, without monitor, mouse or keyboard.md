@@ -21,11 +21,11 @@ I bought a raspberry pi as a smart home automation server. Here's how to set it 
    - [ApplePi Baker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/) or
    - [Etcher](https://etcher.io) or
    - your Terminal:
-  ```bash
+  ```shell
   sudo dd bs=1m if=[path to img file, e.g. "2017-08-16-raspbian-stretch.img"] of=[path to rdisk, e.g. "/dev/rdisk2"] conv=sync
   ```
 1. Enabled `ssh` access _for one start_ by creating an `ssh` file in the `boot` folder:
-  ```bash
+  ```shell
   touch /Volumes/boot/ssh
   ```
 1. Eject the SD card (via the button in Finder or `diskutil eject /dev/disk2`)
@@ -41,7 +41,7 @@ This assumes that you have an ssh key. If not or you don't know what that is: An
 
 You can find both keys with
 
-```bash
+```shell
 $ ls -l ~/.ssh
 total 120
 -rw-------  1 jannikarndt  staff  1766 Jan  3  2017 id_rsa
@@ -51,19 +51,19 @@ total 120
 If you don't have a key, GitHub has a [great article on how to create one](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
 
 1. Copy your ssh key to the pi:
-  ```bash
+  ```shell
   cat ~/.ssh/id_rsa.pub | ssh pi@raspberrypi.local "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
   ```
 
 1. SSH into the pi:
-  ```bash
+  ```shell
   ssh pi@192.168.2.2
   pi@192.168.2.2's password: raspberry
   ```
   The preconfigured password is `raspberry`. A good reason to change it right away:
 
 1. Change your root password:
-  ```bash
+  ```shell
   sudo raspi-config
   ```
   ![](../pi/raspi-config.png)
@@ -76,7 +76,7 @@ If you don't have a key, GitHub has a [great article on how to create one](https
 
 And now, for the grand finale, you can (should / will want to) install a proper shell, i.e. [oh my zsh](http://ohmyz.sh):
 
-```bash
+```shell
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install git zsh
 chsh -s /bin/zsh
