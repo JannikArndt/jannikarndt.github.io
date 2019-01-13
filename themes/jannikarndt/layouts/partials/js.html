@@ -1,6 +1,8 @@
 <script src="{{ "js/jquery-3.3.1.min.js" | absURL }}"></script>
 <script src="{{ "js/jquery-ui.min.js" | absURL }}"></script>
 <script src="{{ "js/highlight.pack.js" | absURL }}"></script>
+<script src="{{ "js/wow.js" | absURL }}"></script>
+<script src="{{ "js/bootstrap.min.js" | absURL }}"></script>
 <script lang="">(function ($) {
         "use strict";
 
@@ -18,5 +20,9 @@
         $('.navbar-collapse ul li a').click(function () {
             $('.navbar-toggle:visible').click();
         });
-        
+
+        $(document).scroll(function () {
+            $(".navbar").toggleClass("navbar-scrolled", $(this).scrollTop() > 50);
+        });
+
     })(jQuery);</script>
