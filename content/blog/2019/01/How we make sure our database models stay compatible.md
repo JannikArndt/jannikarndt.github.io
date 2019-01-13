@@ -3,6 +3,7 @@ title = "How we make sure our database models stay compatible"
 draft = true
 date = "2019-01-13T14:00:00+01:00"
 keywords = [ "Programming", "Scala", "Lessons Learned", "Tutorial", "How-To", "ScalaCheck", "Compatibly", "DynamoDB", "Database" ]
+tags = [ "Scala" ]
 slug = "compatible_datanase_models"
 toc = false
 

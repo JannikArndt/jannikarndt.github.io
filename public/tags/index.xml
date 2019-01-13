@@ -6,9 +6,28 @@
     <description>Recent content in Tags on Jannik Arndt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Wed, 22 Aug 2018 09:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Postgresql</title>
+      <link>https://www.jannikarndt.de/tags/postgresql/</link>
+      <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scala</title>
+      <link>https://www.jannikarndt.de/tags/scala/</link>
+      <pubDate>Tue, 04 Dec 2018 21:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/scala/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

@@ -3,6 +3,7 @@ title = "How Event Sourcing in Akka Persistent Actors Works"
 draft = false
 date = "2018-08-31T17:00:00+01:00"
 keywords = [ "Programming", "Scala", "akka", "event sourcing", "persistent actor", "akka persistence" ]
+tags = [ "Scala" ]
 slug = "event_sourcing_in_akka_persistent_actors"
 toc = false
 

@@ -3,6 +3,7 @@ title = "Examining a PostgreSQL with psql or pgcli"
 draft = false
 date = "2018-08-16T15:00:00+01:00"
 keywords = [ "DevOps" ]
+tags = [ "PostgreSQL" ]
 slug = "postgresql_with_psql_pgcli"
 toc = true
 

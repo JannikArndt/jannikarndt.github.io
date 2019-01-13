@@ -3,6 +3,7 @@ title = "Exception-Proof For-Comprehensions"
 draft = false
 date = "2018-12-04T21:00:00+01:00"
 keywords = [ "Programming", "Scala", "Exception", "Bugfixing", "Lessons Learned", "Tutorial", "How-To" ]
+tags = [ "Scala" ]
 slug = "exception_proof_for_comprehensions"
 toc = false
 
