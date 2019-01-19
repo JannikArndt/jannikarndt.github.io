@@ -16,23 +16,81 @@ I bought a raspberry pi as a smart home automation server. Here's how to set it 
 
 ## 1. Prepare the SD card
 
-1. Download Raspbian from <https://www.raspberrypi.org/downloads/raspbian/>
-1. Copy it to the SD card, using
-   - [ApplePi Baker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/) or
-   - [Etcher](https://etcher.io) or
-   - your Terminal:
-  ```shell
-  sudo dd bs=1m if=[path to img file, e.g. "2017-08-16-raspbian-stretch.img"] of=[path to rdisk, e.g. "/dev/rdisk2"] conv=sync
-  ```
-1. Enabled `ssh` access _for one start_ by creating an `ssh` file in the `boot` folder:
-  ```shell
-  touch /Volumes/boot/ssh
-  ```
-1. Eject the SD card (via the button in Finder or `diskutil eject /dev/disk2`)
+#### 1. Download Raspbian
 
-## 2. Prepare your Mac
+Here, `-L` means follow redirect, `-C -` let's you resume the download.
 
-You need to enabled _Internet Sharing_ on MacOS so the Pi can connect to it. Go to _System Settings_ > _Sharing_:
+```shell
+$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   390  100   390    0     0     69      0  0:00:05  0:00:05 --:--:--    89
+100   399  100   399    0     0     70      0  0:00:05  0:00:05 --:--:--    70
+ 20  351M   20 72.6M    0     0   358k      0  0:16:44  0:03:27  0:13:17  364k
+```
+
+#### 2. Unzip the Download
+
+```shell
+$ tar xzf raspbian-stretch-lite.zip
+```
+
+#### 3. Check the Path of the SD Card
+
+Here it is `/dev/disk2`:
+
+```shell
+$ diskutil list
+/dev/disk0 (internal):
+...
+/dev/disk1 (synthesized):
+...
+/dev/disk2 (external, physical):   <= that's the one
+...
+/dev/disk3 (disk image):
+...
+```
+
+#### 4. Unmount the SD Card
+
+```shell
+$ diskutil unmountDisk /dev/disk2
+```
+
+#### 5. Copy the Data to the Card
+
+We use `/dev/rdisk2` because it's _a lot_ faster then `/dev/disk2`:
+
+```shell
+$ sudo dd bs=1m if=2018-11-13-raspbian-stretch-lite.img of=/dev/rdisk2 conv=sync
+Password: ********
+1780+0 records in
+1780+0 records out
+1866465280 bytes transferred in 33.915228 secs (55033252 bytes/sec)
+```
+
+#### 6. Enable one-time SSH Access
+
+```shell
+$ touch /Volumes/boot/ssh
+```
+
+#### 7. Eject the SD Card
+
+```shell
+$ diskutil eject /dev/disk2
+```
+
+## 2. Get Network Access to the Pi
+
+#### Connected to your Router
+
+You now have two options to connect to the pi via network: either you plug it into your router and look at the DHCP settings what IP address is assigned to it:
+![](../pi/dhcp.png)
+
+#### Connected to your Mac
+
+ You can also connect it to your Mac directly. For that, you also need to enable _Internet Sharing_ in _System Settings_ > _Sharing_:
 ![](../pi/sharing_pane.png)
 
 ## 3. Configure SSH access
@@ -50,23 +108,47 @@ total 120
 
 If you don't have a key, GitHub has a [great article on how to create one](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
 
-1. Copy your ssh key to the pi:
-  ```shell
-  cat ~/.ssh/id_rsa.pub | ssh pi@raspberrypi.local "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-  ```
+#### 1. Copy your SSH Key to the Pi
 
-1. SSH into the pi:
-  ```shell
-  ssh pi@192.168.2.2
-  pi@192.168.2.2's password: raspberry
-  ```
-  The preconfigured password is `raspberry`. A good reason to change it right away:
+```shell
+$cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+The authenticity of host '192.168.2.149 (192.168.2.149)' can't be established.
+ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.2.149' (ECDSA) to the list of known hosts.
+pi@192.168.2.149's password: raspberry
+```
 
-1. Change your root password:
-  ```shell
-  sudo raspi-config
-  ```
-  ![](../pi/raspi-config.png)
+#### 2. SSH into the Pi
+
+```shell
+$ ssh pi@192.168.2.2
+Linux raspberrypi 4.14.79-v7+ #1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+SSH is enabled and the default password for the 'pi' user has not been changed.
+This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
+
+
+Wi-Fi is disabled because the country is not set.
+Use raspi-config to set the country before use.
+```
+  
+The preconfigured password is `raspberry`. A good reason to change it right away:
+
+#### 3. Change your root Password:
+
+```shell
+sudo raspi-config
+```
+
+![](../pi/raspi-config.png)
 
 1. Add your wifi credentials in `2 Network Options` > `N2 Wi-fi`
 
