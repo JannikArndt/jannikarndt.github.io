@@ -80,9 +80,36 @@
 <ul>
 <li>
 <ul>
-<li><a href="#1-prepare-the-sd-card">1. Prepare the SD card</a></li>
-<li><a href="#2-prepare-your-mac">2. Prepare your Mac</a></li>
-<li><a href="#3-configure-ssh-access">3. Configure SSH access</a></li>
+<li><a href="#1-prepare-the-sd-card">1. Prepare the SD card</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-download-raspbian">1. Download Raspbian</a></li>
+<li><a href="#2-unzip-the-download">2. Unzip the Download</a></li>
+<li><a href="#3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</a></li>
+<li><a href="#4-unmount-the-sd-card">4. Unmount the SD Card</a></li>
+<li><a href="#5-copy-the-data-to-the-card">5. Copy the Data to the Card</a></li>
+<li><a href="#6-enable-one-time-ssh-access">6. Enable one-time SSH Access</a></li>
+<li><a href="#7-eject-the-sd-card">7. Eject the SD Card</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#2-get-network-access-to-the-pi">2. Get Network Access to the Pi</a>
+<ul>
+<li>
+<ul>
+<li><a href="#connected-to-your-router">Connected to your Router</a></li>
+<li><a href="#connected-to-your-mac">Connected to your Mac</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#3-configure-ssh-access">3. Configure SSH access</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi</a></li>
+<li><a href="#2-ssh-into-the-pi">2. SSH into the Pi</a></li>
+<li><a href="#3-change-your-root-password">3. Change your root Password:</a></li>
+</ul></li>
+</ul></li>
 <li><a href="#4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code></a></li>
 <li><a href="#5-continue">5. Continue</a></li>
 </ul></li>
@@ -98,28 +125,74 @@
 
 <h2 id="1-prepare-the-sd-card">1. Prepare the SD card</h2>
 
-<ol>
-<li>Download Raspbian from <a href="https://www.raspberrypi.org/downloads/raspbian/">https://www.raspberrypi.org/downloads/raspbian/</a></li>
-<li>Copy it to the SD card, using
+<h4 id="1-download-raspbian">1. Download Raspbian</h4>
 
-<ul>
-<li><a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/">ApplePi Baker</a> or</li>
-<li><a href="https://etcher.io">Etcher</a> or</li>
-<li>your Terminal:
-<code>shell
-sudo dd bs=1m if=[path to img file, e.g. &quot;2017-08-16-raspbian-stretch.img&quot;] of=[path to rdisk, e.g. &quot;/dev/rdisk2&quot;] conv=sync
-</code></li>
-</ul></li>
-<li>Enabled <code>ssh</code> access <em>for one start</em> by creating an <code>ssh</code> file in the <code>boot</code> folder:
-<code>shell
-touch /Volumes/boot/ssh
-</code></li>
-<li>Eject the SD card (via the button in Finder or <code>diskutil eject /dev/disk2</code>)</li>
-</ol>
+<p>Here, <code>-L</code> means follow redirect, <code>-C -</code> let&rsquo;s you resume the download.</p>
 
-<h2 id="2-prepare-your-mac">2. Prepare your Mac</h2>
+<pre><code class="language-shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   390  100   390    0     0     69      0  0:00:05  0:00:05 --:--:--    89
+100   399  100   399    0     0     70      0  0:00:05  0:00:05 --:--:--    70
+ 20  351M   20 72.6M    0     0   358k      0  0:16:44  0:03:27  0:13:17  364k
+</code></pre>
 
-<p>You need to enabled <em>Internet Sharing</em> on MacOS so the Pi can connect to it. Go to <em>System Settings</em> &gt; <em>Sharing</em>:
+<h4 id="2-unzip-the-download">2. Unzip the Download</h4>
+
+<pre><code class="language-shell">$ tar xzf raspbian-stretch-lite.zip
+</code></pre>
+
+<h4 id="3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</h4>
+
+<p>Here it is <code>/dev/disk2</code>:</p>
+
+<pre><code class="language-shell">$ diskutil list
+/dev/disk0 (internal):
+...
+/dev/disk1 (synthesized):
+...
+/dev/disk2 (external, physical):   &lt;= that's the one
+...
+/dev/disk3 (disk image):
+...
+</code></pre>
+
+<h4 id="4-unmount-the-sd-card">4. Unmount the SD Card</h4>
+
+<pre><code class="language-shell">$ diskutil unmountDisk /dev/disk2
+</code></pre>
+
+<h4 id="5-copy-the-data-to-the-card">5. Copy the Data to the Card</h4>
+
+<p>We use <code>/dev/rdisk2</code> because it&rsquo;s <em>a lot</em> faster then <code>/dev/disk2</code>:</p>
+
+<pre><code class="language-shell">$ sudo dd bs=1m if=2018-11-13-raspbian-stretch-lite.img of=/dev/rdisk2 conv=sync
+Password: ********
+1780+0 records in
+1780+0 records out
+1866465280 bytes transferred in 33.915228 secs (55033252 bytes/sec)
+</code></pre>
+
+<h4 id="6-enable-one-time-ssh-access">6. Enable one-time SSH Access</h4>
+
+<pre><code class="language-shell">$ touch /Volumes/boot/ssh
+</code></pre>
+
+<h4 id="7-eject-the-sd-card">7. Eject the SD Card</h4>
+
+<pre><code class="language-shell">$ diskutil eject /dev/disk2
+</code></pre>
+
+<h2 id="2-get-network-access-to-the-pi">2. Get Network Access to the Pi</h2>
+
+<h4 id="connected-to-your-router">Connected to your Router</h4>
+
+<p>You now have two options to connect to the pi via network: either you plug it into your router and look at the DHCP settings what IP address is assigned to it:
+<img src="../pi/dhcp.png" alt="" /></p>
+
+<h4 id="connected-to-your-mac">Connected to your Mac</h4>
+
+<p>You can also connect it to your Mac directly. For that, you also need to enable <em>Internet Sharing</em> in <em>System Settings</em> &gt; <em>Sharing</em>:
 <img src="../pi/sharing_pane.png" alt="" /></p>
 
 <h2 id="3-configure-ssh-access">3. Configure SSH access</h2>
@@ -136,27 +209,46 @@ total 120
 
 <p>If you don&rsquo;t have a key, GitHub has a <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">great article on how to create one</a>.</p>
 
-<ol>
-<li><p>Copy your ssh key to the pi:</p>
+<h4 id="1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi</h4>
 
-<pre><code class="language-shell">cat ~/.ssh/id_rsa.pub | ssh pi@raspberrypi.local &quot;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;
-</code></pre></li>
-
-<li><p>SSH into the pi:</p>
-
-<pre><code class="language-shell">ssh pi@192.168.2.2
-pi@192.168.2.2's password: raspberry
+<pre><code class="language-shell">$cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 &quot;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;
+The authenticity of host '192.168.2.149 (192.168.2.149)' can't be established.
+ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.2.149' (ECDSA) to the list of known hosts.
+pi@192.168.2.149's password: raspberry
 </code></pre>
 
-<p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p></li>
+<h4 id="2-ssh-into-the-pi">2. SSH into the Pi</h4>
 
-<li><p>Change your root password:</p>
+<pre><code class="language-shell">$ ssh pi@192.168.2.2
+Linux raspberrypi 4.14.79-v7+ #1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+SSH is enabled and the default password for the 'pi' user has not been changed.
+This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
+
+
+Wi-Fi is disabled because the country is not set.
+Use raspi-config to set the country before use.
+</code></pre>
+
+<p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p>
+
+<h4 id="3-change-your-root-password">3. Change your root Password:</h4>
 
 <pre><code class="language-shell">sudo raspi-config
 </code></pre>
 
-<p><img src="../pi/raspi-config.png" alt="" /></p></li>
+<p><img src="../pi/raspi-config.png" alt="" /></p>
 
+<ol>
 <li><p>Add your wifi credentials in <code>2 Network Options</code> &gt; <code>N2 Wi-fi</code></p></li>
 
 <li><p>Permanently enable ssh access in <code>5 Interfacing Options</code> &gt; <code>P2 SSH</code>.</p></li>
