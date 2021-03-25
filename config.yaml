@@ -12,6 +12,12 @@ minify:
     disableXML: true
     minifyOutput: false
 
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON # is necessary
+
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     title: "Jannik Arndt"
@@ -22,7 +28,7 @@ params:
     defaultContentLanguage: en
 
     defaultTheme: auto # dark, light
-    disableThemeToggle: false
+    disableThemeToggle: true
 
     ShowReadingTime: false
     ShowShareButtons: false
@@ -64,10 +70,8 @@ params:
           url: "https://www.linkedin.com/in/jannikarndt"
         - name: xing
           url: "https://www.xing.com/profile/Jannik_Arndt"
-
-    analytics:
-        google:
-            SiteVerificationTag: "XYZabc"
+        - name: email
+          url: mailto:jannik@jannikarndt.de
 
     cover:
         hidden: true # hide everywhere but not in structured data
@@ -86,6 +90,9 @@ params:
         keys: ["title", "permalink", "summary", "content"]
 menu:
     main:
+        - name: Search
+          url: search/
+          weight: 10
         - identifier: categories
           name: categories
           url: /categories/
