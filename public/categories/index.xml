@@ -4,7 +4,10 @@
     <title>Categories on Jannik Arndt</title>
     <link>https://www.jannikarndt.de/categories/</link>
     <description>Recent content in Categories on Jannik Arndt</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://www.jannikarndt.de/categories/index.xml" rel="self" type="application/rss+xml" />
+    <image>
+      <url>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://www.jannikarndt.de/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

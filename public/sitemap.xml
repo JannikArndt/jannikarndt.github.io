@@ -3,18 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.jannikarndt.de/blog/</loc>
-    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
-  </url><url>
-    <loc>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</loc>
-    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/</loc>
-    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/tags/scala/</loc>
-    <lastmod>2018-12-04T21:00:00+01:00</lastmod>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/tags/</loc>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</loc>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</loc>
     <lastmod>2018-12-04T21:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</loc>

@@ -4,9 +4,21 @@
     <title>Scala on Jannik Arndt</title>
     <link>https://www.jannikarndt.de/tags/scala/</link>
     <description>Recent content in Scala on Jannik Arndt</description>
+    <image>
+      <url>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 04 Dec 2018 21:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/scala/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Mar 2021 09:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/scala/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using scalap, javap and the scala compiler to understand the journey from code to bytecode</title>
+      <link>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</link>
+      <pubDate>Thu, 25 Mar 2021 09:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</guid>
+      <description>&lt;p&gt;Do you know what happens after you compile? Let&amp;rsquo;s take a look at what the Scala compiler tells us, and what &lt;code&gt;scalap&lt;/code&gt; and &lt;code&gt;javap&lt;/code&gt; can reveal about &lt;code&gt;.class&lt;/code&gt; files.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Exception-Proof For-Comprehensions</title>
       <link>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</link>
