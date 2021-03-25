@@ -1,7 +1,7 @@
 baseurl = "https://www.jannikarndt.de"
 languageCode = "en-us"
 title = "Jannik Arndt"
-theme = "jannikarndt"
+theme = "PaperMod"
 disableHugoGeneratorInject = "true"
 
 [params]
