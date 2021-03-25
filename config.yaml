@@ -27,6 +27,8 @@ params:
     ShowReadingTime: false
     ShowShareButtons: false
     #disableSpecial1stPost: false
+    ShowPostNavLinks: false # prev/next links at bottom
+    ShowBreadCrumbs: true
     comments: false
     hidemeta: false
     showtoc: false
@@ -38,41 +40,30 @@ params:
         favicon: "favicon.ico"
         favicon16x16: "favicons/favicon-16x16.png"
         favicon32x32: "favicons/favicon-16x16.png"
-        apple_touch_icon: "<link / abs url>"
-        safari_pinned_tab: "<link / abs url>"
+        apple_touch_icon: "favicons/apple-touch-icon.png"
+        safari_pinned_tab: "favicons/apple-touch-icon.png"
 
     label:
-        text: "Home"
-        icon: /apple-touch-icon.png
+        text: "JannikArndt.de"
+        icon: "/favicons/apple-touch-icon.png"
         iconHeight: 35
-
-    # profile-mode
-    profileMode:
-        enabled: false # needs to be explicitly set
-        title: ExampleSite
-        subtitle: "This is subtitle"
-        imageUrl: "<img location>"
-        imageWidth: 120
-        imageHeight: 120
-        imageTitle: my image
-        buttons:
-            - name: Posts
-              url: posts
-            - name: Tags
-              url: tags
 
     # home-info mode
     homeInfoParams:
-        Title: "Hi there \U0001F44B"
-        Content: Welcome to my blog
+        Title: "Jannik Arndt"
+        Content: Scala Dev @ MOIA
 
     socialIcons:
         - name: twitter
-          url: "https://twitter.com/"
+          url: "https://twitter.com/JannikArndt"
         - name: stackoverflow
           url: "https://stackoverflow.com"
         - name: github
-          url: "https://github.com/"
+          url: "https://github.com/JannikArndt"
+        - name: linkedin
+          url: "https://www.linkedin.com/in/jannikarndt"
+        - name: xing
+          url: "https://www.xing.com/profile/Jannik_Arndt"
 
     analytics:
         google:
