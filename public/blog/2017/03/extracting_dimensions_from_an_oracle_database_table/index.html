@@ -16,7 +16,7 @@ Extra-Caveat
 You use an Oracle database.">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/" />
-<link href="/assets/css/stylesheet.min.642e2a0657439d758aca2aedf3ef6ad1415d2d970562c281dd262c6aad4686b1.css" integrity="sha256-ZC4qBldDnXWKyirt8&#43;9q0UFdLZcFYsKB3SYsaq1GhrE=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -115,7 +115,11 @@ You use an Oracle database."/>
 
 <body class="" id="top">
 <script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -164,6 +168,26 @@ You use an Oracle database."/>
                 <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 
                 
             </span>
@@ -319,21 +343,21 @@ January 7, 2017&nbsp;·&nbsp;Jannik
 </tbody>
 </table>
 <p>Solution:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#75715e">-- Create new table from Select-Statement
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> colors <span style="color:#66d9ef">AS</span>
-  <span style="color:#66d9ef">SELECT</span> ROWNUM <span style="color:#66d9ef">as</span> id, name <span style="color:#66d9ef">FROM</span>
-    (<span style="color:#66d9ef">SELECT</span> color <span style="color:#66d9ef">FROM</span> cars <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> color);
+<div class="highlight"><pre class="chroma"><code class="language-SQL" data-lang="SQL"><span class="c1">-- Create new table from Select-Statement
+</span><span class="c1"></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">colors</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">ROWNUM</span> <span class="k">as</span> <span class="n">id</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span>
+    <span class="p">(</span><span class="k">SELECT</span> <span class="n">color</span> <span class="k">FROM</span> <span class="n">cars</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">color</span><span class="p">);</span>
 
-<span style="color:#75715e">-- Add constraints on newly create table
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">INDEX</span> colors_id_uindex <span style="color:#66d9ef">ON</span> colors(id);
-<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> colors <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">CONSTRAINT</span> colors_id_pk <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (id);
+<span class="c1">-- Add constraints on newly create table
+</span><span class="c1"></span><span class="k">CREATE</span> <span class="k">UNIQUE</span> <span class="k">INDEX</span> <span class="n">colors_id_uindex</span> <span class="k">ON</span> <span class="n">colors</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">colors</span> <span class="k">ADD</span> <span class="k">CONSTRAINT</span> <span class="n">colors_id_pk</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">);</span>
 
-<span style="color:#75715e">-- Add reference from fact-table to new dimension
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> cars <span style="color:#66d9ef">ADD</span> color_id NUMBER <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">NULL</span>;
-<span style="color:#66d9ef">UPDATE</span> cars <span style="color:#66d9ef">SET</span> color_id <span style="color:#f92672">=</span> (<span style="color:#66d9ef">SELECT</span> id <span style="color:#66d9ef">FROM</span> colors <span style="color:#66d9ef">WHERE</span> colors.id <span style="color:#f92672">=</span> cars.color);
+<span class="c1">-- Add reference from fact-table to new dimension
+</span><span class="c1"></span><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">cars</span> <span class="k">ADD</span> <span class="n">color_id</span> <span class="nb">NUMBER</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">NULL</span><span class="p">;</span>
+<span class="k">UPDATE</span> <span class="n">cars</span> <span class="k">SET</span> <span class="n">color_id</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">id</span> <span class="k">FROM</span> <span class="n">colors</span> <span class="k">WHERE</span> <span class="n">colors</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">cars</span><span class="p">.</span><span class="n">color</span><span class="p">);</span>
 
-<span style="color:#75715e">-- Delete original column
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> cars <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">COLUMN</span> color;
+<span class="c1">-- Delete original column
+</span><span class="c1"></span><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">cars</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">color</span><span class="p">;</span>
 </code></pre></div>
 </div>
   <footer class="post-footer">
@@ -398,6 +422,18 @@ January 7, 2017&nbsp;·&nbsp;Jannik
             mybutton.style.opacity = "0";
         }
     };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
 </script>
 

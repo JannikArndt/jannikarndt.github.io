@@ -16,7 +16,7 @@ I installed an MQTT broker and homebridge on the pi.
 ">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/" />
-<link href="/assets/css/stylesheet.min.642e2a0657439d758aca2aedf3ef6ad1415d2d970562c281dd262c6aad4686b1.css" integrity="sha256-ZC4qBldDnXWKyirt8&#43;9q0UFdLZcFYsKB3SYsaq1GhrE=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -115,7 +115,11 @@ I installed an MQTT broker and homebridge on the pi.
 
 <body class="" id="top">
 <script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -164,6 +168,26 @@ I installed an MQTT broker and homebridge on the pi.
                 <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 
                 
             </span>
@@ -223,7 +247,7 @@ January 13, 2018&nbsp;·&nbsp;Jannik
 <p>=&gt; See <a href="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a></p>
 <h2 id="2-install-mosquitto-and-homebridge">2. Install <code>mosquitto</code> and <code>homebridge</code><a hidden class="anchor" aria-hidden="true" href="#2-install-mosquitto-and-homebridge">#</a></h2>
 <p>…and everything else you need:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get upgrade
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get upgrade
 $ sudo apt-get install mosquitto
 $ sudo apt-get install make
 $ sudo apt-get install nodejs
@@ -231,71 +255,71 @@ $ sudo apt-get install libavahi-compat-libdnssd-dev
 $ sudo apt-get install npm
 
 $ sudo npm install -g homebridge
-$ sudo npm install -g homebridge-mqtt-switch-tasmota  <span style="color:#75715e"># for sonoff devices</span>
+$ sudo npm install -g homebridge-mqtt-switch-tasmota  <span class="c1"># for sonoff devices</span>
 </code></pre></div><h2 id="3-configure-mosquitto">3. Configure <code>mosquitto</code><a hidden class="anchor" aria-hidden="true" href="#3-configure-mosquitto">#</a></h2>
 <p>The default for <code>mosquitto</code> is to run without any security. Let&rsquo;s not do this. This creates a user “home” with a password:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo mosquitto_passwd -c /etc/mosquitto/passwd home
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo mosquitto_passwd -c /etc/mosquitto/passwd home
 Password: yourpassword
 Reenter password: yourpassword
 </code></pre></div><p>This will create a password file. You can look at it with</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /etc/mosquitto/passwd
-home:$6$yjSnOc95804YRW/E$lokE/zzg4XwKj1BJPOxXDq4njkeovnecAvtYCOmNYgn5v/c8sHP08LnH7rDP0uU59hzmV/5iTXsudDrO6RMWPl+A<span style="color:#f92672">==</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/mosquitto/passwd
+home:<span class="nv">$6$yjSnOc95804YRW</span>/E<span class="nv">$lokE</span>/zzg4XwKj1BJPOxXDq4njkeovnecAvtYCOmNYgn5v/c8sHP08LnH7rDP0uU59hzmV/5iTXsudDrO6RMWPl+A<span class="o">==</span>
 </code></pre></div><p>Now we need to tell <code>mosquitto</code> to use this password file:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo nano /etc/mosquitto/mosquitto.conf
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/mosquitto/mosquitto.conf
 </code></pre></div><p>Add the lines</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">password_file /etc/mosquitto/passwd</span>
-<span style="color:#a6e22e">allow_anonymous false</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">password_file /etc/mosquitto/passwd</span>
+<span class="na">allow_anonymous false</span>
 </code></pre></div><p>Exit with <code>ctrl + x</code>, <code>y</code> and <code>enter</code>.</p>
 <p>Now restart the daemon:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo systemctl restart mosquitto
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo systemctl restart mosquitto
 </code></pre></div><p>You can check the status with</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo /etc/init.d/mosquitto status
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo /etc/init.d/mosquitto status
 </code></pre></div><h2 id="4-configure-homebridge">4. Configure <code>homebridge</code><a hidden class="anchor" aria-hidden="true" href="#4-configure-homebridge">#</a></h2>
 <p>First we&rsquo;ll create a config file for homebridge and open it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir ~/.homebridge
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mkdir ~/.homebridge
 $ touch ~/.homebridge/config.json
 $ nano ~/.homebridge/config.json
 </code></pre></div><p><img loading="lazy" src="../pi/homebridge_config.png" alt=""  />
 </p>
 <p>Your config should look something like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;bridge&#34;</span>: {
-    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Raspberry Pi&#34;</span>,
-    <span style="color:#f92672">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;XX:XX:XX:XX:XX:XX&#34;</span>,
-    <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#ae81ff">51826</span>,
-    <span style="color:#f92672">&#34;pin&#34;</span>: <span style="color:#e6db74">&#34;XXX-XX-XXX&#34;</span>
-  },
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;bridge&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Raspberry Pi&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;username&#34;</span><span class="p">:</span> <span class="s2">&#34;XX:XX:XX:XX:XX:XX&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;port&#34;</span><span class="p">:</span> <span class="mi">51826</span><span class="p">,</span>
+    <span class="nt">&#34;pin&#34;</span><span class="p">:</span> <span class="s2">&#34;XXX-XX-XXX&#34;</span>
+  <span class="p">},</span>
 
-  <span style="color:#f92672">&#34;platforms&#34;</span>: [],
+  <span class="nt">&#34;platforms&#34;</span><span class="p">:</span> <span class="p">[],</span>
 
-  <span style="color:#f92672">&#34;accessories&#34;</span>: [{
-      <span style="color:#f92672">&#34;accessory&#34;</span>: <span style="color:#e6db74">&#34;mqtt-switch-tasmota&#34;</span>,
+  <span class="nt">&#34;accessories&#34;</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="nt">&#34;accessory&#34;</span><span class="p">:</span> <span class="s2">&#34;mqtt-switch-tasmota&#34;</span><span class="p">,</span>
 
-      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;My Smart Device&#34;</span>,
+      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;My Smart Device&#34;</span><span class="p">,</span>
 
-      <span style="color:#f92672">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;mqtt://127.0.0.1&#34;</span>,
-      <span style="color:#f92672">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;home&#34;</span>,
-      <span style="color:#f92672">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;your password from step 3&#34;</span>,
+      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;mqtt://127.0.0.1&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;username&#34;</span><span class="p">:</span> <span class="s2">&#34;home&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;password&#34;</span><span class="p">:</span> <span class="s2">&#34;your password from step 3&#34;</span><span class="p">,</span>
 
-      <span style="color:#f92672">&#34;topics&#34;</span>: {
-        <span style="color:#f92672">&#34;statusGet&#34;</span>: <span style="color:#e6db74">&#34;stat/topic_for_this_device/POWER&#34;</span>,
-        <span style="color:#f92672">&#34;statusSet&#34;</span>: <span style="color:#e6db74">&#34;cmnd/topic_for_this_device/POWER&#34;</span>,
-        <span style="color:#f92672">&#34;stateGet&#34;</span>: <span style="color:#e6db74">&#34;tele/topic_for_this_device/STATE&#34;</span>
-      }
-    },
-    {}
-  ]
-}
+      <span class="nt">&#34;topics&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;statusGet&#34;</span><span class="p">:</span> <span class="s2">&#34;stat/topic_for_this_device/POWER&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;statusSet&#34;</span><span class="p">:</span> <span class="s2">&#34;cmnd/topic_for_this_device/POWER&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;stateGet&#34;</span><span class="p">:</span> <span class="s2">&#34;tele/topic_for_this_device/STATE&#34;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div><p>For more information have a look at the <a href="https://github.com/nfarina/homebridge/blob/master/config-sample.json">config.json sample</a> or the page of the plugin you&rsquo;re using (<a href="https://github.com/MacWyznawca/homebridge-mqtt-switch-tasmota/blob/master/config.json">mqtt-switch-tasmota</a> in my case).</p>
 <p>If you don&rsquo;t like <code>nano</code> you can also copy the file to your computer, edit it there and then copy it back:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ scp pi@192.168.31.231:.homebridge/config.json ~/Downloads/homebridge.json
-config.json                                         100% <span style="color:#ae81ff">1830</span>   149.2KB/s   00:00
-<span style="color:#75715e"># edit</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ scp pi@192.168.31.231:.homebridge/config.json ~/Downloads/homebridge.json
+config.json                                         100% <span class="m">1830</span>   149.2KB/s   00:00
+<span class="c1"># edit</span>
 $ scp ~/Downloads/homebridge.json pi@192.168.31.231:.homebridge/config.json
-homebridge.json                                     100% <span style="color:#ae81ff">1457</span>   268.4KB/s   00:00
+homebridge.json                                     100% <span class="m">1457</span>   268.4KB/s   00:00
 </code></pre></div><p>But beware: Do <em>not</em> edit the file in TextEdit, as it changes the format.</p>
 <p>You should now be able to start the <code>homebridge</code> app:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ homebridge
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ homebridge
 </code></pre></div><p><img loading="lazy" src="../pi/homebridge_start.png" alt=""  />
 </p>
 <h2 id="5-start-homebridge-on-startup">5. Start homebridge on startup<a hidden class="anchor" aria-hidden="true" href="#5-start-homebridge-on-startup">#</a></h2>
@@ -303,48 +327,48 @@ homebridge.json                                     100% <span style="color:#ae8
 <ol>
 <li>Create a file for default parameters</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo nano /etc/default/homebridge
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/default/homebridge
 </code></pre></div><p>and paste <code>HOMEBRIDGE_OPTS=-U /var/homebridge</code> into the file. Quit with <code>ctrl + x</code>, <code>y</code>, <code>enter</code>.</p>
 <ol>
 <li>Create a service in <code>systemd</code></li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo nano /etc/systemd/system/homebridge.service
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/systemd/system/homebridge.service
 </code></pre></div><p>and paste</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[Unit]</span>
-<span style="color:#a6e22e">Description</span><span style="color:#f92672">=</span><span style="color:#e6db74">Node.js HomeKit Server</span>
-<span style="color:#a6e22e">After</span><span style="color:#f92672">=</span><span style="color:#e6db74">syslog.target network-online.target</span>
-<span style="color:#75715e">#</span>
-<span style="color:#66d9ef">[Service]</span>
-<span style="color:#a6e22e">Type</span><span style="color:#f92672">=</span><span style="color:#e6db74">simple</span>
-<span style="color:#a6e22e">User</span><span style="color:#f92672">=</span><span style="color:#e6db74">homebridge</span>
-<span style="color:#a6e22e">EnvironmentFile</span><span style="color:#f92672">=</span><span style="color:#e6db74">/etc/default/homebridge</span>
-<span style="color:#a6e22e">ExecStart</span><span style="color:#f92672">=</span><span style="color:#e6db74">/usr/local/bin/homebridge $HOMEBRIDGE_OPTS</span>
-<span style="color:#a6e22e">Restart</span><span style="color:#f92672">=</span><span style="color:#e6db74">on-failure</span>
-<span style="color:#a6e22e">RestartSec</span><span style="color:#f92672">=</span><span style="color:#e6db74">10</span>
-<span style="color:#a6e22e">KillMode</span><span style="color:#f92672">=</span><span style="color:#e6db74">process</span>
-<span style="color:#75715e">#</span>
-<span style="color:#66d9ef">[Install]</span>
-<span style="color:#a6e22e">WantedBy</span><span style="color:#f92672">=</span><span style="color:#e6db74">multi-user.target</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Node.js HomeKit Server</span>
+<span class="na">After</span><span class="o">=</span><span class="s">syslog.target network-online.target</span>
+<span class="c1">#</span>
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<span class="na">User</span><span class="o">=</span><span class="s">homebridge</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/etc/default/homebridge</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/homebridge $HOMEBRIDGE_OPTS</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">on-failure</span>
+<span class="na">RestartSec</span><span class="o">=</span><span class="s">10</span>
+<span class="na">KillMode</span><span class="o">=</span><span class="s">process</span>
+<span class="c1">#</span>
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
 </code></pre></div><ol>
 <li>Create a user <code>homebridge</code></li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo useradd --system homebridge
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo useradd --system homebridge
 </code></pre></div><ol>
 <li>Create a directory for the config</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo mkdir /var/homebridge
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo mkdir /var/homebridge
 $ sudo cp ~/.homebridge/config.json /var/homebridge/
 $ sudo cp -r ~/.homebridge/persist /var/homebridge
 </code></pre></div><ol>
 <li>Start the service</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo chmod -R <span style="color:#ae81ff">0777</span> /var/homebridge
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo chmod -R <span class="m">0777</span> /var/homebridge
 $ sudo systemctl daemon-reload
-$ sudo systemctl enable homebridge
+$ sudo systemctl <span class="nb">enable</span> homebridge
 $ sudo systemctl start homebridge
 $ systemctl status homebridge
 </code></pre></div><p>Notice that the <code>config.json</code> is now copied to a different folder, so if you change the one in <code>~/.homebridge/</code> you need to copy it to <code>/var/homebridge/</code> afterwards!</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo cp ~/.homebridge/config.json /var/homebridge/
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo cp ~/.homebridge/config.json /var/homebridge/
 $ sudo systemctl restart homebridge
 </code></pre></div><h2 id="6-add-smart-devices">6. Add smart devices<a hidden class="anchor" aria-hidden="true" href="#6-add-smart-devices">#</a></h2>
 <p>You now have control center for you smart devices! <a href="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/">Here is a guide on how to connect them!</a></p>
@@ -411,6 +435,18 @@ $ sudo systemctl restart homebridge
             mybutton.style.opacity = "0";
         }
     };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
 </script>
 

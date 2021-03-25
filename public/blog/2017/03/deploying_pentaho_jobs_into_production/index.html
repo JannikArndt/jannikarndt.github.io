@@ -17,7 +17,7 @@ Kerberos is a bitch.
 ">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/" />
-<link href="/assets/css/stylesheet.min.642e2a0657439d758aca2aedf3ef6ad1415d2d970562c281dd262c6aad4686b1.css" integrity="sha256-ZC4qBldDnXWKyirt8&#43;9q0UFdLZcFYsKB3SYsaq1GhrE=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -118,7 +118,11 @@ Kerberos is a bitch.
 
 <body class="" id="top">
 <script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -167,6 +171,26 @@ Kerberos is a bitch.
                 <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 
                 
             </span>
@@ -244,37 +268,37 @@ March 5, 2017&nbsp;·&nbsp;Jannik
 </ul>
 <h2 id="solution-2-export-and-import-via-shell-script">Solution #2: Export and Import via Shell Script<a hidden class="anchor" aria-hidden="true" href="#solution-2-export-and-import-via-shell-script">#</a></h2>
 <p>The page also suggest using shell access. This sounds a lot closer to a one-click-solution. You need to have both repositories configured in your application. These settings are stored in <code>~~/.kettle/repositories.xml</code> and matched <em>by name</em>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
-<span style="color:#f92672">&lt;repositories&gt;</span>
-  <span style="color:#f92672">&lt;repository&gt;</span>    
-    <span style="color:#f92672">&lt;id&gt;</span>PentahoEnterpriseRepository<span style="color:#f92672">&lt;/id&gt;</span>
-    <span style="color:#f92672">&lt;name&gt;</span>MyRepository<span style="color:#f92672">&lt;/name&gt;</span>
-    <span style="color:#f92672">&lt;description&gt;</span>Pentaho repository<span style="color:#f92672">&lt;/description&gt;</span>
-    <span style="color:#f92672">&lt;is_default&gt;</span>false<span style="color:#f92672">&lt;/is_default&gt;</span>
-    <span style="color:#f92672">&lt;repository_location_url&gt;</span>http&amp;#x3a;&amp;#x2f;&amp;#x2f;localhost&amp;#x3a;8080&amp;#x2f;pentaho
-      <span style="color:#f92672">&lt;/repository_location_url&gt;</span>
-    <span style="color:#f92672">&lt;version_comment_mandatory&gt;</span>N<span style="color:#f92672">&lt;/version_comment_mandatory&gt;</span>
-  <span style="color:#f92672">&lt;/repository&gt;</span>  
-<span style="color:#f92672">&lt;/repositories&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class="nt">&lt;repositories&gt;</span>
+  <span class="nt">&lt;repository&gt;</span>    
+    <span class="nt">&lt;id&gt;</span>PentahoEnterpriseRepository<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;name&gt;</span>MyRepository<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;description&gt;</span>Pentaho repository<span class="nt">&lt;/description&gt;</span>
+    <span class="nt">&lt;is_default&gt;</span>false<span class="nt">&lt;/is_default&gt;</span>
+    <span class="nt">&lt;repository_location_url&gt;</span>http<span class="ni">&amp;#x3a;&amp;#x2f;&amp;#x2f;</span>localhost<span class="ni">&amp;#x3a;</span>8080<span class="ni">&amp;#x2f;</span>pentaho
+      <span class="nt">&lt;/repository_location_url&gt;</span>
+    <span class="nt">&lt;version_comment_mandatory&gt;</span>N<span class="nt">&lt;/version_comment_mandatory&gt;</span>
+  <span class="nt">&lt;/repository&gt;</span>  
+<span class="nt">&lt;/repositories&gt;</span>
 </code></pre></div><p>With this configuration, you can export and import repositories via <code>pan.sh</code> and <code>import.sh</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./pan.sh 
-  -rep<span style="color:#f92672">=</span>MyRepository 
-  -user<span style="color:#f92672">=</span>Jannik 
-  -pass<span style="color:#f92672">=</span>password 
-  -dir<span style="color:#f92672">=</span>home/jannik 
-  -exprep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pentaho_export.xml&#34;</span> 
-  -logfile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;export.log&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">./pan.sh 
+  -rep<span class="o">=</span>MyRepository 
+  -user<span class="o">=</span>Jannik 
+  -pass<span class="o">=</span>password 
+  -dir<span class="o">=</span>home/jannik 
+  -exprep<span class="o">=</span><span class="s2">&#34;pentaho_export.xml&#34;</span> 
+  -logfile<span class="o">=</span><span class="s2">&#34;export.log&#34;</span>
 
 ./import.sh 
-  -rep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Pentaho Repository&#34;</span> 
-  -user<span style="color:#f92672">=</span>Jannik 
-  -pass<span style="color:#f92672">=</span>password 
-  -dir<span style="color:#f92672">=</span>home/import 
-  -file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pentaho_export.xml&#34;</span> 
-  -logfile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;export.log&#34;</span> 
-  -replace<span style="color:#f92672">=</span>true 
-  -comment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;New Version&#34;</span> 
-  -norules<span style="color:#f92672">=</span>true
+  -rep<span class="o">=</span><span class="s2">&#34;Pentaho Repository&#34;</span> 
+  -user<span class="o">=</span>Jannik 
+  -pass<span class="o">=</span>password 
+  -dir<span class="o">=</span>home/import 
+  -file<span class="o">=</span><span class="s2">&#34;pentaho_export.xml&#34;</span> 
+  -logfile<span class="o">=</span><span class="s2">&#34;export.log&#34;</span> 
+  -replace<span class="o">=</span><span class="nb">true</span> 
+  -comment<span class="o">=</span><span class="s2">&#34;New Version&#34;</span> 
+  -norules<span class="o">=</span><span class="nb">true</span>
 </code></pre></div><p>Tip: The directory name is always in lower case, independent of what the web UI shows you.</p>
 <p>Problems:</p>
 <ul>
@@ -285,44 +309,44 @@ March 5, 2017&nbsp;·&nbsp;Jannik
 <li>The export does not contain schedules</li>
 </ul>
 <p>Is that all? No. If you take a look at <code>pan.sh</code> you&rsquo;ll find, what it really does:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#e6db74">&#34;</span>$DIR<span style="color:#e6db74">/spoon.sh&#34;</span> -main org.pentaho.di.pan.Pan -initialDir <span style="color:#e6db74">&#34;</span>$INITIALDIR<span style="color:#e6db74">/&#34;</span> <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.pan.Pan -initialDir <span class="s2">&#34;</span><span class="nv">$INITIALDIR</span><span class="s2">/&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
 </code></pre></div><p>The same for <code>import.sh</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#e6db74">&#34;</span>$DIR<span style="color:#e6db74">/spoon.sh&#34;</span> -main org.pentaho.di.imp.Import <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.imp.Import <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
 </code></pre></div><p>Deployment suddenly means starting the complete Pentaho Suite — <em>twice</em>!</p>
 <h2 id="solution-3-export-and-import-via-rest">Solution #3: Export and Import via REST<a hidden class="anchor" aria-hidden="true" href="#solution-3-export-and-import-via-rest">#</a></h2>
 <p>Baffled with why I&rsquo;m not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you&rsquo;re still unsure if cyclic dependencies are a bad thing, try reading the <a href="https://help.pentaho.com/Documentation/7.0/0R0/070">API Documentation</a>. And if you need to convince someone that generated documentation might be a bad idea, show him <a href="https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0">this overview</a>. Spoiler: both fail to mention <em>the actual address of the endpoint</em>, which is <code>http://localhost:8080/pentaho/api/repo/...</code>. Luckily, there are people writing <a href="https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/">useful blog entries</a>. And if you need a tool for trial-and-error, I recommend <a href="https://insomnia.rest">Insomnia</a>.
 Spending a lot of nerves, I crafted this beauty:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/sh
-</span><span style="color:#75715e"></span>
-source_url<span style="color:#f92672">=</span>$1
-target_url<span style="color:#f92672">=</span>$2
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="nv">source_url</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">target_url</span><span class="o">=</span><span class="nv">$2</span>
 
-echo <span style="color:#e6db74">&#34;\033[1mDeploying from </span><span style="color:#e6db74">${</span>source_url<span style="color:#e6db74">}</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">${</span>target_url<span style="color:#e6db74">}</span><span style="color:#e6db74"> \033[0m&#34;</span>
-echo <span style="color:#e6db74">&#34;\033[0;32mExporting backup…\033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[1mDeploying from </span><span class="si">${</span><span class="nv">source_url</span><span class="si">}</span><span class="s2"> to </span><span class="si">${</span><span class="nv">target_url</span><span class="si">}</span><span class="s2"> \033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mExporting backup…\033[0m&#34;</span>
 
-<span style="color:#75715e"># password encrypted via encr.sh</span>
-curl -H <span style="color:#e6db74">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -i <span style="color:#e6db74">${</span>source_url<span style="color:#e6db74">}</span>api/repo/files/backup -o Backup.zip
+<span class="c1"># password encrypted via encr.sh</span>
+curl -H <span class="s2">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span class="s2">&#34;Content-Type: application/json&#34;</span> -i <span class="si">${</span><span class="nv">source_url</span><span class="si">}</span>api/repo/files/backup -o Backup.zip
 
-echo <span style="color:#e6db74">&#34;\033[0;32mUnzipping backup…\033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mUnzipping backup…\033[0m&#34;</span>
 unzip -o -q Backup.zip
 
-echo <span style="color:#e6db74">&#34;\033[0;32mDeleting zip-file…\033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mDeleting zip-file…\033[0m&#34;</span>
 rm Backup.zip
 
-echo <span style="color:#e6db74">&#34;\033[0;32mDeleting home-folder…\033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mDeleting home-folder…\033[0m&#34;</span>
 rm -r home/
 
-<span style="color:#75715e"># delete everything you don&#39;t want to deploy</span>
+<span class="c1"># delete everything you don&#39;t want to deploy</span>
 
-<span style="color:#75715e"># add, commit and push to a git here</span>
+<span class="c1"># add, commit and push to a git here</span>
 
-echo <span style="color:#e6db74">&#34;\033[0;32mCreating new zip-file for deployment…\033[0m&#34;</span>
-zip -r -q Backup.zip <span style="color:#e6db74">&#39;_datasources/&#39;</span> <span style="color:#e6db74">&#39;etc/&#39;</span> <span style="color:#e6db74">&#39;exportManifest.xml&#39;</span> <span style="color:#e6db74">&#39;metastore.mzip&#39;</span> <span style="color:#e6db74">&#39;public/&#39;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mCreating new zip-file for deployment…\033[0m&#34;</span>
+zip -r -q Backup.zip <span class="s1">&#39;_datasources/&#39;</span> <span class="s1">&#39;etc/&#39;</span> <span class="s1">&#39;exportManifest.xml&#39;</span> <span class="s1">&#39;metastore.mzip&#39;</span> <span class="s1">&#39;public/&#39;</span>
 
-echo <span style="color:#e6db74">&#34;\033[0;32mDeploying...\033[0m&#34;</span>
-curl -H <span style="color:#e6db74">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: multipart/form-data&#34;</span> -H <span style="color:#e6db74">&#34;overwrite: true&#34;</span> -F <span style="color:#e6db74">&#34;fileUpload=@Backup.zip&#34;</span> -i <span style="color:#e6db74">${</span>target_url<span style="color:#e6db74">}</span>api/repo/files/systemRestore
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mDeploying...\033[0m&#34;</span>
+curl -H <span class="s2">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span class="s2">&#34;Content-Type: multipart/form-data&#34;</span> -H <span class="s2">&#34;overwrite: true&#34;</span> -F <span class="s2">&#34;fileUpload=@Backup.zip&#34;</span> -i <span class="si">${</span><span class="nv">target_url</span><span class="si">}</span>api/repo/files/systemRestore
 
-echo <span style="color:#e6db74">&#34;\033[0;32mCleaning up…\033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mCleaning up…\033[0m&#34;</span>
 rm Backup.zip
 </code></pre></div><p>Let&rsquo;s look at our problem-list:</p>
 <ul>
@@ -397,6 +421,18 @@ rm Backup.zip
             mybutton.style.opacity = "0";
         }
     };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
 </script>
 

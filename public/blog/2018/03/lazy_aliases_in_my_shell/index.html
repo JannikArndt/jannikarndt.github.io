@@ -13,7 +13,7 @@ What I do I work a lot with the shell (or “Terminal” app on MacOS), mostly k
 The Problem I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&rsquo;s annoying, because usually when I open a new tab, I want to quickly check on something, like the logs of a pod or if I have committed something in a different project.">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/" />
-<link href="/assets/css/stylesheet.min.642e2a0657439d758aca2aedf3ef6ad1415d2d970562c281dd262c6aad4686b1.css" integrity="sha256-ZC4qBldDnXWKyirt8&#43;9q0UFdLZcFYsKB3SYsaq1GhrE=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -106,7 +106,11 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 
 <body class="" id="top">
 <script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -155,6 +159,26 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
                 <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 
                 
             </span>
@@ -217,11 +241,11 @@ March 13, 2018&nbsp;·&nbsp;Jannik
 <li>When I start a new shell, I expect it to be fast. When I check on something in the Kubernetes cluster I expect it to go through the network, i.e. to be slow.</li>
 </ol>
 <p>So I delayed the initialization of the <code>kubectl completion</code> until I first call something:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> k<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-  source &lt;<span style="color:#f92672">(</span>kubectl completion zsh<span style="color:#f92672">)</span>
-  alias k<span style="color:#f92672">=</span>kubectl
-  kubectl $@
-<span style="color:#f92672">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> k<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">source</span> &lt;<span class="o">(</span>kubectl completion zsh<span class="o">)</span>
+  <span class="nb">alias</span> <span class="nv">k</span><span class="o">=</span>kubectl
+  kubectl <span class="nv">$@</span>
+<span class="o">}</span>
 </code></pre></div><p>This way, when I write <code>k get pods</code> for the first time, it creates the autocompletion list, rebinds what <code>k</code> does and then runs the command I wanted in the first place. All following <code>k get pods</code> go directly to <code>kubectl</code>.</p>
 
 </div>
@@ -287,6 +311,18 @@ March 13, 2018&nbsp;·&nbsp;Jannik
             mybutton.style.opacity = "0";
         }
     };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
 </script>
 

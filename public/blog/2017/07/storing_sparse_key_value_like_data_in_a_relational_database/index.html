@@ -11,7 +11,7 @@
 <meta name="description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/" />
-<link href="/assets/css/stylesheet.min.642e2a0657439d758aca2aedf3ef6ad1415d2d970562c281dd262c6aad4686b1.css" integrity="sha256-ZC4qBldDnXWKyirt8&#43;9q0UFdLZcFYsKB3SYsaq1GhrE=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -100,7 +100,11 @@
 
 <body class="" id="top">
 <script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -149,6 +153,26 @@
                 <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 
                 
             </span>
@@ -375,13 +399,13 @@ In object oriented thinking, this would be extremely easy: You have an abstract 
 <h2 id="and-hell-breaks-loose">…and hell breaks loose<a hidden class="anchor" aria-hidden="true" href="#and-hell-breaks-loose">#</a></h2>
 <p>Database design fails can live in production for a long time until they get noticed. And that&rsquo;s when all your precious data is already put into this bad scheme.</p>
 <p>In the case of the above solution things get ugly the moment you query for something specific. For example all messages where &lsquo;foo&rsquo; is &lsquo;bar&rsquo;:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> MESSAGES m 
-         <span style="color:#66d9ef">JOIN</span> VALUES_TABLE v <span style="color:#66d9ef">ON</span> m.id <span style="color:#f92672">=</span> v.message_id
-         <span style="color:#66d9ef">JOIN</span> KEYS_TABLE k <span style="color:#66d9ef">ON</span> v.key_id <span style="color:#f92672">=</span> k.key_id
-<span style="color:#66d9ef">WHERE</span> k.<span style="color:#66d9ef">key</span>    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;foo&#39;</span> 
-  <span style="color:#66d9ef">AND</span> v.value  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bar&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MESSAGES</span> <span class="n">m</span> 
+         <span class="k">JOIN</span> <span class="n">VALUES_TABLE</span> <span class="n">v</span> <span class="k">ON</span> <span class="n">m</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">message_id</span>
+         <span class="k">JOIN</span> <span class="n">KEYS_TABLE</span> <span class="n">k</span> <span class="k">ON</span> <span class="n">v</span><span class="p">.</span><span class="n">key_id</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">key_id</span>
+<span class="k">WHERE</span> <span class="n">k</span><span class="p">.</span><span class="k">key</span>    <span class="o">=</span> <span class="s1">&#39;foo&#39;</span> 
+  <span class="k">AND</span> <span class="n">v</span><span class="p">.</span><span class="n">value</span>  <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
 </code></pre></div><p>As opposed to</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> MESSAGES m <span style="color:#66d9ef">WHERE</span> m.foo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bar&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MESSAGES</span> <span class="n">m</span> <span class="k">WHERE</span> <span class="n">m</span><span class="p">.</span><span class="n">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
 </code></pre></div><p>The problem only grows when you create this query from your business code: You have to get the &lsquo;foo&rsquo; string from somewhere:</p>
 <ul>
 <li>You might hard code it. Yak.</li>
@@ -449,10 +473,10 @@ Also, document-oriented databases were invented for a reason. This might just be
 </tbody>
 </table>
 <p>Let&rsquo;s check for our query:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> MESSAGES m 
-    <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> MESSAGES_PART_1 p1 <span style="color:#66d9ef">ON</span> m.id <span style="color:#f92672">=</span> p1.id
-    <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> MESSAGES_PART_2 p2 <span style="color:#66d9ef">ON</span> m.id <span style="color:#f92672">=</span> p2.id
-<span style="color:#66d9ef">WHERE</span> p1.foo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bar&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">MESSAGES</span> <span class="n">m</span> 
+    <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">MESSAGES_PART_1</span> <span class="n">p1</span> <span class="k">ON</span> <span class="n">m</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">p1</span><span class="p">.</span><span class="n">id</span>
+    <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">MESSAGES_PART_2</span> <span class="n">p2</span> <span class="k">ON</span> <span class="n">m</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">p2</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span> <span class="n">p1</span><span class="p">.</span><span class="n">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
 </code></pre></div><p>Well… it doesn&rsquo;t suck as much. However, if you&rsquo;re on the <code>INSERT</code> side of the database you&rsquo;re gonna have a bad time…</p>
 </div>
   <footer class="post-footer">
@@ -517,6 +541,18 @@ Also, document-oriented databases were invented for a reason. This might just be
             mybutton.style.opacity = "0";
         }
     };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
 </script>
 

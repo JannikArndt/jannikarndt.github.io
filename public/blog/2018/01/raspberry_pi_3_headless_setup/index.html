@@ -11,7 +11,7 @@
 <meta name="description" content="I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/" />
-<link href="/assets/css/stylesheet.min.642e2a0657439d758aca2aedf3ef6ad1415d2d970562c281dd262c6aad4686b1.css" integrity="sha256-ZC4qBldDnXWKyirt8&#43;9q0UFdLZcFYsKB3SYsaq1GhrE=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -100,7 +100,11 @@
 
 <body class="" id="top">
 <script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -149,6 +153,26 @@
                 <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 
                 
             </span>
@@ -202,38 +226,38 @@ January 13, 2018&nbsp;·&nbsp;Jannik
 <h2 id="1-prepare-the-sd-card">1. Prepare the SD card<a hidden class="anchor" aria-hidden="true" href="#1-prepare-the-sd-card">#</a></h2>
 <h4 id="1-download-raspbian">1. Download Raspbian<a hidden class="anchor" aria-hidden="true" href="#1-download-raspbian">#</a></h4>
 <p>Here, <code>-L</code> means follow redirect, <code>-C -</code> let&rsquo;s you resume the download.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">390</span>  <span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">390</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">69</span>      <span style="color:#ae81ff">0</span>  0:00:05  0:00:05 --:--:--    <span style="color:#ae81ff">89</span>
-<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">399</span>  <span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">399</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">70</span>      <span style="color:#ae81ff">0</span>  0:00:05  0:00:05 --:--:--    <span style="color:#ae81ff">70</span>
- <span style="color:#ae81ff">20</span>  351M   <span style="color:#ae81ff">20</span> 72.6M    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   358k      <span style="color:#ae81ff">0</span>  0:16:44  0:03:27  0:13:17  364k
+<span class="m">100</span>   <span class="m">390</span>  <span class="m">100</span>   <span class="m">390</span>    <span class="m">0</span>     <span class="m">0</span>     <span class="m">69</span>      <span class="m">0</span>  0:00:05  0:00:05 --:--:--    <span class="m">89</span>
+<span class="m">100</span>   <span class="m">399</span>  <span class="m">100</span>   <span class="m">399</span>    <span class="m">0</span>     <span class="m">0</span>     <span class="m">70</span>      <span class="m">0</span>  0:00:05  0:00:05 --:--:--    <span class="m">70</span>
+ <span class="m">20</span>  351M   <span class="m">20</span> 72.6M    <span class="m">0</span>     <span class="m">0</span>   358k      <span class="m">0</span>  0:16:44  0:03:27  0:13:17  364k
 </code></pre></div><h4 id="2-unzip-the-download">2. Unzip the Download<a hidden class="anchor" aria-hidden="true" href="#2-unzip-the-download">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ tar xzf raspbian-stretch-lite.zip
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ tar xzf raspbian-stretch-lite.zip
 </code></pre></div><h4 id="3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card<a hidden class="anchor" aria-hidden="true" href="#3-check-the-path-of-the-sd-card">#</a></h4>
 <p>Here it is <code>/dev/disk2</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diskutil list
-/dev/disk0 <span style="color:#f92672">(</span>internal<span style="color:#f92672">)</span>:
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ diskutil list
+/dev/disk0 <span class="o">(</span>internal<span class="o">)</span>:
 ...
-/dev/disk1 <span style="color:#f92672">(</span>synthesized<span style="color:#f92672">)</span>:
+/dev/disk1 <span class="o">(</span>synthesized<span class="o">)</span>:
 ...
-/dev/disk2 <span style="color:#f92672">(</span>external, physical<span style="color:#f92672">)</span>:   &lt;<span style="color:#f92672">=</span> that<span style="color:#960050;background-color:#1e0010">&#39;</span>s the one
+/dev/disk2 <span class="o">(</span>external, physical<span class="o">)</span>:   &lt;<span class="o">=</span> that<span class="err">&#39;</span>s the one
 ...
-/dev/disk3 <span style="color:#f92672">(</span>disk image<span style="color:#f92672">)</span>:
+/dev/disk3 <span class="o">(</span>disk image<span class="o">)</span>:
 ...
 </code></pre></div><h4 id="4-unmount-the-sd-card">4. Unmount the SD Card<a hidden class="anchor" aria-hidden="true" href="#4-unmount-the-sd-card">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diskutil unmountDisk /dev/disk2
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ diskutil unmountDisk /dev/disk2
 </code></pre></div><h4 id="5-copy-the-data-to-the-card">5. Copy the Data to the Card<a hidden class="anchor" aria-hidden="true" href="#5-copy-the-data-to-the-card">#</a></h4>
 <p>We use <code>/dev/rdisk2</code> because it&rsquo;s <em>a lot</em> faster then <code>/dev/disk2</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dd bs<span style="color:#f92672">=</span>1m <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>2018-11-13-raspbian-stretch-lite.img of<span style="color:#f92672">=</span>/dev/rdisk2 conv<span style="color:#f92672">=</span>sync
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>2018-11-13-raspbian-stretch-lite.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2 <span class="nv">conv</span><span class="o">=</span>sync
 Password: ********
 1780+0 records in
 1780+0 records out
-<span style="color:#ae81ff">1866465280</span> bytes transferred in 33.915228 secs <span style="color:#f92672">(</span><span style="color:#ae81ff">55033252</span> bytes/sec<span style="color:#f92672">)</span>
+<span class="m">1866465280</span> bytes transferred in 33.915228 secs <span class="o">(</span><span class="m">55033252</span> bytes/sec<span class="o">)</span>
 </code></pre></div><h4 id="6-enable-one-time-ssh-access">6. Enable one-time SSH Access<a hidden class="anchor" aria-hidden="true" href="#6-enable-one-time-ssh-access">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ touch /Volumes/boot/ssh
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ touch /Volumes/boot/ssh
 </code></pre></div><h4 id="7-eject-the-sd-card">7. Eject the SD Card<a hidden class="anchor" aria-hidden="true" href="#7-eject-the-sd-card">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diskutil eject /dev/disk2
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ diskutil eject /dev/disk2
 </code></pre></div><h2 id="2-get-network-access-to-the-pi">2. Get Network Access to the Pi<a hidden class="anchor" aria-hidden="true" href="#2-get-network-access-to-the-pi">#</a></h2>
 <h4 id="connected-to-your-router">Connected to your Router<a hidden class="anchor" aria-hidden="true" href="#connected-to-your-router">#</a></h4>
 <p>You now have two options to connect to the pi via network: either you plug it into your router and look at the DHCP settings what IP address is assigned to it:
@@ -246,38 +270,38 @@ Password: ********
 <h2 id="3-configure-ssh-access">3. Configure SSH access<a hidden class="anchor" aria-hidden="true" href="#3-configure-ssh-access">#</a></h2>
 <p>This assumes that you have an ssh key. If not or you don&rsquo;t know what that is: An ssh key consist of two files: A private and a public one. The private one (<code>id_rsa</code>) is on <em>your</em> computer and works like a password (so do <em>not</em> share it!). The public one (<code>id_rsa.pub</code>) is on <em>other</em> computers and identifies you. It only works together with your private key, so don&rsquo;t loose it. Your public key is on your computer as well so you can easily share it.</p>
 <p>You can find both keys with</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ls -l ~/.ssh
-total <span style="color:#ae81ff">120</span>
--rw-------  <span style="color:#ae81ff">1</span> jannikarndt  staff  <span style="color:#ae81ff">1766</span> Jan  <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">2017</span> id_rsa
--rw-r--r--@ <span style="color:#ae81ff">1</span> jannikarndt  staff   <span style="color:#ae81ff">403</span> Jan  <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">2017</span> id_rsa.pub
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ls -l ~/.ssh
+total <span class="m">120</span>
+-rw-------  <span class="m">1</span> jannikarndt  staff  <span class="m">1766</span> Jan  <span class="m">3</span>  <span class="m">2017</span> id_rsa
+-rw-r--r--@ <span class="m">1</span> jannikarndt  staff   <span class="m">403</span> Jan  <span class="m">3</span>  <span class="m">2017</span> id_rsa.pub
 </code></pre></div><p>If you don&rsquo;t have a key, GitHub has a <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">great article on how to create one</a>.</p>
 <h4 id="1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi<a hidden class="anchor" aria-hidden="true" href="#1-copy-your-ssh-key-to-the-pi">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 <span style="color:#e6db74">&#34;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#34;</span>
-The authenticity of host <span style="color:#e6db74">&#39;192.168.2.149 (192.168.2.149)&#39;</span> can<span style="color:#e6db74">&#39;t be established.
-</span><span style="color:#e6db74">ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
-</span><span style="color:#e6db74">Are you sure you want to continue connecting (yes/no)? yes
-</span><span style="color:#e6db74">Warning: Permanently added &#39;</span>192.168.2.149<span style="color:#e6db74">&#39; (ECDSA) to the list of known hosts.
-</span><span style="color:#e6db74">pi@192.168.2.149&#39;</span>s password: raspberry
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cat</span> ~/.ssh/id_rsa.pub <span class="p">|</span> ssh pi@192.168.2.149 <span class="s2">&#34;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#34;</span>
+The authenticity of host <span class="s1">&#39;192.168.2.149 (192.168.2.149)&#39;</span> can<span class="s1">&#39;t be established.
+</span><span class="s1">ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
+</span><span class="s1">Are you sure you want to continue connecting (yes/no)? yes
+</span><span class="s1">Warning: Permanently added &#39;</span>192.168.2.149<span class="s1">&#39; (ECDSA) to the list of known hosts.
+</span><span class="s1">pi@192.168.2.149&#39;</span>s password: raspberry
 </code></pre></div><h4 id="2-ssh-into-the-pi">2. SSH into the Pi<a hidden class="anchor" aria-hidden="true" href="#2-ssh-into-the-pi">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ssh pi@192.168.2.2
-Linux raspberrypi 4.14.79-v7+ <span style="color:#75715e">#1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ssh pi@192.168.2.2
+Linux raspberrypi 4.14.79-v7+ <span class="c1">#1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l</span>
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms <span style="color:#66d9ef">for</span> each program are described in the
+The programs included with the Debian GNU/Linux system are free software<span class="p">;</span>
+the exact distribution terms <span class="k">for</span> each program are described in the
 individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 
-SSH is enabled and the default password <span style="color:#66d9ef">for</span> the <span style="color:#e6db74">&#39;pi&#39;</span> user has not been changed.
-This is a security risk - please login as the <span style="color:#e6db74">&#39;pi&#39;</span> user and type <span style="color:#e6db74">&#39;passwd&#39;</span> to set a new password.
+SSH is enabled and the default password <span class="k">for</span> the <span class="s1">&#39;pi&#39;</span> user has not been changed.
+This is a security risk - please login as the <span class="s1">&#39;pi&#39;</span> user and <span class="nb">type</span> <span class="s1">&#39;passwd&#39;</span> to <span class="nb">set</span> a new password.
 
 
 Wi-Fi is disabled because the country is not set.
-Use raspi-config to set the country before use.
+Use raspi-config to <span class="nb">set</span> the country before use.
 </code></pre></div><p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p>
 <h4 id="3-change-your-root-password">3. Change your root Password:<a hidden class="anchor" aria-hidden="true" href="#3-change-your-root-password">#</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo raspi-config
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo raspi-config
 </code></pre></div><p><img loading="lazy" src="../pi/raspi-config.png" alt=""  />
 </p>
 <ol>
@@ -290,10 +314,10 @@ Use raspi-config to set the country before use.
 </ol>
 <h2 id="4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code><a hidden class="anchor" aria-hidden="true" href="#4-install-oh-my-zsh">#</a></h2>
 <p>And now, for the grand finale, you can (should / will want to) install a proper shell, i.e. <a href="http://ohmyz.sh">oh my zsh</a>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get upgrade
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get upgrade
 sudo apt-get install git zsh
 chsh -s /bin/zsh
-sh -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
 </code></pre></div><h2 id="5-continue">5. Continue<a hidden class="anchor" aria-hidden="true" href="#5-continue">#</a></h2>
 <p>Great! Now you can use your Pi, for example</p>
 <ul>
@@ -363,6 +387,18 @@ sh -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</sp
             mybutton.style.opacity = "0";
         }
     };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
 </script>
 
