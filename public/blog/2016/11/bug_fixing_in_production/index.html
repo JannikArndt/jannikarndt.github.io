@@ -3,9 +3,7 @@
     <head>
         <title>Bug Fixing in Production</title>
         <meta name="description" content="
-
 (via I Love Programming)
-
 Thank goodness, we don&rsquo;t do production.">
         <meta name="keywords" content="Image, Bug Fixing, Coding Horrors">
         <meta charset="utf-8">
@@ -82,10 +80,8 @@ Thank goodness, we don&rsquo;t do production.">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p><img src="/blog/2016/11/bugfixing_in_production.png" alt=""></p>
-
+                    <!-- raw HTML omitted -->
 <p>(via <a href="https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;theater">I Love Programming</a>)</p>
-
 <p>Thank goodness, we don&rsquo;t do <em>production</em>.</p>
                 </div>
             </div>
@@ -158,21 +154,17 @@ Thank goodness, we don&rsquo;t do production.">
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

@@ -79,149 +79,124 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>You don&rsquo;t need to “get hacked” to have your security compromised. Often enough you&rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.</p>
-
 <h2 id="1-checked-into-git">1. Checked into git</h2>
-
 <p>Checking credentials into git is such a regular thing that toughworks have created their own <a href="https://thoughtworks.github.io/talisman/">tool to prevent this</a>.</p>
-
 <h3 id="what-you-can-do-about-it">What you can do about it</h3>
-
 <p>If it&rsquo;s already pushed, you&rsquo;ll have to rotate the crendentials.</p>
-
 <p>To at least soften the embarrasment, you can use <code>git commit --amend</code>, and then <code>git push -f</code>, but that might</p>
-
 <ol>
 <li>get you into even bigger trouble, because your team will hate you,</li>
 <li>not work, for example if you pushed to a merge request in Gitlab it will keep the old code, despite what&rsquo;s stored in git</li>
 <li>lead you (or others) to think that you don&rsquo;t have to rotate the keys. You do.</li>
 </ol>
-
 <h3 id="how-to-prevent-this">How to prevent this</h3>
-
 <ol>
 <li>Don&rsquo;t add passwords to the code, read them from the environment.</li>
 <li>Use <a href="https://github.com/direnv/direnv">direnv</a> to have different environments for each project.</li>
 <li>Add the <code>.envrc</code> to your <code>~/.gitignore_global</code> (for yourself) <em>and</em> the project&rsquo;s <code>.gitignore</code> (for the others).</li>
 </ol>
-
 <p>You might also consider <a href="https://thoughtworks.github.io/talisman/">talisman</a>, but for me it had way too many false positives.</p>
-
 <p>Also, if you <em>want</em> to store credentials inside git, try out <a href="https://github.com/AGWA/git-crypt">git-crypt</a>. But beware: You have to first add a filename to <code>.gitattributes</code> and <em>then</em> add the file to git.</p>
-
 <h2 id="2-dumped-from-the-environment">2. Dumped from the Environment</h2>
-
 <p>When your application crashes, it often helps to know the environment. That&rsquo;s why tools like <a href="https://sentry.io/welcome/">sentry</a> will collect and display all environments variables with any error.</p>
-
 <p>But you might also write them to the standard out yourself, to have <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> pick them up.</p>
-
 <h3 id="what-you-can-do-about-it-1">What you can do about it</h3>
-
 <p>If you notice credentials showing up in another tool or a place where they don&rsquo;t belong: Rotate.
 This is especially true for tools that tend to be used by <em>a lot</em> of people in your organization, which is usually the case for an Elastic stack.</p>
-
 <h3 id="how-to-prevent-this-1">How to prevent this</h3>
-
 <p>It depends on the tools you use. Be aware of the possibility, try what happens when errors are reported and work around it.</p>
-
 <h2 id="3-written-to-the-chat">3. Written to the Chat</h2>
-
 <p>“I can&rsquo;t get this to run, can you send me the command?”</p>
-
 <p>Using passwords in command line arguments should be a no-go, but <a href="http://www.liquibase.org/documentation/command_line.html#examples">liquibase</a> for example enforces this behaviour.</p>
-
 <h3 id="what-you-can-do-about-it-2">What you can do about it</h3>
-
 <p>Would you really consider your chat as secure? Rather rotate.</p>
-
 <h3 id="how-to-prevent-this-2">How to prevent this</h3>
-
 <p>In the liquibase example, you can write a wrapper-bash-script that reads the password from the environment, like this one:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
+RED<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;\033[0;31m&#39;</span>
+BLUE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;\033[0;34m&#39;</span>
+NC<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;\033[0m&#39;</span> <span style="color:#75715e"># No Color</span>
 
-<pre><code class="language-shell">#!/bin/sh
+ENV<span style="color:#f92672">=</span>$1
+COMMAND<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>@:2<span style="color:#e6db74">}</span>
 
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+<span style="color:#66d9ef">function</span> usage <span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;Usage: ./lb &lt;env&gt; &lt;command&gt;&#34;</span>
+    echo <span style="color:#e6db74">&#34;  &lt;env&gt;     = local, dev, prod&#34;</span>
+    echo <span style="color:#e6db74">&#34;  &lt;command&gt; = update, status, rollbackCount 1, ...&#34;</span>
+    echo <span style="color:#e6db74">&#34;&#34;</span>
+    echo <span style="color:#e6db74">&#34;Configure your .envrc for database access:&#34;</span>
+    echo <span style="color:#e6db74">&#34;&#34;</span>
+    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BLUE<span style="color:#e6db74">}</span><span style="color:#e6db74"># local&#34;</span>
+    echo <span style="color:#e6db74">&#34;export HOST_PORT_DB_LOCAL=localhost:5431/postgres&#34;</span>
+    echo <span style="color:#e6db74">&#34;export DB_USER_LOCAL=postgres&#34;</span>
+    echo <span style="color:#e6db74">&#34;export DB_PASSWORD_LOCAL=...\n&#34;</span>
+    echo <span style="color:#e6db74">&#34;# dev&#34;</span>
+    echo <span style="color:#e6db74">&#34;export HOST_PORT_DB_DEV=localhost:5434/postgres&#34;</span>
+    echo <span style="color:#e6db74">&#34;export DB_USER_DEV=postgres&#34;</span>
+    echo <span style="color:#e6db74">&#34;export DB_PASSWORD_DEV=...\n&#34;</span>
+    echo <span style="color:#e6db74">&#34;# prod&#34;</span>
+    echo <span style="color:#e6db74">&#34;export HOST_PORT_DB_PROD=localhost:5433/postgres&#34;</span>
+    echo <span style="color:#e6db74">&#34;export DB_USER_PROD=postgres&#34;</span>
+    echo <span style="color:#e6db74">&#34;export DB_PASSWORD_PROD=...</span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
 
-ENV=$1
-COMMAND=${@:2}
-
-function usage {
-    echo &quot;Usage: ./lb &lt;env&gt; &lt;command&gt;&quot;
-    echo &quot;  &lt;env&gt;     = local, dev, prod&quot;
-    echo &quot;  &lt;command&gt; = update, status, rollbackCount 1, ...&quot;
-    echo &quot;&quot;
-    echo &quot;Configure your .envrc for database access:&quot;
-    echo &quot;&quot;
-    echo &quot;${BLUE}# local&quot;
-    echo &quot;export HOST_PORT_DB_LOCAL=localhost:5431/postgres&quot;
-    echo &quot;export DB_USER_LOCAL=postgres&quot;
-    echo &quot;export DB_PASSWORD_LOCAL=...\n&quot;
-    echo &quot;# dev&quot;
-    echo &quot;export HOST_PORT_DB_DEV=localhost:5434/postgres&quot;
-    echo &quot;export DB_USER_DEV=postgres&quot;
-    echo &quot;export DB_PASSWORD_DEV=...\n&quot;
-    echo &quot;# prod&quot;
-    echo &quot;export HOST_PORT_DB_PROD=localhost:5433/postgres&quot;
-    echo &quot;export DB_USER_PROD=postgres&quot;
-    echo &quot;export DB_PASSWORD_PROD=...${NC}&quot;
-}
-
-function setDbConnection {
-    case $ENV in
-        &quot;local&quot;)
-        HOST_PORT_DB=${HOST_PORT_DB_LOCAL}
-        DB_USER=${DB_USER_LOCAL}
-        DB_PASSWORD=${DB_PASSWORD_LOCAL}
+<span style="color:#66d9ef">function</span> setDbConnection <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> $ENV in
+        <span style="color:#e6db74">&#34;local&#34;</span><span style="color:#f92672">)</span>
+        HOST_PORT_DB<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOST_PORT_DB_LOCAL<span style="color:#e6db74">}</span>
+        DB_USER<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DB_USER_LOCAL<span style="color:#e6db74">}</span>
+        DB_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DB_PASSWORD_LOCAL<span style="color:#e6db74">}</span>
         ;;
-        &quot;dev&quot;)
-        HOST_PORT_DB=${HOST_PORT_DB_DEV}
-        DB_USER=${DB_USER_DEV}
-        DB_PASSWORD=${DB_PASSWORD_DEV}
+        <span style="color:#e6db74">&#34;dev&#34;</span><span style="color:#f92672">)</span>
+        HOST_PORT_DB<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOST_PORT_DB_DEV<span style="color:#e6db74">}</span>
+        DB_USER<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DB_USER_DEV<span style="color:#e6db74">}</span>
+        DB_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DB_PASSWORD_DEV<span style="color:#e6db74">}</span>
         ;;
-        &quot;prod&quot;)
-        HOST_PORT_DB=${HOST_PORT_DB_PROD}
-        DB_USER=${DB_USER_PROD}
-        DB_PASSWORD=${DB_PASSWORD_PROD}
+        <span style="color:#e6db74">&#34;prod&#34;</span><span style="color:#f92672">)</span>
+        HOST_PORT_DB<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOST_PORT_DB_PROD<span style="color:#e6db74">}</span>
+        DB_USER<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DB_USER_PROD<span style="color:#e6db74">}</span>
+        DB_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DB_PASSWORD_PROD<span style="color:#e6db74">}</span>
         ;;
-        *)
-        echo &quot;${RED}Error: Missing environment!\n${NC}&quot;
+        *<span style="color:#f92672">)</span>
+        echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>RED<span style="color:#e6db74">}</span><span style="color:#e6db74">Error: Missing environment!\n</span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
         usage
-        exit 1
-    esac
+        exit <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">esac</span>
 
-    if [[ -z &quot;${HOST_PORT_DB}&quot; || -z &quot;${DB_USER}&quot; || -z &quot;${DB_PASSWORD}&quot; ]]; then
-      echo &quot;${RED}Error: \$HOST_PORT_DB, \$DB_USER or \$DB_PASSWORD is not defined!\n${NC}&quot;
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>HOST_PORT_DB<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">||</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DB_USER<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">||</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DB_PASSWORD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+      echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>RED<span style="color:#e6db74">}</span><span style="color:#e6db74">Error: \$HOST_PORT_DB, \$DB_USER or \$DB_PASSWORD is not defined!\n</span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
       usage
-      exit 1
-    fi
-}
+      exit <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">fi</span>
+<span style="color:#f92672">}</span>
 
-function checkForPostgresDriver {
-    if [ ! -f ./postgresql.jar ]; then
-        echo &quot;${BLUE}Missing postgresql.jar, downloading…${NC}\n&quot;
+<span style="color:#66d9ef">function</span> checkForPostgresDriver <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -f ./postgresql.jar <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+        echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BLUE<span style="color:#e6db74">}</span><span style="color:#e6db74">Missing postgresql.jar, downloading…</span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}</span><span style="color:#e6db74">\n&#34;</span>
         curl -o postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.2.3.jar
-    fi
-}
+    <span style="color:#66d9ef">fi</span>
+<span style="color:#f92672">}</span>
 
-function runLiquibase {
-    liquibase \
-          --driver=org.postgresql.Driver \
-          --classpath=./postgresql.jar \
-          --changeLogFile=changelog.xml \
-          --contexts=$ENV \
-          --url=&quot;jdbc:postgresql://$HOST_PORT_DB&quot; \
-          --username=$DB_USER \
-          --password=$DB_PASSWORD \
-        ${COMMAND}
-}
+<span style="color:#66d9ef">function</span> runLiquibase <span style="color:#f92672">{</span>
+    liquibase <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --driver<span style="color:#f92672">=</span>org.postgresql.Driver <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --classpath<span style="color:#f92672">=</span>./postgresql.jar <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --changeLogFile<span style="color:#f92672">=</span>changelog.xml <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --contexts<span style="color:#f92672">=</span>$ENV <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;jdbc:postgresql://</span>$HOST_PORT_DB<span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --username<span style="color:#f92672">=</span>$DB_USER <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>          --password<span style="color:#f92672">=</span>$DB_PASSWORD <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        <span style="color:#e6db74">${</span>COMMAND<span style="color:#e6db74">}</span>
+<span style="color:#f92672">}</span>
 
 
 setDbConnection
 checkForPostgresDriver
-echo &quot;${BLUE}Running liquibase on ${HOST_PORT_DB} with context ${NC}$ENV${BLUE} and command(s) ${NC}${COMMAND}${BLUE}…\n${NC}&quot;
+echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BLUE<span style="color:#e6db74">}</span><span style="color:#e6db74">Running liquibase on </span><span style="color:#e6db74">${</span>HOST_PORT_DB<span style="color:#e6db74">}</span><span style="color:#e6db74"> with context </span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}</span>$ENV<span style="color:#e6db74">${</span>BLUE<span style="color:#e6db74">}</span><span style="color:#e6db74"> and command(s) </span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}${</span>COMMAND<span style="color:#e6db74">}${</span>BLUE<span style="color:#e6db74">}</span><span style="color:#e6db74">…\n</span><span style="color:#e6db74">${</span>NC<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 runLiquibase
-</code></pre>
+</code></pre></div>
                 </div>
             </div>
         </div>
@@ -293,21 +268,17 @@ runLiquibase
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

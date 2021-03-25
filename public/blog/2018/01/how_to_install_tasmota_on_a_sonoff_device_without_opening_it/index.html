@@ -4,10 +4,8 @@
         <title>How to install Tasmota on a Sonoff device without opening it</title>
         <meta name="description" content="Sonoff takes the standard ESP8266 chip and adds two things:
 
-
 a casing with wifi and great connectors and
 a custom OS and an app to control the devices.
-
 
 Unfortunately, the second addition also means that all communication goes through Sonoff&rsquo;s servers. Here&rsquo;s how to get rid of that. Without soldering or connecting anything.">
         <meta name="keywords" content="Raspberry Pi, Raspberry Pi 3, Setup, How to, MacOS, Tasmota, Sonoff, MQTT, Mosquitto">
@@ -84,22 +82,19 @@ Unfortunately, the second addition also means that all communication goes throug
         <aside class="toc page-scroll">
             <div class="toc_title"><a href="#page-top" class="page-scroll">How to install Tasmota on a Sonoff device without opening it</a></div>
             <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-get-sonota-code">1. Get SonOTA Code</a></li>
-<li><a href="#2-allow-incoming-and-outgoing-connections">2. Allow incoming and outgoing connections</a></li>
-<li><a href="#3-start-sonota-script">3. Start SonOTA script</a></li>
-<li><a href="#4-put-sonoff-into-config-mode">4. Put Sonoff into config mode</a></li>
-<li><a href="#5-join-sonoff-wifi">5. Join Sonoff Wifi</a></li>
-<li><a href="#6-let-the-script-configure-the-sonoff">6. Let the script configure the sonoff</a></li>
-<li><a href="#7-switch-to-finalstage-wifi">7. Switch to <code>FinalStage</code> Wifi</a></li>
-<li><a href="#8-switch-to-sonoff-xxxx-wifi">8. Switch to <code>sonoff-XXXX</code> Wifi</a></li>
-<li><a href="#9-configure-device">9. Configure Device</a></li>
-<li><a href="#10-configure-mqtt">10. Configure MQTT</a></li>
-<li><a href="#11-create-a-smart-home">11. Create a smart home</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1-get-sonota-code">1. Get SonOTA Code</a></li>
+    <li><a href="#2-allow-incoming-and-outgoing-connections">2. Allow incoming and outgoing connections</a></li>
+    <li><a href="#3-start-sonota-script">3. Start SonOTA script</a></li>
+    <li><a href="#4-put-sonoff-into-config-mode">4. Put Sonoff into config mode</a></li>
+    <li><a href="#5-join-sonoff-wifi">5. Join Sonoff Wifi</a></li>
+    <li><a href="#6-let-the-script-configure-the-sonoff">6. Let the script configure the sonoff</a></li>
+    <li><a href="#7-switch-to-finalstage-wifi">7. Switch to <code>FinalStage</code> Wifi</a></li>
+    <li><a href="#8-switch-to-sonoff-xxxx-wifi">8. Switch to <code>sonoff-XXXX</code> Wifi</a></li>
+    <li><a href="#9-configure-device">9. Configure Device</a></li>
+    <li><a href="#10-configure-mqtt">10. Configure MQTT</a></li>
+    <li><a href="#11-create-a-smart-home">11. Create a smart home</a></li>
+  </ul>
 </nav></div>
         </aside>
         
@@ -108,185 +103,133 @@ Unfortunately, the second addition also means that all communication goes throug
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Sonoff takes the standard ESP8266 chip and adds two things:</p>
-
 <ul>
 <li>a casing with wifi and great connectors and</li>
 <li>a custom OS and an app to control the devices.</li>
 </ul>
-
 <p>Unfortunately, the second addition <em>also</em> means that all communication goes through Sonoff&rsquo;s servers. Here&rsquo;s how to get rid of that. Without soldering or connecting anything.</p>
-
 <p>The two repositories I&rsquo;m using are</p>
-
 <ul>
 <li><a href="https://github.com/arendst/Sonoff-Tasmota">https://github.com/arendst/Sonoff-Tasmota</a> for the Tasmota operating system and</li>
 <li><a href="https://github.com/mirko/SonOTA">https://github.com/mirko/SonOTA</a> for a mechanism to flash the device “over the air”.</li>
 </ul>
-
 <h2 id="1-get-sonota-code">1. Get SonOTA Code</h2>
-
 <p>First you need to clone (=download) the repository and install the requirements. For this you need <code>git</code> and <code>pip</code>.</p>
-
-<pre><code class="language-shell">$ git clone https://github.com/mirko/SonOTA
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git clone https://github.com/mirko/SonOTA
 $ cd SonOTA
 $ pip3 install --user -r requirements.txt
-</code></pre>
-
-<h2 id="2-allow-incoming-and-outgoing-connections">2. Allow incoming and outgoing connections</h2>
-
+</code></pre></div><h2 id="2-allow-incoming-and-outgoing-connections">2. Allow incoming and outgoing connections</h2>
 <p>Your mac will serve as a server. Therefore it must allow incoming connections. Go to <em>System Settings</em> &gt; <em>Security &amp; Privacy</em> &gt; <em>Firewall</em> and turn the firewall off. Remember to turn it back on afterwards!</p>
-
 <p>I also noticed LittleSnitch and TripMode trying to block connections. If you have them installed, put them into silent mode or turn them off.</p>
-
 <h2 id="3-start-sonota-script">3. Start SonOTA script</h2>
-
-<pre><code class="language-shell">$ ./sonota.py
-Current IPs: ['192.168.31.210']
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ./sonota.py
+Current IPs: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;192.168.31.210&#39;</span><span style="color:#f92672">]</span>
 Select IP address of the WiFi interface:
     0: 192.168.31.210
-Select IP address [0]: 0      # &lt;= enter '0' and enter
-WiFi SSID: Your SSID          # &lt;= no quotes
+Select IP address <span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>: <span style="color:#ae81ff">0</span>      <span style="color:#75715e"># &lt;= enter &#39;0&#39; and enter</span>
+WiFi SSID: Your SSID          <span style="color:#75715e"># &lt;= no quotes</span>
 WiFi Password: *****
-</code></pre>
-
-<p><img src="../pi/sonota_1.png" alt="" /></p>
-
+</code></pre></div><p><img src="../pi/sonota_1.png" alt=""></p>
 <h2 id="4-put-sonoff-into-config-mode">4. Put Sonoff into config mode</h2>
-
 <p>Press the button on the Sonoff device for ~7 seconds until the LED starts blinking rapidly.</p>
-
 <p>If the LED is blinking three times short and then one time long, you need to hold the button for 7 seconds again, until it blinks rapidly. I had to do this for the Sonoff Touch.</p>
-
 <h2 id="5-join-sonoff-wifi">5. Join Sonoff Wifi</h2>
-
 <p>In config mode, the Sonoff broadcasts its own wifi.</p>
-
 <ul>
 <li>Look for and connect to <code>ITEAD-100001XXXX</code></li>
 <li>The password is <code>12345678</code></li>
 </ul>
-
-<p><img src="../pi/ssid_1.png" alt="" /></p>
-
+<p><img src="../pi/ssid_1.png" alt=""></p>
 <h2 id="6-let-the-script-configure-the-sonoff">6. Let the script configure the sonoff</h2>
-
-<pre><code class="language-shell">&gt;&gt; HTTP GET /10.10.7.1/device
-# ...
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt;&gt; HTTP GET /10.10.7.1/device
+<span style="color:#75715e"># ...</span>
 &gt;&gt; HTTP POST /10.10.7.1/ap
-# ...
+<span style="color:#75715e"># ...</span>
 ~~ Provisioning completed
 Starting stage2...
-** The IP address of &lt;serve_host&gt; (192.168.31.210) is not assigned to any interface on this machine.
+** The IP address of &lt;serve_host&gt; <span style="color:#f92672">(</span>192.168.31.210<span style="color:#f92672">)</span> is not assigned to any interface on this machine.
 ** Please change WiFi network to Tor zur Welt and make sure 192.168.31.210 is being assigned to your WiFi interface.
-** This application should be kept running and will wait until connected to the WiFi...
-......Current IPs: []
-</code></pre>
-
-<p>The device now joins your wifi and ends providing its own (<code>ITEAD-100001XXXX</code>). Your computer will most likely switch back to your usual wifi.</p>
-
-<pre><code class="language-shell">....Current IPs: ['192.168.31.210']
-~~ Starting web server (HTTP port: 8080, HTTPS port 8443)
-~~ Waiting for device to connect
-# ...
+** This application should be kept running and will wait <span style="color:#66d9ef">until</span> connected to the WiFi...
+......Current IPs: <span style="color:#f92672">[]</span>
+</code></pre></div><p>The device now joins your wifi and ends providing its own (<code>ITEAD-100001XXXX</code>). Your computer will most likely switch back to your usual wifi.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">....Current IPs: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;192.168.31.210&#39;</span><span style="color:#f92672">]</span>
+~~ Starting web server <span style="color:#f92672">(</span>HTTP port: 8080, HTTPS port 8443<span style="color:#f92672">)</span>
+~~ Waiting <span style="color:#66d9ef">for</span> device to connect
+<span style="color:#75715e"># ...</span>
 &lt;&lt; HTTP POST /dispatch/device
-200 POST /dispatch/device (192.168.31.213)
-101 GET /api/ws (192.168.31.213)
-&lt;&lt; WEBSOCKET OPEN
-# ... (lots of &quot;action&quot;: &quot;update&quot; payloads)
-# ...
-Sending file: /ota/image_user2-0x81000.bin # repeats a lot
-# ...
-~~~ device acknowledged our action request (seq 1515773926583) with error code 0
-........................
-*** IMPORTANT! ***
-** AFTER the first download is COMPLETE, with in a minute or so you should connect to the new SSID &quot;FinalStage&quot; to finish the process.
-** ONLY disconnect when the new &quot;FinalStage&quot; SSID is visible as an available WiFi network.
+<span style="color:#ae81ff">200</span> POST /dispatch/device <span style="color:#f92672">(</span>192.168.31.213<span style="color:#f92672">)</span>
+<span style="color:#ae81ff">101</span> GET /api/ws <span style="color:#f92672">(</span>192.168.31.213<span style="color:#f92672">)</span>
+<span style="color:#e6db74">&lt;&lt; WEBSOCKET OPEN
+</span><span style="color:#e6db74"># ... (lots of &#34;action&#34;: &#34;update&#34; payloads)
+</span><span style="color:#e6db74"># ...
+</span><span style="color:#e6db74">Sending file: /ota/image_user2-0x81000.bin # repeats a lot
+</span><span style="color:#e6db74"># ...
+</span><span style="color:#e6db74">~~~ device acknowledged our action request (seq 1515773926583) with error code 0
+</span><span style="color:#e6db74">........................
+</span><span style="color:#e6db74">*** IMPORTANT! ***
+</span><span style="color:#e6db74">** AFTER the first download is COMPLETE, with in a minute or so you should connect to the new SSID &#34;FinalStage&#34; to finish the process.
+</span><span style="color:#e6db74">** ONLY disconnect when the new &#34;FinalStage&#34; SSID is visible as an available W</span>iFi network.
 This server should automatically be allocated the IP address: 192.168.4.2.
-If you have successfully connected to &quot;FinalStage&quot; and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
-</code></pre>
-
-<p><img src="../pi/sonota_2.png" alt="" /></p>
-
+If you have successfully connected to <span style="color:#e6db74">&#34;FinalStage&#34;</span> and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
+</code></pre></div><p><img src="../pi/sonota_2.png" alt=""></p>
 <h2 id="7-switch-to-finalstage-wifi">7. Switch to <code>FinalStage</code> Wifi</h2>
-
-<pre><code class="language-shell">If you have successfully connected to &quot;FinalStage&quot; and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
-..Current IPs: []
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">If you have successfully connected to <span style="color:#e6db74">&#34;FinalStage&#34;</span> and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
+..Current IPs: <span style="color:#f92672">[]</span>
 .Sending file: /ota/image_arduino.bin
-.Current IPs: ['192.168.4.2']
+.Current IPs: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;192.168.4.2&#39;</span><span style="color:#f92672">]</span>
 
 
-The &quot;FinalStage&quot; SSID will disappear when the device has been fully flashed and image_arduino.bin has been installed.
-If there is no &quot;Sending file: /ota/image_arduino.bin&quot; log entry, ensure all firewalls have been COMPLETELY disabled on your system.
-............200 GET /ota/image_arduino.bin (192.168.4.1) 25854.05ms
-..............Current IPs: []
-No longer on &quot;FinalStage&quot; SSID, all done! Now connect to the sonoff-#### SSID and configure for your WiFi (it will not be configured).
+The <span style="color:#e6db74">&#34;FinalStage&#34;</span> SSID will disappear when the device has been fully flashed and image_arduino.bin has been installed.
+If there is no <span style="color:#e6db74">&#34;Sending file: /ota/image_arduino.bin&#34;</span> log entry, ensure all firewalls have been COMPLETELY disabled on your system.
+............200 GET /ota/image_arduino.bin <span style="color:#f92672">(</span>192.168.4.1<span style="color:#f92672">)</span> 25854.05ms
+..............Current IPs: <span style="color:#f92672">[]</span>
+No longer on <span style="color:#e6db74">&#34;FinalStage&#34;</span> SSID, all <span style="color:#66d9ef">done</span>! Now connect to the sonoff-#### SSID and configure <span style="color:#66d9ef">for</span> your WiFi <span style="color:#f92672">(</span>it will not be configured<span style="color:#f92672">)</span>.
 Quitting.
-</code></pre>
-
-<p><img src="../pi/sonota_3.png" alt="" /></p>
-
+</code></pre></div><p><img src="../pi/sonota_3.png" alt=""></p>
 <h2 id="8-switch-to-sonoff-xxxx-wifi">8. Switch to <code>sonoff-XXXX</code> Wifi</h2>
-
 <ul>
 <li>Joining this Wifi might take 3–4 minutes</li>
 <li>Remember the numbers!</li>
-<li>Goto <a href="http://192.168.4.1">http://192.168.4.1</a>
-<img src="../pi/config_1.png" alt="" /></li>
+<li>Goto http://192.168.4.1
+<img src="../pi/config_1.png" alt=""></li>
 <li>Enter your Wifi SSID and password</li>
 <li>Save</li>
 <li>The <code>sonoff-XXXX</code> Wifi will disappear and your computer will return to your usual wifi</li>
 </ul>
-
 <h2 id="9-configure-device">9. Configure Device</h2>
-
 <ul>
 <li>Goto <a href="http://sonoff-XXXX.local">http://sonoff-XXXX.local</a> where the number is the one from step 8
-<img src="../pi/sonoff_setup_1.png" alt="" /></li>
+<img src="../pi/sonoff_setup_1.png" alt=""></li>
 <li>Go to Configuration &gt; Configure Module and select the device type
-<img src="../pi/sonoff_setup_2.png" alt="" /></li>
+<img src="../pi/sonoff_setup_2.png" alt=""></li>
 </ul>
-
 <h2 id="10-configure-mqtt">10. Configure MQTT</h2>
-
 <p>The idea here is that you have an MQTT broker somewhere to exchange messages between your smart devices and an app to control them. I use <code>homebridge</code> on a Raspberry Pi, <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">here is a tutorial for my setup</a>.</p>
-
 <p>If you want to try without a raspberry pi, you can run the broker on your computer:</p>
-
-<pre><code class="language-shell">brew install mosquitto
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">brew install mosquitto
 mosquitto
-</code></pre>
-
-<p>Username and Password defaults are empty.</p>
-
+</code></pre></div><p>Username and Password defaults are empty.</p>
 <p>If <code>brew</code> has problems linking <code>mosquitto</code>, try</p>
-
-<pre><code class="language-shell">sudo mkdir /usr/local/sbin
-sudo chown -R `whoami`:admin /usr/local/sbin
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo mkdir /usr/local/sbin
+sudo chown -R <span style="color:#e6db74">`</span>whoami<span style="color:#e6db74">`</span>:admin /usr/local/sbin
 brew link mosquitto
-</code></pre>
-
-<p>Now follow these steps to let your device send messages to your MQTT broker:</p>
-
+</code></pre></div><p>Now follow these steps to let your device send messages to your MQTT broker:</p>
 <ul>
 <li>Go to Configuration &gt; Configure MQTT and enter the MQTT parameters:
-
 <ul>
 <li>Host: e.g. your ip if MQTT is running locally</li>
 <li>Port: 1883</li>
 <li>Topic: Specific Topic, e.g. <code>bedroom_lights</code>
-<img src="../pi/sonoff_setup_3.png" alt="" /></li>
-</ul></li>
+<img src="../pi/sonoff_setup_3.png" alt=""></li>
+</ul>
+</li>
 <li>Restart</li>
 <li>Go to Console to check the connection
-<img src="../pi/sonoff_console.png" alt="" /></li>
+<img src="../pi/sonoff_console.png" alt=""></li>
 </ul>
-
 <p>You can use a program like <a href="http://mqttfx.jensd.de/index.php/download">MQTT.fx</a> and subscribe to everything (“#”) to see how your devices communicate:</p>
-
-<p><img src="../pi/mqtt_fx.png" alt="" /></p>
-
+<p><img src="../pi/mqtt_fx.png" alt=""></p>
 <h2 id="11-create-a-smart-home">11. Create a smart home</h2>
-
 <p>Now that your lights, outlets, fans and what not talk to a message queue and receiver orders, you need something to control that. For example, setup a <code>homebridge</code> on a Raspberry Pi to use Apple Home from your iPhone, iPad or Apple Watch! <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">Here&rsquo;s how</a>.</p>
                 </div>
             </div>
@@ -359,21 +302,17 @@ brew link mosquitto
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

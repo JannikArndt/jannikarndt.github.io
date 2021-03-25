@@ -6,7 +6,7 @@ disableHugoGeneratorInject = "true"
 
 [params]
 	name = "Jannik Arndt"
-	description = "Data Engineer, Software Developer & Musician from Hamburg, Germany"
+	description = "Product-, Data- and Software Engineer from Hamburg, Germany"
 	favicon = "favicon.ico"
 
 	# Navigation
@@ -21,7 +21,6 @@ disableHugoGeneratorInject = "true"
 	# About section
 	[params.about]
 		headline    = "About"
-        mbti = "ENTJ"
 
         [[params.about.steps]]
             from = "1989"

@@ -3,9 +3,7 @@
     <head>
         <title>Deploying Pentaho jobs into Production</title>
         <meta name="description" content="TL;DR: You don&rsquo;t. We eventually gave up on it.
-
 My personal lessons-learned:
-
 
 Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs.
 The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.
@@ -87,34 +85,24 @@ Kerberos is a bitch.
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p><strong>TL;DR:</strong> You don&rsquo;t. We eventually gave up on it.</p>
-
 <p>My personal lessons-learned:</p>
-
 <ul>
 <li>Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for <em>one-time</em> data transfer or <em>on-demand</em> data transfer, but not for resilient, scheduled jobs.</li>
 <li>The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.</li>
 <li>Kerberos is a bitch.</li>
 </ul>
-
 <h2 id="the-requirements">The requirements</h2>
-
 <p>We were looking for a system to write, deploy and schedule ETL jobs. Since we actually want to move the data, the en-vogue trend of NoETL and queries on source systems doesn&rsquo;t work for us. After <a href="/blog/2017/01/talend_does_not_work">giving up on talend</a>, Pentaho made it quite easy to write the kind of jobs we need. However, making sure these jobs can be deployed to a server and reliably run there turn out as almost impossible.</p>
-
 <p>What I want:</p>
-
 <ul>
 <li>Deployment in one click (in 2017, Jenkins is nothing new!)</li>
 <li>Deployment on three development environments (dev, test, prod)</li>
 <li>Configuration of different schedules for each environment</li>
 <li>Version control (being able to answer “who changed what when?”)</li>
 </ul>
-
 <h2 id="solution-1-export-and-import-via-gui">Solution #1: Export and Import via GUI</h2>
-
 <p>I was surprised that the <a href="https://help.pentaho.com/Documentation/7.0/0D0/1A0/010/020">official recommendation</a> is <a href="https://help.pentaho.com/Documentation/7.0/0P0/Managing_the_Pentaho_Repository/Backup_and_Restore_Pentaho_Repositories">exporting</a> and <a href="https://help.pentaho.com/Documentation/7.0/0P0/Managing_the_Pentaho_Repository/Import_and_Export_PDI_Content">importing the complete repository</a>.</p>
-
 <p>Problems:</p>
-
 <ul>
 <li>You cannot deploy single jobs</li>
 <li>Every user needs to have access to production (no-go!)</li>
@@ -122,51 +110,41 @@ Kerberos is a bitch.
 <li>This needs way more than one click</li>
 <li>The export does not contain schedules</li>
 </ul>
-
 <h2 id="solution-2-export-and-import-via-shell-script">Solution #2: Export and Import via Shell Script</h2>
-
 <p>The page also suggest using shell access. This sounds a lot closer to a one-click-solution. You need to have both repositories configured in your application. These settings are stored in <code>~~/.kettle/repositories.xml</code> and matched <em>by name</em>:</p>
-
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;repositories&gt;
-  &lt;repository&gt;    
-    &lt;id&gt;PentahoEnterpriseRepository&lt;/id&gt;
-    &lt;name&gt;MyRepository&lt;/name&gt;
-    &lt;description&gt;Pentaho repository&lt;/description&gt;
-    &lt;is_default&gt;false&lt;/is_default&gt;
-    &lt;repository_location_url&gt;http&amp;#x3a;&amp;#x2f;&amp;#x2f;localhost&amp;#x3a;8080&amp;#x2f;pentaho
-      &lt;/repository_location_url&gt;
-    &lt;version_comment_mandatory&gt;N&lt;/version_comment_mandatory&gt;
-  &lt;/repository&gt;  
-&lt;/repositories&gt;
-</code></pre>
-
-<p>With this configuration, you can export and import repositories via <code>pan.sh</code> and <code>import.sh</code>:</p>
-
-<pre><code class="language-shell">./pan.sh 
-  -rep=MyRepository 
-  -user=Jannik 
-  -pass=password 
-  -dir=home/jannik 
-  -exprep=&quot;pentaho_export.xml&quot; 
-  -logfile=&quot;export.log&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;repositories&gt;</span>
+  <span style="color:#f92672">&lt;repository&gt;</span>    
+    <span style="color:#f92672">&lt;id&gt;</span>PentahoEnterpriseRepository<span style="color:#f92672">&lt;/id&gt;</span>
+    <span style="color:#f92672">&lt;name&gt;</span>MyRepository<span style="color:#f92672">&lt;/name&gt;</span>
+    <span style="color:#f92672">&lt;description&gt;</span>Pentaho repository<span style="color:#f92672">&lt;/description&gt;</span>
+    <span style="color:#f92672">&lt;is_default&gt;</span>false<span style="color:#f92672">&lt;/is_default&gt;</span>
+    <span style="color:#f92672">&lt;repository_location_url&gt;</span>http&amp;#x3a;&amp;#x2f;&amp;#x2f;localhost&amp;#x3a;8080&amp;#x2f;pentaho
+      <span style="color:#f92672">&lt;/repository_location_url&gt;</span>
+    <span style="color:#f92672">&lt;version_comment_mandatory&gt;</span>N<span style="color:#f92672">&lt;/version_comment_mandatory&gt;</span>
+  <span style="color:#f92672">&lt;/repository&gt;</span>  
+<span style="color:#f92672">&lt;/repositories&gt;</span>
+</code></pre></div><p>With this configuration, you can export and import repositories via <code>pan.sh</code> and <code>import.sh</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./pan.sh 
+  -rep<span style="color:#f92672">=</span>MyRepository 
+  -user<span style="color:#f92672">=</span>Jannik 
+  -pass<span style="color:#f92672">=</span>password 
+  -dir<span style="color:#f92672">=</span>home/jannik 
+  -exprep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pentaho_export.xml&#34;</span> 
+  -logfile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;export.log&#34;</span>
 
 ./import.sh 
-  -rep=&quot;Pentaho Repository&quot; 
-  -user=Jannik 
-  -pass=password 
-  -dir=home/import 
-  -file=&quot;pentaho_export.xml&quot; 
-  -logfile=&quot;export.log&quot; 
-  -replace=true 
-  -comment=&quot;New Version&quot; 
-  -norules=true
-</code></pre>
-
-<p>Tip: The directory name is always in lower case, independent of what the web UI shows you.</p>
-
+  -rep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Pentaho Repository&#34;</span> 
+  -user<span style="color:#f92672">=</span>Jannik 
+  -pass<span style="color:#f92672">=</span>password 
+  -dir<span style="color:#f92672">=</span>home/import 
+  -file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pentaho_export.xml&#34;</span> 
+  -logfile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;export.log&#34;</span> 
+  -replace<span style="color:#f92672">=</span>true 
+  -comment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;New Version&#34;</span> 
+  -norules<span style="color:#f92672">=</span>true
+</code></pre></div><p>Tip: The directory name is always in lower case, independent of what the web UI shows you.</p>
 <p>Problems:</p>
-
 <ul>
 <li>You cannot deploy single jobs</li>
 <li>Every user needs to have access to production (no-go!)</li>
@@ -174,60 +152,47 @@ Kerberos is a bitch.
 <li><del>This needs way more than one click</del></li>
 <li>The export does not contain schedules</li>
 </ul>
-
 <p>Is that all? No. If you take a look at <code>pan.sh</code> you&rsquo;ll find, what it really does:</p>
-
-<pre><code class="language-shell">&quot;$DIR/spoon.sh&quot; -main org.pentaho.di.pan.Pan -initialDir &quot;$INITIALDIR/&quot; &quot;$@&quot;
-</code></pre>
-
-<p>The same for <code>import.sh</code>:</p>
-
-<pre><code class="language-shell">&quot;$DIR/spoon.sh&quot; -main org.pentaho.di.imp.Import &quot;$@&quot;
-</code></pre>
-
-<p>Deployment suddenly means starting the complete Pentaho Suite — <em>twice</em>!</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#e6db74">&#34;</span>$DIR<span style="color:#e6db74">/spoon.sh&#34;</span> -main org.pentaho.di.pan.Pan -initialDir <span style="color:#e6db74">&#34;</span>$INITIALDIR<span style="color:#e6db74">/&#34;</span> <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</code></pre></div><p>The same for <code>import.sh</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#e6db74">&#34;</span>$DIR<span style="color:#e6db74">/spoon.sh&#34;</span> -main org.pentaho.di.imp.Import <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</code></pre></div><p>Deployment suddenly means starting the complete Pentaho Suite — <em>twice</em>!</p>
 <h2 id="solution-3-export-and-import-via-rest">Solution #3: Export and Import via REST</h2>
-
 <p>Baffled with why I&rsquo;m not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you&rsquo;re still unsure if cyclic dependencies are a bad thing, try reading the <a href="https://help.pentaho.com/Documentation/7.0/0R0/070">API Documentation</a>. And if you need to convince someone that generated documentation might be a bad idea, show him <a href="https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0">this overview</a>. Spoiler: both fail to mention <em>the actual address of the endpoint</em>, which is <code>http://localhost:8080/pentaho/api/repo/...</code>. Luckily, there are people writing <a href="https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/">useful blog entries</a>. And if you need a tool for trial-and-error, I recommend <a href="https://insomnia.rest">Insomnia</a>.
 Spending a lot of nerves, I crafted this beauty:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
+source_url<span style="color:#f92672">=</span>$1
+target_url<span style="color:#f92672">=</span>$2
 
-<pre><code class="language-shell">#!/bin/sh
+echo <span style="color:#e6db74">&#34;\033[1mDeploying from </span><span style="color:#e6db74">${</span>source_url<span style="color:#e6db74">}</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">${</span>target_url<span style="color:#e6db74">}</span><span style="color:#e6db74"> \033[0m&#34;</span>
+echo <span style="color:#e6db74">&#34;\033[0;32mExporting backup…\033[0m&#34;</span>
 
-source_url=$1
-target_url=$2
+<span style="color:#75715e"># password encrypted via encr.sh</span>
+curl -H <span style="color:#e6db74">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -i <span style="color:#e6db74">${</span>source_url<span style="color:#e6db74">}</span>api/repo/files/backup -o Backup.zip
 
-echo &quot;\033[1mDeploying from ${source_url} to ${target_url} \033[0m&quot;
-echo &quot;\033[0;32mExporting backup…\033[0m&quot;
-
-# password encrypted via encr.sh
-curl -H &quot;Authorization: Basic EncryptedPassword&quot; -H &quot;Content-Type: application/json&quot; -i ${source_url}api/repo/files/backup -o Backup.zip
-
-echo &quot;\033[0;32mUnzipping backup…\033[0m&quot;
+echo <span style="color:#e6db74">&#34;\033[0;32mUnzipping backup…\033[0m&#34;</span>
 unzip -o -q Backup.zip
 
-echo &quot;\033[0;32mDeleting zip-file…\033[0m&quot;
+echo <span style="color:#e6db74">&#34;\033[0;32mDeleting zip-file…\033[0m&#34;</span>
 rm Backup.zip
 
-echo &quot;\033[0;32mDeleting home-folder…\033[0m&quot;
+echo <span style="color:#e6db74">&#34;\033[0;32mDeleting home-folder…\033[0m&#34;</span>
 rm -r home/
 
-# delete everything you don't want to deploy
+<span style="color:#75715e"># delete everything you don&#39;t want to deploy</span>
 
-# add, commit and push to a git here
+<span style="color:#75715e"># add, commit and push to a git here</span>
 
-echo &quot;\033[0;32mCreating new zip-file for deployment…\033[0m&quot;
-zip -r -q Backup.zip '_datasources/' 'etc/' 'exportManifest.xml' 'metastore.mzip' 'public/'
+echo <span style="color:#e6db74">&#34;\033[0;32mCreating new zip-file for deployment…\033[0m&#34;</span>
+zip -r -q Backup.zip <span style="color:#e6db74">&#39;_datasources/&#39;</span> <span style="color:#e6db74">&#39;etc/&#39;</span> <span style="color:#e6db74">&#39;exportManifest.xml&#39;</span> <span style="color:#e6db74">&#39;metastore.mzip&#39;</span> <span style="color:#e6db74">&#39;public/&#39;</span>
 
-echo &quot;\033[0;32mDeploying...\033[0m&quot;
-curl -H &quot;Authorization: Basic EncryptedPassword&quot; -H &quot;Content-Type: multipart/form-data&quot; -H &quot;overwrite: true&quot; -F &quot;fileUpload=@Backup.zip&quot; -i ${target_url}api/repo/files/systemRestore
+echo <span style="color:#e6db74">&#34;\033[0;32mDeploying...\033[0m&#34;</span>
+curl -H <span style="color:#e6db74">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: multipart/form-data&#34;</span> -H <span style="color:#e6db74">&#34;overwrite: true&#34;</span> -F <span style="color:#e6db74">&#34;fileUpload=@Backup.zip&#34;</span> -i <span style="color:#e6db74">${</span>target_url<span style="color:#e6db74">}</span>api/repo/files/systemRestore
 
-echo &quot;\033[0;32mCleaning up…\033[0m&quot;
+echo <span style="color:#e6db74">&#34;\033[0;32mCleaning up…\033[0m&#34;</span>
 rm Backup.zip
-</code></pre>
-
-<p>Let&rsquo;s look at our problem-list:</p>
-
+</code></pre></div><p>Let&rsquo;s look at our problem-list:</p>
 <ul>
 <li>You cannot deploy single jobs - <em>but single directories!</em></li>
 <li><del>Every user needs to have access to production (no-go!)</del> (this can be run on a server)</li>
@@ -236,7 +201,6 @@ rm Backup.zip
 <li>The export does not contain schedules</li>
 <li><del>Pentaho Suite is started twice and takes <em>minutes</em></del> (this accesses the repository server directly)</li>
 </ul>
-
 <p>Okay, so this sounds pretty good! What&rsquo;s the problem? <em>It doesn&rsquo;t work.</em> The <code>systemRestore</code> endpoint happily takes all your data, answers <code>200: OK</code> and <em>does nothing</em>. I was told, a ticket would be raised, but so far <a href="http://jira.pentaho.com/issues/?jql=text%20~~%20%22systemRestore%22">I haven&rsquo;t seen any of it</a> and <a href="https://github.com/pentaho/pentaho-platform/blob/master/extensions/src/main/java/org/pentaho/platform/web/http/api/resources/FileResource.java#L195">the implementation also hasn&rsquo;t changed</a>.</p>
                 </div>
             </div>
@@ -309,21 +273,17 @@ rm Backup.zip
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

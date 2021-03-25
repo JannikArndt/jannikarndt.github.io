@@ -80,39 +80,25 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    
-
-<p>I reduced the startup time of my shell by one second. Here&rsquo;s how:</p>
-
+                    <p>I reduced the startup time of my shell by one second. Here&rsquo;s how:</p>
 <h2 id="what-i-do">What I do</h2>
-
 <p>I work <em>a lot</em> with the shell (or “Terminal” app on MacOS), mostly <code>kubectl</code>, <code>git</code>, <code>terraform</code> and <code>docker</code>. And of course I use the absolutely best shell of all, <a href="http://ohmyz.sh">oh-my-zsh</a>.</p>
-
 <h2 id="the-problem">The Problem</h2>
-
 <p>I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&rsquo;s annoying, because usually when I open a new tab, I want to <em>quickly</em> check on something, like the logs of a pod or if I have committed something in a different project.</p>
-
 <p>I inserted some <code>gdate +%s.%N</code> commands in my <code>.zshrc</code> to find out, at which point the slowdown was occurring. (<code>gdate</code> is the gnu-version of <code>date</code> and can be installed with <code>brew install coreutils</code>.)</p>
-
 <p>The problem lies in the <code>kubectl</code> plugin, which creates the completions-list via <code>source &lt;(kubectl completion zsh)</code>. This creates a <em>huge</em> list of instructions.</p>
-
 <h2 id="the-solution">The Solution</h2>
-
 <ol>
 <li>The <code>kubectl</code> plugin also defines the <code>alias k=kubectl</code>, which shaves seconds, if not minutes off my daily work.</li>
 <li>When I start a new shell, I expect it to be fast. When I check on something in the Kubernetes cluster I expect it to go through the network, i.e. to be slow.</li>
 </ol>
-
 <p>So I delayed the initialization of the <code>kubectl completion</code> until I first call something:</p>
-
-<pre><code class="language-shell">function k() {
-  source &lt;(kubectl completion zsh)
-  alias k=kubectl
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> k<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  source &lt;<span style="color:#f92672">(</span>kubectl completion zsh<span style="color:#f92672">)</span>
+  alias k<span style="color:#f92672">=</span>kubectl
   kubectl $@
-}
-</code></pre>
-
-<p>This way, when I write <code>k get pods</code> for the first time, it creates the autocompletion list, rebinds what <code>k</code> does and then runs the command I wanted in the first place. All following <code>k get pods</code> go directly to <code>kubectl</code>.</p>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>This way, when I write <code>k get pods</code> for the first time, it creates the autocompletion list, rebinds what <code>k</code> does and then runs the command I wanted in the first place. All following <code>k get pods</code> go directly to <code>kubectl</code>.</p>
 
                 </div>
             </div>
@@ -185,21 +171,17 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

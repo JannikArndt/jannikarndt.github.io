@@ -3,9 +3,7 @@
     <head>
         <title>Lessons learned in 2016</title>
         <meta name="description" content="#1
-
 Do not fix your code.
-
 Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.">
         <meta name="keywords" content="Programming">
         <meta charset="utf-8">
@@ -83,39 +81,22 @@ Rather understand why nothing kept you from creating this bug. Make your code so
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2 id="1">#1</h2>
-
 <h3 id="do-not-fix-your-code">Do not fix your code.</h3>
-
 <p>Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.</p>
-
 <h2 id="2">#2</h2>
-
 <h3 id="automate-early">Automate early.</h3>
-
 <p>You know, CI/CD. Or just clean-up-scripts. Or a complete infrastructure-as-code. Remember: A script to setup something is the best documentation!</p>
-
 <h2 id="3">#3</h2>
-
 <h3 id="a-function-must-not-do-more-than-one-thing">A function must not do more than one thing.</h3>
-
 <p>If a function name contains “and” there&rsquo;s still work to do. Build small pieces.</p>
-
 <h2 id="4">#4</h2>
-
 <h3 id="side-effects-are-the-root-of-all-evil">Side effects are the root of all evil.</h3>
-
 <p>If you need side effects (like database or file outputs), let it be the <em>only</em> thing a function does.</p>
-
 <h2 id="5">#5</h2>
-
-<h3 id="it-s-all-about-data">It&rsquo;s all about data.</h3>
-
+<h3 id="its-all-about-data">It&rsquo;s all about data.</h3>
 <p>Business logic is just a concept to change data.</p>
-
 <h2 id="6">#6</h2>
-
 <h3 id="a-system-is-defined-by-its-input-and-output">A system is defined by its input and output.</h3>
-
 <p>Every description of anything should focus on these two things first.</p>
                 </div>
             </div>
@@ -188,21 +169,17 @@ Rather understand why nothing kept you from creating this bug. Make your code so
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

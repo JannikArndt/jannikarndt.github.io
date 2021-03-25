@@ -3,12 +3,9 @@
     <head>
         <title>Lessons learned in 2017</title>
         <meta name="description" content="#1
-
 Conway’s Law
 
-
 &ldquo;organizations which design systems &hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&rdquo;
-
 
 So true.">
         <meta name="keywords" content="Programming, Lessons Learned">
@@ -87,56 +84,34 @@ So true.">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2 id="1">#1</h2>
-
-<h3 id="conway-s-law">Conway’s Law</h3>
-
+<h3 id="conways-law">Conway’s Law</h3>
 <blockquote>
 <p>&ldquo;organizations which design systems &hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&rdquo;</p>
 </blockquote>
-
 <p>So true.</p>
-
 <h2 id="2">#2</h2>
-
 <h3 id="dev-ops-is-awesome">Dev-Ops is awesome</h3>
-
 <p>But also a lot of work that’s hard to anticipate.</p>
-
 <h2 id="3">#3</h2>
-
 <h3 id="clearly-defined-interfaces-clearly-need-to-be-tested">Clearly defined interfaces clearly need to be tested</h3>
-
 <p>We didn’t test ours, and it took other dev <em>forever</em> to track down a bug in <em>our</em> system.</p>
-
 <h2 id="4">#4</h2>
-
-<h3 id="deal-with-the-bugs-you-have-not-the-ones-you-might-encounter">Deal with the bugs you have, not the ones you <em>might</em> encounter</h3>
-
+<h3 id="deal-with-the-bugs-you-have-not-the-ones-you-_might_-encounter">Deal with the bugs you have, not the ones you <em>might</em> encounter</h3>
 <p>Your software will <em>never</em> handle all possibilities. Invest the time into good monitoring, rather than anticipating <em>every</em> possibility.</p>
-
 <h2 id="5">#5</h2>
-
 <h3 id="how-to-set-up-a-robust-environment">How to set up a robust environment</h3>
-
 <ol>
 <li>Set up a dev, test and production stage.</li>
 <li>Set up continuous deployment into all stages.</li>
 <li>Set up a monitoring system.</li>
 <li>Start coding.</li>
 </ol>
-
 <h2 id="6">#6</h2>
-
-<h3 id="your-system-doesn-t-need-every-bit-of-new-technology">Your system doesn’t need <em>every</em> bit of new technology</h3>
-
+<h3 id="your-system-doesnt-need-_every_-bit-of-new-technology">Your system doesn’t need <em>every</em> bit of new technology</h3>
 <p>And it probably doesn’t have “Big Data”.</p>
-
 <h2 id="7">#7</h2>
-
 <h3 id="monolithfirst">MonolithFirst</h3>
-
 <p>As Martin Fowler <a href="https://martinfowler.com/bliki/MonolithFirst.html">writes</a>:</p>
-
 <blockquote>
 <p>you shouldn&rsquo;t start a new project with microservices, even if you&rsquo;re sure your application will be big enough to make it worthwhile</p>
 </blockquote>
@@ -211,21 +186,17 @@ So true.">
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

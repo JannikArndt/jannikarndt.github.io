@@ -79,117 +79,74 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>I recently created a <em>wonderful</em> bug.</p>
-
 <p>Have a look at this code and tell me: Do you need to look out for exceptions?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> scala.concurrent.ExecutionContext.Implicits.global
+<span style="color:#66d9ef">import</span> scala.concurrent.Future
+<span style="color:#66d9ef">import</span> scala.util.<span style="color:#f92672">{</span><span style="color:#a6e22e">Failure</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">Success</span><span style="color:#f92672">}</span>
 
-<pre><code class="language-scala">import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Main</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">App</span> <span style="color:#f92672">{</span>
 
-object Main extends App {
-
-  val myFuture: Future[Int] = for {
-    foo &lt;- doFoo()
-    bar &lt;- doBar()
-  } yield foo + bar
+  <span style="color:#66d9ef">val</span> myFuture<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">for</span> <span style="color:#f92672">{</span>
+    foo <span style="color:#66d9ef">&lt;-</span> doFoo<span style="color:#f92672">()</span>
+    bar <span style="color:#66d9ef">&lt;-</span> doBar<span style="color:#f92672">()</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">yield</span> foo <span style="color:#f92672">+</span> bar
   
-  def doFoo(): Future[Int] = ???
+  <span style="color:#66d9ef">def</span> doFoo<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">???</span>
 
-  def doBar(): Future[Int] = ???
+  <span style="color:#66d9ef">def</span> doBar<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">???</span>
 
-  myFuture onComplete {
-    case Success(value)     =&gt; println(s&quot;It's a $value&quot;)
-    case Failure(exception) =&gt; println(s&quot;Something went wrong: $exception&quot;)
-  }
-}
-</code></pre>
-
-<p>Nahhh, probably not, because</p>
-
-<pre><code class="language-scala">Future{
-  throw new Throwable
-}
-</code></pre>
-
-<p>is the same as</p>
-
-<pre><code class="language-scala">Future.apply(throw new Throwable)
-</code></pre>
-
-<p>is the same as</p>
-
-<pre><code class="language-scala">Future.unit.map(_ =&gt; throw new Throwable)
-</code></pre>
-
-<p>is the same as</p>
-
-<pre><code class="language-scala">Future.successful(()).transform(_ map (_ =&gt; throw new Throwable))
-</code></pre>
-
-<p>and this <code>transform</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/concurrent/Future.scala#L257">is defined as</a></p>
-
-<pre><code class="language-scala">def transform[S](f: Try[T] =&gt; Try[S])(implicit executor: ExecutionContext): Future[S]
-</code></pre>
-
-<p>and therefore the <code>map</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L105">is defined as</a></p>
-
-<pre><code class="language-scala">def map[U](f: T =&gt; U): Try[U]
-</code></pre>
-
-<p>and <code>Try</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L207-L216">has the constructor</a></p>
-
-<pre><code class="language-scala">object Try {
-  /** Constructs a `Try` using the by-name parameter.  This
-   * method will ensure any non-fatal exception is caught and a
-   * `Failure` object is returned.
-   */
-  def apply[T](r: =&gt; T): Try[T] =
-    try Success(r) catch {
-      case NonFatal(e) =&gt; Failure(e)
-    }
-}
-</code></pre>
-
-<p>and <em>there we finally have our try-catch-block!</em> So we don&rsquo;t have to care about exceptions in <code>Future</code>s, right?</p>
-
+  myFuture onComplete <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Success</span><span style="color:#f92672">(</span>value<span style="color:#f92672">)</span>     <span style="color:#66d9ef">=&gt;</span> println<span style="color:#f92672">(</span><span style="color:#e6db74">s&#34;It&#39;s a </span><span style="color:#e6db74">$value</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Failure</span><span style="color:#f92672">(</span>exception<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> println<span style="color:#f92672">(</span><span style="color:#e6db74">s&#34;Something went wrong: </span><span style="color:#e6db74">$exception</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Nahhh, probably not, because</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">Future</span><span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Throwable</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>is the same as</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">Future</span><span style="color:#f92672">.</span>apply<span style="color:#f92672">(</span><span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Throwable</span><span style="color:#f92672">)</span>
+</code></pre></div><p>is the same as</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">Future</span><span style="color:#f92672">.</span>unit<span style="color:#f92672">.</span>map<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Throwable</span><span style="color:#f92672">)</span>
+</code></pre></div><p>is the same as</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">Future</span><span style="color:#f92672">.</span>successful<span style="color:#f92672">(()).</span>transform<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span> map <span style="color:#f92672">(</span><span style="color:#66d9ef">_</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Throwable</span><span style="color:#f92672">))</span>
+</code></pre></div><p>and this <code>transform</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/concurrent/Future.scala#L257">is defined as</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">def</span> transform<span style="color:#f92672">[</span><span style="color:#66d9ef">S</span><span style="color:#f92672">](</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Try</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">Try</span><span style="color:#f92672">[</span><span style="color:#66d9ef">S</span><span style="color:#f92672">])(</span><span style="color:#66d9ef">implicit</span> executor<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">ExecutionContext</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">S</span><span style="color:#f92672">]</span>
+</code></pre></div><p>and therefore the <code>map</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L105">is defined as</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">](</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> U<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Try</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">]</span>
+</code></pre></div><p>and <code>Try</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L207-L216">has the constructor</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Try</span> <span style="color:#f92672">{</span>
+  <span style="color:#75715e">/** Constructs a `Try` using the by-name parameter.  This
+</span><span style="color:#75715e">   * method will ensure any non-fatal exception is caught and a
+</span><span style="color:#75715e">   * `Failure` object is returned.
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#66d9ef">def</span> apply<span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">](</span>r<span style="color:#66d9ef">:</span> <span style="color:#f92672">=&gt;</span> T<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Try</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+    <span style="color:#66d9ef">try</span> <span style="color:#a6e22e">Success</span><span style="color:#f92672">(</span>r<span style="color:#f92672">)</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">NonFatal</span><span style="color:#f92672">(</span>e<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">Failure</span><span style="color:#f92672">(</span>e<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>and <em>there we finally have our try-catch-block!</em> So we don&rsquo;t have to care about exceptions in <code>Future</code>s, right?</p>
 <h2 id="the-catch">The Catch</h2>
-
 <p>While the conclusion is correct, and exceptions inside futures will be caught, <em>not all the code is inside a future!</em></p>
-
 <p>The <code>for</code> comprehension de-sugared is the same as</p>
-
-<pre><code class="language-scala">doFoo().flatMap(foo =&gt; doBar().map(bar =&gt; foo + bar))
-</code></pre>
-
-<p>and although <code>doFoo()</code> <em>returns</em> a <code>Future</code>, there can be parts that are <em>not</em> inside that <code>Future</code>:</p>
-
-<pre><code class="language-scala">def doFoo(): Future[Int] = {
-  throw new Throwable
-  Future(3)
-}
-</code></pre>
-
-<p>BÄM! Now there&rsquo;s no <code>try</code> around the <code>throw</code> and the <code>Throwable</code> will bubble to the top and kill your program.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">doFoo<span style="color:#f92672">().</span>flatMap<span style="color:#f92672">(</span>foo <span style="color:#66d9ef">=&gt;</span> doBar<span style="color:#f92672">().</span>map<span style="color:#f92672">(</span>bar <span style="color:#66d9ef">=&gt;</span> foo <span style="color:#f92672">+</span> bar<span style="color:#f92672">))</span>
+</code></pre></div><p>and although <code>doFoo()</code> <em>returns</em> a <code>Future</code>, there can be parts that are <em>not</em> inside that <code>Future</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">def</span> doFoo<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Throwable</span>
+  <span style="color:#a6e22e">Future</span><span style="color:#f92672">(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>BÄM! Now there&rsquo;s no <code>try</code> around the <code>throw</code> and the <code>Throwable</code> will bubble to the top and kill your program.</p>
 <h2 id="the-solution">The Solution</h2>
-
 <p>Obviously, when returning a <code>Future</code> you shouldn&rsquo;t throw exceptions. But if you&rsquo;re the caller and don&rsquo;t have any influence on this, this will save you:</p>
-
-<pre><code class="language-scala">val myFuture: Future[Int] = for {
-  _   &lt;- Future.unit
-  foo &lt;- doFoo()
-  bar &lt;- doBar()
-} yield foo + bar
-</code></pre>
-
-<p>It&rsquo;s pretty much the same way the standard library does it: Start with something successful and <code>map</code> your way from there!</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> myFuture<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">for</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">_</span>   <span style="color:#66d9ef">&lt;-</span> <span style="color:#a6e22e">Future</span><span style="color:#f92672">.</span>unit
+  foo <span style="color:#66d9ef">&lt;-</span> doFoo<span style="color:#f92672">()</span>
+  bar <span style="color:#66d9ef">&lt;-</span> doBar<span style="color:#f92672">()</span>
+<span style="color:#f92672">}</span> <span style="color:#66d9ef">yield</span> foo <span style="color:#f92672">+</span> bar
+</code></pre></div><p>It&rsquo;s pretty much the same way the standard library does it: Start with something successful and <code>map</code> your way from there!</p>
 <p>De-sugared, this would be</p>
-
-<pre><code class="language-scala">Future.unit.flatMap(_ =&gt; doFoo().flatMap(foo =&gt; doBar().map(bar =&gt; foo + bar)))
-</code></pre>
-
-<p>What a mess, just to be on the safe side.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">Future</span><span style="color:#f92672">.</span>unit<span style="color:#f92672">.</span>flatMap<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span> <span style="color:#66d9ef">=&gt;</span> doFoo<span style="color:#f92672">().</span>flatMap<span style="color:#f92672">(</span>foo <span style="color:#66d9ef">=&gt;</span> doBar<span style="color:#f92672">().</span>map<span style="color:#f92672">(</span>bar <span style="color:#66d9ef">=&gt;</span> foo <span style="color:#f92672">+</span> bar<span style="color:#f92672">)))</span>
+</code></pre></div><p>What a mess, just to be on the safe side.</p>
                 </div>
             </div>
         </div>
@@ -261,21 +218,17 @@ object Main extends App {
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

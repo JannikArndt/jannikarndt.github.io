@@ -3,7 +3,6 @@
     <head>
         <title>Git in one Image</title>
         <meta name="description" content="I tried to create a single image that contains all the most important git commands:
-
 ">
         <meta name="keywords" content="Programming, Git">
         <meta charset="utf-8">
@@ -81,12 +80,9 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>I tried to create a single image that contains all the most important <code>git</code> commands:</p>
-
-<p><img src="https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg" alt="" /></p>
-
-<p>The source code is available at <a href="https://github.com/JannikArndt/git-in-one-image">https://github.com/JannikArndt/git-in-one-image</a> and is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
-
-<p><a rel="license" href="https://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a></p>
+<p><img src="https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg" alt=""></p>
+<p>The source code is available at <a href="https://github.com/JannikArndt/git-in-one-image">https://github.com/JannikArndt/git-in-one-image</a> and is licensed under a <!-- raw HTML omitted -->Creative Commons Attribution 4.0 International License<!-- raw HTML omitted -->.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
                 </div>
             </div>
         </div>
@@ -158,21 +154,17 @@
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

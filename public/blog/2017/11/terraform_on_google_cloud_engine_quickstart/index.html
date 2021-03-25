@@ -79,76 +79,47 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).</p>
-
 <h2 id="prerequisites">Prerequisites</h2>
-
 <p>Install terraform:</p>
-
-<pre><code class="language-shell">$ brew install terraform
-</code></pre>
-
-<p>Install Google Cloud SDK:</p>
-
-<pre><code class="language-shell">$ brew cask install google-cloud-sdk
-</code></pre>
-
-<p><a href="https://console.cloud.google.com/projectcreate">create a new project</a> in the console
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew install terraform
+</code></pre></div><p>Install Google Cloud SDK:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew cask install google-cloud-sdk
+</code></pre></div><p><a href="https://console.cloud.google.com/projectcreate">create a new project</a> in the console
 and <a href="https://cloud.google.com/sdk/gcloud/reference/auth/login">login</a></p>
-
-<pre><code class="language-shell">$ gcloud auth application-default login
-</code></pre>
-
-<p>If you are using IntelliJ IDEA, install the <a href="https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support">HashiCorp Terraform Plugin</a>.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gcloud auth application-default login
+</code></pre></div><p>If you are using IntelliJ IDEA, install the <a href="https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support">HashiCorp Terraform Plugin</a>.</p>
 <h2 id="option-a-import-a-project">Option A: Import a project</h2>
-
 <p>If you have created a project using the console, create a <code>config.tf</code> with the basic settings:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">provider <span style="color:#e6db74">&#34;google&#34;</span> <span style="color:#f92672">{</span>
+    region      <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;eu-central-1&#34;</span>
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-shell">provider &quot;google&quot; {
-    region      = &quot;eu-central-1&quot;
-}
-
-resource &quot;google_project&quot; &quot;project&quot; {}
-</code></pre>
-
-<p>Now run <code>terraform init</code> to download the google provider plugin. Now import the project via</p>
-
-<pre><code class="language-shell">$ terraform import google_project.project project-id-186346
-</code></pre>
-
-<p>You now have a corresponding <code>terraform.tfstate</code> file that contains the name, billing account and other info about your project.</p>
-
+resource <span style="color:#e6db74">&#34;google_project&#34;</span> <span style="color:#e6db74">&#34;project&#34;</span> <span style="color:#f92672">{}</span>
+</code></pre></div><p>Now run <code>terraform init</code> to download the google provider plugin. Now import the project via</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ terraform import google_project.project project-id-186346
+</code></pre></div><p>You now have a corresponding <code>terraform.tfstate</code> file that contains the name, billing account and other info about your project.</p>
 <h2 id="option-b-create-a-new-project-from-scratch">Option B: Create a new project from scratch</h2>
-
 <p>Make a new folder and create a <code>config.tf</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">provider <span style="color:#e6db74">&#34;google&#34;</span> <span style="color:#f92672">{</span>
+  region      <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;eu-central-1&#34;</span>
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-shell">provider &quot;google&quot; {
-  region      = &quot;eu-central-1&quot;
-}
-
-resource &quot;google_project&quot; &quot;project&quot; {
-  name = &quot;holisticon&quot;
-  project_id = &quot;holisticon-123456&quot;
-  billing_account = &quot;01B8C8-F33191-3DE337&quot; // optional
-}
-</code></pre>
-
-<p>Now run <code>terraform init</code> to download the google provider plugin. Next run <code>terraform apply</code> to create the project. Note that the <code>project_id</code> may not already exist. The <code>billing_account</code> is optional. Also you can only have a maximum of 12 projects at the same time.</p>
-
+resource <span style="color:#e6db74">&#34;google_project&#34;</span> <span style="color:#e6db74">&#34;project&#34;</span> <span style="color:#f92672">{</span>
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;holisticon&#34;</span>
+  project_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;holisticon-123456&#34;</span>
+  billing_account <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;01B8C8-F33191-3DE337&#34;</span> // optional
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Now run <code>terraform init</code> to download the google provider plugin. Next run <code>terraform apply</code> to create the project. Note that the <code>project_id</code> may not already exist. The <code>billing_account</code> is optional. Also you can only have a maximum of 12 projects at the same time.</p>
 <h2 id="adding-people">Adding people</h2>
-
 <p>So far you are the owner of the new project. Now you can create IAM roles and add other people to your project:</p>
-
-<pre><code class="language-shell">resource &quot;google_project_iam_binding&quot; &quot;project_editors&quot; {
-  project = &quot;${google_project.project.project_id}&quot;
-  role = &quot;roles/editor&quot;
-  members = [
-    &quot;user:nice.coworker@holisticon.de&quot;,
-  ]
-}
-</code></pre>
-
-<p>You can find a description of all roles <a href="https://cloud.google.com/iam/docs/understanding-roles#primitive_roles">here</a>. Note that you <a href="https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy">cannot grant the owner role through the API but only using the Cloud Platform Console</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">resource <span style="color:#e6db74">&#34;google_project_iam_binding&#34;</span> <span style="color:#e6db74">&#34;project_editors&#34;</span> <span style="color:#f92672">{</span>
+  project <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>google_project.project.project_id<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  role <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;roles/editor&#34;</span>
+  members <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>
+    <span style="color:#e6db74">&#34;user:nice.coworker@holisticon.de&#34;</span>,
+  <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>You can find a description of all roles <a href="https://cloud.google.com/iam/docs/understanding-roles#primitive_roles">here</a>. Note that you <a href="https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy">cannot grant the owner role through the API but only using the Cloud Platform Console</a>.</p>
                 </div>
             </div>
         </div>
@@ -220,21 +191,17 @@ resource &quot;google_project&quot; &quot;project&quot; {
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

@@ -79,38 +79,20 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>I want my photos to have location info in them, and Nikon wants <em>way too much</em> money for that. So I&rsquo;ll do this: Let my Apple Watch track where I go, using the <em>Outdoor Walk</em>, export the route as GPX and use <em>exiftool</em> to tag all my images. Here&rsquo;s how I do that.</p>
-
 <h2 id="export-gpx">Export GPX</h2>
-
 <p>Apples apps don&rsquo;t come with an export option, so I use the wonderful little app called <a href="http://www.rungap.com">RunGap</a>. An in-app-purchase for 2.29€ allows my to export a GPX file of my workout:</p>
-
-<p>
-<a href="/blog/2018/08/RunGap1.png"><img src="/blog/2018/08/RunGap1.png" alt="" width="45%"></a>
-<a href="/blog/2018/08/RunGap2.png"><img src="/blog/2018/08/RunGap2.png" alt="" width="45%"></a>
-</p>
-
+<!-- raw HTML omitted -->
 <p>There&rsquo;s also a great website that let&rsquo;s you analyse the contents of that file:</p>
-
-<p><a href="https://www.j-berkemeier.de/ShowGPX.html" target="_blank"><img src="/blog/2018/08/ShowGPX.png" alt=""></a></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h2 id="write-gps-into-exif">Write GPS into EXIF</h2>
-
 <p>Next, I use <em>the</em> software to edit EXIF data, written in Perl, first published in 2003, still state of the art today: <a href="http://owl.phy.queensu.ca/~phil/exiftool/"><em>exiftool</em></a>. You can install it via</p>
-
-<pre><code class="language-shell">brew install exiftool
-</code></pre>
-
-<p>(on a mac, of course).</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">brew install exiftool
+</code></pre></div><p>(on a mac, of course).</p>
 <p>Then the command is pretty straightforward:</p>
-
-<pre><code class="language-shell">$ ~ exiftool -geotag=myRoute.gpx ~/Pictures/UntaggedPictures/
-    1 directories scanned
-   83 image files updated
-</code></pre>
-
-<p>…and it&rsquo;s done!</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ~ exiftool -geotag<span style="color:#f92672">=</span>myRoute.gpx ~/Pictures/UntaggedPictures/
+    <span style="color:#ae81ff">1</span> directories scanned
+   <span style="color:#ae81ff">83</span> image files updated
+</code></pre></div><p>…and it&rsquo;s done!</p>
 <p>The <em>exiftool</em> can do <em>way</em> more, by the way, they have a <a href="https://www.sno.phy.queensu.ca/~phil/exiftool/geotag.html">page dedicated just for geotagging</a>. But for starters, this does the job pretty well!</p>
                 </div>
             </div>
@@ -183,21 +165,17 @@
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

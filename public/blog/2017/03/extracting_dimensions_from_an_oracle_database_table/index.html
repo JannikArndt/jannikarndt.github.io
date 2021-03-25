@@ -3,15 +3,10 @@
     <head>
         <title>Extracting Dimensions from an Oracle Database Table</title>
         <meta name="description" content="Task
-
 You have a denormalized table and want to extract a column into a dimension table.
-
 Caveat
-
 You have to keep the ids.
-
 Extra-Caveat
-
 You use an Oracle database.">
         <meta name="keywords" content="Data Engineering, Database, Oracle, ETL">
         <meta charset="utf-8">
@@ -89,21 +84,13 @@ You use an Oracle database.">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h3 id="task">Task</h3>
-
 <p>You have a denormalized table and want to extract a column into a dimension table.</p>
-
 <h3 id="caveat">Caveat</h3>
-
 <p>You have to keep the ids.</p>
-
 <h3 id="extra-caveat">Extra-Caveat</h3>
-
 <p>You use an Oracle database.</p>
-
 <h2 id="example">Example</h2>
-
 <h4 id="cars">CARS</h4>
-
 <table>
 <thead>
 <tr>
@@ -113,7 +100,6 @@ You use an Oracle database.">
 <th>color</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
@@ -121,21 +107,18 @@ You use an Oracle database.">
 <td>1</td>
 <td>&lsquo;blue&rsquo;</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>1</td>
 <td>4</td>
 <td>&lsquo;red&rsquo;</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>2</td>
 <td>6</td>
 <td>&lsquo;black&rsquo;</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>2</td>
@@ -144,11 +127,8 @@ You use an Oracle database.">
 </tr>
 </tbody>
 </table>
-
 <p>becomes</p>
-
 <h4 id="cars-1">CARS</h4>
-
 <table>
 <thead>
 <tr>
@@ -158,7 +138,6 @@ You use an Oracle database.">
 <th>color_id</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
@@ -166,21 +145,18 @@ You use an Oracle database.">
 <td>1</td>
 <td>1</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>1</td>
 <td>4</td>
 <td>2</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>2</td>
 <td>6</td>
 <td>3</td>
 </tr>
-
 <tr>
 <td>4</td>
 <td>2</td>
@@ -189,9 +165,7 @@ You use an Oracle database.">
 </tr>
 </tbody>
 </table>
-
 <h4 id="colors">COLORS</h4>
-
 <table>
 <thead>
 <tr>
@@ -199,43 +173,38 @@ You use an Oracle database.">
 <th>name</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>1</td>
 <td>&lsquo;blue&rsquo;</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>&lsquo;red&rsquo;</td>
 </tr>
-
 <tr>
 <td>3</td>
 <td>&lsquo;black&rsquo;</td>
 </tr>
 </tbody>
 </table>
-
 <p>Solution:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#75715e">-- Create new table from Select-Statement
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> colors <span style="color:#66d9ef">AS</span>
+  <span style="color:#66d9ef">SELECT</span> ROWNUM <span style="color:#66d9ef">as</span> id, name <span style="color:#66d9ef">FROM</span>
+    (<span style="color:#66d9ef">SELECT</span> color <span style="color:#66d9ef">FROM</span> cars <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> color);
 
-<pre><code class="language-SQL">-- Create new table from Select-Statement
-CREATE TABLE colors AS
-  SELECT ROWNUM as id, name FROM
-    (SELECT color FROM cars GROUP BY color);
+<span style="color:#75715e">-- Add constraints on newly create table
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">INDEX</span> colors_id_uindex <span style="color:#66d9ef">ON</span> colors(id);
+<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> colors <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">CONSTRAINT</span> colors_id_pk <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (id);
 
--- Add constraints on newly create table
-CREATE UNIQUE INDEX colors_id_uindex ON colors(id);
-ALTER TABLE colors ADD CONSTRAINT colors_id_pk PRIMARY KEY (id);
+<span style="color:#75715e">-- Add reference from fact-table to new dimension
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> cars <span style="color:#66d9ef">ADD</span> color_id NUMBER <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">NULL</span>;
+<span style="color:#66d9ef">UPDATE</span> cars <span style="color:#66d9ef">SET</span> color_id <span style="color:#f92672">=</span> (<span style="color:#66d9ef">SELECT</span> id <span style="color:#66d9ef">FROM</span> colors <span style="color:#66d9ef">WHERE</span> colors.id <span style="color:#f92672">=</span> cars.color);
 
--- Add reference from fact-table to new dimension
-ALTER TABLE cars ADD color_id NUMBER DEFAULT NULL NULL;
-UPDATE cars SET color_id = (SELECT id FROM colors WHERE colors.id = cars.color);
-
--- Delete original column
-ALTER TABLE cars DROP COLUMN color;
-</code></pre>
+<span style="color:#75715e">-- Delete original column
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> cars <span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">COLUMN</span> color;
+</code></pre></div>
                 </div>
             </div>
         </div>
@@ -307,21 +276,17 @@ ALTER TABLE cars DROP COLUMN color;
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

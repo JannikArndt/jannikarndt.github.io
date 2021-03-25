@@ -3,7 +3,6 @@
     <head>
         <title>Writing case classes to MongoDB in Scala</title>
         <meta name="description" content="Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.
-
 This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.">
         <meta name="keywords" content="Scala, Case Class, MongoDB, Tutorial, How-To">
         <meta charset="utf-8">
@@ -79,17 +78,15 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
         <aside class="toc page-scroll">
             <div class="toc_title"><a href="#page-top" class="page-scroll">Writing case classes to MongoDB in Scala</a></div>
             <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#the-solution">The solution</a></li>
-<li><a href="#how-to-get-there">How to get there</a>
-<ul>
-<li><a href="#adding-codecs-for-custom-classes">Adding codecs for custom classes</a></li>
-<li><a href="#adding-codecs-for-system-classes">Adding codecs for system classes</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#the-solution">The solution</a></li>
+    <li><a href="#how-to-get-there">How to get there</a>
+      <ul>
+        <li><a href="#adding-codecs-for-custom-classes">Adding codecs for custom classes</a></li>
+        <li><a href="#adding-codecs-for-system-classes">Adding codecs for system classes</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav></div>
         </aside>
         
@@ -98,187 +95,152 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for <code>java.time</code> classes such as <code>ZonedDateTime</code>, <code>LocalDate</code> or <code>Duration</code>.</p>
-
 <p>This example uses the official <a href="https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11">Mongo Scala Driver</a> in version 2.x and the <a href="https://github.com/ralscha/bsoncodec">bsoncodec</a> project by <a href="https://github.com/ralscha">Ralph Schaer</a>.</p>
-
 <h2 id="the-solution">The solution</h2>
-
 <p>First: A complete working example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> java.math.BigDecimal
+<span style="color:#66d9ef">import</span> java.time.<span style="color:#f92672">{</span><span style="color:#a6e22e">LocalDate</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">LocalDateTime</span><span style="color:#f92672">}</span>
 
-<pre><code class="language-scala">import java.math.BigDecimal
-import java.time.{LocalDate, LocalDateTime}
+<span style="color:#66d9ef">import</span> scala.concurrent.Await
+<span style="color:#66d9ef">import</span> scala.concurrent.duration._
+<span style="color:#66d9ef">import</span> scala.language.postfixOps
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import scala.language.postfixOps
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">MongoDbExample</span> <span style="color:#f92672">{</span>
 
-object MongoDbExample {
+    <span style="color:#66d9ef">def</span> main<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Unit</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">val</span> myParcel <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Parcel</span><span style="color:#f92672">(</span>
+            sender <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Online Shop 3000&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;E-Commerce-Street&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Berlin&#34;</span><span style="color:#f92672">),</span>
+            receiver <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Jannik&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Fun-Street&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Hamburg&#34;</span><span style="color:#f92672">),</span>
+            sent <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">LocalDate</span><span style="color:#f92672">.</span>of<span style="color:#f92672">(</span><span style="color:#ae81ff">2017</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">8</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">12</span><span style="color:#f92672">),</span>
+            received <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#a6e22e">LocalDateTime</span><span style="color:#f92672">.</span>of<span style="color:#f92672">(</span><span style="color:#ae81ff">2017</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">8</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">19</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">24</span><span style="color:#f92672">)),</span>
+            contents <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Seq</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Content</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Cool Robot&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">BigDecimal</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;39.99&#34;</span><span style="color:#f92672">)),</span> 
+                           <span style="color:#a6e22e">Content</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Drone&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">BigDecimal</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;199.99&#34;</span><span style="color:#f92672">)))</span>
+        <span style="color:#f92672">)</span>
 
-    def main(args: Array[String]): Unit = {
-        val myParcel = Parcel(
-            sender = Address(&quot;Online Shop 3000&quot;, &quot;E-Commerce-Street&quot;, &quot;Berlin&quot;),
-            receiver = Address(&quot;Jannik&quot;, &quot;Fun-Street&quot;, &quot;Hamburg&quot;),
-            sent = LocalDate.of(2017, 8, 12),
-            received = Some(LocalDateTime.of(2017, 8, 19, 10, 24)),
-            contents = Seq(Content(&quot;Cool Robot&quot;, new BigDecimal(&quot;39.99&quot;)), 
-                           Content(&quot;Drone&quot;, new BigDecimal(&quot;199.99&quot;)))
-        )
+        <span style="color:#a6e22e">Await</span><span style="color:#f92672">.</span>result<span style="color:#f92672">(</span><span style="color:#a6e22e">DB</span><span style="color:#f92672">.</span>parcels<span style="color:#f92672">.</span>insertOne<span style="color:#f92672">(</span>myParcel<span style="color:#f92672">).</span>toFuture<span style="color:#f92672">,</span> <span style="color:#ae81ff">10</span> seconds<span style="color:#f92672">)</span>
 
-        Await.result(DB.parcels.insertOne(myParcel).toFuture, 10 seconds)
+        <span style="color:#66d9ef">val</span> allParcels <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Await</span><span style="color:#f92672">.</span>result<span style="color:#f92672">(</span><span style="color:#a6e22e">DB</span><span style="color:#f92672">.</span>parcels<span style="color:#f92672">.</span>find<span style="color:#f92672">().</span>toFuture<span style="color:#f92672">(),</span> <span style="color:#ae81ff">10</span> seconds<span style="color:#f92672">)</span>
+        allParcels<span style="color:#f92672">.</span>foreach<span style="color:#f92672">(</span>println<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
 
-        val allParcels = Await.result(DB.parcels.find().toFuture(), 10 seconds)
-        allParcels.foreach(println)
-    }
+<span style="color:#f92672">}</span>
 
-}
+<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Parcel</span><span style="color:#f92672">(</span>sender<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Address</span><span style="color:#f92672">,</span> 
+                  receiver<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Address</span><span style="color:#f92672">,</span> 
+                  sent<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">LocalDate</span><span style="color:#f92672">,</span> 
+                  received<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">LocalDateTime</span><span style="color:#f92672">],</span> 
+                  contents<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Seq</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Content</span><span style="color:#f92672">])</span>
 
-case class Parcel(sender: Address, 
-                  receiver: Address, 
-                  sent: LocalDate, 
-                  received: Option[LocalDateTime], 
-                  contents: Seq[Content])
+<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span>name<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span> street<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span> city<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span>
 
-case class Address(name: String, street: String, city: String)
+<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Content</span><span style="color:#f92672">(</span>name<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span> price<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">BigDecimal</span><span style="color:#f92672">)</span>
 
-case class Content(name: String, price: BigDecimal)
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">DB</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">import</span> ch.rasc.bsoncodec.math._
+    <span style="color:#66d9ef">import</span> ch.rasc.bsoncodec.time._
+    <span style="color:#66d9ef">import</span> org.bson.codecs.configuration.CodecRegistries
+    <span style="color:#66d9ef">import</span> org.bson.codecs.configuration.CodecRegistries._
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.bson.codecs.Macros._
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.<span style="color:#f92672">{</span><span style="color:#a6e22e">MongoClient</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">MongoCollection</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">MongoDatabase</span><span style="color:#f92672">}</span>
 
-object DB {
-    import ch.rasc.bsoncodec.math._
-    import ch.rasc.bsoncodec.time._
-    import org.bson.codecs.configuration.CodecRegistries
-    import org.bson.codecs.configuration.CodecRegistries._
-    import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
-    import org.mongodb.scala.bson.codecs.Macros._
-    import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> customCodecs <span style="color:#66d9ef">=</span> fromProviders<span style="color:#f92672">(</span>classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Parcel</span><span style="color:#f92672">],</span> 
+                                             classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Address</span><span style="color:#f92672">],</span> 
+                                             classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Content</span><span style="color:#f92672">])</span>
 
-    private val customCodecs = fromProviders(classOf[Parcel], 
-                                             classOf[Address], 
-                                             classOf[Content])
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> javaCodecs <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">CodecRegistries</span><span style="color:#f92672">.</span>fromCodecs<span style="color:#f92672">(</span>
+        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">LocalDateTimeDateCodec</span><span style="color:#f92672">(),</span>
+        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">LocalDateDateCodec</span><span style="color:#f92672">(),</span>
+        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">BigDecimalStringCodec</span><span style="color:#f92672">())</span>
 
-    private val javaCodecs = CodecRegistries.fromCodecs(
-        new LocalDateTimeDateCodec(),
-        new LocalDateDateCodec(),
-        new BigDecimalStringCodec())
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> codecRegistry <span style="color:#66d9ef">=</span> fromRegistries<span style="color:#f92672">(</span>customCodecs<span style="color:#f92672">,</span> 
+                                               javaCodecs<span style="color:#f92672">,</span> 
+                                               <span style="color:#a6e22e">DEFAULT_CODEC_REGISTRY</span><span style="color:#f92672">)</span>
 
-    private val codecRegistry = fromRegistries(customCodecs, 
-                                               javaCodecs, 
-                                               DEFAULT_CODEC_REGISTRY)
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> database<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MongoDatabase</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">MongoClient</span><span style="color:#f92672">().</span>getDatabase<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;TrackingData&#34;</span><span style="color:#f92672">)</span>
+                                                       <span style="color:#f92672">.</span>withCodecRegistry<span style="color:#f92672">(</span>codecRegistry<span style="color:#f92672">)</span>
 
-    private val database: MongoDatabase = MongoClient().getDatabase(&quot;TrackingData&quot;)
-                                                       .withCodecRegistry(codecRegistry)
-
-    val parcels: MongoCollection[Parcel] = database.getCollection(&quot;Parcels&quot;)
-}
-</code></pre>
-
-<p>This results in the following entry:</p>
-
-<pre><code class="language-json">{
-    &quot;_id&quot; : ObjectId(&quot;5997f9ff96ddbad1d424981d&quot;),
-    &quot;sender&quot; : {
-        &quot;name&quot; : &quot;Online Shop 3000&quot;,
-        &quot;street&quot; : &quot;E-Commerce-Street&quot;,
-        &quot;city&quot; : &quot;Berlin&quot;
+    <span style="color:#66d9ef">val</span> parcels<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MongoCollection</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Parcel</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> database<span style="color:#f92672">.</span>getCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Parcels&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>This results in the following entry:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;_id&#34;</span> : <span style="color:#960050;background-color:#1e0010">ObjectId(</span><span style="color:#e6db74">&#34;5997f9ff96ddbad1d424981d&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+    <span style="color:#f92672">&#34;sender&#34;</span> : {
+        <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;Online Shop 3000&#34;</span>,
+        <span style="color:#f92672">&#34;street&#34;</span> : <span style="color:#e6db74">&#34;E-Commerce-Street&#34;</span>,
+        <span style="color:#f92672">&#34;city&#34;</span> : <span style="color:#e6db74">&#34;Berlin&#34;</span>
     },
-    &quot;receiver&quot; : {
-        &quot;name&quot; : &quot;Jannik&quot;,
-        &quot;street&quot; : &quot;Fun-Street&quot;,
-        &quot;city&quot; : &quot;Hamburg&quot;
+    <span style="color:#f92672">&#34;receiver&#34;</span> : {
+        <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;Jannik&#34;</span>,
+        <span style="color:#f92672">&#34;street&#34;</span> : <span style="color:#e6db74">&#34;Fun-Street&#34;</span>,
+        <span style="color:#f92672">&#34;city&#34;</span> : <span style="color:#e6db74">&#34;Hamburg&#34;</span>
     },
-    &quot;sent&quot; : ISODate(&quot;2017-08-12T00:00:00.000Z&quot;),
-    &quot;received&quot; : ISODate(&quot;2017-08-19T10:24:00.000Z&quot;),
-    &quot;contents&quot; : [ 
+    <span style="color:#f92672">&#34;sent&#34;</span> : <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2017-08-12T00:00:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+    <span style="color:#f92672">&#34;received&#34;</span> : <span style="color:#960050;background-color:#1e0010">ISODate(</span><span style="color:#e6db74">&#34;2017-08-19T10:24:00.000Z&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>,
+    <span style="color:#f92672">&#34;contents&#34;</span> : [ 
         {
-            &quot;name&quot; : &quot;Cool Robot&quot;,
-            &quot;price&quot; : &quot;39.99&quot;
+            <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;Cool Robot&#34;</span>,
+            <span style="color:#f92672">&#34;price&#34;</span> : <span style="color:#e6db74">&#34;39.99&#34;</span>
         }, 
         {
-            &quot;name&quot; : &quot;Drone&quot;,
-            &quot;price&quot; : &quot;199.99&quot;
+            <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;Drone&#34;</span>,
+            <span style="color:#f92672">&#34;price&#34;</span> : <span style="color:#e6db74">&#34;199.99&#34;</span>
         }
     ]
 }
-</code></pre>
-
-<h2 id="how-to-get-there">How to get there</h2>
-
+</code></pre></div><h2 id="how-to-get-there">How to get there</h2>
 <h3 id="adding-codecs-for-custom-classes">Adding codecs for custom classes</h3>
-
 <p>The magic is obviously hidden in the <code>DB</code> object. Following <em>just</em> the <a href="http://mongodb.github.io/mongo-scala-driver/2.1/getting-started/quick-tour/">driver documentation</a>, one might start with this simpler version:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">DB</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.<span style="color:#f92672">{</span><span style="color:#a6e22e">MongoClient</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">MongoCollection</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">MongoDatabase</span><span style="color:#f92672">}</span>
 
-<pre><code class="language-scala">object DB {
-    import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> database<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MongoDatabase</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">MongoClient</span><span style="color:#f92672">().</span>getDatabase<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;TrackingData&#34;</span><span style="color:#f92672">)</span>
 
-    private val database: MongoDatabase = MongoClient().getDatabase(&quot;TrackingData&quot;)
-
-    val parcels: MongoCollection[Parcel] = database.getCollection(&quot;Parcels&quot;)
-}
-</code></pre>
-
-<p>This results in the exception</p>
-
-<pre><code class="language-none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel.
-</code></pre>
-
-<p>Googleing for the problem, you find quite many outdated solutions, such as <a href="https://github.com/salat/salat">salat</a>, which is still maintained but uses the outdated <a href="https://github.com/mongodb/casbah/">casbah</a> driver (aka &ldquo;version 1&rdquo;).</p>
-
+    <span style="color:#66d9ef">val</span> parcels<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MongoCollection</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Parcel</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> database<span style="color:#f92672">.</span>getCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Parcels&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>This results in the exception</p>
+<pre><code class="language-none" data-lang="none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel.
+</code></pre><p>Googleing for the problem, you find quite many outdated solutions, such as <a href="https://github.com/salat/salat">salat</a>, which is still maintained but uses the outdated <a href="https://github.com/mongodb/casbah/">casbah</a> driver (aka &ldquo;version 1&rdquo;).</p>
 <p>Alex Landa <a href="http://trainologic.com/working-case-classes-mongodb-scala/">explains</a>, that version 2 of the driver fixes this problem with macros:</p>
-
 <blockquote>
 <p>The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).</p>
 </blockquote>
-
 <p>So the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">DB</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">import</span> org.bson.codecs.configuration.CodecRegistries._
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.bson.codecs.Macros._
+    <span style="color:#66d9ef">import</span> org.mongodb.scala.<span style="color:#f92672">{</span><span style="color:#a6e22e">MongoClient</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">MongoCollection</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">MongoDatabase</span><span style="color:#f92672">}</span>
 
-<pre><code class="language-scala">object DB {
-    import org.bson.codecs.configuration.CodecRegistries._
-    import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
-    import org.mongodb.scala.bson.codecs.Macros._
-    import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> customCodecs <span style="color:#66d9ef">=</span> fromProviders<span style="color:#f92672">(</span>classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Parcel</span><span style="color:#f92672">],</span> 
+                                             classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Address</span><span style="color:#f92672">],</span> 
+                                             classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Content</span><span style="color:#f92672">])</span>
 
-    private val customCodecs = fromProviders(classOf[Parcel], 
-                                             classOf[Address], 
-                                             classOf[Content])
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> codecRegistry <span style="color:#66d9ef">=</span> fromRegistries<span style="color:#f92672">(</span>customCodecs<span style="color:#f92672">,</span> <span style="color:#a6e22e">DEFAULT_CODEC_REGISTRY</span><span style="color:#f92672">)</span>
 
-    private val codecRegistry = fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY)
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> database<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MongoDatabase</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">MongoClient</span><span style="color:#f92672">().</span>getDatabase<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;TrackingData&#34;</span><span style="color:#f92672">)</span>
+                                                       <span style="color:#f92672">.</span>withCodecRegistry<span style="color:#f92672">(</span>codecRegistry<span style="color:#f92672">)</span>
 
-    private val database: MongoDatabase = MongoClient().getDatabase(&quot;TrackingData&quot;)
-                                                       .withCodecRegistry(codecRegistry)
-
-    val parcels: MongoCollection[Parcel] = database.getCollection(&quot;Parcels&quot;)
-}
-</code></pre>
-
-<h3 id="adding-codecs-for-system-classes">Adding codecs for system classes</h3>
-
+    <span style="color:#66d9ef">val</span> parcels<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">MongoCollection</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Parcel</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> database<span style="color:#f92672">.</span>getCollection<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Parcels&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="adding-codecs-for-system-classes">Adding codecs for system classes</h3>
 <p>This brings us one step further, to the next exception:</p>
-
-<pre><code class="language-none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate.
-</code></pre>
-
-<p>If you try to add <code>classOf[LocalDate]</code> to the list, you get a compile error, stating that</p>
-
-<pre><code class="language-scala">Error:(41, 106) java.time.LocalDate does not have a constructor
-    private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content], classOf[LocalDate])
-</code></pre>
-
-<p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.</p>
-
+<pre><code class="language-none" data-lang="none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate.
+</code></pre><p>If you try to add <code>classOf[LocalDate]</code> to the list, you get a compile error, stating that</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">Error</span><span style="color:#66d9ef">:</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">41</span><span style="color:#f92672">,</span> <span style="color:#960050;background-color:#1e0010">106</span><span style="color:#f92672">)</span> java<span style="color:#f92672">.</span>time<span style="color:#f92672">.</span><span style="color:#a6e22e">LocalDate</span> does not have a constructor
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> customCodecs <span style="color:#66d9ef">=</span> fromProviders<span style="color:#f92672">(</span>classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Parcel</span><span style="color:#f92672">],</span> classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Address</span><span style="color:#f92672">],</span> classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Content</span><span style="color:#f92672">],</span> classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">LocalDate</span><span style="color:#f92672">])</span>
+</code></pre></div><p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.</p>
 <p>Luckily, <a href="https://github.com/ralscha">Ralph Schaer</a> has already done this — not just for <a href="https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java">LocalDate</a> but for <a href="https://github.com/ralscha/bsoncodec">most of <code>java.time</code>, <code>java.sql</code>, URLs, BigDecimal, <code>javax.money</code>, and more</a>, and for many types you can even decide how to encode them, i.e. to <code>date</code>, <code>document</code> or <code>string</code>.</p>
-
 <p>That&rsquo;s what the lines</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> javaCodecs <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">CodecRegistries</span><span style="color:#f92672">.</span>fromCodecs<span style="color:#f92672">(</span>
+        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">LocalDateTimeDateCodec</span><span style="color:#f92672">(),</span>
+        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">LocalDateDateCodec</span><span style="color:#f92672">(),</span>
+        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">BigDecimalStringCodec</span><span style="color:#f92672">())</span>
 
-<pre><code class="language-scala">    private val javaCodecs = CodecRegistries.fromCodecs(
-        new LocalDateTimeDateCodec(),
-        new LocalDateDateCodec(),
-        new BigDecimalStringCodec())
-
-    private val codecRegistry = fromRegistries(customCodecs, 
-                                               javaCodecs, 
-                                               DEFAULT_CODEC_REGISTRY)
-</code></pre>
-
-<p>in the final solution (see top of the page) are about.</p>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> codecRegistry <span style="color:#66d9ef">=</span> fromRegistries<span style="color:#f92672">(</span>customCodecs<span style="color:#f92672">,</span> 
+                                               javaCodecs<span style="color:#f92672">,</span> 
+                                               <span style="color:#a6e22e">DEFAULT_CODEC_REGISTRY</span><span style="color:#f92672">)</span>
+</code></pre></div><p>in the final solution (see top of the page) are about.</p>
                 </div>
             </div>
         </div>
@@ -350,21 +312,17 @@ object DB {
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

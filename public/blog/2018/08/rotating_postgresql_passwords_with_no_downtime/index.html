@@ -79,82 +79,59 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Changing the password for a PostgreSQL database user involves two steps: The change in the database and the change in the application code. This blog post describes how to do this without any downtime or failed authentication tries.</p>
-
 <h2 id="three-scenarios">Three Scenarios</h2>
-
 <p>There are basically three scenarios how you could handle a credential change:</p>
-
 <ol>
 <li>Update the database, then update the application. In between you&rsquo;ll have a short time when the application can&rsquo;t connect.</li>
 <li>Make both the old and new password known to the application and let it fall back on the new one once the old one fails.</li>
 <li>Create a copy of the database user, update the application, delete the old user.</li>
 </ol>
-
 <p>Scenario 1 is not an option for service accounts, and scenario 2 is complicated and still triggers your alarms for unsuccessful login attempts (you have one, don&rsquo;t you?). While scenario 3 sounds complicated at first, it is very easy to achieve in PostgreSQL.</p>
-
 <h2 id="three-users">Three Users</h2>
-
 <p>First of all: PostgreSQL doesn&rsquo;t have users, it has roles. The difference: Without explicitly stating it, you cannot use a role to log in. First, you have to define it to be <code>WITH LOGIN WITH PASSWORD</code>. Also, roles can assume other roles.</p>
-
 <p>The solution to our problem thus is to have three roles:</p>
-
 <ul>
 <li>One that has all the permissions and objects attached to it (<em>main role</em>),</li>
 <li>One that is used to log in and assume the first role (<em>active sub-role</em>),</li>
 <li>One that is <em>not yet</em> used to log in and assume the first role (<em>inactive sub-role</em>).</li>
 </ul>
-
 <p>The SQL statement to create these roles is</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">ROLE</span> my_app <span style="color:#66d9ef">WITH</span> NOLOGIN;
 
-<pre><code class="language-sql">CREATE ROLE my_app WITH NOLOGIN;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">ROLE</span> my_app_tom <span style="color:#66d9ef">WITH</span> NOLOGIN <span style="color:#66d9ef">IN</span> <span style="color:#66d9ef">ROLE</span> my_app;
+<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_tom <span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">ROLE</span> <span style="color:#66d9ef">TO</span> my_app;
 
-CREATE ROLE my_app_tom WITH NOLOGIN IN ROLE my_app;
-ALTER ROLE my_app_tom SET ROLE TO my_app;
-
-CREATE ROLE my_app_jerry WITH NOLOGIN IN ROLE my_app;
-ALTER ROLE my_app_jerry SET ROLE TO my_app;
-</code></pre>
-
-<p>All <code>GRANTS</code> referenec the <em>main role</em>, <code>my_app</code>, and are inherited by the <em>sub-roles</em>. Also, the <code>SET ROLE</code> make the role assume the <em>main role</em> on login.
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">ROLE</span> my_app_jerry <span style="color:#66d9ef">WITH</span> NOLOGIN <span style="color:#66d9ef">IN</span> <span style="color:#66d9ef">ROLE</span> my_app;
+<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_jerry <span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">ROLE</span> <span style="color:#66d9ef">TO</span> my_app;
+</code></pre></div><p>All <code>GRANTS</code> referenec the <em>main role</em>, <code>my_app</code>, and are inherited by the <em>sub-roles</em>. Also, the <code>SET ROLE</code> make the role assume the <em>main role</em> on login.
 Next, you allow one of the sub-roles to log in:</p>
-
-<pre><code class="language-sql">ALTER ROLE my_app_tom WITH LOGIN;
-ALTER ROLE my_app_tom WITH PASSWORD 'mySuperSecretPassword';
-</code></pre>
-
-<p>Now if you want to rotate your credentials, simply change the <em>inactive sub-role</em> to be active as well:</p>
-
-<pre><code class="language-sql">ALTER ROLE my_app_jerry WITH LOGIN;
-ALTER ROLE my_app_jerry WITH PASSWORD 'myNEWSuperSecretPassword';
-</code></pre>
-
-<p>change the application and then deactivate the old role:</p>
-
-<pre><code class="language-sql">ALTER ROLE my_app_tom WITH NOLOGIN;
-</code></pre>
-
-<h2 id="using-liquibase">Using Liquibase</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_tom <span style="color:#66d9ef">WITH</span> LOGIN;
+<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_tom <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;mySuperSecretPassword&#39;</span>;
+</code></pre></div><p>Now if you want to rotate your credentials, simply change the <em>inactive sub-role</em> to be active as well:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_jerry <span style="color:#66d9ef">WITH</span> LOGIN;
+<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_jerry <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;myNEWSuperSecretPassword&#39;</span>;
+</code></pre></div><p>change the application and then deactivate the old role:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">ROLE</span> my_app_tom <span style="color:#66d9ef">WITH</span> NOLOGIN;
+</code></pre></div><h2 id="using-liquibase">Using Liquibase</h2>
 <p>If you use Liquibase to manage your database, you might be tempted to handle users directly, since it&rsquo;s not supported in their schema. But there&rsquo;s no need to, the following will work jsut fine:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;databaseChangeLog</span>
+        <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://www.liquibase.org/xml/ns/dbchangelog&#34;</span>
+        <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+        <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
 
-<pre><code class="language-xml">&lt;databaseChangeLog
-        xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot;
-        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-        xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd&quot;&gt;
+    <span style="color:#75715e">&lt;!-- Load passwords into properties --&gt;</span>
+    <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;passwords.xml&#34;</span><span style="color:#f92672">/&gt;</span>
 
-    &lt;!-- Load passwords into properties --&gt;
-    &lt;include file=&quot;passwords.xml&quot;/&gt;
-
-    &lt;!-- Create accounts --&gt;
-    &lt;changeSet id=&quot;create_account_my_app&quot; author=&quot;jannik.arndt@holisticon.de&quot;&gt;
-        &lt;sql&gt;
+    <span style="color:#75715e">&lt;!-- Create accounts --&gt;</span>
+    <span style="color:#f92672">&lt;changeSet</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;create_account_my_app&#34;</span> <span style="color:#a6e22e">author=</span><span style="color:#e6db74">&#34;jannik.arndt@holisticon.de&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;sql&gt;</span>
             CREATE ROLE my_app WITH NOLOGIN;
             CREATE ROLE my_app_tom WITH NOLOGIN IN ROLE my_app;
             ALTER ROLE my_app_tom SET ROLE TO my_app;
             CREATE ROLE my_app_jerry WITH NOLOGIN IN ROLE my_app;
             ALTER ROLE my_app_jerry SET ROLE TO my_app;
-        &lt;/sql&gt;
-        &lt;rollback&gt;
+        <span style="color:#f92672">&lt;/sql&gt;</span>
+        <span style="color:#f92672">&lt;rollback&gt;</span>
             DROP ROLE my_app_jerry, my_app_tom;
             REVOKE ALL ON SCHEMA my_schema FROM my_app;
             REVOKE ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA my_schema FROM my_app;
@@ -162,66 +139,58 @@ ALTER ROLE my_app_jerry WITH PASSWORD 'myNEWSuperSecretPassword';
             REASSIGN OWNED BY my_app TO postgres;
             DROP OWNED BY my_app; -- for privileges
             DROP ROLE my_app;
-        &lt;/rollback&gt;
-    &lt;/changeSet&gt;
+        <span style="color:#f92672">&lt;/rollback&gt;</span>
+    <span style="color:#f92672">&lt;/changeSet&gt;</span>
 
-    &lt;!-- Set active role --&gt;
-    &lt;changeSet id=&quot;allow_login_for_my_app&quot; author=&quot;jannik.arndt@holisticon.de&quot; runOnChange=&quot;true&quot;&gt;
-        &lt;sql&gt;
+    <span style="color:#75715e">&lt;!-- Set active role --&gt;</span>
+    <span style="color:#f92672">&lt;changeSet</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;allow_login_for_my_app&#34;</span> <span style="color:#a6e22e">author=</span><span style="color:#e6db74">&#34;jannik.arndt@holisticon.de&#34;</span> <span style="color:#a6e22e">runOnChange=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;sql&gt;</span>
             ALTER ROLE my_app_tom WITH LOGIN;
             ALTER ROLE my_app_jerry WITH NOLOGIN;
-        &lt;/sql&gt;
-    &lt;/changeSet&gt;
+        <span style="color:#f92672">&lt;/sql&gt;</span>
+    <span style="color:#f92672">&lt;/changeSet&gt;</span>
 
-    &lt;!-- Set Permissions / Grants --&gt;
-    &lt;changeSet id=&quot;grant_permissions_to_my_app&quot; author=&quot;jannik.arndt@holisticon.de&quot;
-               runOnChange=&quot;true&quot;&gt;
-        &lt;sqlFile path=&quot;my_app_grants.sql&quot;/&gt;
-    &lt;/changeSet&gt;
+    <span style="color:#75715e">&lt;!-- Set Permissions / Grants --&gt;</span>
+    <span style="color:#f92672">&lt;changeSet</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;grant_permissions_to_my_app&#34;</span> <span style="color:#a6e22e">author=</span><span style="color:#e6db74">&#34;jannik.arndt@holisticon.de&#34;</span>
+               <span style="color:#a6e22e">runOnChange=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;sqlFile</span> <span style="color:#a6e22e">path=</span><span style="color:#e6db74">&#34;my_app_grants.sql&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/changeSet&gt;</span>
 
-    &lt;!-- Set Passwords --&gt;
-    &lt;changeSet id=&quot;set_passwords_dev&quot; author=&quot;jannik.arndt@holisticon.de&quot; context=&quot;dev or local&quot;
-               runOnChange=&quot;true&quot;&gt;
-        &lt;sql&gt;
-            ALTER ROLE my_app_tom WITH PASSWORD '${my_app_tom.password.dev}';
-            ALTER ROLE my_app_jerry WITH PASSWORD '${my_app_jerry.password.dev}';
-        &lt;/sql&gt;
-        &lt;rollback/&gt;
-    &lt;/changeSet&gt;
+    <span style="color:#75715e">&lt;!-- Set Passwords --&gt;</span>
+    <span style="color:#f92672">&lt;changeSet</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;set_passwords_dev&#34;</span> <span style="color:#a6e22e">author=</span><span style="color:#e6db74">&#34;jannik.arndt@holisticon.de&#34;</span> <span style="color:#a6e22e">context=</span><span style="color:#e6db74">&#34;dev or local&#34;</span>
+               <span style="color:#a6e22e">runOnChange=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;sql&gt;</span>
+            ALTER ROLE my_app_tom WITH PASSWORD &#39;${my_app_tom.password.dev}&#39;;
+            ALTER ROLE my_app_jerry WITH PASSWORD &#39;${my_app_jerry.password.dev}&#39;;
+        <span style="color:#f92672">&lt;/sql&gt;</span>
+        <span style="color:#f92672">&lt;rollback/&gt;</span>
+    <span style="color:#f92672">&lt;/changeSet&gt;</span>
 
-    &lt;changeSet id=&quot;set_passwords_prod&quot; author=&quot;jannik.arndt@holisticon.de&quot; context=&quot;prod&quot;
-               runOnChange=&quot;true&quot;&gt;
-        &lt;sql&gt;
-            ALTER ROLE my_app_tom WITH PASSWORD '${my_app_tom.password.prod}';
-            ALTER ROLE my_app_jerry WITH PASSWORD '${my_app_jerry.password.prod}';
-        &lt;/sql&gt;
-        &lt;rollback/&gt;
-    &lt;/changeSet&gt;
+    <span style="color:#f92672">&lt;changeSet</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;set_passwords_prod&#34;</span> <span style="color:#a6e22e">author=</span><span style="color:#e6db74">&#34;jannik.arndt@holisticon.de&#34;</span> <span style="color:#a6e22e">context=</span><span style="color:#e6db74">&#34;prod&#34;</span>
+               <span style="color:#a6e22e">runOnChange=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;sql&gt;</span>
+            ALTER ROLE my_app_tom WITH PASSWORD &#39;${my_app_tom.password.prod}&#39;;
+            ALTER ROLE my_app_jerry WITH PASSWORD &#39;${my_app_jerry.password.prod}&#39;;
+        <span style="color:#f92672">&lt;/sql&gt;</span>
+        <span style="color:#f92672">&lt;rollback/&gt;</span>
+    <span style="color:#f92672">&lt;/changeSet&gt;</span>
 
-&lt;/databaseChangeLog&gt;
-</code></pre>
+<span style="color:#f92672">&lt;/databaseChangeLog&gt;</span>
+</code></pre></div><p>and <code>passwords.xml</code> lists:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;databaseChangeLog</span>
+        <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://www.liquibase.org/xml/ns/dbchangelog&#34;</span>
+        <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+        <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
 
-<p>and <code>passwords.xml</code> lists:</p>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;my_app_tom.password.dev&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;mySuperSecretPassword&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;my_app_tom.password.prod&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;mySuperSecretPasswordForProd&#34;</span><span style="color:#f92672">/&gt;</span>
 
-<pre><code class="language-xml">&lt;databaseChangeLog
-        xmlns=&quot;http://www.liquibase.org/xml/ns/dbchangelog&quot;
-        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-        xsi:schemaLocation=&quot;http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd&quot;&gt;
-
-    &lt;property name=&quot;my_app_tom.password.dev&quot; value=&quot;mySuperSecretPassword&quot;/&gt;
-    &lt;property name=&quot;my_app_tom.password.prod&quot; value=&quot;mySuperSecretPasswordForProd&quot;/&gt;
-
-    &lt;property name=&quot;my_app_jerry.password.dev&quot; value=&quot;myNEWSuperSecretPassword&quot;/&gt;
-    &lt;property name=&quot;my_app_jerry.password.prod&quot; value=&quot;myNEWSuperSecretPasswordForProd&quot;/&gt;
-&lt;/databaseChangeLog&gt;
-</code></pre>
-
-<p>This does a few additional things:</p>
-
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;my_app_jerry.password.dev&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;myNEWSuperSecretPassword&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;my_app_jerry.password.prod&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;myNEWSuperSecretPasswordForProd&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/databaseChangeLog&gt;</span>
+</code></pre></div><p>This does a few additional things:</p>
 <p>Liquibase generates a hash for every changeset and warns you, if a hash changed. Since the <code>WITH LOGIN</code> and <code>WITH NOLOGIN</code> attributes are <em>supposed</em>  to change, we add the <code>runOnChange</code> attribute, which just runs the SQL command again. Note that this only works with idempotent commands, like <code>ALTER</code>. Running a <code>CREATE ROLE</code> twice would result in an error.</p>
-
 <p>To automatically have different passwords for <code>prod</code> and <code>dev</code> (and <code>local</code>), we use the <code>context</code> attribute. This is evaluated if you add <code>--contexts=prod</code> to the command line when running liquibase. Note that if you <em>don&rsquo;t</em> provide the command line argument, the changeset will <em>not be run at all</em>.</p>
-
 <p>And lastly, the passwords are loaded from an external file, so you can make sure that this is either on the .gitignore list or encrypted (e.g. via <a href="https://github.com/AGWA/git-crypt/">git-crypt</a>).</p>
                 </div>
             </div>
@@ -294,21 +263,17 @@ ALTER ROLE my_app_jerry WITH PASSWORD 'myNEWSuperSecretPassword';
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

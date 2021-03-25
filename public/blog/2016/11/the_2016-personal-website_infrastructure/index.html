@@ -78,14 +78,11 @@ using static html pages, php pages, a custom designed php cms, finally Wordpress
         <aside class="toc page-scroll">
             <div class="toc_title"><a href="#page-top" class="page-scroll">The 2016-Personal-Website Infrastructure</a></div>
             <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#from-plain-text-to-html">From plain text to html</a></li>
-<li><a href="#deployment-1">Deployment (1)</a></li>
-<li><a href="#deployment-2">Deployment (2)</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#from-plain-text-to-html">From plain text to html</a></li>
+    <li><a href="#deployment-1">Deployment (1)</a></li>
+    <li><a href="#deployment-2">Deployment (2)</a></li>
+  </ul>
 </nav></div>
         </aside>
         
@@ -95,18 +92,12 @@ using static html pages, php pages, a custom designed php cms, finally Wordpress
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Since I bought my personal domain name around 2003, I went through several web-solutions,
 using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).</p>
-
 <p>My main reason was though, that I was spending more time updating Wordpress, its plugins and themes than acutal content.</p>
-
 <p>Since quite a lot of research, trial-and-error and configuration have lead to the current model, in this post I will share the details with anyone willing to upgrade her website to a 2016-system (with only one and a half months left).</p>
-
 <h2 id="from-plain-text-to-html">From plain text to html</h2>
-
 <p>The basis is a bunch of <code>markdown</code>-files, <code>go</code>-templates and the <a href="https://gohugo.io/">hugo</a>-templating engine. I have tried and failed hugo before, in October, because there was <a href="https://gohugo.io/templates/debugging/">no easy way</a> to debug anything, and my preferred way of learning is through debugging, as opposed to reading the <a href="https://gohugo.io/templates/go-templates/">docs</a>. My inability to take any given template as it is makes it worse.</p>
-
 <p>This time however I found a <a href="https://themes.gohugo.io/theme/creative/">template</a> I was quite pleased with. The starting point is the following directory-structure:</p>
-
-<pre><code class="language-none">master
+<pre><code class="language-none" data-lang="none">master
 ├─ content (empty)
 ├─ public (where the results are generated into)
 ├─ static 
@@ -122,113 +113,83 @@ using static html pages, php pages, a custom designed php cms, finally Wordpress
 |     |  └─ index.html (coarse structure)
 |     └─ static (for css, js, etc)
 └─ config.toml (acutal content)
-</code></pre>
-
-<p>I fought long and hard to press my content into to <code>config.toml</code>, I&rsquo;ll spare you the details and refere to the <a href="https://github.com/JannikArndt/jannikarndt.github.io/blob/source/config.toml">actual file</a>. What I really like is being able to create a custom structure for each content element, for example a software reference consist of</p>
-
-<pre><code class="language-toml">[[params.services.list]]
-    icon = &quot;https://jannikarndt.github.io/Canal/bridge.png&quot;
-    title = &quot;Canal&quot;
-    description = &quot;A free and open-source COBOL editor and analysis tool&quot;
-    link = &quot;https://jannikarndt.github.io/Canal/&quot;
-</code></pre>
-
-<p>whereas a publication looks like this:</p>
-
-<pre><code class="language-toml">[[params.publications.years.entry]]
-    text = &quot;Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit, 2014.&quot;
-    link = &quot;https://www.jannikarndt.de/publikationen/musicista/&quot;
-</code></pre>
-
-<p>All software entries are displayed via the following <a href="https://github.com/JannikArndt/jannikarndt.github.io/blob/source/themes/hugo-creative-theme/layouts/partials/services.html">template</a></p>
-
-<pre><code class="language-html">&lt;div class=&quot;row&quot;&gt;
+</code></pre><p>I fought long and hard to press my content into to <code>config.toml</code>, I&rsquo;ll spare you the details and refere to the <a href="https://github.com/JannikArndt/jannikarndt.github.io/blob/source/config.toml">actual file</a>. What I really like is being able to create a custom structure for each content element, for example a software reference consist of</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[[<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">services</span>.<span style="color:#a6e22e">list</span>]]
+    <span style="color:#a6e22e">icon</span> = <span style="color:#e6db74">&#34;https://jannikarndt.github.io/Canal/bridge.png&#34;</span>
+    <span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#34;Canal&#34;</span>
+    <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;A free and open-source COBOL editor and analysis tool&#34;</span>
+    <span style="color:#a6e22e">link</span> = <span style="color:#e6db74">&#34;https://jannikarndt.github.io/Canal/&#34;</span>
+</code></pre></div><p>whereas a publication looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[[<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">publications</span>.<span style="color:#a6e22e">years</span>.<span style="color:#a6e22e">entry</span>]]
+    <span style="color:#a6e22e">text</span> = <span style="color:#e6db74">&#34;Jannik Arndt: “Musicista — A Framework for Computational Musicology”. Masterarbeit, 2014.&#34;</span>
+    <span style="color:#a6e22e">link</span> = <span style="color:#e6db74">&#34;https://www.jannikarndt.de/publikationen/musicista/&#34;</span>
+</code></pre></div><p>All software entries are displayed via the following <a href="https://github.com/JannikArndt/jannikarndt.github.io/blob/source/themes/hugo-creative-theme/layouts/partials/services.html">template</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
     {{ range .Site.Params.services.list }}
-    &lt;a href=&quot;{{ .link }}&quot; target=&quot;_blank&quot;&gt;
-        &lt;div class=&quot;col-lg-3 col-md-6 text-center&quot;&gt;
-            &lt;div class=&quot;service-box&quot;&gt;
-                &lt;img src=&quot;{{ .icon }}&quot; width=&quot;50%&quot; /&gt;
-                &lt;h3&gt;{{ .title }}&lt;/h3&gt;
+    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .link }}&#34;</span> <span style="color:#a6e22e">target</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_blank&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-lg-3 col-md-6 text-center&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;service-box&#34;</span>&gt;
+                &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .icon }}&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;50%&#34;</span> /&gt;
+                &lt;<span style="color:#f92672">h3</span>&gt;{{ .title }}&lt;/<span style="color:#f92672">h3</span>&gt;
                 {{ with .description }}
-                    &lt;p class=&quot;text-muted&quot;&gt;{{ . }}&lt;/p&gt;
+                    &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-muted&#34;</span>&gt;{{ . }}&lt;/<span style="color:#f92672">p</span>&gt;
                 {{ end }}
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/a&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">a</span>&gt;
     {{ end }}
-&lt;/div&gt;
-</code></pre>
-
-<p>while <a href="https://github.com/JannikArndt/jannikarndt.github.io/blob/source/themes/hugo-creative-theme/layouts/partials/publications.html">publications</a> use</p>
-
-<pre><code class="language-html">&lt;div class=&quot;row&quot;&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p>while <a href="https://github.com/JannikArndt/jannikarndt.github.io/blob/source/themes/hugo-creative-theme/layouts/partials/publications.html">publications</a> use</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
     {{ range .Site.Params.publications.years }}
-    &lt;div class=&quot;col-lg-10&quot;&gt;
-    &lt;h2&gt;{{ .year }}&lt;/h2&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-lg-10&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h2</span>&gt;{{ .year }}&lt;/<span style="color:#f92672">h2</span>&gt;
         {{ range .entry }}
-                &lt;p class=&quot;text-muted&quot;&gt;
+                &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-muted&#34;</span>&gt;
                     {{ .text | markdownify  }}
                     {{ if .link }}
-                        &lt;a href=&quot;{{ .link }}&quot;&gt;&lt;i class=&quot;fa fa-external-link&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                        &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .link }}&#34;</span>&gt;&lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fa fa-external-link&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt;&lt;/<span style="color:#f92672">a</span>&gt;
                     {{ end }}
-                &lt;/p&gt;
+                &lt;/<span style="color:#f92672">p</span>&gt;
         {{ end }}
-    &lt;/div&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
     {{ end }}
-&lt;/div&gt;
-</code></pre>
-
-<p>The hugo-engine itselft supports my trial-and-error-approach wonderfully by offering the <code>hugo serve</code> command, which creates a webserver and updates the generated pages instantly if anything changes.</p>
-
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p>The hugo-engine itselft supports my trial-and-error-approach wonderfully by offering the <code>hugo serve</code> command, which creates a webserver and updates the generated pages instantly if anything changes.</p>
 <h2 id="deployment-1">Deployment (1)</h2>
-
 <p>I have gathered a little experience with hugo deployment on <a href="https://pages.github.com">github pages</a> while working on <a href="https://nicetoknow.github.io/IT/">NiceToKnowIT</a>, and there is also an <a href="https://gohugo.io/tutorials/github-pages-blog/">extensive guide</a> on the hugo site. The problem is</p>
-
 <ol>
 <li>github pages requires the content at the root of a repository</li>
 <li>hugo creates the content into the <code>public</code> folder</li>
 <li>both are non-negotiable</li>
 </ol>
-
 <p>The workaround is to “embed” the gh-pages repository (or branch) in the <code>public</code> folder of the source repository. Apparently there are <a href="https://stackoverflow.com/questions/31769820/differences-between-git-submodule-and-subtree">two ways</a> to do this, <code>submodule</code> and <code>subtree</code>. I went ahead and chose the wrong way (<a href="https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">1</a>, <a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/">2</a>, <a href="https://ayende.com/blog/4746/the-problem-with-git-submodules">3</a>, <a href="https://somethingsinistral.net/blog/git-submodules-are-probably-not-the-answer/">4</a>, <a href="https://slopjong.de/2013/06/04/git-why-submodules-are-evil/">5</a>, I read none of those, but I now know how to use the <code>--force</code>): <code>submodule</code>. The steps are easy:</p>
-
 <ul>
 <li>delete <code>public</code> folder</li>
-<li><code>git submodule add -b master git@github.com:JannikArndt/jannikarndt.github.io.git public</code>`</li>
+<li>`git submodule add -b master <a href="mailto:git@github.com">git@github.com</a>:JannikArndt/jannikarndt.github.io.git public``</li>
 <li><code>add</code>, <code>commit</code>, <code>push</code></li>
 <li><code>cd</code> into <code>public</code></li>
 <li><code>add</code>, <code>commit</code>, <code>push</code></li>
 <li>if it worked: never touch a running system. else: use the <code>--force</code>.</li>
 </ul>
-
 <p><code>subtree</code> is on my todo list, promise.</p>
-
 <p>If everything worked you now have</p>
-
 <ul>
 <li>a repository with two branches:
-
 <ul>
 <li><code>source</code> for the complete thing</li>
 <li><code>master</code> for the generated website (<code>master</code> for the account-pages, <code>gh-pages</code> for repository pages)</li>
-</ul></li>
+</ul>
+</li>
 <li>a website at <a href="https://jannikarndt.github.io">https://jannikarndt.github.io</a></li>
 </ul>
-
 <h2 id="deployment-2">Deployment (2)</h2>
-
 <p>The next step is to combine the website with my url. My first approach was <code>RedirectMatch</code> in the <code>.htaccess</code> file:</p>
-
-<pre><code class="language-apache">RedirectMatch 301 ^/$ https://jannikarndt.github.io
-</code></pre>
-
-<p>The idea: I still want to access the old wordpress and a file static files such as papers.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apache" data-lang="apache">RedirectMatch <span style="color:#ae81ff">301</span> ^/$ https://jannikarndt.github.io
+</code></pre></div><p>The idea: I still want to access the old wordpress and a file static files such as papers.
 The problem: This matches <code>www.jannikarndt.de/</code> but not <code>www.jannikarndt.de</code>. Yep. The slash <strong>does</strong> make a difference.</p>
-
-<p>While experimenting with my <code>.htaccess</code> file I also developed an aversion against paying for a domain and then only redirecting it. But, as the <em>professional programmer</em>&trade; I am I <strong>really</strong> don&rsquo;t want redundancy, except if automatically generated from a single source. So I decided to dive into uncharted waters and set up a deployment service. (I know, as opposed to starting an FTP client…)</p>
-
+<p>While experimenting with my <code>.htaccess</code> file I also developed an aversion against paying for a domain and then only redirecting it. But, as the <em>professional programmer</em>™ I am I <strong>really</strong> don&rsquo;t want redundancy, except if automatically generated from a single source. So I decided to dive into uncharted waters and set up a deployment service. (I know, as opposed to starting an FTP client…)</p>
 <p>Github offers several <a href="https://github.com/integrations">integrations</a>, one of which is <a href="https://www.deployhq.com">DeployHQ</a>. They offer 10 builds a day for free, which, for now, should suffice, a <em>very</em> clean and easy-to-use website and a <em>hook</em>, which triggers deployment after every push.</p>
-
 <p>Marvellous! Now I can leave a new version of my website with a single blog entry to rot until the next big thing (IoT + machine learning = personal website?) comes along.</p>
                 </div>
             </div>
@@ -301,21 +262,17 @@ The problem: This matches <code>www.jannikarndt.de/</code> but not <code>www.jan
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

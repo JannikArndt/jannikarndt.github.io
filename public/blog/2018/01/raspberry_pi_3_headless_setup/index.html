@@ -77,43 +77,25 @@
         <aside class="toc page-scroll">
             <div class="toc_title"><a href="#page-top" class="page-scroll">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a></div>
             <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-prepare-the-sd-card">1. Prepare the SD card</a>
-<ul>
-<li>
-<ul>
-<li><a href="#1-download-raspbian">1. Download Raspbian</a></li>
-<li><a href="#2-unzip-the-download">2. Unzip the Download</a></li>
-<li><a href="#3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</a></li>
-<li><a href="#4-unmount-the-sd-card">4. Unmount the SD Card</a></li>
-<li><a href="#5-copy-the-data-to-the-card">5. Copy the Data to the Card</a></li>
-<li><a href="#6-enable-one-time-ssh-access">6. Enable one-time SSH Access</a></li>
-<li><a href="#7-eject-the-sd-card">7. Eject the SD Card</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#2-get-network-access-to-the-pi">2. Get Network Access to the Pi</a>
-<ul>
-<li>
-<ul>
-<li><a href="#connected-to-your-router">Connected to your Router</a></li>
-<li><a href="#connected-to-your-mac">Connected to your Mac</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#3-configure-ssh-access">3. Configure SSH access</a>
-<ul>
-<li>
-<ul>
-<li><a href="#1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi</a></li>
-<li><a href="#2-ssh-into-the-pi">2. SSH into the Pi</a></li>
-<li><a href="#3-change-your-root-password">3. Change your root Password:</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code></a></li>
-<li><a href="#5-continue">5. Continue</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1-prepare-the-sd-card">1. Prepare the SD card</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#2-get-network-access-to-the-pi">2. Get Network Access to the Pi</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#3-configure-ssh-access">3. Configure SSH access</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code></a></li>
+    <li><a href="#5-continue">5. Continue</a></li>
+  </ul>
 </nav></div>
         </aside>
         
@@ -122,152 +104,100 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.</p>
-
 <h2 id="1-prepare-the-sd-card">1. Prepare the SD card</h2>
-
 <h4 id="1-download-raspbian">1. Download Raspbian</h4>
-
 <p>Here, <code>-L</code> means follow redirect, <code>-C -</code> let&rsquo;s you resume the download.</p>
-
-<pre><code class="language-shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   390  100   390    0     0     69      0  0:00:05  0:00:05 --:--:--    89
-100   399  100   399    0     0     70      0  0:00:05  0:00:05 --:--:--    70
- 20  351M   20 72.6M    0     0   358k      0  0:16:44  0:03:27  0:13:17  364k
-</code></pre>
-
-<h4 id="2-unzip-the-download">2. Unzip the Download</h4>
-
-<pre><code class="language-shell">$ tar xzf raspbian-stretch-lite.zip
-</code></pre>
-
-<h4 id="3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</h4>
-
+<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">390</span>  <span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">390</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">69</span>      <span style="color:#ae81ff">0</span>  0:00:05  0:00:05 --:--:--    <span style="color:#ae81ff">89</span>
+<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">399</span>  <span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">399</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">70</span>      <span style="color:#ae81ff">0</span>  0:00:05  0:00:05 --:--:--    <span style="color:#ae81ff">70</span>
+ <span style="color:#ae81ff">20</span>  351M   <span style="color:#ae81ff">20</span> 72.6M    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   358k      <span style="color:#ae81ff">0</span>  0:16:44  0:03:27  0:13:17  364k
+</code></pre></div><h4 id="2-unzip-the-download">2. Unzip the Download</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ tar xzf raspbian-stretch-lite.zip
+</code></pre></div><h4 id="3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</h4>
 <p>Here it is <code>/dev/disk2</code>:</p>
-
-<pre><code class="language-shell">$ diskutil list
-/dev/disk0 (internal):
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diskutil list
+/dev/disk0 <span style="color:#f92672">(</span>internal<span style="color:#f92672">)</span>:
 ...
-/dev/disk1 (synthesized):
+/dev/disk1 <span style="color:#f92672">(</span>synthesized<span style="color:#f92672">)</span>:
 ...
-/dev/disk2 (external, physical):   &lt;= that's the one
+/dev/disk2 <span style="color:#f92672">(</span>external, physical<span style="color:#f92672">)</span>:   &lt;<span style="color:#f92672">=</span> that<span style="color:#960050;background-color:#1e0010">&#39;</span>s the one
 ...
-/dev/disk3 (disk image):
+/dev/disk3 <span style="color:#f92672">(</span>disk image<span style="color:#f92672">)</span>:
 ...
-</code></pre>
-
-<h4 id="4-unmount-the-sd-card">4. Unmount the SD Card</h4>
-
-<pre><code class="language-shell">$ diskutil unmountDisk /dev/disk2
-</code></pre>
-
-<h4 id="5-copy-the-data-to-the-card">5. Copy the Data to the Card</h4>
-
+</code></pre></div><h4 id="4-unmount-the-sd-card">4. Unmount the SD Card</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diskutil unmountDisk /dev/disk2
+</code></pre></div><h4 id="5-copy-the-data-to-the-card">5. Copy the Data to the Card</h4>
 <p>We use <code>/dev/rdisk2</code> because it&rsquo;s <em>a lot</em> faster then <code>/dev/disk2</code>:</p>
-
-<pre><code class="language-shell">$ sudo dd bs=1m if=2018-11-13-raspbian-stretch-lite.img of=/dev/rdisk2 conv=sync
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dd bs<span style="color:#f92672">=</span>1m <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>2018-11-13-raspbian-stretch-lite.img of<span style="color:#f92672">=</span>/dev/rdisk2 conv<span style="color:#f92672">=</span>sync
 Password: ********
 1780+0 records in
 1780+0 records out
-1866465280 bytes transferred in 33.915228 secs (55033252 bytes/sec)
-</code></pre>
-
-<h4 id="6-enable-one-time-ssh-access">6. Enable one-time SSH Access</h4>
-
-<pre><code class="language-shell">$ touch /Volumes/boot/ssh
-</code></pre>
-
-<h4 id="7-eject-the-sd-card">7. Eject the SD Card</h4>
-
-<pre><code class="language-shell">$ diskutil eject /dev/disk2
-</code></pre>
-
-<h2 id="2-get-network-access-to-the-pi">2. Get Network Access to the Pi</h2>
-
+<span style="color:#ae81ff">1866465280</span> bytes transferred in 33.915228 secs <span style="color:#f92672">(</span><span style="color:#ae81ff">55033252</span> bytes/sec<span style="color:#f92672">)</span>
+</code></pre></div><h4 id="6-enable-one-time-ssh-access">6. Enable one-time SSH Access</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ touch /Volumes/boot/ssh
+</code></pre></div><h4 id="7-eject-the-sd-card">7. Eject the SD Card</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diskutil eject /dev/disk2
+</code></pre></div><h2 id="2-get-network-access-to-the-pi">2. Get Network Access to the Pi</h2>
 <h4 id="connected-to-your-router">Connected to your Router</h4>
-
 <p>You now have two options to connect to the pi via network: either you plug it into your router and look at the DHCP settings what IP address is assigned to it:
-<img src="../pi/dhcp.png" alt="" /></p>
-
+<img src="../pi/dhcp.png" alt=""></p>
 <h4 id="connected-to-your-mac">Connected to your Mac</h4>
-
 <p>You can also connect it to your Mac directly. For that, you also need to enable <em>Internet Sharing</em> in <em>System Settings</em> &gt; <em>Sharing</em>:
-<img src="../pi/sharing_pane.png" alt="" /></p>
-
+<img src="../pi/sharing_pane.png" alt=""></p>
 <h2 id="3-configure-ssh-access">3. Configure SSH access</h2>
-
 <p>This assumes that you have an ssh key. If not or you don&rsquo;t know what that is: An ssh key consist of two files: A private and a public one. The private one (<code>id_rsa</code>) is on <em>your</em> computer and works like a password (so do <em>not</em> share it!). The public one (<code>id_rsa.pub</code>) is on <em>other</em> computers and identifies you. It only works together with your private key, so don&rsquo;t loose it. Your public key is on your computer as well so you can easily share it.</p>
-
 <p>You can find both keys with</p>
-
-<pre><code class="language-shell">$ ls -l ~/.ssh
-total 120
--rw-------  1 jannikarndt  staff  1766 Jan  3  2017 id_rsa
--rw-r--r--@ 1 jannikarndt  staff   403 Jan  3  2017 id_rsa.pub
-</code></pre>
-
-<p>If you don&rsquo;t have a key, GitHub has a <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">great article on how to create one</a>.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ls -l ~/.ssh
+total <span style="color:#ae81ff">120</span>
+-rw-------  <span style="color:#ae81ff">1</span> jannikarndt  staff  <span style="color:#ae81ff">1766</span> Jan  <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">2017</span> id_rsa
+-rw-r--r--@ <span style="color:#ae81ff">1</span> jannikarndt  staff   <span style="color:#ae81ff">403</span> Jan  <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">2017</span> id_rsa.pub
+</code></pre></div><p>If you don&rsquo;t have a key, GitHub has a <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">great article on how to create one</a>.</p>
 <h4 id="1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi</h4>
-
-<pre><code class="language-shell">$cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 &quot;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;
-The authenticity of host '192.168.2.149 (192.168.2.149)' can't be established.
-ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
-Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added '192.168.2.149' (ECDSA) to the list of known hosts.
-pi@192.168.2.149's password: raspberry
-</code></pre>
-
-<h4 id="2-ssh-into-the-pi">2. SSH into the Pi</h4>
-
-<pre><code class="language-shell">$ ssh pi@192.168.2.2
-Linux raspberrypi 4.14.79-v7+ #1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 <span style="color:#e6db74">&#34;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#34;</span>
+The authenticity of host <span style="color:#e6db74">&#39;192.168.2.149 (192.168.2.149)&#39;</span> can<span style="color:#e6db74">&#39;t be established.
+</span><span style="color:#e6db74">ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
+</span><span style="color:#e6db74">Are you sure you want to continue connecting (yes/no)? yes
+</span><span style="color:#e6db74">Warning: Permanently added &#39;</span>192.168.2.149<span style="color:#e6db74">&#39; (ECDSA) to the list of known hosts.
+</span><span style="color:#e6db74">pi@192.168.2.149&#39;</span>s password: raspberry
+</code></pre></div><h4 id="2-ssh-into-the-pi">2. SSH into the Pi</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ssh pi@192.168.2.2
+Linux raspberrypi 4.14.79-v7+ <span style="color:#75715e">#1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l</span>
 
 The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
+the exact distribution terms <span style="color:#66d9ef">for</span> each program are described in the
 individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
+SSH is enabled and the default password <span style="color:#66d9ef">for</span> the <span style="color:#e6db74">&#39;pi&#39;</span> user has not been changed.
+This is a security risk - please login as the <span style="color:#e6db74">&#39;pi&#39;</span> user and type <span style="color:#e6db74">&#39;passwd&#39;</span> to set a new password.
 
 
 Wi-Fi is disabled because the country is not set.
 Use raspi-config to set the country before use.
-</code></pre>
-
-<p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p>
-
+</code></pre></div><p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p>
 <h4 id="3-change-your-root-password">3. Change your root Password:</h4>
-
-<pre><code class="language-shell">sudo raspi-config
-</code></pre>
-
-<p><img src="../pi/raspi-config.png" alt="" /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo raspi-config
+</code></pre></div><p><img src="../pi/raspi-config.png" alt=""></p>
 <ol>
-<li><p>Add your wifi credentials in <code>2 Network Options</code> &gt; <code>N2 Wi-fi</code></p></li>
-
-<li><p>Permanently enable ssh access in <code>5 Interfacing Options</code> &gt; <code>P2 SSH</code>.</p></li>
+<li>
+<p>Add your wifi credentials in <code>2 Network Options</code> &gt; <code>N2 Wi-fi</code></p>
+</li>
+<li>
+<p>Permanently enable ssh access in <code>5 Interfacing Options</code> &gt; <code>P2 SSH</code>.</p>
+</li>
 </ol>
-
 <h2 id="4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code></h2>
-
 <p>And now, for the grand finale, you can (should / will want to) install a proper shell, i.e. <a href="http://ohmyz.sh">oh my zsh</a>:</p>
-
-<pre><code class="language-shell">sudo apt-get update &amp;&amp; sudo apt-get upgrade
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get upgrade
 sudo apt-get install git zsh
 chsh -s /bin/zsh
-sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
-</code></pre>
-
-<h2 id="5-continue">5. Continue</h2>
-
+sh -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><h2 id="5-continue">5. Continue</h2>
 <p>Great! Now you can use your Pi, for example</p>
-
 <ul>
 <li>with Apple Home and Sonoff devices to <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">control your smart home</a> or</li>
 <li>as an alternative to <a href="https://www.apple.com/de/shop/product/ME177Z/A">Apples 329€ Time Capsule</a> <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/">for Time Machine backups over wifi</a>.</li>
@@ -343,21 +273,17 @@ sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zs
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

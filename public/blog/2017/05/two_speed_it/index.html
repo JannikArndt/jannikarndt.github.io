@@ -3,7 +3,6 @@
     <head>
         <title>Two-speed IT</title>
         <meta name="description" content="The Problem
-
 You&rsquo;re a corporation. Your IT department is old, slow and can&rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.">
         <meta name="keywords" content="Consulting">
         <meta charset="utf-8">
@@ -81,23 +80,14 @@ You&rsquo;re a corporation. Your IT department is old, slow and can&rsquo;t inno
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2 id="the-problem">The Problem</h2>
-
 <p>You&rsquo;re a corporation. Your IT department is old, slow and can&rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.</p>
-
 <h2 id="the-solution">The solution</h2>
-
 <p>It&rsquo;s easy: You take the best employees from every department, put them together, give them the highest priority and a lot of funding. Kind of like a startup, but with corporate money.</p>
-
 <h2 id="the-catch">The catch</h2>
-
 <p>You&rsquo;re a corporation. <em>You don&rsquo;t have good employees.</em> You drove them away years ago, with your processes and hierarchies. You only have employees who suck less then the others.</p>
-
 <h2 id="the-solution-1">The solution</h2>
-
 <p>You hire a bunch of consultants, so your people can tell them to innovate.</p>
-
 <h2 id="the-catch-1">The catch</h2>
-
 <p>You&rsquo;re a corporation, remember? <em>You don&rsquo;t have good employees.</em> You have people who are good with processes and hierarchies. They will inevitably build the only thing they know: An old, slow department that can&rsquo;t innovate, with processes, hierarchies <em>and consultants</em>. Also, you have deprived your actual IT department of its best employees.</p>
                 </div>
             </div>
@@ -170,21 +160,17 @@ You&rsquo;re a corporation. Your IT department is old, slow and can&rsquo;t inno
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

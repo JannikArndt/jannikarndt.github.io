@@ -77,28 +77,27 @@
         <aside class="toc page-scroll">
             <div class="toc_title"><a href="#page-top" class="page-scroll">Examining a PostgreSQL with psql or pgcli</a></div>
             <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#starting-and-connecting">Starting and Connecting</a>
-<ul>
-<li><a href="#the-user">The User</a></li>
-<li><a href="#the-database">The Database</a></li>
-<li><a href="#the-password">The Password</a></li>
-<li><a href="#the-port">The Port</a></li>
-<li><a href="#summing-up">Summing up</a></li>
-</ul></li>
-<li><a href="#looking-around">Looking around</a>
-<ul>
-<li><a href="#databases">Databases</a></li>
-<li><a href="#tables">Tables</a></li>
-<li><a href="#views">Views</a></li>
-<li><a href="#detailed-information">Detailed Information</a></li>
-<li><a href="#users-roles">Users / Roles</a></li>
-<li><a href="#recap">Recap</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#starting-and-connecting">Starting and Connecting</a>
+      <ul>
+        <li><a href="#the-user">The User</a></li>
+        <li><a href="#the-database">The Database</a></li>
+        <li><a href="#the-password">The Password</a></li>
+        <li><a href="#the-port">The Port</a></li>
+        <li><a href="#summing-up">Summing up</a></li>
+      </ul>
+    </li>
+    <li><a href="#looking-around">Looking around</a>
+      <ul>
+        <li><a href="#databases">Databases</a></li>
+        <li><a href="#tables">Tables</a></li>
+        <li><a href="#views">Views</a></li>
+        <li><a href="#detailed-information">Detailed Information</a></li>
+        <li><a href="#users--roles">Users / Roles</a></li>
+        <li><a href="#recap">Recap</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav></div>
         </aside>
         
@@ -107,214 +106,148 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>The PostgreSQL installation comes with a great tool, <code>psql</code>, to administer and inspect the database. <a href="https://www.pgcli.com"><code>pgcli</code></a> extends this with syntax highlighting and autocompletion.</p>
-
 <h2 id="starting-and-connecting">Starting and Connecting</h2>
-
 <p><code>psql</code> comes with you local PostgreSQL installation, <code>pgcli</code> can be installed via <code>brew install pgcli</code> or <code>pip install pgcli</code>.</p>
-
 <p>When you start the tool, you need to specify the connection. PostgreSQL can be accessed via <em>TCP/IP</em> or <em>Unix Sockets</em>. If you installed <a href="https://postgresapp.com/">Postgres.app</a>, TCP will be the standard and you only need to specify the host (<code>h</code>):</p>
-
-<pre><code class="language-shell">$ psql -h localhost
-</code></pre>
-
-<p>This assumes three things:</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ psql -h localhost
+</code></pre></div><p>This assumes three things:</p>
 <ul>
 <li>the user is your OS user</li>
 <li>the database name is the same as the user</li>
 <li>connections from localhost are automatically trusted</li>
 <li>the port is 5432</li>
 </ul>
-
 <p>Let&rsquo;s go into details here:</p>
-
 <h3 id="the-user">The User</h3>
-
 <p>To be precise, PostgreSQL doesn&rsquo;t have users, it has roles. Roles you can login with are created as <code>ROLE WITH LOGIN</code>. A standard installation usually comes with a role for the OS account and a <code>postgres</code> role. To add more roles, you need to login first.</p>
-
 <blockquote>
 <p>Tip: Users can be listed with the <code>\du+</code> command!</p>
 </blockquote>
-
 <h3 id="the-database">The Database</h3>
-
 <p>The OS user and the postgres role have a corresponding database, which is automatically selected. However, if you create a new role and try to log in as that role, you will likely receive the error</p>
-
-<pre><code class="language-shell">$ psql -h localhost -p 5432 -U foo
-FATAL:  database &quot;foo&quot; does not exist
-</code></pre>
-
-<p>Thus you&rsquo;ll have to specify the database you want to connect to as well:</p>
-
-<pre><code class="language-shell">$ psql -h localhost -p 5432 -U foo -d postgres
-</code></pre>
-
-<p>By the way: During a session you can always change the database you&rsquo;re connected to with <code>\c &lt;databasename&gt;</code>, but you cannot be connected to no database at any moment.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ psql -h localhost -p <span style="color:#ae81ff">5432</span> -U foo
+FATAL:  database <span style="color:#e6db74">&#34;foo&#34;</span> does not exist
+</code></pre></div><p>Thus you&rsquo;ll have to specify the database you want to connect to as well:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ psql -h localhost -p <span style="color:#ae81ff">5432</span> -U foo -d postgres
+</code></pre></div><p>By the way: During a session you can always change the database you&rsquo;re connected to with <code>\c &lt;databasename&gt;</code>, but you cannot be connected to no database at any moment.</p>
 <h3 id="the-password">The Password</h3>
-
 <p>In a fresh installation, your OS user and the postgres role do not have a password set. This would usually mean that you cannot use that role to login with, <em>but</em> the standard <em>Client Authentication Configuration</em>, i.e. the <code>pg_hba.conf</code> file is configured to <code>trust</code> all connections from <code>localhost</code> or <code>127.0.0.1/32</code>.</p>
-
 <p>Actually assigning a password to a role won&rsquo;t change anything, only if you change the line in the <code>pg_hba.conf</code> too will you be asked to provide a password when logging in:</p>
-
-<pre><code class="language-ini"># TYPE  DATABASE        USER            ADDRESS                 METHOD
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
-# IPv6 local connections:
-host    all             all             ::1/128                 md5
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e"># TYPE  DATABASE        USER            ADDRESS                 METHOD</span>
+<span style="color:#75715e"># IPv4 local connections:</span>
+<span style="color:#a6e22e">host    all             all             127.0.0.1/32            md5</span>
+<span style="color:#75715e"># IPv6 local connections:</span>
+<span style="color:#a6e22e">host    all             all             ::1/128                 md5</span>
+</code></pre></div><blockquote>
 <p>Tip: Starting with PostgreSQL 10, you can also use <code>scram-sha-256</code> for password hashing.</p>
 </blockquote>
-
 <p>Since you don&rsquo;t want to pass the password as a command line parameter, since it is then leaked into the history-file, you can add an entry to a <code>.pgpass</code> file in your $HOME:</p>
-
-<pre><code class="language-ini"># hostname:port:database:username:password
-localhost:5432:*:postgres:mySuperSecretPassword
-</code></pre>
-
-<p>Now everytime you connect to a PostgreSQL instance on <code>localhost</code> port <code>5432</code> and <em>any</em> database using the <code>postgres</code> role, the password is filled in automatically.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e"># hostname:port:database:username:password</span>
+<span style="color:#a6e22e">localhost:5432:*:postgres:mySuperSecretPassword</span>
+</code></pre></div><p>Now everytime you connect to a PostgreSQL instance on <code>localhost</code> port <code>5432</code> and <em>any</em> database using the <code>postgres</code> role, the password is filled in automatically.</p>
 <h3 id="the-port">The Port</h3>
-
 <p>Since you can run multiple PostgreSQL instances on the same machine but all are reached via <code>localhost</code>, you need to provide different ports for every instance. If oyu only have one instance, the standard port is <code>5432</code>.</p>
-
 <h3 id="summing-up">Summing up</h3>
-
 <p>So in essence, the command</p>
-
-<pre><code class="language-shell">$ psql -h localhost
-</code></pre>
-
-<p>does the same as</p>
-
-<pre><code class="language-shell">$ psql -h localhost -p 5432 -U &lt;os-user&gt; -d &lt;os-user&gt;
-Password for user postgres: ...
-</code></pre>
-
-<h2 id="looking-around">Looking around</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ psql -h localhost
+</code></pre></div><p>does the same as</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ psql -h localhost -p <span style="color:#ae81ff">5432</span> -U &lt;os-user&gt; -d &lt;os-user&gt;
+Password <span style="color:#66d9ef">for</span> user postgres: ...
+</code></pre></div><h2 id="looking-around">Looking around</h2>
 <p>While you can execute any SQL statement you want using the <code>psql</code> tool, there are a few shortcuts that make your life easier (if you can remember them). To list them all, write <code>\?</code> or have a look at <a href="http://gpdb.docs.pivotal.io/gs/43/pdf/PSQLQuickRef.pdf">this cheat sheet</a>:</p>
-
 <h3 id="databases">Databases</h3>
-
 <blockquote>
 <p>Tip: If you don&rsquo;t have a database to play with, try out <a href="https://github.com/JannikArndt/PostgreSQLSampleDatabase">this example dump</a>!</p>
 </blockquote>
-
 <p>I like to start listing all databases in the current instance, using</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:jannikarndt=# \l+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:jannikarndt<span style="color:#f92672">=</span><span style="color:#75715e"># \l+</span>
 
                           List of databases
 ┌─────────────┬─────────────┬─────┬─────────┬────────────┬──────────────┐
 │    Name     │    Owner    │ ... │  Size   │ Tablespace │ Description  │
 ├─────────────┼─────────────┼─────┼─────────┼────────────┼──────────────┤
-│ jannikarndt │ jannikarndt │ ... │ 7709 kB │ pg_default │ ...          │
-│ mywebshop   │ jannikarndt │ ... │ 14 MB   │ pg_default │ ...          │
-│ postgres    │ postgres    │ ... │ 8005 kB │ pg_default │ ...          │
-│ template0   │ postgres    │ ... │ 7577 kB │ pg_default │ ...          │
-│ template1   │ postgres    │ ... │ 7577 kB │ pg_default │ ...          │
+│ jannikarndt │ jannikarndt │ ... │ <span style="color:#ae81ff">7709</span> kB │ pg_default │ ...          │
+│ mywebshop   │ jannikarndt │ ... │ <span style="color:#ae81ff">14</span> MB   │ pg_default │ ...          │
+│ postgres    │ postgres    │ ... │ <span style="color:#ae81ff">8005</span> kB │ pg_default │ ...          │
+│ template0   │ postgres    │ ... │ <span style="color:#ae81ff">7577</span> kB │ pg_default │ ...          │
+│ template1   │ postgres    │ ... │ <span style="color:#ae81ff">7577</span> kB │ pg_default │ ...          │
 └─────────────┴─────────────┴─────┴─────────┴────────────┴──────────────┘
-(5 rows)
-</code></pre>
-
-<p><small>(slightly abbreviated by the columns <code>Encoding</code>, <code>Collate</code>, <code>Ctype</code>, <code>Access privileges</code> and <code>Tablespace</code>)</small></p>
-
+<span style="color:#f92672">(</span><span style="color:#ae81ff">5</span> rows<span style="color:#f92672">)</span>
+</code></pre></div><p><!-- raw HTML omitted -->(slightly abbreviated by the columns <code>Encoding</code>, <code>Collate</code>, <code>Ctype</code>, <code>Access privileges</code> and <code>Tablespace</code>)<!-- raw HTML omitted --></p>
 <p>As you see, one of the databases is larger then the others. That might be an interesting one.</p>
-
 <p>To list tables in that database, we first have to connect to it:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:jannikarndt=# \dn+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:jannikarndt<span style="color:#f92672">=</span><span style="color:#75715e"># \dn+</span>
 
                            List of schemas
 ┌────────┬──────────┬──────────────────────┬────────────────────────┐
 │  Name  │  Owner   │  Access privileges   │      Description       │
 ├────────┼──────────┼──────────────────────┼────────────────────────┤
-│ public │ postgres │ postgres=UC/postgres↵│ standard public schema │
-│        │          │ =UC/postgres         │                        │
+│ public │ postgres │ postgres<span style="color:#f92672">=</span>UC/postgres↵│ standard public schema │
+│        │          │ <span style="color:#f92672">=</span>UC/postgres         │                        │
 └────────┴──────────┴──────────────────────┴────────────────────────┘
-(1 row)
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
 
-jannikarndt@[local]:jannikarndt=# \c mywebshop
-You are now connected to database &quot;mywebshop&quot; as user &quot;jannikarndt&quot;.
+jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:jannikarndt<span style="color:#f92672">=</span><span style="color:#75715e"># \c mywebshop</span>
+You are now connected to database <span style="color:#e6db74">&#34;mywebshop&#34;</span> as user <span style="color:#e6db74">&#34;jannikarndt&#34;</span>.
 
-jannikarndt@[local]:mywebshop=# \dn+
+jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \dn+</span>
 
                            List of schemas
 ┌─────────┬──────────┬──────────────────────┬────────────────────────┐
 │  Name   │  Owner   │  Access privileges   │      Description       │
 ├─────────┼──────────┼──────────────────────┼────────────────────────┤
-│ public  │ postgres │ postgres=UC/postgres↵│ standard public schema │
-│         │          │ =UC/postgres         │                        │
+│ public  │ postgres │ postgres<span style="color:#f92672">=</span>UC/postgres↵│ standard public schema │
+│         │          │ <span style="color:#f92672">=</span>UC/postgres         │                        │
 │ webshop │ postgres │                      │                        │
 └─────────┴──────────┴──────────────────────┴────────────────────────┘
-(2 rows)
-</code></pre>
-
-<p>Note that the first and the second entry for <code>public</code> are <em>different</em> schemas! The first is <code>jannikarndt.public</code>, the second is <code>mywebshop.public</code>.</p>
-
+<span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> rows<span style="color:#f92672">)</span>
+</code></pre></div><p>Note that the first and the second entry for <code>public</code> are <em>different</em> schemas! The first is <code>jannikarndt.public</code>, the second is <code>mywebshop.public</code>.</p>
 <h3 id="tables">Tables</h3>
-
 <p>Next, let&rsquo;s <strong>list all tables</strong> in the <code>webshop</code> schema. Running <code>\dt+</code> unfortunately will either result in</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# \dt+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \dt+</span>
 Did not find any relations.
-</code></pre>
-
-<p>or showing tables that have nothing to do with the <code>webshop</code> schema:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# \dt+
+</code></pre></div><p>or showing tables that have nothing to do with the <code>webshop</code> schema:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \dt+</span>
 
                          List of relations
 ┌────────┬──────────────┬───────┬──────────┬─────────┬─────────────┐
 │ Schema │     Name     │ Type  │  Owner   │  Size   │ Description │
 ├────────┼──────────────┼───────┼──────────┼─────────┼─────────────┤
-│ public │ public_table │ table │ postgres │ 0 bytes │             │
+│ public │ public_table │ table │ postgres │ <span style="color:#ae81ff">0</span> bytes │             │
 └────────┴──────────────┴───────┴──────────┴─────────┴─────────────┘
-(1 row)
-</code></pre>
-
-<p>This is because if you don&rsquo;t enter a <em>search path</em>, <code>psql</code> will use your <em>current</em> search path, which points to the schema with your username and the public schema:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# SHOW search_path
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><p>This is because if you don&rsquo;t enter a <em>search path</em>, <code>psql</code> will use your <em>current</em> search path, which points to the schema with your username and the public schema:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># SHOW search_path</span>
 mywebshop-# ;
 ┌─────────────────┐
 │   search_path   │
 ├─────────────────┤
-│ &quot;$user&quot;, public │
+│ <span style="color:#e6db74">&#34;</span>$user<span style="color:#e6db74">&#34;</span>, public │
 └─────────────────┘
-(1 row)
-</code></pre>
-
-<p>To list the tables of the <code>webshop</code> schema, you have to either <strong>set the search path</strong> using <code>SET search_path TO webshop;</code> or <strong>make it explicit in the query</strong>:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# \dt+ webshop.*
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><p>To list the tables of the <code>webshop</code> schema, you have to either <strong>set the search path</strong> using <code>SET search_path TO webshop;</code> or <strong>make it explicit in the query</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \dt+ webshop.*</span>
 
                          List of relations
 ┌─────────┬─────────────────┬───────┬──────────┬─────────┬────────────────────┐
 │ Schema  │      Name       │ Type  │  Owner   │  Size   │    Description     │
 ├─────────┼─────────────────┼───────┼──────────┼─────────┼────────────────────┤
-│ webshop │ address         │ table │ postgres │ 136 kB  │ Addresses for r... │
-│ webshop │ articles        │ table │ postgres │ 2872 kB │ Instance of a p... │
-│ webshop │ colors          │ table │ postgres │ 48 kB   │ Colors with nam... │
-│ webshop │ customer        │ table │ postgres │ 152 kB  │ Basic customer ... │
-│ webshop │ labels          │ table │ postgres │ 112 kB  │ Brands / labels... │
-│ webshop │ order           │ table │ postgres │ 176 kB  │ Metadata for an... │
-│ webshop │ order_positions │ table │ postgres │ 384 kB  │ Articles that a... │
-│ webshop │ products        │ table │ postgres │ 112 kB  │ Groups articles... │
-│ webshop │ sizes           │ table │ postgres │ 16 kB   │ Colors with nam... │
-│ webshop │ stock           │ table │ postgres │ 928 kB  │ Amount of artic... │
+│ webshop │ address         │ table │ postgres │ <span style="color:#ae81ff">136</span> kB  │ Addresses <span style="color:#66d9ef">for</span> r... │
+│ webshop │ articles        │ table │ postgres │ <span style="color:#ae81ff">2872</span> kB │ Instance of a p... │
+│ webshop │ colors          │ table │ postgres │ <span style="color:#ae81ff">48</span> kB   │ Colors with nam... │
+│ webshop │ customer        │ table │ postgres │ <span style="color:#ae81ff">152</span> kB  │ Basic customer ... │
+│ webshop │ labels          │ table │ postgres │ <span style="color:#ae81ff">112</span> kB  │ Brands / labels... │
+│ webshop │ order           │ table │ postgres │ <span style="color:#ae81ff">176</span> kB  │ Metadata <span style="color:#66d9ef">for</span> an... │
+│ webshop │ order_positions │ table │ postgres │ <span style="color:#ae81ff">384</span> kB  │ Articles that a... │
+│ webshop │ products        │ table │ postgres │ <span style="color:#ae81ff">112</span> kB  │ Groups articles... │
+│ webshop │ sizes           │ table │ postgres │ <span style="color:#ae81ff">16</span> kB   │ Colors with nam... │
+│ webshop │ stock           │ table │ postgres │ <span style="color:#ae81ff">928</span> kB  │ Amount of artic... │
 └─────────┴─────────────────┴───────┴──────────┴─────────┴────────────────────┘
-(10 rows)
-</code></pre>
-
-<p>Setting the search path allows you to <strong>query multiple schemas</strong>:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# SET search_path TO webshop,public;
+<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> rows<span style="color:#f92672">)</span>
+</code></pre></div><p>Setting the search path allows you to <strong>query multiple schemas</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># SET search_path TO webshop,public;</span>
 SET
-jannikarndt@[local]:mywebshop=# \dt
+jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \dt</span>
 
                List of relations
 ┌─────────┬─────────────────┬───────┬──────────┐
@@ -324,62 +257,50 @@ jannikarndt@[local]:mywebshop=# \dt
 │ webshop │ address         │ table │ postgres │
 │ ...     │ ...             │ ...   │ ...      │
 └─────────┴─────────────────┴───────┴──────────┘
-(11 rows)
-</code></pre>
-
-<p>To query <em>all</em> schemas, run <code>\dt+ *.*</code>, but beware, this also lists the tables in <code>information_schema</code> and <code>pg_catalog</code>, so… a lot.</p>
-
+<span style="color:#f92672">(</span><span style="color:#ae81ff">11</span> rows<span style="color:#f92672">)</span>
+</code></pre></div><p>To query <em>all</em> schemas, run <code>\dt+ *.*</code>, but beware, this also lists the tables in <code>information_schema</code> and <code>pg_catalog</code>, so… a lot.</p>
 <h3 id="views">Views</h3>
-
 <p>Attention: <code>\dt</code> only lists <em>tables</em>, not views. Those need to be queried seperately:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# \dv+ webshop.*
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \dv+ webshop.*</span>
 
                                List of relations
 ┌─────────┬──────────────────────────┬──────┬──────────┬─────────┬─────────────┐
 │ Schema  │           Name           │ Type │  Owner   │  Size   │ Description │
 ├─────────┼──────────────────────────┼──────┼──────────┼─────────┼─────────────┤
-│ webshop │ most_ordered_products    │ view │ postgres │ 0 bytes │             │
-│ webshop │ numbers_sold_per_article │ view │ postgres │ 0 bytes │             │
-│ webshop │ numbers_sold_per_product │ view │ postgres │ 0 bytes │             │
+│ webshop │ most_ordered_products    │ view │ postgres │ <span style="color:#ae81ff">0</span> bytes │             │
+│ webshop │ numbers_sold_per_article │ view │ postgres │ <span style="color:#ae81ff">0</span> bytes │             │
+│ webshop │ numbers_sold_per_product │ view │ postgres │ <span style="color:#ae81ff">0</span> bytes │             │
 └─────────┴──────────────────────────┴──────┴──────────┴─────────┴─────────────┘
-(3 rows)
-</code></pre>
-
-<h3 id="detailed-information">Detailed Information</h3>
-
+<span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> rows<span style="color:#f92672">)</span>
+</code></pre></div><h3 id="detailed-information">Detailed Information</h3>
 <p>Next, you can get all information on a single table with <code>\d+ &lt;schema&gt;.&lt;tablename&gt;</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \d webshop.order</span>
 
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# \d webshop.order
-
-                        Table &quot;webshop.order&quot;
+                        Table <span style="color:#e6db74">&#34;webshop.order&#34;</span>
 ┌───────────────────┬────────────────┬──────┬──────────┬─────────────────┐
 │      Column       │     Type       │ Coll │ Nullable │    Default      │
 ├───────────────────┼────────────────┼──────┼──────────┼─────────────────┤
-│ id                │ integer        │      │ not null │ nextval(ord...  │
+│ id                │ integer        │      │ not null │ nextval<span style="color:#f92672">(</span>ord...  │
 │ customerid        │ integer        │      │          │                 │
-│ ordertimestamp    │ timestamp w... │      │          │ now()           │
+│ ordertimestamp    │ timestamp w... │      │          │ now<span style="color:#f92672">()</span>           │
 │ shippingaddressid │ integer        │      │          │                 │
 │ total             │ money          │      │          │                 │
 │ shippingcost      │ money          │      │          │                 │
-│ created           │ timestamp w... │      │          │ now()           │
+│ created           │ timestamp w... │      │          │ now<span style="color:#f92672">()</span>           │
 │ updated           │ timestamp w... │      │          │                 │
 └───────────────────┴────────────────┴──────┴──────────┴─────────────────┘
 Indexes:
-    &quot;order_pkey&quot; PRIMARY KEY, btree (id)
+    <span style="color:#e6db74">&#34;order_pkey&#34;</span> PRIMARY KEY, btree <span style="color:#f92672">(</span>id<span style="color:#f92672">)</span>
 Foreign-key constraints:
-    &quot;fk_order_to_customer&quot; FOREIGN KEY (customerid) REFERENCES customer(id)
-    &quot;order_shippingaddressid_fkey&quot; FOREIGN KEY (shippingaddressid) REFERENCES address(id)
+    <span style="color:#e6db74">&#34;fk_order_to_customer&#34;</span> FOREIGN KEY <span style="color:#f92672">(</span>customerid<span style="color:#f92672">)</span> REFERENCES customer<span style="color:#f92672">(</span>id<span style="color:#f92672">)</span>
+    <span style="color:#e6db74">&#34;order_shippingaddressid_fkey&#34;</span> FOREIGN KEY <span style="color:#f92672">(</span>shippingaddressid<span style="color:#f92672">)</span> REFERENCES address<span style="color:#f92672">(</span>id<span style="color:#f92672">)</span>
 Referenced by:
-    TABLE &quot;order_positions&quot; CONSTRAINT &quot;order_positions_orderid_fkey&quot; 
-    FOREIGN KEY (orderid) REFERENCES &quot;order&quot;(id)
-</code></pre>
+    TABLE <span style="color:#e6db74">&#34;order_positions&#34;</span> CONSTRAINT <span style="color:#e6db74">&#34;order_positions_orderid_fkey&#34;</span> 
+    FOREIGN KEY <span style="color:#f92672">(</span>orderid<span style="color:#f92672">)</span> REFERENCES <span style="color:#e6db74">&#34;order&#34;</span><span style="color:#f92672">(</span>id<span style="color:#f92672">)</span>
+</code></pre></div><p>Or for views:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:mywebshop<span style="color:#f92672">=</span><span style="color:#75715e"># \d+ webshop.most_ordered_products</span>
 
-<p>Or for views:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:mywebshop=# \d+ webshop.most_ordered_products
-
-                          View &quot;webshop.most_ordered_products&quot;
+                          View <span style="color:#e6db74">&#34;webshop.most_ordered_products&#34;</span>
 ┌──────────────────────┬─────────┬───────────┬──────────┬─────────┬──────────┬──────┐
 │        Column        │  Type   │ Collation │ Nullable │ Default │ Storage  │ Desc │
 ├──────────────────────┼─────────┼───────────┼──────────┼─────────┼──────────┼──────┤
@@ -394,51 +315,40 @@ View definition:
     products.name AS product,
     numbers_sold_per_product.number_products_sold
    FROM products products
-     JOIN labels ON products.labelid = labels.id
-     JOIN numbers_sold_per_product ON products.id = numbers_sold_per_product.productid
+     JOIN labels ON products.labelid <span style="color:#f92672">=</span> labels.id
+     JOIN numbers_sold_per_product ON products.id <span style="color:#f92672">=</span> numbers_sold_per_product.productid
   ORDER BY numbers_sold_per_product.number_products_sold DESC
  LIMIT 20;
-</code></pre>
-
-<p>Note that appending the <code>+</code> gives you the <code>CREATE</code>-statement for the view.</p>
-
-<h3 id="users-roles">Users / Roles</h3>
-
+</code></pre></div><p>Note that appending the <code>+</code> gives you the <code>CREATE</code>-statement for the view.</p>
+<h3 id="users--roles">Users / Roles</h3>
 <p>Finally, we should also have a look at the users:</p>
-
-<pre><code class="language-shell">jannikarndt@[local]:jannikarndt=# \du+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">jannikarndt@<span style="color:#f92672">[</span>local<span style="color:#f92672">]</span>:jannikarndt<span style="color:#f92672">=</span><span style="color:#75715e"># \du+</span>
 
                                 List of roles
 ┌──────────────┬────────────────────────────────────┬────────────────┬─────────────┐
 │  Role name   │       Attributes                   │   Member of    │ Description │
 ├──────────────┼────────────────────────────────────┼────────────────┼─────────────┤
-│ analytics    │                                    │ {readonly}     │             │
-│ jannikarndt  │ Superuser, Create role, Create DB  │ {}             │             │
-│ mobile_app   │                                    │ {write_access} │             │
+│ analytics    │                                    │ <span style="color:#f92672">{</span>readonly<span style="color:#f92672">}</span>     │             │
+│ jannikarndt  │ Superuser, Create role, Create DB  │ <span style="color:#f92672">{}</span>             │             │
+│ mobile_app   │                                    │ <span style="color:#f92672">{</span>write_access<span style="color:#f92672">}</span> │             │
 │ postgres     │ Superuser, Create role, Create DB, │                │             │
 │              │ Replication, Bypass RLS            │                │             │
-│ readonly     │ Cannot login                       │ {}             │             │
-│ web_app      │                                    │ {write_access} │             │
-│ write_access │ Cannot login                       │ {}             │             │
+│ readonly     │ Cannot login                       │ <span style="color:#f92672">{}</span>             │             │
+│ web_app      │                                    │ <span style="color:#f92672">{</span>write_access<span style="color:#f92672">}</span> │             │
+│ write_access │ Cannot login                       │ <span style="color:#f92672">{}</span>             │             │
 └──────────────┴────────────────────────────────────┴────────────────┴─────────────┘
-</code></pre>
-
-<p>Officially, PostgreSQL doesn&rsquo;t have users, only roles. The command however still uses the <code>u</code>.</p>
-
+</code></pre></div><p>Officially, PostgreSQL doesn&rsquo;t have users, only roles. The command however still uses the <code>u</code>.</p>
 <p>You can see here, that there are two roles that cannot login (<code>readonly</code> and <code>write_access</code>). These are typically used to defined permissions. The roles that <em>can</em> login (<code>analytics</code>, <code>web_app</code> and <code>mobile_app</code>) are member of one of these roles so the admin doesn&rsquo;t have to care about setting permissions for each of them.</p>
-
 <h3 id="recap">Recap</h3>
-
 <p>To sum it up, these are the most important commands:</p>
-
-<pre><code class="language-sql">\l+                     -- list databases
-\c                      -- connect to a database
-\dn+                    -- list schemas
-\dt+ &lt;schema&gt;.*         -- list tables
-\dv+ &lt;schema&gt;.*         -- list views
-\d+ &lt;schema&gt;.&lt;relname&gt;  -- describe table or view
-\du+                    -- list users / roles
-</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#960050;background-color:#1e0010">\</span>l<span style="color:#f92672">+</span>                     <span style="color:#75715e">-- list databases
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">c</span>                      <span style="color:#75715e">-- connect to a database
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span>dn<span style="color:#f92672">+</span>                    <span style="color:#75715e">-- list schemas
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span>dt<span style="color:#f92672">+</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">schema</span><span style="color:#f92672">&gt;</span>.<span style="color:#f92672">*</span>         <span style="color:#75715e">-- list tables
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span>dv<span style="color:#f92672">+</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">schema</span><span style="color:#f92672">&gt;</span>.<span style="color:#f92672">*</span>         <span style="color:#75715e">-- list views
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span>d<span style="color:#f92672">+</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">schema</span><span style="color:#f92672">&gt;</span>.<span style="color:#f92672">&lt;</span>relname<span style="color:#f92672">&gt;</span>  <span style="color:#75715e">-- describe table or view
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span>du<span style="color:#f92672">+</span>                    <span style="color:#75715e">-- list users / roles
+</span></code></pre></div>
                 </div>
             </div>
         </div>
@@ -510,21 +420,17 @@ View definition:
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

@@ -79,77 +79,54 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Adding an ssh-file as a secret sounds easy, but there are pitfalls.</p>
-
 <h2 id="step-1-add-secret-to-kubernetes">Step 1: Add secret to kubernetes</h2>
-
 <p>First, add the key as a secret, for example with terraform</p>
-
-<pre><code class="language-hcl">resource &quot;kubernetes_secret&quot; &quot;ssh_key_verstehensystem_csv_ingest_bwh&quot; {
-  metadata {
-    name      = &quot;my-ssh-key&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;kubernetes_secret&#34; &#34;ssh_key_verstehensystem_csv_ingest_bwh&#34;</span> {
+  <span style="color:#66d9ef">metadata</span> {
+    name      <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;my-ssh-key&#34;</span>
   }
 
-  data {
-    &quot;id_rsa&quot; = &quot;${file(&quot;id_rsa&quot;)}&quot;
+  <span style="color:#66d9ef">data</span> {
+    &#34;id_rsa&#34; <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${file(&#34;id_rsa&#34;)}&#34;</span>
   }
 
-  type = &quot;Opaque&quot;
+  type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Opaque&#34;</span>
 }
-</code></pre>
-
-<p>(see <a href="https://www.terraform.io/docs/providers/kubernetes/r/secret.html">Docs</a>) or with <code>kubectl</code>:</p>
-
-<pre><code class="language-shell">$ kubectl create secret generic my-ssh-key --from-file=id_rsa=/path/to/local-ssh-keys
-</code></pre>
-
-<p>(see <a href="https://kubernetes.io/docs/concepts/configuration/secret/#use-case-pod-with-ssh-keys">Docs</a>). Note that this command renames the file: <code>--from-file=&lt;name on the cluster&gt;=&lt;local file&gt;</code>.</p>
-
+</code></pre></div><p>(see <a href="https://www.terraform.io/docs/providers/kubernetes/r/secret.html">Docs</a>) or with <code>kubectl</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create secret generic my-ssh-key --from-file<span style="color:#f92672">=</span>id_rsa<span style="color:#f92672">=</span>/path/to/local-ssh-keys
+</code></pre></div><p>(see <a href="https://kubernetes.io/docs/concepts/configuration/secret/#use-case-pod-with-ssh-keys">Docs</a>). Note that this command renames the file: <code>--from-file=&lt;name on the cluster&gt;=&lt;local file&gt;</code>.</p>
 <h2 id="step-2-mount-the-secret">Step 2: Mount the secret</h2>
-
 <p>Now, in your pod, mount the secret as a volume:</p>
-
-<pre><code class="language-yaml">kind: Pod
-apiVersion: v1
-metadata:
-  name: ...
-spec:
-  containers:
-  - name: ...
-    image: ...
-    volumeMounts:
-    - name: ssh-key-volume
-      mountPath: &quot;/etc/ssh-key&quot;
-  volumes:
-  - name: ssh-key-volume
-    secret:
-      secretName: my-ssh-key
-      defaultMode: 256
-</code></pre>
-
-<h2 id="step-3-do-s-and-dont-s">Step 3: Do&rsquo;s and Dont&rsquo;s</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">...</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">containers</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">...</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">...</span>
+    <span style="color:#f92672">volumeMounts</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ssh-key-volume</span>
+      <span style="color:#f92672">mountPath</span>: <span style="color:#e6db74">&#34;/etc/ssh-key&#34;</span>
+  <span style="color:#f92672">volumes</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ssh-key-volume</span>
+    <span style="color:#f92672">secret</span>:
+      <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">my-ssh-key</span>
+      <span style="color:#f92672">defaultMode</span>: <span style="color:#ae81ff">256</span>
+</code></pre></div><h2 id="step-3-dos-and-donts">Step 3: Do&rsquo;s and Dont&rsquo;s</h2>
 <h3 id="mount-to-ssh">Mount to <code>~/.ssh/</code></h3>
-
 <p>Remember that mounting to an existing directory will <em>overwrite</em> it. Even if <code>.ssh</code> does not exist, it will be replaced by a <em>read-only</em> mount, so <code>ssh</code> will fail when it creates the <code>known_hosts</code> file.</p>
-
 <p>Besides, writing <code>~</code> in your <code>yaml</code> will most likely create a folder called <code>'~'</code>. You need absolute paths!</p>
-
 <h3 id="forget-the-defaultmode">Forget the <code>defaultMode</code></h3>
-
 <p><code>ssh</code> checks the key&rsquo;s file permissions and will fail if they are too broad. Since the volume is read-only, you cannot simply <code>chmod</code> after the fact, you need to set the permissions in your <code>yaml</code>. But beware…</p>
-
 <h3 id="write-posix-in-defaultmode">Write POSIX in <code>defaultMode</code></h3>
-
 <p>The docs <a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod">state</a>:</p>
-
 <blockquote>
 <p>Note that the JSON spec doesn’t support octal notation, so use the value 256 for 0400 permissions. If you use yaml instead of json for the pod, you can use octal notation to specify permissions in a more natural way.</p>
 </blockquote>
-
 <p>In my experience, the <code>yaml</code> spec <em>also</em> does not support octal notation, so you need to convert:</p>
-
-<pre><code class="language-shell">400 = (4 * 8^2) + (4 * 8^1) + (4 * 8^0) = (4 * 64) + (0 * 8) + (0 * 1) = 256 + 0 + 0 = 256
-</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">400 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">4</span> * 8^2<span style="color:#f92672">)</span> + <span style="color:#f92672">(</span><span style="color:#ae81ff">4</span> * 8^1<span style="color:#f92672">)</span> + <span style="color:#f92672">(</span><span style="color:#ae81ff">4</span> * 8^0<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">4</span> * 64<span style="color:#f92672">)</span> + <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span> * 8<span style="color:#f92672">)</span> + <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span> * 1<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span> + <span style="color:#ae81ff">0</span> + 0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span>
+</code></pre></div>
                 </div>
             </div>
         </div>
@@ -221,21 +198,17 @@ spec:
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

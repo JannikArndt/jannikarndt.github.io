@@ -3,7 +3,6 @@
     <head>
         <title>Belugas at Finkenwerder</title>
         <meta name="description" content="My favourite animal: The Beluga!
-
 ">
         <meta name="keywords" content="Airbus, Beluga, Finkenwerder, Photos">
         <meta charset="utf-8">
@@ -81,16 +80,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>My favourite animal: The Beluga!</p>
-
-<p><img src="/blog/2017/04/Beluga_1.jpg" alt=""></p>
-
-<p><img src="/blog/2017/04/Beluga_2.jpg" alt=""></p>
-
-<p><img src="/blog/2017/04/Beluga_3.jpg" alt=""></p>
-
-<p><img src="/blog/2017/04/Beluga_4.jpg" alt=""></p>
-
-<p><img src="/blog/2017/04/Beluga_5.jpg" alt=""></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
                 </div>
             </div>
         </div>
@@ -162,21 +156,17 @@
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

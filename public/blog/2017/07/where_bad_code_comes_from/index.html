@@ -4,13 +4,13 @@
         <title>Where bad code comes from</title>
         <meta name="description" content="Ever wondered where bad code comes from?
 
-
 “This story is done”
+
 
 “Shouldn’t someone review it first?”
 
-“Oh, yeah … erm … I’ll do a quick refactoring first and then…”
 
+“Oh, yeah … erm … I’ll do a quick refactoring first and then…”
 
 …when that other person is on holiday!">
         <meta name="keywords" content="Programming">
@@ -89,15 +89,15 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Ever wondered where bad code comes from?</p>
-
 <blockquote>
 <p>“This story is done”</p>
-
+</blockquote>
+<blockquote>
 <p>“Shouldn’t someone review it first?”</p>
-
+</blockquote>
+<blockquote>
 <p>“Oh, yeah … erm … I’ll do a quick refactoring first and then…”</p>
 </blockquote>
-
 <p>…when that other person is on holiday!</p>
                 </div>
             </div>
@@ -170,21 +170,17 @@
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

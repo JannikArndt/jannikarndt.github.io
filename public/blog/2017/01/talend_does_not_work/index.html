@@ -79,56 +79,32 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>I cannot believe that googleing “talend does not work” does not find <em>anything</em> helpful. With this entry I try to fill that void in the internet.</p>
-
 <h2 id="fail-1-download">Fail 1: Download</h2>
-
 <p>You can download <code>talend</code> on their <a href="https://info.talend.com/prodevaltedi.html">website</a> — except you can&rsquo;t. After filling out all the information (pro-tip: store them in LastPass to insert them the next couple of times) you have to accept the terms of use—except you can&rsquo;t!</p>
-
-<p><img src="/blog/2017/01/talend1.png" width="50%"  alt=""></p>
-
+<!-- raw HTML omitted -->
 <p>There is no event listener. What the&hellip;?</p>
-
 <p>There&rsquo;s a trick: Select the &ldquo;Phone&rdquo;-field and <code>alt + tab</code> until you arrive at the checkbox, then hit <code>space</code>.</p>
-
 <p>Next: Enjoy your modern webbrowser prohibiting a site to cross-reference <code>http</code> from <code>https</code></p>
-
-<p><img src="/blog/2017/01/talend2.png" width="50%"  alt=""></p>
-
+<!-- raw HTML omitted -->
 <p>But there is a download-link hidden inside the plethora of error messages:</p>
-
-<p><img src="/blog/2017/01/talend3.png" width="50%"  alt=""></p>
-
+<!-- raw HTML omitted -->
 <p>If you&rsquo;re looking for these, here you go:</p>
-
 <pre><code>https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-mac-dlm.dmg
 https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-linux-x64-installer.run
 https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-win-dlm.exe
 </code></pre>
-
 <p>They won&rsquo;t help you, because they might be offline. If not, you get one of the greatest tools of all times—not.</p>
-
 <h2 id="fail-2-the-download-tool">Fail 2: The Download-Tool</h2>
-
 <p>Pretty simple: You start it, it does nothing:</p>
-
-<p><img src="/blog/2017/01/talend4.png" width="50%"  alt=""></p>
-
+<!-- raw HTML omitted -->
 <p>Reminds me of “A Sharepoint that <em>does</em> throw errors is a good Sharepoint”.</p>
-
 <h2 id="fail-3-the-zip-file">Fail 3: The ZIP-File</h2>
-
 <p>Okay, while you wait for the download tool to do <em>anything</em>, you can also try out the ZIP-download-option. This link surprisingly worked! And it contains a <code>Talend-Studio-macosx-cocoa.app</code> file!</p>
-
 <p>An unsigned one, of course, because why make things easy? The common advise you find on the internet is to turn off <code>Gatekeeper</code>, Apples system tool to prevent you from running malicious code (i.e. from developers who do not pay apple 100$/year). The easy way to get around this is to <em>right-click</em> a file and then click <em>open</em>. One would suspect this to do the exact same thing as double clicking the file, but watch and learn: It gives you an extra button:</p>
-
-<p><img src="/blog/2017/01/talend5.png" width="50%"  alt=""></p>
-
+<!-- raw HTML omitted -->
 <p>And the next thing you see is: “The Talend-Studio-macosx-cocoa executable launcher was unable to locate its companion share library”.</p>
-
-<p><img src="/blog/2017/01/talend6.png" width="50%"  alt=""></p>
-
+<!-- raw HTML omitted -->
 <p>WHAT?</p>
-
 <p>This is a hard one: You need to right-click the app, choose <code>Show package contents</code>, navigate to <code>Contents:MacOS:Talend-Studio-macosx-cocoa</code> and execute <em>that</em>. Voilà! It starts!</p>
                 </div>
             </div>
@@ -201,21 +177,17 @@ https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-in
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

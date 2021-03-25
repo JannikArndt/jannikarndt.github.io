@@ -78,17 +78,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p><a href="/blog/2018/04/Boberg1.jpg"><img src="/blog/2018/04/Boberg1.jpg" alt=""></a></p>
-
-<p><a href="/blog/2018/04/Boberg2.jpg"><img src="/blog/2018/04/Boberg2.jpg" alt=""></a></p>
-
-<p><a href="/blog/2018/04/Boberg3.jpg"><img src="/blog/2018/04/Boberg3.jpg" alt=""></a></p>
-
-<p><a href="/blog/2018/04/Boberg4.jpg"><img src="/blog/2018/04/Boberg4.jpg" alt=""></a></p>
-
-<p><a href="/blog/2018/04/Boberg5.jpg"><img src="/blog/2018/04/Boberg5.jpg" alt=""></a></p>
-
-<p><a href="/blog/2018/04/Boberg6.jpg"><img src="/blog/2018/04/Boberg6.jpg" alt=""></a></p>
+                    <p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
                 </div>
             </div>
         </div>
@@ -160,21 +155,17 @@
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         

@@ -77,15 +77,12 @@
         <aside class="toc page-scroll">
             <div class="toc_title"><a href="#page-top" class="page-scroll">Akka HTTP on Heroku</a></div>
             <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#plugins-sbt-and-build-sbt"><code>plugins.sbt</code> and <code>build.sbt</code></a></li>
-<li><a href="#main-scala"><code>Main.scala</code></a></li>
-<li><a href="#deploy">Deploy</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#pluginssbt-and-buildsbt"><code>plugins.sbt</code> and <code>build.sbt</code></a></li>
+    <li><a href="#mainscala"><code>Main.scala</code></a></li>
+    <li><a href="#deploy">Deploy</a></li>
+  </ul>
 </nav></div>
         </aside>
         
@@ -94,28 +91,17 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <p>Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.</p>
-
 <h2 id="setup">Setup</h2>
-
 <p>First, <a href="https://dashboard.heroku.com/new-app">create a new app on Heroku</a>. The easiest way to deploy something is to push it to the attached git repository, as explained on the <em>Deploy</em> page:</p>
-
-<p><a href="/blog/2018/10/heroku1.png"><img src="/blog/2018/10/heroku1.png" alt=""></a></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>Next, setup you local <code>sbt</code> project. My way would be</p>
-
-<pre><code class="language-shell">$ sbt new jannikarndt/scala.g8
-</code></pre>
-
-<p>Do the <code>git</code> thing:</p>
-
-<pre><code class="language-shell">$ git init
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sbt new jannikarndt/scala.g8
+</code></pre></div><p>Do the <code>git</code> thing:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git init
 $ git add .
-$ git commit -m &quot;Template&quot;  
-</code></pre>
-
-<p>and next, connect the repository to Heroku. If you haven&rsquo;t already, install their cli first:</p>
-
-<pre><code class="language-shell">$ brew install heroku/brew/heroku
+$ git commit -m <span style="color:#e6db74">&#34;Template&#34;</span>  
+</code></pre></div><p>and next, connect the repository to Heroku. If you haven&rsquo;t already, install their cli first:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew install heroku/brew/heroku
 ...
 $ heroku login
 heroku: Enter your login credentials
@@ -124,145 +110,107 @@ Password: ************
 Logged in as your@mail.com
 $ heroku git:remote -a yourproject
 set git remote heroku to https://git.heroku.com/yourproject.git
-</code></pre>
-
-<h2 id="plugins-sbt-and-build-sbt"><code>plugins.sbt</code> and <code>build.sbt</code></h2>
-
+</code></pre></div><h2 id="pluginssbt-and-buildsbt"><code>plugins.sbt</code> and <code>build.sbt</code></h2>
 <p>To create a build that can be run on Heroku, you need the <code>sbt-native-packager</code> in your <code>project/plugins.sbt</code>:</p>
-
-<pre><code class="language-scala">addSbtPlugin(&quot;com.typesafe.sbt&quot; % &quot;sbt-native-packager&quot; % &quot;1.3.12&quot;)
-</code></pre>
-
-<p>You also have to <em>enable</em> the plugin in the <code>build.sbt</code>:</p>
-
-<pre><code class="language-scala">enablePlugins(JavaAppPackaging)
-</code></pre>
-
-<p>This enables the <code>stage</code> command. Otherwise you&rsquo;ll end up with weird errors:</p>
-
-<pre><code class="language-scala">sbt&gt; stage
-[error] Not a valid command: stage (similar: last-grep, set, last)
-[error] Not a valid project ID: stage
-[error] Expected ':'
-[error] Not a valid key: stage (similar: state, target, tags)
-[error] stage
-[error]      ^
-sbt&gt; compile stage
-[error] Expected whitespace character
-[error] Expected '/'
-[error] compile stage
-[error]         ^
-</code></pre>
-
-<p>Next, you need to define the <code>Main</code> class to be run. This is also done in your <code>build.sbt</code>:</p>
-
-<pre><code class="language-scala">mainClass in Compile := Some(&quot;Main&quot;)
-</code></pre>
-
-<p>Note: If you use packages, you&rsquo;ll need to write the full identifier, i.e. <code>com.mycompany.myproject.Main</code> or something similar.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">addSbtPlugin<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.typesafe.sbt&#34;</span> <span style="color:#f92672">%</span> <span style="color:#e6db74">&#34;sbt-native-packager&#34;</span> <span style="color:#f92672">%</span> <span style="color:#e6db74">&#34;1.3.12&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><p>You also have to <em>enable</em> the plugin in the <code>build.sbt</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">enablePlugins<span style="color:#f92672">(</span><span style="color:#a6e22e">JavaAppPackaging</span><span style="color:#f92672">)</span>
+</code></pre></div><p>This enables the <code>stage</code> command. Otherwise you&rsquo;ll end up with weird errors:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">sbt<span style="color:#f92672">&gt;</span> stage
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Not</span> a valid command<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">stage</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">similar:</span> <span style="color:#66d9ef">last-grep</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">set</span><span style="color:#f92672">,</span> last<span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Not</span> a valid project <span style="color:#a6e22e">ID</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">stage</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Expected</span> <span style="color:#e6db74">&#39;:&#39;</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Not</span> a valid key<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">stage</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">similar:</span> <span style="color:#66d9ef">state</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">target</span><span style="color:#f92672">,</span> tags<span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> stage
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span>      <span style="color:#f92672">^</span>
+sbt<span style="color:#f92672">&gt;</span> compile stage
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Expected</span> whitespace character
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Expected</span> <span style="color:#e6db74">&#39;/&#39;</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span> compile stage
+<span style="color:#f92672">[</span><span style="color:#66d9ef">error</span><span style="color:#f92672">]</span>         <span style="color:#f92672">^</span>
+</code></pre></div><p>Next, you need to define the <code>Main</code> class to be run. This is also done in your <code>build.sbt</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">mainClass in <span style="color:#a6e22e">Compile</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Main&#34;</span><span style="color:#f92672">)</span>
+</code></pre></div><p>Note: If you use packages, you&rsquo;ll need to write the full identifier, i.e. <code>com.mycompany.myproject.Main</code> or something similar.</p>
 <p>If you get this part wrong, <code>sbt stage</code> will warn you:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">sbt<span style="color:#f92672">&gt;</span> stage
+<span style="color:#f92672">[</span><span style="color:#66d9ef">info</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Wrote</span> <span style="color:#f92672">/</span>target<span style="color:#f92672">/</span>scala<span style="color:#f92672">-</span><span style="color:#ae81ff">2.12</span><span style="color:#f92672">/</span>yourproject_2<span style="color:#f92672">.</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">.</span>pom
+<span style="color:#f92672">[</span><span style="color:#66d9ef">info</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Packaging</span> <span style="color:#f92672">/</span>target<span style="color:#f92672">/</span>scala<span style="color:#f92672">-</span><span style="color:#ae81ff">2.12</span><span style="color:#f92672">/</span>yourproject_2<span style="color:#f92672">.</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">.</span>jar <span style="color:#f92672">...</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">info</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Done</span> packaging<span style="color:#f92672">.</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">warn</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">You</span> have no main <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">in</span> your project<span style="color:#f92672">.</span> <span style="color:#a6e22e">No</span> start script will be generated<span style="color:#f92672">.</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">warn</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">You</span> have no main <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">in</span> your project<span style="color:#f92672">.</span> <span style="color:#a6e22e">No</span> start script will be generated<span style="color:#f92672">.</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">success</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">Total</span> time<span style="color:#66d9ef">:</span> <span style="color:#960050;background-color:#1e0010">0</span> <span style="color:#66d9ef">s</span><span style="color:#f92672">,</span> completed <span style="color:#a6e22e">Oct</span> <span style="color:#ae81ff">27</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2018</span> <span style="color:#ae81ff">6</span><span style="color:#66d9ef">:</span><span style="color:#960050;background-color:#1e0010">13</span><span style="color:#66d9ef">:</span><span style="color:#960050;background-color:#1e0010">13</span> <span style="color:#66d9ef">PM</span>
+</code></pre></div><p>but on Heroku it will actually crash the app:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apache" data-lang="apache"><span style="color:#960050;background-color:#1e0010">heroku[web</span>.<span style="color:#960050;background-color:#1e0010">1]:</span> State changed from starting to crashed
+<span style="color:#960050;background-color:#1e0010">app[web</span>.<span style="color:#960050;background-color:#1e0010">1]:</span> <span style="color:#960050;background-color:#1e0010">Error:</span> Main method not found in class Main, please define the main method as:
+<span style="color:#960050;background-color:#1e0010">app[web</span>.<span style="color:#960050;background-color:#1e0010">1]:</span> public static void main(String[] args)
+<span style="color:#960050;background-color:#1e0010">app[web</span>.<span style="color:#960050;background-color:#1e0010">1]:</span> or a JavaFX application class must extend javafx.application.Application
+</code></pre></div><p>The final <code>build.sbt</code> should look something like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">name <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;yourproject&#34;</span>
+scalaVersion <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2.12.7&#34;</span>
+version <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1.0&#34;</span>
+maintainer <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;you&#34;</span>
+mainClass in <span style="color:#a6e22e">Compile</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Main&#34;</span><span style="color:#f92672">)</span>
 
-<pre><code class="language-scala">sbt&gt; stage
-[info] Wrote /target/scala-2.12/yourproject_2.12-1.0.pom
-[info] Packaging /target/scala-2.12/yourproject_2.12-1.0.jar ...
-[info] Done packaging.
-[warn] You have no main class in your project. No start script will be generated.
-[warn] You have no main class in your project. No start script will be generated.
-[success] Total time: 0 s, completed Oct 27, 2018 6:13:13 PM
-</code></pre>
+enablePlugins<span style="color:#f92672">(</span><span style="color:#a6e22e">JavaAppPackaging</span><span style="color:#f92672">)</span>
 
-<p>but on Heroku it will actually crash the app:</p>
-
-<pre><code class="language-apache">heroku[web.1]: State changed from starting to crashed
-app[web.1]: Error: Main method not found in class Main, please define the main method as:
-app[web.1]: public static void main(String[] args)
-app[web.1]: or a JavaFX application class must extend javafx.application.Application
-</code></pre>
-
-<p>The final <code>build.sbt</code> should look something like this:</p>
-
-<pre><code class="language-scala">name := &quot;yourproject&quot;
-scalaVersion := &quot;2.12.7&quot;
-version := &quot;1.0&quot;
-maintainer := &quot;you&quot;
-mainClass in Compile := Some(&quot;Main&quot;)
-
-enablePlugins(JavaAppPackaging)
-
-libraryDependencies ++= Seq(
-  &quot;com.typesafe.akka&quot; %% &quot;akka-http&quot; % &quot;10.1.5&quot;,
-  &quot;com.typesafe.akka&quot; %% &quot;akka-stream&quot; % &quot;2.5.17&quot;
-)
-</code></pre>
-
-<h2 id="main-scala"><code>Main.scala</code></h2>
-
+libraryDependencies <span style="color:#f92672">++=</span> <span style="color:#a6e22e">Seq</span><span style="color:#f92672">(</span>
+  <span style="color:#e6db74">&#34;com.typesafe.akka&#34;</span> <span style="color:#f92672">%%</span> <span style="color:#e6db74">&#34;akka-http&#34;</span> <span style="color:#f92672">%</span> <span style="color:#e6db74">&#34;10.1.5&#34;</span><span style="color:#f92672">,</span>
+  <span style="color:#e6db74">&#34;com.typesafe.akka&#34;</span> <span style="color:#f92672">%%</span> <span style="color:#e6db74">&#34;akka-stream&#34;</span> <span style="color:#f92672">%</span> <span style="color:#e6db74">&#34;2.5.17&#34;</span>
+<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="mainscala"><code>Main.scala</code></h2>
 <p>Now that you&rsquo;ve managed to create a build and reference the correct <code>mainClass</code>, there&rsquo;s only two caveats left: Binding the server. First, on Heroku you can <strong>not</strong> bind to <code>localhost</code>, you have to write <code>0.0.0.0</code> instead. Secondly, the port changes with every start of the app and is given as a parameter (<code>-Dhttp.port=36803</code>) and environment variable (<code>$PORT</code>). The code for this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> port<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>env<span style="color:#f92672">.</span>getOrElse<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;PORT&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;8080&#34;</span><span style="color:#f92672">).</span>toInt
+<span style="color:#a6e22e">WebServer</span><span style="color:#f92672">.</span>startServer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span><span style="color:#f92672">,</span> port<span style="color:#f92672">)</span>
+</code></pre></div><p>A complete example for a WebServer would be</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> akka.http.scaladsl.server._
 
-<pre><code class="language-scala">val port: Int = sys.env.getOrElse(&quot;PORT&quot;, &quot;8080&quot;).toInt
-WebServer.startServer(&quot;0.0.0.0&quot;, port)
-</code></pre>
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> main<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Unit</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">val</span> port<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>env<span style="color:#f92672">.</span>getOrElse<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;PORT&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;8080&#34;</span><span style="color:#f92672">).</span>toInt
+    <span style="color:#a6e22e">WebServer</span><span style="color:#f92672">.</span>startServer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span><span style="color:#f92672">,</span> port<span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-<p>A complete example for a WebServer would be</p>
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">WebServer</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">HttpApp</span> <span style="color:#f92672">{</span>
 
-<pre><code class="language-scala">import akka.http.scaladsl.server._
+  <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">def</span> routes<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Route</span> <span style="color:#f92672">=</span>
+    pathEndOrSingleSlash <span style="color:#f92672">{</span>
+      get <span style="color:#f92672">{</span>
+        complete<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;It works&#34;</span><span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-object Main {
-  def main(args: Array[String]): Unit = {
-    val port: Int = sys.env.getOrElse(&quot;PORT&quot;, &quot;8080&quot;).toInt
-    WebServer.startServer(&quot;0.0.0.0&quot;, port)
-  }
-}
-
-object WebServer extends HttpApp {
-
-  override protected def routes: Route =
-    pathEndOrSingleSlash {
-      get {
-        complete(&quot;It works&quot;)
-      }
-    }
-}
-
-</code></pre>
-
-<h2 id="deploy">Deploy</h2>
-
+</code></pre></div><h2 id="deploy">Deploy</h2>
 <p>After you tested locally running</p>
-
-<pre><code class="language-shell">$ sbt compile stage
-</code></pre>
-
-<p>(because that&rsquo;s exactly the command that will be run on Heroku&rsquo;s server) and maybe <code>sbt run</code> or <code>sbt reStart</code>, you can finally deploy.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sbt compile stage
+</code></pre></div><p>(because that&rsquo;s exactly the command that will be run on Heroku&rsquo;s server) and maybe <code>sbt run</code> or <code>sbt reStart</code>, you can finally deploy.</p>
 <p>Since you already connected our git to the remote repository, all you have to do is <code>push</code>:</p>
-
-<pre><code class="language-shell">$ git push --set-upstream heroku master
-Enumerating objects: 13, done.
-Counting objects: 100% (13/13), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (7/7), 1.25 KiB | 1.25 MiB/s, done.
-Total 7 (delta 3), reused 0 (delta 0)
-remote: Compressing source files... done.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ git push --set-upstream heroku master
+Enumerating objects: 13, <span style="color:#66d9ef">done</span>.
+Counting objects: 100% <span style="color:#f92672">(</span>13/13<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+Delta compression using up to <span style="color:#ae81ff">4</span> threads
+Compressing objects: 100% <span style="color:#f92672">(</span>6/6<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+Writing objects: 100% <span style="color:#f92672">(</span>7/7<span style="color:#f92672">)</span>, 1.25 KiB | 1.25 MiB/s, <span style="color:#66d9ef">done</span>.
+Total <span style="color:#ae81ff">7</span> <span style="color:#f92672">(</span>delta 3<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">0</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>
+remote: Compressing source files... <span style="color:#66d9ef">done</span>.
 remote: Building source:
 remote:
 remote: -----&gt; Scala app detected
-remote: -----&gt; Installing JDK 1.8... done
+remote: -----&gt; Installing JDK 1.8... <span style="color:#66d9ef">done</span>
 remote: -----&gt; Running: sbt compile stage
 ...
-remote:        [info] Done compiling.
-remote:        [success] Total time: 4 s, completed Oct 27, 2018 5:44:33 PM
+remote:        <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> Done compiling.
+remote:        <span style="color:#f92672">[</span>success<span style="color:#f92672">]</span> Total time: <span style="color:#ae81ff">4</span> s, completed Oct 27, <span style="color:#ae81ff">2018</span> 5:44:33 PM
 ...
-remote:        [info] Done packaging.
-remote:        [success] Total time: 3 s, completed Oct 27, 2018 5:44:36 PM
+remote:        <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> Done packaging.
+remote:        <span style="color:#f92672">[</span>success<span style="color:#f92672">]</span> Total time: <span style="color:#ae81ff">3</span> s, completed Oct 27, <span style="color:#ae81ff">2018</span> 5:44:36 PM
 remote: -----&gt; Dropping ivy cache from the slug
 remote: -----&gt; Dropping sbt boot dir from the slug
 remote: -----&gt; Dropping compilation artifacts from the slug
 remote: -----&gt; Discovering process types
-remote:        Procfile declares types     -&gt; (none)
-remote:        Default types for buildpack -&gt; web
+remote:        Procfile declares types     -&gt; <span style="color:#f92672">(</span>none<span style="color:#f92672">)</span>
+remote:        Default types <span style="color:#66d9ef">for</span> buildpack -&gt; web
 remote:
 remote: -----&gt; Compressing...
 remote:        Done: 71.9M
@@ -270,12 +218,10 @@ remote: -----&gt; Launching...
 remote:        Released v10
 remote:        https://yourproject.herokuapp.com/ deployed to Heroku
 remote:
-remote: Verifying deploy... done.
+remote: Verifying deploy... <span style="color:#66d9ef">done</span>.
 To https://git.heroku.com/yourproject.git
    ca5c7c5..4a5a138  master -&gt; master
-</code></pre>
-
-<p>Now head to your url and start building the rest!</p>
+</code></pre></div><p>Now head to your url and start building the rest!</p>
                 </div>
             </div>
         </div>
@@ -347,21 +293,17 @@ To https://git.heroku.com/yourproject.git
         </div>
         <div class="summary">
             <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
 <li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
 <li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
 </ul>
-
 <p>From the server&rsquo;s point of view:</p>
-
 <ul>
 <li><code>/</code> — publicly accessible, do nothing,</li>
 <li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
 <li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
 </ul>
-
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
         </div>
         
