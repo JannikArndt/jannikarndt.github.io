@@ -7,6 +7,7 @@ enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
+pluralizelisttitles: false
 
 minify:
     disableXML: true
@@ -25,6 +26,7 @@ params:
     author: "Jannik" # author: ["Me", "You"] # multiple authors
     images: ["<link or path of image for opengraph, twitter-cards>"]
     defaultContentLanguage: en
+
 
     defaultTheme: auto # dark, light
     disableThemeToggle: false
@@ -61,8 +63,6 @@ params:
     socialIcons:
         - name: twitter
           url: "https://twitter.com/JannikArndt"
-        - name: stackoverflow
-          url: "https://stackoverflow.com"
         - name: github
           url: "https://github.com/JannikArndt"
         - name: linkedin
@@ -70,7 +70,7 @@ params:
         - name: xing
           url: "https://www.xing.com/profile/Jannik_Arndt"
         - name: email
-          url: mailto:jannik@jannikarndt.de
+          url: "mailto:jannik@jannikarndt.de"
 
     cover:
         hidden: true # hide everywhere but not in structured data
@@ -87,22 +87,26 @@ params:
         threshold: 0.4
         minMatchCharLength: 0
         keys: ["title", "permalink", "summary", "content"]
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
+
 menu:
     main:
-        - name: Search
+        - name: blog
+          url: archive/
+          weight: 5
+        - name: search
           url: search/
-          weight: 10
-        - identifier: categories
-          name: categories
-          url: /categories/
-          weight: 10
+          weight: 15
+#        - identifier: categories
+#          name: categories
+#          url: /categories/
+#          weight: 10
         - identifier: tags
           name: tags
           url: /tags/
-          weight: 20
-        - identifier: example
-          name: example.org
-          url: https://example.org
-          weight: 30
+          weight: 10
 #Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true

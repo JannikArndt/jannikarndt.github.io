@@ -1,0 +1,48 @@
+.chroma {
+    background-color: unset !important;
+}
+
+body {
+    font-family: 'Helvetica Neue',Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+}
+
+.archive-count{
+    color: rgba(0, 0, 0, 0.2);
+}
+
+:root {
+    --gap: 24px;
+    --content-gap: 20px;
+    --nav-width: 1024px;
+    --main-width: 720px;
+    --header-height: 60px;
+    --footer-height: 60px;
+    --radius: 8px;
+    --theme: #fff;
+    --entry: #fff;
+    --primary: #778ea8;
+    --secondary: rgba(0, 0, 0, 0.56);
+    --tertiary: rgba(0, 0, 0, 0.16);
+    --content: rgb(102, 102, 102);
+    --hljs-bg: #f5f5f5;
+    --code-bg: #f5f5f5;
+    --border: #eee;
+}
+
+.dark {
+    --theme: #576175;
+    --entry: #333c47;
+    --primary: rgba(255, 255, 255, 0.84);
+    --secondary: rgba(255, 255, 255, 0.56);
+    --tertiary: rgba(255, 255, 255, 0.16);
+    --content: rgba(255, 255, 255, 0.74);
+    --hljs-bg: #333c47;
+    --code-bg: #333c47;
+    --border: #333;
+}

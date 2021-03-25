@@ -14,7 +14,7 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
 ">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/" />
-<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.9cdf3e594f7d85ec1b0ac6b856143f11b1dc5546dcb91550e1d88bc3c5c00ea3.css" integrity="sha256-nN8&#43;WU99hewbCsa4VhQ/EbHcVUbcuRVQ4diLw8XADqM=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -55,7 +55,7 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "Blogs",
+      "name": "Blog",
       "item": "https://www.jannikarndt.de/blog/"
     }, 
     {
@@ -77,8 +77,8 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
   "keywords": [
     "Aircraft", "Programming"
   ],
-  "articleBody": "Last week one of our programs failed looking up an airplane by its registration. That’s not a surprise, since ac regs are a horrible identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states\n When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, YR-BMA). When entered in a flight plan, the dash is omitted (for example, YRBMA). In some countries that use a number suffix rather than letters, like the United States (N), South Korea (HL), and Japan (JA), the prefix and suffix are connected without a dash.\n Okay, so the only thing in common is a prefix and a main part, separated by a dash, but that’s often dropped. Nice! Also the both parts might consist of letters and numbers. And they vary in length. And most of the time, the prefix designates the country of registration, although there are exceptions, for example Guernsey, which is not a part of Great Britain (G–) but its property, therefore having the registration 2– They island has its own airline, Aurigny, but all of their 10 aircraft use the G--Prefix.\nAnd then there are military aircraft. Since they are not affected by the Chicago Convention on International Civil Aviation, they are free to do whatever they want. In the US, they use the base code (as in code of the military base), year they were ordered and a serial number. In Germany consists of the aircraft type and a serial number. And this is where my error comes from:\nWe recently switched one of our source systems, and apparently the aircraft formerly entered as 10-27 now is 10+27. That’s weird, because the old source is more trustworthy (but incomplete), and you usually use dashes, not plus-signs.\nA quick Google-search turns up the wikipedia page and an official Luftwaffe page, both in favour of the plus. Okay, but this is Germany, there surely is an official Behörde that clearly regulates all this! — Yes, there is! It’s the Luftfahrzeugrolle and their website states that due to data protection reasons they cannot disclose anything. Marvellous! The information written in huge letters and visible for everyone is protected. Wait! It’s written on the plane! And there are a lot of people taking pictures of airplanes! Alas, the solution is:\nThey use the iron cross as a separator! I give up…\n",
-  "wordCount" : "400",
+  "articleBody": "Last week one of our programs failed looking up an airplane by its registration. That’s not a surprise, since ac regs are a horrible identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states\n When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, YR-BMA). When entered in a flight plan, the dash is omitted (for example, YRBMA). In some countries that use a number suffix rather than letters, like the United States (N), South Korea (HL), and Japan (JA), the prefix and suffix are connected without a dash.\n Okay, so the only thing in common is a prefix and a main part, separated by a dash, but that’s often dropped. Nice! Also the both parts might consist of letters and numbers. And they vary in length. And most of the time, the prefix designates the country of registration, although there are exceptions, for example Guernsey, which is not a part of Great Britain (G–) but its property, therefore having the registration 2– They island has its own airline, Aurigny, but all of their 10 aircraft use the G--Prefix.\n(https://en.wikipedia.org/wiki/Aurigny#/media/File:G-JOEY.jpg) And then there are military aircraft. Since they are not affected by the Chicago Convention on International Civil Aviation, they are free to do whatever they want. In the US, they use the base code (as in code of the military base), year they were ordered and a serial number. In Germany consists of the aircraft type and a serial number. And this is where my error comes from:\nWe recently switched one of our source systems, and apparently the aircraft formerly entered as 10-27 now is 10+27. That’s weird, because the old source is more trustworthy (but incomplete), and you usually use dashes, not plus-signs.\nA quick Google-search turns up the wikipedia page and an official Luftwaffe page, both in favour of the plus. Okay, but this is Germany, there surely is an official Behörde that clearly regulates all this! — Yes, there is! It’s the Luftfahrzeugrolle and their website states that due to data protection reasons they cannot disclose anything. Marvellous! The information written in huge letters and visible for everyone is protected. Wait! It’s written on the plane! And there are a lot of people taking pictures of airplanes! Alas, the solution is:\n(https://commons.wikimedia.org/wiki/File:Luftwaffe_A310_10%2B27.jpg) They use the iron cross as a separator! I give up…\n",
+  "wordCount" : "402",
   "inLanguage": "en",
   "datePublished": "2017-05-01T11:45:00+01:00",
   "dateModified": "2017-05-01T11:45:00+01:00",
@@ -188,13 +188,8 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
         </div>
         <ul id="menu" onscroll="menu_on_scroll()">
             <li>
-                <a href="https://www.jannikarndt.de/categories/" title="categories">
-                    <span>categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.jannikarndt.de/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
                 </a>
             </li>
             <li>
@@ -203,8 +198,8 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
                 </a>
             </li>
             <li>
-                <a href="https://example.org" title="example.org">
-                    <span>example.org</span>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
                 </a>
             </li></ul>
     </nav>
@@ -216,7 +211,7 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
   <header class="post-header">
 <div class="breadcrumbs">
 
-    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blogs</a>
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
 </div>
 
     <h1 class="post-title">
@@ -236,11 +231,13 @@ May 1, 2017&nbsp;·&nbsp;Jannik
 <p>When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, <code>YR-BMA</code>). When entered in a flight plan, the dash is omitted (for example, <code>YRBMA</code>). In some countries that use a number suffix rather than letters, like the United States (<code>N</code>), South Korea (<code>HL</code>), and Japan (<code>JA</code>), the prefix and suffix are connected without a dash.</p>
 </blockquote>
 <p>Okay, so the <em>only</em> thing in common is a prefix and a main part, separated by a dash, but  that&rsquo;s often dropped. Nice! Also the both parts might consist of letters and numbers. And they vary in length. And most of the time, the prefix designates the country of registration, although there are exceptions, for example <a href="https://en.wikipedia.org/wiki/Guernsey">Guernsey</a>, which is not a part of Great Britain (<code>G–</code>) but its property, therefore having the registration <code>2–</code> They island has its own airline, <a href="https://en.wikipedia.org/wiki/Aurigny">Aurigny</a>, but all of their 10 aircraft <a href="http://publicapps.caa.co.uk/modalapplication.aspx?catid=1&amp;pagetype=65&amp;appid=1&amp;mode=summary&amp;owner=Aurigny">use the <code>G-</code>-Prefix</a>.</p>
-<!-- raw HTML omitted -->
+<img src="/blog/2017/05/G-JOEY.jpg" alt=""> 
+(https://en.wikipedia.org/wiki/Aurigny#/media/File:G-JOEY.jpg)
 <p>And then there are military aircraft. Since they are not affected by the <a href="https://en.wikipedia.org/wiki/Chicago_Convention_on_International_Civil_Aviation"><em>Chicago Convention on International Civil Aviation</em></a>, they are free to do whatever they want. In the US, they use the base code (as in code of the military base), year they were ordered and a serial number. In Germany consists of the <a href="https://de.wikipedia.org/wiki/Flugbereitschaft_des_Bundesministeriums_der_Verteidigung#Gro.C3.9Fraumflugzeuge">aircraft type and a serial number</a>.  And this is where my error comes from:</p>
 <p>We recently switched one of our source systems, and apparently the aircraft formerly entered as <code>10-27</code> now is <code>10+27</code>. That&rsquo;s weird, because the old source is more trustworthy (but incomplete), and you usually use dashes, not plus-signs.</p>
 <p>A quick Google-search turns up the <a href="https://de.wikipedia.org/wiki/Flugbereitschaft_des_Bundesministeriums_der_Verteidigung#Gro.C3.9Fraumflugzeuge">wikipedia page</a> and an official <a href="http://www.luftwaffe.de/portal/a/luftwaffe/start/waff/tran/a310/mrt/!ut/p/z1/hU67DoIwFP0WB9beK77AreiCYmKCUehiKtSCqS2pFfx8MU4mGs92njnAIAOmeVtL7mqjuep5zqbHKEh2iR_6frIPlxgPN-tJGEYx4hQO_wKst_EHKEJaCsj7jdmPDbpYjSEFBuzCW_4gjbFOCUd48XoIecV1qcTWFPQtrIBJZU7v61SfRoEEZsVZWGHJ3fZy5Vxzm3voYdd1RBojlSCl8PBbozI3B9lHEJpr1uFootqEDp4qf9s7/dz/d5/L2dBISEvZ0FBIS9nQSEh/#Z7_B8LTL2922LV9D0I1MK599BACJ4">Luftwaffe page</a>, both in favour of the plus. Okay, but this is Germany, there surely is an official Behörde that clearly regulates all this! — Yes, there is! It&rsquo;s the <a href="https://de.wikipedia.org/wiki/Luftfahrzeugrolle">Luftfahrzeugrolle</a> and their website states that <a href="https://www.lba.de/DE/Technik/Verkehrszulassung/Hinweise/Auskuenfte.html">due to data protection reasons they cannot disclose anything</a>. Marvellous! The information written in huge letters and visible for everyone is protected. Wait! It&rsquo;s written on the plane! And there are <em>a lot</em> of people taking pictures of airplanes! Alas, the solution is:</p>
-<!-- raw HTML omitted -->
+<img src="/blog/2017/05/Luftwaffe_A310_10+27.jpg" alt=""> 
+(https://commons.wikimedia.org/wiki/File:Luftwaffe_A310_10%2B27.jpg)
 <p>They use the iron cross as a separator! I give up…</p>
 </div>
   <footer class="post-footer">

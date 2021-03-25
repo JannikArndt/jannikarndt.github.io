@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Jannik Arndt</title>
+    <title>Blog on Jannik Arndt</title>
     <link>https://www.jannikarndt.de/blog/</link>
-    <description>Recent content in Blogs on Jannik Arndt</description>
+    <description>Recent content in Blog on Jannik Arndt</description>
     <image>
       <url>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
       <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
@@ -74,7 +74,7 @@
       
       <guid>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</guid>
       <description>&lt;p&gt;While the &lt;a href=&#34;https://doc.akka.io/docs/&#34;&gt;Akka&lt;/a&gt; documentation is incredibly well written, it has surprisingly few images. Since &lt;em&gt;I&lt;/em&gt; visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -119,7 +119,7 @@
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</guid>
-      <description>&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -128,7 +128,7 @@
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/</guid>
-      <description>&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -137,7 +137,7 @@
       <pubDate>Sun, 08 Apr 2018 12:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/04/boberg/</guid>
-      <description>&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -146,7 +146,7 @@
       <pubDate>Sat, 07 Apr 2018 13:38:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
-      <description>&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -155,8 +155,8 @@
       <pubDate>Sat, 07 Apr 2018 12:35:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
-      <description>&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -265,7 +265,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
       <pubDate>Sat, 04 Nov 2017 16:50:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
-      <description>&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -335,7 +335,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Sat, 15 Jul 2017 17:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
-      <description>&lt;!-- raw HTML omitted --&gt;</description>
+      <description>&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;</description>
     </item>
     
     <item>
@@ -344,7 +344,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
-      <description>&lt;!-- raw HTML omitted --&gt;</description>
+      <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;</description>
     </item>
     
     <item>
@@ -387,7 +387,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       
       <guid>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
       <description>&lt;p&gt;My favourite animal: The Beluga!&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;</description>
+&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;</description>
     </item>
     
     <item>
@@ -454,7 +454,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
       <pubDate>Tue, 22 Nov 2016 23:25:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</guid>
-      <description>&lt;!-- raw HTML omitted --&gt;
+      <description>&lt;img src=&#34;https://www.jannikarndt.de/blog/2016/11/bugfixing_in_production.png&#34; alt=&#34;&#34;&gt; 
 &lt;p&gt;(via &lt;a href=&#34;https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;amp;theater&#34;&gt;I Love Programming&lt;/a&gt;)&lt;/p&gt;
 &lt;p&gt;Thank goodness, we don&amp;rsquo;t do &lt;em&gt;production&lt;/em&gt;.&lt;/p&gt;</description>
     </item>

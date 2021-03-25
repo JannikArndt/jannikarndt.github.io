@@ -12,7 +12,7 @@
 ">
 <meta name="author" content="Jannik">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/" />
-<link href="/assets/css/stylesheet.min.249fe305580fd6ff7ffc956eb39b07a062912bb234d6872ebb0a82cfbab937f4.css" integrity="sha256-JJ/jBVgP1v9//JVus5sHoGKRK7I01ocuuwqCz7q5N/Q=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.9cdf3e594f7d85ec1b0ac6b856143f11b1dc5546dcb91550e1d88bc3c5c00ea3.css" integrity="sha256-nN8&#43;WU99hewbCsa4VhQ/EbHcVUbcuRVQ4diLw8XADqM=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -49,7 +49,7 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "Blogs",
+      "name": "Blog",
       "item": "https://www.jannikarndt.de/blog/"
     }, 
     {
@@ -67,11 +67,11 @@
   "@type": "BlogPosting",
   "headline": "How Event Sourcing in Akka Persistent Actors Works",
   "name": "How Event Sourcing in Akka Persistent Actors Works",
-  "description": "While the Akka documentation is incredibly well written, it has surprisingly few images. Since I visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:\n",
+  "description": "While the Akka documentation is incredibly well written, it has surprisingly few images. Since I visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:\n\n",
   "keywords": [
     "Programming", "Scala", "akka", "event sourcing", "persistent actor", "akka persistence"
   ],
-  "articleBody": "While the Akka documentation is incredibly well written, it has surprisingly few images. Since I visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:\nThe text I took this from is\n A persistent actor receives a (non-persistent) command which is first validated if it can be applied to the current state. Here validation can mean anything, from simple inspection of a command message’s fields up to a conversation with several external services, for example. If validation succeeds, events are generated from the command, representing the effect of the command. These events are then persisted and, after successful persistence, used to change the actor’s state. When the persistent actor needs to be recovered, only the persisted events are replayed of which we know that they can be successfully applied. In other words, events cannot fail when being replayed to a persistent actor, in contrast to commands. Event sourced actors may also process commands that do not change application state such as query commands for example.\n https://doc.akka.io/docs/akka/2.5/persistence.html#event-sourcing, emphasis mine\n",
+  "articleBody": "While the Akka documentation is incredibly well written, it has surprisingly few images. Since I visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:\n\nThe text I took this from is\n A persistent actor receives a (non-persistent) command which is first validated if it can be applied to the current state. Here validation can mean anything, from simple inspection of a command message’s fields up to a conversation with several external services, for example. If validation succeeds, events are generated from the command, representing the effect of the command. These events are then persisted and, after successful persistence, used to change the actor’s state. When the persistent actor needs to be recovered, only the persisted events are replayed of which we know that they can be successfully applied. In other words, events cannot fail when being replayed to a persistent actor, in contrast to commands. Event sourced actors may also process commands that do not change application state such as query commands for example.\n https://doc.akka.io/docs/akka/2.5/persistence.html#event-sourcing, emphasis mine\n",
   "wordCount" : "175",
   "inLanguage": "en",
   "datePublished": "2018-08-31T17:00:00+01:00",
@@ -182,13 +182,8 @@
         </div>
         <ul id="menu" onscroll="menu_on_scroll()">
             <li>
-                <a href="https://www.jannikarndt.de/categories/" title="categories">
-                    <span>categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.jannikarndt.de/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
                 </a>
             </li>
             <li>
@@ -197,8 +192,8 @@
                 </a>
             </li>
             <li>
-                <a href="https://example.org" title="example.org">
-                    <span>example.org</span>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
                 </a>
             </li></ul>
     </nav>
@@ -210,7 +205,7 @@
   <header class="post-header">
 <div class="breadcrumbs">
 
-    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blogs</a>
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
 </div>
 
     <h1 class="post-title">
@@ -226,7 +221,7 @@ August 31, 2018&nbsp;·&nbsp;Jannik
 
   <div class="post-content">
 <p>While the <a href="https://doc.akka.io/docs/">Akka</a> documentation is incredibly well written, it has surprisingly few images. Since <em>I</em> visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><a href="/blog/2018/08/AkkaPersistence.svg"><img src="/blog/2018/08/AkkaPersistence.svg" alt="" onerror="this.onerror=null; this.src='/blog/2018/08/AkkaPersistence.png'"></a></p>
 <p>The text I took this from is</p>
 <blockquote>
 <p>A persistent actor receives a (non-persistent) <strong>command</strong> which is first <strong>validated</strong> if it can be applied to the current state. Here validation can mean anything, from simple inspection of a command message’s fields up to a conversation with several external services, for example. If validation succeeds, <strong>events are generated from the command</strong>, representing the effect of the command. These <strong>events are then persisted</strong> and, after successful persistence, used to <strong>change the actor’s state</strong>. When the persistent actor needs to be <strong>recovered, only the persisted events are replayed</strong> of which we know that they can be successfully applied. In other words, events cannot fail when being replayed to a persistent actor, in contrast to commands. Event sourced actors may also process commands that do not change application state such as query commands for example.</p>
