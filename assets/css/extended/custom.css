@@ -16,6 +16,14 @@ body {
     color: rgba(0, 0, 0, 0.2);
 }
 
+.post-content pre code {
+    color: var(--content);
+}
+
+.chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .o, .chroma .ow {
+    color: var(--content) !important;
+}
+
 :root {
     --gap: 24px;
     --content-gap: 20px;
