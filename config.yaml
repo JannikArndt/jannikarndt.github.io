@@ -16,14 +16,13 @@ outputs:
     home:
         - HTML
         - RSS
-        - JSON # is necessary
+        - JSON
 
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     title: "Jannik Arndt"
     description: "Product-, Data- and Software Engineer from Hamburg, Germany"
-    author: "Jannik"
-    # author: ["Me", "You"] # multiple authors
+    author: "Jannik" # author: ["Me", "You"] # multiple authors
     images: ["<link or path of image for opengraph, twitter-cards>"]
     defaultContentLanguage: en
 
@@ -41,7 +40,7 @@ params:
     tocopen: false
 
     assets:
-        # disableHLJS: true # to disable highlight.js
+        disableHLJS: true # to disable highlight.js
         # disableFingerprinting: true
         favicon: "favicon.ico"
         favicon16x16: "favicons/favicon-16x16.png"
