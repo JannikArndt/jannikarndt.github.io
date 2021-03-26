@@ -1,31 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Jannik Arndt</title>
     <link>https://www.jannikarndt.de/tags/</link>
     <description>Recent content in Tags on Jannik Arndt</description>
+    <image>
+      <url>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 22 Aug 2018 09:00:00 +0100</lastBuildDate>
-    
-	<atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 25 Mar 2021 09:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Postgresql</title>
-      <link>https://www.jannikarndt.de/tags/postgresql/</link>
-      <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
+      <title>Scala</title>
+      <link>https://www.jannikarndt.de/tags/scala/</link>
+      <pubDate>Thu, 25 Mar 2021 09:00:00 +0100</pubDate>
       
-      <guid>https://www.jannikarndt.de/tags/postgresql/</guid>
+      <guid>https://www.jannikarndt.de/tags/scala/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Scala</title>
-      <link>https://www.jannikarndt.de/tags/scala/</link>
-      <pubDate>Tue, 04 Dec 2018 21:00:00 +0100</pubDate>
+      <title>PostgreSQL</title>
+      <link>https://www.jannikarndt.de/tags/postgresql/</link>
+      <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
       
-      <guid>https://www.jannikarndt.de/tags/scala/</guid>
+      <guid>https://www.jannikarndt.de/tags/postgresql/</guid>
       <description></description>
     </item>
     

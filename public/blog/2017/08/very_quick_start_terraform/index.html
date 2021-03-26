@@ -1,1529 +1,544 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <title>VERY Quick Start: Terraform</title>
-        <meta name="description" content="
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>VERY Quick Start: Terraform | Jannik Arndt</title>
+
+<meta name="keywords" content="Cloud, Infrastructure as Code" />
+<meta name="description" content="
 This post contains the absolut essence from the Terraform Getting Started Guide:
 https://www.terraform.io/intro/getting-started/install.html
 ">
-        <meta name="keywords" content="Cloud, Infrastructure as Code">
-        <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
 
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png?v=Jykddr29Nk">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png?v=Jykddr29Nk">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png?v=Jykddr29Nk">
-<link rel="manifest" href="https://www.jannikarndt.de/favicons/site.webmanifest?v=Jykddr29Nk">
-<link rel="shortcut icon" href="https://www.jannikarndt.de/favicons/favicon.ico?v=Jykddr29Nk">
-<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
 
-<!-- Bootstrap Core CSS -->
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/font-awesome/css/font-awesome.min.css" type="text/css">
 
-<!-- Custom CSS -->
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/main.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/navbar.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/blogentry.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/vs.min.css">
-    </head>
-    <body id="page-top">
-        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            
-            <a class="navbar-brand page-scroll" href="https://www.jannikarndt.de">jannikarndt.de</a>
-            
+<meta property="og:title" content="VERY Quick Start: Terraform" />
+<meta property="og:description" content="
+This post contains the absolut essence from the Terraform Getting Started Guide:
+https://www.terraform.io/intro/getting-started/install.html
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2017-08-06T17:20:00&#43;01:00" />
+<meta property="article:modified_time" content="2017-08-06T17:20:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="VERY Quick Start: Terraform"/>
+<meta name="twitter:description" content="
+This post contains the absolut essence from the Terraform Getting Started Guide:
+https://www.terraform.io/intro/getting-started/install.html
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "VERY Quick Start: Terraform",
+      "item": "https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VERY Quick Start: Terraform",
+  "name": "VERY Quick Start: Terraform",
+  "description": " This post contains the absolut essence from the Terraform Getting Started Guide: https://www.terraform.io/intro/getting-started/install.html\n",
+  "keywords": [
+    "Cloud", "Infrastructure as Code"
+  ],
+  "articleBody": " This post contains the absolut essence from the Terraform Getting Started Guide: https://www.terraform.io/intro/getting-started/install.html\n Preparation brew install terraform Create aws.tf:\nprovider \"aws\" { region = \"us-east-1\" } resource \"aws_instance\" \"example\" { ami = \"ami-2757f631\" // https://cloud-images.ubuntu.com/locator/ec2/ instance_type = \"t2.micro\" } AMI = Amazon Machine Images\nAWS credentials are stored in environment vars:\nexport AWS_ACCESS_KEY_ID=... export AWS_SECRET_ACCESS_KEY=... Init $ terraform init ... Terraform has been successfully initialized! ... $ terraform plan -out planfile + aws_instance.example ami: \"ami-2757f631\" associate_public_ip_address: \"\" ... $ terraform apply planfile aws_instance.example: Creating... ... aws_instance.example: Still creating... (10s elapsed) aws_instance.example: Still creating... (20s elapsed) aws_instance.example: Still creating... (30s elapsed) aws_instance.example: Still creating... (40s elapsed) aws_instance.example: Creation complete (ID: i-00b2e1a29daee4371) $ terraform show aws_instance.example: id = i-00b2e1a29daee4371 ami = ami-2757f631 associate_public_ip_address = true Change ami-2757f631 (Ubuntu 16.04 LTS AMI) = ami-b374d5a5 (Ubuntu 16.10 AMI)\nIn aws.tf:\nprovider \"aws\" { region = \"us-east-1\" } resource \"aws_instance\" \"example\" { ami = \"ami-b374d5a5\" instance_type = \"t2.micro\" } $ terraform plan Refreshing Terraform state in-memory prior to plan... aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371) ... -/+ aws_instance.example (new resource required) ami: \"ami-2757f631\" = \"ami-b374d5a5\" (forces new resource) associate_public_ip_address: \"true\" = \"\" ... $ terraform apply aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371) aws_instance.example: Destroying... (ID: i-00b2e1a29daee4371) ... aws_instance.example: Destruction complete aws_instance.example: Creating... ami: \"\" = \"ami-b374d5a5\" associate_public_ip_address: \"\" = \"\" ... aws_instance.example: Creation complete (ID: i-05a8f2e88ae0faace) Destroy $ terraform plan -destroy Refreshing Terraform state in-memory prior to plan... ... - aws_instance.example ... $ terraform destroy aws_instance.example: Refreshing state... (ID: i-05a8f2e88ae0faace) ... - aws_instance.example Terraform will delete all your managed infrastructure, as shown above. There is no undo. Only 'yes' will be accepted to confirm. Enter a value: yes aws_instance.example: Destroying... (ID: i-05a8f2e88ae0faace) aws_instance.example: Destruction complete Destroy complete! Resources: 1 destroyed. Assigning an IP to the instance In aws.tf:\nprovider \"aws\" { region = \"us-east-1\" } resource \"aws_instance\" \"example\" { ami = \"ami-b374d5a5\" instance_type = \"t2.micro\" } resource \"aws_eip\" \"ip\" { instance = \"${aws_instance.example.id}\" } $ terraform apply planfile aws_instance.example: Creating... ... aws_instance.example: Creation complete (ID: i-0478b3c5b6a085287) aws_eip.ip: Creating... ... aws_eip.ip: Creation complete (ID: eipalloc-6be79a58) Apply complete! Resources: 2 added, 0 changed, 0 destroyed. $ terraform refresh aws_instance.example: Refreshing state... (ID: i-0478b3c5b6a085287) aws_eip.ip: Refreshing state... (ID: eipalloc-6be79a58) $ terraform show aws_eip.ip: id = eipalloc-6be79a58 association_id = eipassoc-590d9e6c domain = vpc instance = i-0478b3c5b6a085287 network_interface = eni-73845aa6 private_ip = 172.31.17.98 public_ip = 52.204.255.194 vpc = true aws_instance.example: id = i-0478b3c5b6a085287 ami = ami-b374d5a5 associate_public_ip_address = true Dependencies The order in which resources are created is determined by terraforms analysis of (implicit) dependencies. Dependencies can also be defined explicitly, for example:\nresource \"aws_eip\" \"ip\" { instance = \"${aws_instance.example.id}\" depends_on = [\"aws_instance.example\"] #  explicit dependency } To view a dependency graph:\n$ terraform graph  graph.dot And open with graphviz: aws_eip.ip   aws_instance.example    provider.aws    [root] meta.count-boundary (count boundary fixup)    [root] provider.aws (close)    [root] root      \nProvisioning/Bootstrapping  https://www.terraform.io/docs/provisioners/index.html\n Change aws.tf:\nresource \"aws_instance\" \"example\" { ami = \"ami-b374d5a5\" instance_type = \"t2.micro\" # add provisioner provisioner \"local-exec\" { command = \"echo ${aws_instance.example.public_ip}  ip_address.txt\" } } # add output output \"ip\" { value = \"${aws_eip.ip.public_ip}\" } Provisioners are only run, when a resource is first created!\n$ terraform destroy ... $ terraform apply ... Outputs: ip = 50.17.232.209 ",
+  "wordCount" : "523",
+  "inLanguage": "en",
+  "datePublished": "2017-08-06T17:20:00+01:00",
+  "dateModified": "2017-08-06T17:20:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="#page-top">TOP</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#blog">Blog</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-        <!-- BLOG ENTRY -->
-<div class="blogentry">
-    <section class="bg-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2017-08-06T17:20:00CET ">
-                        August 6, 2017
-                    </time>
-                    <h1>VERY Quick Start: Terraform</h1>
-                    <p>by Jannik Arndt</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
 
-    <article class="bg-light" id="blogentry">
-        
-        <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">VERY Quick Start: Terraform</a></div>
-            <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#preparation">Preparation</a></li>
-<li><a href="#init">Init</a></li>
-<li><a href="#change">Change</a></li>
-<li><a href="#destroy">Destroy</a></li>
-<li><a href="#assigning-an-ip-to-the-instance">Assigning an IP to the instance</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#provisioning-bootstrapping">Provisioning/Bootstrapping</a></li>
-</ul></li>
-</ul>
-</nav></div>
-        </aside>
-        
+    <main class="main">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <blockquote>
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      VERY Quick Start: Terraform
+    </h1>
+    <div class="post-meta">
+
+August 6, 2017&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<blockquote>
 <p>This post contains the absolut essence from the Terraform Getting Started Guide:
 <a href="https://www.terraform.io/intro/getting-started/install.html">https://www.terraform.io/intro/getting-started/install.html</a></p>
 </blockquote>
+<h2 id="preparation">Preparation<a hidden class="anchor" aria-hidden="true" href="#preparation">#</a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">brew install terraform
+</code></pre></div><p>Create <code>aws.tf</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+  <span class="err">region</span>     <span class="err">=</span> <span class="nt">&#34;us-east-1&#34;</span> 
+<span class="p">}</span>
 
-<h2 id="preparation">Preparation</h2>
-
-<pre><code class="language-shell">brew install terraform
-</code></pre>
-
-<p>Create <code>aws.tf</code>:</p>
-
-<pre><code class="language-json">provider &quot;aws&quot; {
-  region     = &quot;us-east-1&quot; 
-}
-
-resource &quot;aws_instance&quot; &quot;example&quot; {
-  ami           = &quot;ami-2757f631&quot; // https://cloud-images.ubuntu.com/locator/ec2/
-  instance_type = &quot;t2.micro&quot;
-}
-</code></pre>
-
-<p>AMI = <a href="https://cloud-images.ubuntu.com/locator/ec2/">Amazon Machine Images</a></p>
-
+<span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+  <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-2757f631&#34;</span> <span class="err">//</span> <span class="err">https</span><span class="p">:</span><span class="err">//cloud-images.ubuntu.com/locator/ec</span><span class="mi">2</span><span class="err">/</span>
+  <span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
+<span class="p">}</span>
+</code></pre></div><p>AMI = <a href="https://cloud-images.ubuntu.com/locator/ec2/">Amazon Machine Images</a></p>
 <p>AWS credentials are stored in environment vars:</p>
-
-<pre><code class="language-shell">export AWS_ACCESS_KEY_ID=...
-export AWS_SECRET_ACCESS_KEY=...
-</code></pre>
-
-<h2 id="init">Init</h2>
-
-<pre><code class="language-shell">$ terraform init
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>...
+<span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>...
+</code></pre></div><h2 id="init">Init<a hidden class="anchor" aria-hidden="true" href="#init">#</a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform init
 ...
 Terraform has been successfully initialized!
 ...
-</code></pre>
-
-<pre><code class="language-shell">$ terraform plan -out planfile
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan -out planfile
   + aws_instance.example
-      ami:                          &quot;ami-2757f631&quot;
-      associate_public_ip_address:  &quot;&lt;computed&gt;&quot;
+      ami:                          <span class="s2">&#34;ami-2757f631&#34;</span>
+      associate_public_ip_address:  <span class="s2">&#34;&lt;computed&gt;&#34;</span>
 ...
-</code></pre>
-
-<pre><code class="language-shell">$ terraform apply planfile
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply planfile
 aws_instance.example: Creating...
 ...
-aws_instance.example: Still creating... (10s elapsed)
-aws_instance.example: Still creating... (20s elapsed)
-aws_instance.example: Still creating... (30s elapsed)
-aws_instance.example: Still creating... (40s elapsed)
-aws_instance.example: Creation complete (ID: i-00b2e1a29daee4371)
-</code></pre>
-
-<pre><code class="language-shell">$ terraform show
+aws_instance.example: Still creating... <span class="o">(</span>10s elapsed<span class="o">)</span>
+aws_instance.example: Still creating... <span class="o">(</span>20s elapsed<span class="o">)</span>
+aws_instance.example: Still creating... <span class="o">(</span>30s elapsed<span class="o">)</span>
+aws_instance.example: Still creating... <span class="o">(</span>40s elapsed<span class="o">)</span>
+aws_instance.example: Creation <span class="nb">complete</span> <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform show
 aws_instance.example:
-  id = i-00b2e1a29daee4371
-  ami = ami-2757f631
-  associate_public_ip_address = true
-</code></pre>
-
-<h2 id="change">Change</h2>
-
+  <span class="nv">id</span> <span class="o">=</span> i-00b2e1a29daee4371
+  <span class="nv">ami</span> <span class="o">=</span> ami-2757f631
+  <span class="nv">associate_public_ip_address</span> <span class="o">=</span> <span class="nb">true</span>
+</code></pre></div><h2 id="change">Change<a hidden class="anchor" aria-hidden="true" href="#change">#</a></h2>
 <p><code>ami-2757f631</code> (Ubuntu 16.04 LTS AMI) =&gt; <code>ami-b374d5a5</code> (Ubuntu 16.10 AMI)</p>
-
 <p>In <code>aws.tf</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+  <span class="err">region</span>     <span class="err">=</span> <span class="nt">&#34;us-east-1&#34;</span>
+<span class="p">}</span>
 
-<pre><code class="language-json">provider &quot;aws&quot; {
-  region     = &quot;us-east-1&quot;
-}
-
-resource &quot;aws_instance&quot; &quot;example&quot; {
-  ami           = &quot;ami-b374d5a5&quot;
-  instance_type = &quot;t2.micro&quot;
-}
-</code></pre>
-
-<pre><code class="language-shell">$ terraform plan
+<span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+  <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-b374d5a5&#34;</span>
+  <span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan
 Refreshing Terraform state in-memory prior to plan...
-aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371)
+aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
 ...
--/+ aws_instance.example (new resource required)
-      ami:                          &quot;ami-2757f631&quot; =&gt; &quot;ami-b374d5a5&quot; (forces new resource)
-      associate_public_ip_address:  &quot;true&quot; =&gt; &quot;&lt;computed&gt;&quot;
+-/+ aws_instance.example <span class="o">(</span>new resource required<span class="o">)</span>
+      ami:                          <span class="s2">&#34;ami-2757f631&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;ami-b374d5a5&#34;</span> <span class="o">(</span>forces new resource<span class="o">)</span>
+      associate_public_ip_address:  <span class="s2">&#34;true&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;&lt;computed&gt;&#34;</span>
 ...
-</code></pre>
-
-<pre><code class="language-shell">$ terraform apply
-aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371)
-aws_instance.example: Destroying... (ID: i-00b2e1a29daee4371)
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply
+aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
+aws_instance.example: Destroying... <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
 ...
-aws_instance.example: Destruction complete
+aws_instance.example: Destruction <span class="nb">complete</span>
 aws_instance.example: Creating...
-  ami:                          &quot;&quot; =&gt; &quot;ami-b374d5a5&quot;
-  associate_public_ip_address:  &quot;&quot; =&gt; &quot;&lt;computed&gt;&quot;
+  ami:                          <span class="s2">&#34;&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;ami-b374d5a5&#34;</span>
+  associate_public_ip_address:  <span class="s2">&#34;&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;&lt;computed&gt;&#34;</span>
 ...
-aws_instance.example: Creation complete (ID: i-05a8f2e88ae0faace)
-</code></pre>
-
-<h2 id="destroy">Destroy</h2>
-
-<pre><code class="language-shell">$ terraform plan -destroy
+aws_instance.example: Creation <span class="nb">complete</span> <span class="o">(</span>ID: i-05a8f2e88ae0faace<span class="o">)</span>
+</code></pre></div><h2 id="destroy">Destroy<a hidden class="anchor" aria-hidden="true" href="#destroy">#</a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan -destroy
 Refreshing Terraform state in-memory prior to plan...
 ...
   - aws_instance.example
 ...
-</code></pre>
-
-<pre><code class="language-shell">$ terraform destroy
-aws_instance.example: Refreshing state... (ID: i-05a8f2e88ae0faace)
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform destroy
+aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-05a8f2e88ae0faace<span class="o">)</span>
 ...
 
   - aws_instance.example
 
 Terraform will delete all your managed infrastructure, as shown above. 
-There is no undo. Only 'yes' will be accepted to confirm.
+There is no undo. Only <span class="s1">&#39;yes&#39;</span> will be accepted to confirm.
 
   Enter a value: yes
 
-aws_instance.example: Destroying... (ID: i-05a8f2e88ae0faace)
-aws_instance.example: Destruction complete
+aws_instance.example: Destroying... <span class="o">(</span>ID: i-05a8f2e88ae0faace<span class="o">)</span>
+aws_instance.example: Destruction <span class="nb">complete</span>
 
-Destroy complete! Resources: 1 destroyed.
+Destroy complete! Resources: <span class="m">1</span> destroyed.
 
-</code></pre>
-
-<h2 id="assigning-an-ip-to-the-instance">Assigning an IP to the instance</h2>
-
+</code></pre></div><h2 id="assigning-an-ip-to-the-instance">Assigning an IP to the instance<a hidden class="anchor" aria-hidden="true" href="#assigning-an-ip-to-the-instance">#</a></h2>
 <p>In <code>aws.tf</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+  <span class="err">region</span>     <span class="err">=</span> <span class="nt">&#34;us-east-1&#34;</span>
+<span class="p">}</span>
 
-<pre><code class="language-json">provider &quot;aws&quot; {
-  region     = &quot;us-east-1&quot;
-}
+<span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+  <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-b374d5a5&#34;</span>
+  <span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
+<span class="p">}</span>
 
-resource &quot;aws_instance&quot; &quot;example&quot; {
-  ami           = &quot;ami-b374d5a5&quot;
-  instance_type = &quot;t2.micro&quot;
-}
-
-resource &quot;aws_eip&quot; &quot;ip&quot; {
-  instance = &quot;${aws_instance.example.id}&quot;
-}
-</code></pre>
-
-<pre><code class="language-shell">$ terraform apply planfile 
+<span class="err">resource</span> <span class="s2">&#34;aws_eip&#34;</span> <span class="s2">&#34;ip&#34;</span> <span class="p">{</span>
+  <span class="err">instance</span> <span class="err">=</span> <span class="nt">&#34;${aws_instance.example.id}&#34;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply planfile 
 aws_instance.example: Creating...
 ...
-aws_instance.example: Creation complete (ID: i-0478b3c5b6a085287)
+aws_instance.example: Creation <span class="nb">complete</span> <span class="o">(</span>ID: i-0478b3c5b6a085287<span class="o">)</span>
 aws_eip.ip: Creating...
 ...
-aws_eip.ip: Creation complete (ID: eipalloc-6be79a58)
+aws_eip.ip: Creation <span class="nb">complete</span> <span class="o">(</span>ID: eipalloc-6be79a58<span class="o">)</span>
 
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
-</code></pre>
-
-<pre><code class="language-shell">$ terraform refresh
-aws_instance.example: Refreshing state... (ID: i-0478b3c5b6a085287)
-aws_eip.ip: Refreshing state... (ID: eipalloc-6be79a58)
-</code></pre>
-
-<pre><code class="language-shell">$ terraform show
+Apply complete! Resources: <span class="m">2</span> added, <span class="m">0</span> changed, <span class="m">0</span> destroyed.
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform refresh
+aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-0478b3c5b6a085287<span class="o">)</span>
+aws_eip.ip: Refreshing state... <span class="o">(</span>ID: eipalloc-6be79a58<span class="o">)</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform show
 aws_eip.ip:
-  id = eipalloc-6be79a58
-  association_id = eipassoc-590d9e6c
-  domain = vpc
-  instance = i-0478b3c5b6a085287
-  network_interface = eni-73845aa6
-  private_ip = 172.31.17.98
-  public_ip = 52.204.255.194
-  vpc = true
+  <span class="nv">id</span> <span class="o">=</span> eipalloc-6be79a58
+  <span class="nv">association_id</span> <span class="o">=</span> eipassoc-590d9e6c
+  <span class="nv">domain</span> <span class="o">=</span> vpc
+  <span class="nv">instance</span> <span class="o">=</span> i-0478b3c5b6a085287
+  <span class="nv">network_interface</span> <span class="o">=</span> eni-73845aa6
+  <span class="nv">private_ip</span> <span class="o">=</span> 172.31.17.98
+  <span class="nv">public_ip</span> <span class="o">=</span> 52.204.255.194
+  <span class="nv">vpc</span> <span class="o">=</span> <span class="nb">true</span>
 aws_instance.example:
-  id = i-0478b3c5b6a085287
-  ami = ami-b374d5a5
-  associate_public_ip_address = true
-</code></pre>
-
-<h2 id="dependencies">Dependencies</h2>
-
+  <span class="nv">id</span> <span class="o">=</span> i-0478b3c5b6a085287
+  <span class="nv">ami</span> <span class="o">=</span> ami-b374d5a5
+  <span class="nv">associate_public_ip_address</span> <span class="o">=</span> <span class="nb">true</span>
+</code></pre></div><h2 id="dependencies">Dependencies<a hidden class="anchor" aria-hidden="true" href="#dependencies">#</a></h2>
 <p>The order in which resources are created is determined by terraforms analysis of (implicit) dependencies. Dependencies can also be defined explicitly, for example:</p>
-
-<pre><code class="language-json">resource &quot;aws_eip&quot; &quot;ip&quot; {
-  instance   = &quot;${aws_instance.example.id}&quot;
-  depends_on = [&quot;aws_instance.example&quot;] # &lt;- explicit dependency
-}
-</code></pre>
-
-<p>To view a dependency graph:</p>
-
-<pre><code class="language-shell">$ terraform graph &gt; graph.dot
-</code></pre>
-
-<p>And open with graphviz:
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">resource</span> <span class="s2">&#34;aws_eip&#34;</span> <span class="s2">&#34;ip&#34;</span> <span class="p">{</span>
+  <span class="err">instance</span>   <span class="err">=</span> <span class="nt">&#34;${aws_instance.example.id}&#34;</span>
+  <span class="err">depends_on</span> <span class="err">=</span> <span class="p">[</span><span class="s2">&#34;aws_instance.example&#34;</span><span class="p">]</span> <span class="err">#</span> <span class="err">&lt;-</span> <span class="err">explicit</span> <span class="err">dependency</span>
+<span class="p">}</span>
+</code></pre></div><p>To view a dependency graph:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform graph &gt; graph.dot
+</code></pre></div><p>And open with graphviz:
 <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 617.8 332">
-  <g class="graph" transform="translate(4 328)">
-    <path fill="#fff" stroke="transparent" d="M-4 4v-332h617.8V4H-4z"/>
-    <g class="node">
-      <path fill="none" stroke="#000" d="M387-180h-76.7v36H387v-36z"/>
-      <text x="348.6" y="-157.8" text-anchor="middle" font-family="Times,serif" font-size="14">
-        aws_eip.ip
-      </text>
-    </g>
-    <g class="node">
-      <path fill="none" stroke="#000" d="M419.2-108H278v36h141.2v-36z"/>
-      <text x="348.6" y="-85.8" text-anchor="middle" font-family="Times,serif" font-size="14">
-        aws_instance.example
-      </text>
-    </g>
-    <g stroke="#000" class="edge">
-      <path fill="none" d="M348.6-143.8v25.4"/>
-      <path d="M352-118.4l-3.4 10-3.5-10h7z"/>
-    </g>
-    <g class="node">
-      <path fill="none" stroke="#000" d="M348.6-36L270-18l78.6 18 78.6-18-78.6-18z"/>
-      <text x="348.6" y="-13.8" text-anchor="middle" font-family="Times,serif" font-size="14">
-        provider.aws
-      </text>
-    </g>
-    <g stroke="#000" class="edge">
-      <path fill="none" d="M348.6-71.8v25.4"/>
-      <path d="M352-46.4l-3.4 10-3.5-10h7z"/>
-    </g>
-    <g class="node">
-      <ellipse cx="191.6" cy="-234" fill="none" stroke="#000" rx="191.7" ry="18"/>
-      <text x="191.6" y="-229.8" text-anchor="middle" font-family="Times,serif" font-size="14">
-        [root] meta.count-boundary (count boundary fixup)
-      </text>
-    </g>
-    <g stroke="#000" class="edge">
-      <path fill="none" d="M230.4-216.2l70.7 32.4"/>
-      <path d="M302.6-187l7.6 7.4-10.5-1 3-6.3z"/>
-    </g>
-    <g class="node">
-      <ellipse cx="505.6" cy="-234" fill="none" stroke="#000" rx="104.3" ry="18"/>
-      <text x="505.6" y="-229.8" text-anchor="middle" font-family="Times,serif" font-size="14">
-        [root] provider.aws (close)
-      </text>
-    </g>
-    <g stroke="#000" class="edge">
-      <path fill="none" d="M468.8-217c-21.7 9.8-49.3 22.5-72.6 33.2"/>
-      <path d="M397.4-180.5l-10.6 1 7.6-7.4 3 6.7z"/>
-    </g>
-    <g class="node">
-      <ellipse cx="348.6" cy="-306" fill="none" stroke="#000" rx="46.9" ry="18"/>
-      <text x="348.6" y="-301.8" text-anchor="middle" font-family="Times,serif" font-size="14">
-        [root] root
-      </text>
-    </g>
-    <g stroke="#000" class="edge">
-      <path fill="none" d="M318.3-292c-22.4 10-53.3 24.3-79 36"/>
-      <path d="M240.7-252.7l-10.6 1 8-7.3 3 6.3z"/>
-    </g>
-    <g stroke="#000" class="edge">
-      <path fill="none" d="M379-292l80.5 37"/>
-      <path d="M461.2-258.2l7.6 7.3-10.6-1 3-6z"/>
-    </g>
-  </g>
+<g class="graph" transform="translate(4 328)">
+<path fill="#fff" stroke="transparent" d="M-4 4v-332h617.8V4H-4z"/>
+<g class="node">
+<path fill="none" stroke="#000" d="M387-180h-76.7v36H387v-36z"/>
+<text x="348.6" y="-157.8" text-anchor="middle" font-family="Times,serif" font-size="14">
+aws_eip.ip
+</text>
+</g>
+<g class="node">
+<path fill="none" stroke="#000" d="M419.2-108H278v36h141.2v-36z"/>
+<text x="348.6" y="-85.8" text-anchor="middle" font-family="Times,serif" font-size="14">
+aws_instance.example
+</text>
+</g>
+<g stroke="#000" class="edge">
+<path fill="none" d="M348.6-143.8v25.4"/>
+<path d="M352-118.4l-3.4 10-3.5-10h7z"/>
+</g>
+<g class="node">
+<path fill="none" stroke="#000" d="M348.6-36L270-18l78.6 18 78.6-18-78.6-18z"/>
+<text x="348.6" y="-13.8" text-anchor="middle" font-family="Times,serif" font-size="14">
+provider.aws
+</text>
+</g>
+<g stroke="#000" class="edge">
+<path fill="none" d="M348.6-71.8v25.4"/>
+<path d="M352-46.4l-3.4 10-3.5-10h7z"/>
+</g>
+<g class="node">
+<ellipse cx="191.6" cy="-234" fill="none" stroke="#000" rx="191.7" ry="18"/>
+<text x="191.6" y="-229.8" text-anchor="middle" font-family="Times,serif" font-size="14">
+[root] meta.count-boundary (count boundary fixup)
+</text>
+</g>
+<g stroke="#000" class="edge">
+<path fill="none" d="M230.4-216.2l70.7 32.4"/>
+<path d="M302.6-187l7.6 7.4-10.5-1 3-6.3z"/>
+</g>
+<g class="node">
+<ellipse cx="505.6" cy="-234" fill="none" stroke="#000" rx="104.3" ry="18"/>
+<text x="505.6" y="-229.8" text-anchor="middle" font-family="Times,serif" font-size="14">
+[root] provider.aws (close)
+</text>
+</g>
+<g stroke="#000" class="edge">
+<path fill="none" d="M468.8-217c-21.7 9.8-49.3 22.5-72.6 33.2"/>
+<path d="M397.4-180.5l-10.6 1 7.6-7.4 3 6.7z"/>
+</g>
+<g class="node">
+<ellipse cx="348.6" cy="-306" fill="none" stroke="#000" rx="46.9" ry="18"/>
+<text x="348.6" y="-301.8" text-anchor="middle" font-family="Times,serif" font-size="14">
+[root] root
+</text>
+</g>
+<g stroke="#000" class="edge">
+<path fill="none" d="M318.3-292c-22.4 10-53.3 24.3-79 36"/>
+<path d="M240.7-252.7l-10.6 1 8-7.3 3 6.3z"/>
+</g>
+<g stroke="#000" class="edge">
+<path fill="none" d="M379-292l80.5 37"/>
+<path d="M461.2-258.2l7.6 7.3-10.6-1 3-6z"/>
+</g>
+</g>
 </svg></p>
-
-<h2 id="provisioning-bootstrapping">Provisioning/Bootstrapping</h2>
-
+<h2 id="provisioningbootstrapping">Provisioning/Bootstrapping<a hidden class="anchor" aria-hidden="true" href="#provisioningbootstrapping">#</a></h2>
 <blockquote>
 <p><a href="https://www.terraform.io/docs/provisioners/index.html">https://www.terraform.io/docs/provisioners/index.html</a></p>
 </blockquote>
-
 <p>Change <code>aws.tf</code>:</p>
-
-<pre><code class="language-json">resource &quot;aws_instance&quot; &quot;example&quot; {
-  ami           = &quot;ami-b374d5a5&quot;
-  instance_type = &quot;t2.micro&quot;
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+  <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-b374d5a5&#34;</span>
+  <span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
   
-  # add provisioner
-  provisioner &quot;local-exec&quot; {
-      command = &quot;echo ${aws_instance.example.public_ip} &gt; ip_address.txt&quot;
-  }
-}
+  <span class="err">#</span> <span class="err">add</span> <span class="err">provisioner</span>
+  <span class="err">provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+      <span class="err">command</span> <span class="err">=</span> <span class="nt">&#34;echo ${aws_instance.example.public_ip} &gt; ip_address.txt&#34;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-# add output
-output &quot;ip&quot; {
-  value = &quot;${aws_eip.ip.public_ip}&quot;
-}
-</code></pre>
-
-<p>Provisioners are only run, when a resource is first created!</p>
-
-<pre><code class="language-shell">$ terraform destroy
+<span class="err">#</span> <span class="err">add</span> <span class="err">output</span>
+<span class="err">output</span> <span class="s2">&#34;ip&#34;</span> <span class="p">{</span>
+  <span class="err">value</span> <span class="err">=</span> <span class="nt">&#34;${aws_eip.ip.public_ip}&#34;</span>
+<span class="p">}</span>
+</code></pre></div><p>Provisioners are only run, when a resource is first created!</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform destroy
 ...
 $ terraform apply
 ...
 Outputs:
 
-  ip = 50.17.232.209
-</code></pre>
-                </div>
-            </div>
-        </div>
-    </article>
+  <span class="nv">ip</span> <span class="o">=</span> 50.17.232.209
+</code></pre></div>
 </div>
-        <!-- BLOG -->
-<section class="bg-dark" id="blog">
-    
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Blog</h2>
-                    <hr class="light">
-                </div>
-            </div>
-        </div>
-    
-    <div class="container">
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-12-04T21:00:00JST ">
-                Dec 4, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">Exception-Proof For-Comprehensions</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>I recently created a <em>wonderful</em> bug.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
 
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-28T13:00:00JST ">
-                Oct 28, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">oAuth2 with Akka HTTP</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
 
-<ul>
-<li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
-<li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
-<li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
-</ul>
 
-<p>From the server&rsquo;s point of view:</p>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
 
-<ul>
-<li><code>/</code> — publicly accessible, do nothing,</li>
-<li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
-<li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
-</ul>
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
 
-<p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-27T19:00:00JST ">
-                Oct 27, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">Akka HTTP on Heroku</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-07T18:00:00JST ">
-                Oct 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/">How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-31T17:00:00JST ">
-                Aug 31, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/">How Event Sourcing in Akka Persistent Actors Works</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-22T09:00:00JST ">
-                Aug 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/">Rotating PostgreSQL Passwords with no downtime</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-16T15:00:00JST ">
-                Aug 16, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/">Examining a PostgreSQL with psql or pgcli</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-05T16:00:00JST ">
-                Aug 5, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/">Using your Apple Watch Workout to Geotag DSLR Photos</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-07-22T07:00:00JST ">
-                Jul 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/">3 Ways How Passwords Get Leaked</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-05-25T23:00:00JST ">
-                May 25, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/">Kirschblütenfeuerwerk</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-05-25T23:00:00JST ">
-                May 25, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/">Russische Kirche, Fernsehturm, Landungsbrücken</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-08T12:00:00JST ">
-                Apr 8, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/boberg/">Boberg</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-07T13:38:00JST ">
-                Apr 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/alsterpanorama/">Alsterpanorama</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-07T12:35:00JST ">
-                Apr 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/">Hochwasserbassin</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-03-22T07:00:00JST ">
-                Mar 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/">How to add an SSH Key as a Kubernetes Secret</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-03-13T12:00:00JST ">
-                Mar 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/">Lazy Aliases in my Shell</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T20:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/">How to use a Raspberry Pi for your Time Machine backups</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T19:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/">How to install Tasmota on a Sonoff device without opening it</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T12:40:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">How to use a Raspberry Pi 3 with Apple Home</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T12:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-23T20:00:00JST ">
-                Nov 23, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">Terraform on Google Cloud Engine Quickstart</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-11T17:00:00JST ">
-                Nov 11, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/">Lessons learned in 2017</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-07T18:00:00JST ">
-                Nov 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/">What settings yield the sharpest landscape photo?</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-04T16:50:00JST ">
-                Nov 4, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/">Hamburg as seen from the Michel</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-09-10T21:07:00JST ">
-                Sep 10, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-08-19T10:05:00JST ">
-                Aug 19, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">Writing case classes to MongoDB in Scala</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-08-06T17:20:00JST ">
-                Aug 6, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">VERY Quick Start: Terraform</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-22T05:00:00JST ">
-                Jul 22, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/">Where bad code comes from</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-21T22:45:00JST ">
-                Jul 21, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">Storing sparse, key-value-like data in a relational database</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-15T17:00:00JST ">
-                Jul 15, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/">Tough Mudder Norddeutschland 2017</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-02T13:45:00JST ">
-                Jul 2, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/">A Minor Story Live at Methfesselfest</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-06-18T08:30:00JST ">
-                Jun 18, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/06/git_in_one_image/">Git in one Image</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-05-23T08:30:00JST ">
-                May 23, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/05/two_speed_it/">Two-speed IT</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-05-01T11:45:00JST ">
-                May 1, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/">The real world doesn&#39;t care about encoding</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-03-05T17:01:00JST ">
-                Mar 5, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/">Belugas at Finkenwerder</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-03-05T17:01:00JST ">
-                Mar 5, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/">Deploying Pentaho jobs into Production</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-07T11:20:00JST ">
-                Jan 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">Extracting Dimensions from an Oracle Database Table</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-07T11:20:00JST ">
-                Jan 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/">talend does not work</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-03T10:12:00JST ">
-                Jan 3, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/">Lessons learned in 2016</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-23T23:56:00JST ">
-                Nov 23, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/">Perfect Home Screen Layout</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-22T23:25:00JST ">
-                Nov 22, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/">Bug Fixing in Production</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-20T13:37:00JST ">
-                Nov 20, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/">The 2016-Personal-Website Infrastructure</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-    </div>
-</section>
-        <!-- CONTACT -->
-<section id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-lg-offset-3 text-center">
-                
-                    <a href="https://github.com/JannikArndt" target="_blank"><i class="fa fa-github fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://twitter.com/JannikArndt" target="_blank"><i class="fa fa-twitter fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.facebook.com/jannik.arndt" target="_blank"><i class="fa fa-facebook fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.linkedin.com/in/jannikarndt" target="_blank"><i class="fa fa-linkedin fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.xing.com/profile/Jannik_Arndt" target="_blank"><i class="fa fa-xing fa-3x">&nbsp;</i></a>
-                
-
-                
-                     <a href="mailto:jannik@jannikarndt.de"><i class="fa fa-envelope-o fa-3x">&nbsp;</i></a>
-                
-             </div>
-        </div>
-    </div>
-</section>
-
-        <script src="https://www.jannikarndt.de/js/jquery-3.3.1.min.js"></script>
-<script src="https://www.jannikarndt.de/js/jquery-ui.min.js"></script>
-<script src="https://www.jannikarndt.de/js/highlight.pack.js"></script>
-<script src="https://www.jannikarndt.de/js/bootstrap.min.js"></script>
-<script lang="">(function ($) {
-        "use strict";
-
-        hljs.initHighlightingOnLoad();
-
-        
-        $('a[href*="#"]').on('click', function (e) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
             e.preventDefault();
-
-            $('html, body').animate({
-                scrollTop: ($($(this).attr('href')).offset().top - 50)
-            }, 500, 'easeInOutExpo');
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
         });
-        
-        
-        $(document).scroll(function () {
-            $(".navbar").toggleClass("navbar-scrolled", $(this).scrollTop() > 50);
-        });
+    });
 
-    })(jQuery);</script>
-    </body>
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
 </html>

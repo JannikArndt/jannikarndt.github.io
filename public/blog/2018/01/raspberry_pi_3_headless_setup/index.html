@@ -1,1409 +1,402 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <title>How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</title>
-        <meta name="description" content="I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.">
-        <meta name="keywords" content="Raspberry Pi, Raspberry Pi 3, Setup, How to, Headless, Raspbian, SSH, MacOS">
-        <meta charset="utf-8">
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard | Jannik Arndt</title>
+
+<meta name="keywords" content="Raspberry Pi, Raspberry Pi 3, Setup, How to, Headless, Raspbian, SSH, MacOS" />
+<meta name="description" content="I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.">
 <meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
 
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png?v=Jykddr29Nk">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png?v=Jykddr29Nk">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png?v=Jykddr29Nk">
-<link rel="manifest" href="https://www.jannikarndt.de/favicons/site.webmanifest?v=Jykddr29Nk">
-<link rel="shortcut icon" href="https://www.jannikarndt.de/favicons/favicon.ico?v=Jykddr29Nk">
-<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
 
-<!-- Bootstrap Core CSS -->
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/font-awesome/css/font-awesome.min.css" type="text/css">
 
-<!-- Custom CSS -->
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/main.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/navbar.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/blogentry.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/vs.min.css">
-    </head>
-    <body id="page-top">
-        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            
-            <a class="navbar-brand page-scroll" href="https://www.jannikarndt.de">jannikarndt.de</a>
-            
+<meta property="og:title" content="How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard" />
+<meta property="og:description" content="I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-01-13T12:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2018-01-13T12:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard"/>
+<meta name="twitter:description" content="I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard",
+      "item": "https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard",
+  "name": "How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard",
+  "description": "I bought a raspberry pi as a smart home automation server. Here\u0026rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.\n",
+  "keywords": [
+    "Raspberry Pi", "Raspberry Pi 3", "Setup", "How to", "Headless", "Raspbian", "SSH", "MacOS"
+  ],
+  "articleBody": "I bought a raspberry pi as a smart home automation server. Here’s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.\n1. Prepare the SD card 1. Download Raspbian Here, -L means follow redirect, -C - let’s you resume the download.\n$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 390 100 390 0 0 69 0 0:00:05 0:00:05 --:--:-- 89 100 399 100 399 0 0 70 0 0:00:05 0:00:05 --:--:-- 70 20 351M 20 72.6M 0 0 358k 0 0:16:44 0:03:27 0:13:17 364k 2. Unzip the Download $ tar xzf raspbian-stretch-lite.zip 3. Check the Path of the SD Card Here it is /dev/disk2:\n$ diskutil list /dev/disk0 (internal): ... /dev/disk1 (synthesized): ... /dev/disk2 (external, physical): = that's the one ... /dev/disk3 (disk image): ... 4. Unmount the SD Card $ diskutil unmountDisk /dev/disk2 5. Copy the Data to the Card We use /dev/rdisk2 because it’s a lot faster then /dev/disk2:\n$ sudo dd bs=1m if=2018-11-13-raspbian-stretch-lite.img of=/dev/rdisk2 conv=sync Password: ******** 1780+0 records in 1780+0 records out 1866465280 bytes transferred in 33.915228 secs (55033252 bytes/sec) 6. Enable one-time SSH Access $ touch /Volumes/boot/ssh 7. Eject the SD Card $ diskutil eject /dev/disk2 2. Get Network Access to the Pi Connected to your Router You now have two options to connect to the pi via network: either you plug it into your router and look at the DHCP settings what IP address is assigned to it: Connected to your Mac You can also connect it to your Mac directly. For that, you also need to enable Internet Sharing in System Settings  Sharing: 3. Configure SSH access This assumes that you have an ssh key. If not or you don’t know what that is: An ssh key consist of two files: A private and a public one. The private one (id_rsa) is on your computer and works like a password (so do not share it!). The public one (id_rsa.pub) is on other computers and identifies you. It only works together with your private key, so don’t loose it. Your public key is on your computer as well so you can easily share it.\nYou can find both keys with\n$ ls -l ~/.ssh total 120 -rw------- 1 jannikarndt staff 1766 Jan 3 2017 id_rsa -rw-r--r--@ 1 jannikarndt staff 403 Jan 3 2017 id_rsa.pub If you don’t have a key, GitHub has a great article on how to create one.\n1. Copy your SSH Key to the Pi $cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 \"mkdir -p ~/.ssh \u0026\u0026 cat  ~/.ssh/authorized_keys\" The authenticity of host '192.168.2.149 (192.168.2.149)' can't be established. ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U. Are you sure you want to continue connecting (yes/no)? yes Warning: Permanently added '192.168.2.149' (ECDSA) to the list of known hosts. pi@192.168.2.149's password: raspberry 2. SSH into the Pi $ ssh pi@192.168.2.2 Linux raspberrypi 4.14.79-v7+ #1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l The programs included with the Debian GNU/Linux system are free software; the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright. Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law. SSH is enabled and the default password for the 'pi' user has not been changed. This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password. Wi-Fi is disabled because the country is not set. Use raspi-config to set the country before use. The preconfigured password is raspberry. A good reason to change it right away:\n3. Change your root Password: sudo raspi-config   Add your wifi credentials in 2 Network Options  N2 Wi-fi\n  Permanently enable ssh access in 5 Interfacing Options  P2 SSH.\n  4. Install oh-my-zsh And now, for the grand finale, you can (should / will want to) install a proper shell, i.e. oh my zsh:\nsudo apt-get update \u0026\u0026 sudo apt-get upgrade sudo apt-get install git zsh chsh -s /bin/zsh sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\" 5. Continue Great! Now you can use your Pi, for example\n with Apple Home and Sonoff devices to control your smart home or as an alternative to Apples 329€ Time Capsule for Time Machine backups over wifi. ",
+  "wordCount" : "719",
+  "inLanguage": "en",
+  "datePublished": "2018-01-13T12:00:00+01:00",
+  "dateModified": "2018-01-13T12:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="#page-top">TOP</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#blog">Blog</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-        <!-- BLOG ENTRY -->
-<div class="blogentry">
-    <section class="bg-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2018-01-13T12:00:00CET ">
-                        January 13, 2018
-                    </time>
-                    <h1>How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</h1>
-                    <p>by Jannik Arndt</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
 
-    <article class="bg-light" id="blogentry">
-        
-        <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a></div>
-            <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-prepare-the-sd-card">1. Prepare the SD card</a>
-<ul>
-<li>
-<ul>
-<li><a href="#1-download-raspbian">1. Download Raspbian</a></li>
-<li><a href="#2-unzip-the-download">2. Unzip the Download</a></li>
-<li><a href="#3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</a></li>
-<li><a href="#4-unmount-the-sd-card">4. Unmount the SD Card</a></li>
-<li><a href="#5-copy-the-data-to-the-card">5. Copy the Data to the Card</a></li>
-<li><a href="#6-enable-one-time-ssh-access">6. Enable one-time SSH Access</a></li>
-<li><a href="#7-eject-the-sd-card">7. Eject the SD Card</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#2-get-network-access-to-the-pi">2. Get Network Access to the Pi</a>
-<ul>
-<li>
-<ul>
-<li><a href="#connected-to-your-router">Connected to your Router</a></li>
-<li><a href="#connected-to-your-mac">Connected to your Mac</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#3-configure-ssh-access">3. Configure SSH access</a>
-<ul>
-<li>
-<ul>
-<li><a href="#1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi</a></li>
-<li><a href="#2-ssh-into-the-pi">2. SSH into the Pi</a></li>
-<li><a href="#3-change-your-root-password">3. Change your root Password:</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code></a></li>
-<li><a href="#5-continue">5. Continue</a></li>
-</ul></li>
-</ul>
-</nav></div>
-        </aside>
-        
+    <main class="main">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <p>I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.</p>
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
 
-<h2 id="1-prepare-the-sd-card">1. Prepare the SD card</h2>
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
 
-<h4 id="1-download-raspbian">1. Download Raspbian</h4>
+    <h1 class="post-title">
+      How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard
+    </h1>
+    <div class="post-meta">
 
+January 13, 2018&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>I bought a raspberry pi as a smart home automation server. Here&rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.</p>
+<h2 id="1-prepare-the-sd-card">1. Prepare the SD card<a hidden class="anchor" aria-hidden="true" href="#1-prepare-the-sd-card">#</a></h2>
+<h4 id="1-download-raspbian">1. Download Raspbian<a hidden class="anchor" aria-hidden="true" href="#1-download-raspbian">#</a></h4>
 <p>Here, <code>-L</code> means follow redirect, <code>-C -</code> let&rsquo;s you resume the download.</p>
-
-<pre><code class="language-shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl https://downloads.raspberrypi.org/raspbian_lite_latest -L -C - -o raspbian-stretch-lite.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   390  100   390    0     0     69      0  0:00:05  0:00:05 --:--:--    89
-100   399  100   399    0     0     70      0  0:00:05  0:00:05 --:--:--    70
- 20  351M   20 72.6M    0     0   358k      0  0:16:44  0:03:27  0:13:17  364k
-</code></pre>
-
-<h4 id="2-unzip-the-download">2. Unzip the Download</h4>
-
-<pre><code class="language-shell">$ tar xzf raspbian-stretch-lite.zip
-</code></pre>
-
-<h4 id="3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card</h4>
-
+<span class="m">100</span>   <span class="m">390</span>  <span class="m">100</span>   <span class="m">390</span>    <span class="m">0</span>     <span class="m">0</span>     <span class="m">69</span>      <span class="m">0</span>  0:00:05  0:00:05 --:--:--    <span class="m">89</span>
+<span class="m">100</span>   <span class="m">399</span>  <span class="m">100</span>   <span class="m">399</span>    <span class="m">0</span>     <span class="m">0</span>     <span class="m">70</span>      <span class="m">0</span>  0:00:05  0:00:05 --:--:--    <span class="m">70</span>
+ <span class="m">20</span>  351M   <span class="m">20</span> 72.6M    <span class="m">0</span>     <span class="m">0</span>   358k      <span class="m">0</span>  0:16:44  0:03:27  0:13:17  364k
+</code></pre></div><h4 id="2-unzip-the-download">2. Unzip the Download<a hidden class="anchor" aria-hidden="true" href="#2-unzip-the-download">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ tar xzf raspbian-stretch-lite.zip
+</code></pre></div><h4 id="3-check-the-path-of-the-sd-card">3. Check the Path of the SD Card<a hidden class="anchor" aria-hidden="true" href="#3-check-the-path-of-the-sd-card">#</a></h4>
 <p>Here it is <code>/dev/disk2</code>:</p>
-
-<pre><code class="language-shell">$ diskutil list
-/dev/disk0 (internal):
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ diskutil list
+/dev/disk0 <span class="o">(</span>internal<span class="o">)</span>:
 ...
-/dev/disk1 (synthesized):
+/dev/disk1 <span class="o">(</span>synthesized<span class="o">)</span>:
 ...
-/dev/disk2 (external, physical):   &lt;= that's the one
+/dev/disk2 <span class="o">(</span>external, physical<span class="o">)</span>:   &lt;<span class="o">=</span> that<span class="err">&#39;</span>s the one
 ...
-/dev/disk3 (disk image):
+/dev/disk3 <span class="o">(</span>disk image<span class="o">)</span>:
 ...
-</code></pre>
-
-<h4 id="4-unmount-the-sd-card">4. Unmount the SD Card</h4>
-
-<pre><code class="language-shell">$ diskutil unmountDisk /dev/disk2
-</code></pre>
-
-<h4 id="5-copy-the-data-to-the-card">5. Copy the Data to the Card</h4>
-
+</code></pre></div><h4 id="4-unmount-the-sd-card">4. Unmount the SD Card<a hidden class="anchor" aria-hidden="true" href="#4-unmount-the-sd-card">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ diskutil unmountDisk /dev/disk2
+</code></pre></div><h4 id="5-copy-the-data-to-the-card">5. Copy the Data to the Card<a hidden class="anchor" aria-hidden="true" href="#5-copy-the-data-to-the-card">#</a></h4>
 <p>We use <code>/dev/rdisk2</code> because it&rsquo;s <em>a lot</em> faster then <code>/dev/disk2</code>:</p>
-
-<pre><code class="language-shell">$ sudo dd bs=1m if=2018-11-13-raspbian-stretch-lite.img of=/dev/rdisk2 conv=sync
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>2018-11-13-raspbian-stretch-lite.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2 <span class="nv">conv</span><span class="o">=</span>sync
 Password: ********
 1780+0 records in
 1780+0 records out
-1866465280 bytes transferred in 33.915228 secs (55033252 bytes/sec)
-</code></pre>
-
-<h4 id="6-enable-one-time-ssh-access">6. Enable one-time SSH Access</h4>
-
-<pre><code class="language-shell">$ touch /Volumes/boot/ssh
-</code></pre>
-
-<h4 id="7-eject-the-sd-card">7. Eject the SD Card</h4>
-
-<pre><code class="language-shell">$ diskutil eject /dev/disk2
-</code></pre>
-
-<h2 id="2-get-network-access-to-the-pi">2. Get Network Access to the Pi</h2>
-
-<h4 id="connected-to-your-router">Connected to your Router</h4>
-
+<span class="m">1866465280</span> bytes transferred in 33.915228 secs <span class="o">(</span><span class="m">55033252</span> bytes/sec<span class="o">)</span>
+</code></pre></div><h4 id="6-enable-one-time-ssh-access">6. Enable one-time SSH Access<a hidden class="anchor" aria-hidden="true" href="#6-enable-one-time-ssh-access">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ touch /Volumes/boot/ssh
+</code></pre></div><h4 id="7-eject-the-sd-card">7. Eject the SD Card<a hidden class="anchor" aria-hidden="true" href="#7-eject-the-sd-card">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ diskutil eject /dev/disk2
+</code></pre></div><h2 id="2-get-network-access-to-the-pi">2. Get Network Access to the Pi<a hidden class="anchor" aria-hidden="true" href="#2-get-network-access-to-the-pi">#</a></h2>
+<h4 id="connected-to-your-router">Connected to your Router<a hidden class="anchor" aria-hidden="true" href="#connected-to-your-router">#</a></h4>
 <p>You now have two options to connect to the pi via network: either you plug it into your router and look at the DHCP settings what IP address is assigned to it:
-<img src="../pi/dhcp.png" alt="" /></p>
-
-<h4 id="connected-to-your-mac">Connected to your Mac</h4>
-
+<img loading="lazy" src="../pi/dhcp.png" alt=""  />
+</p>
+<h4 id="connected-to-your-mac">Connected to your Mac<a hidden class="anchor" aria-hidden="true" href="#connected-to-your-mac">#</a></h4>
 <p>You can also connect it to your Mac directly. For that, you also need to enable <em>Internet Sharing</em> in <em>System Settings</em> &gt; <em>Sharing</em>:
-<img src="../pi/sharing_pane.png" alt="" /></p>
-
-<h2 id="3-configure-ssh-access">3. Configure SSH access</h2>
-
+<img loading="lazy" src="../pi/sharing_pane.png" alt=""  />
+</p>
+<h2 id="3-configure-ssh-access">3. Configure SSH access<a hidden class="anchor" aria-hidden="true" href="#3-configure-ssh-access">#</a></h2>
 <p>This assumes that you have an ssh key. If not or you don&rsquo;t know what that is: An ssh key consist of two files: A private and a public one. The private one (<code>id_rsa</code>) is on <em>your</em> computer and works like a password (so do <em>not</em> share it!). The public one (<code>id_rsa.pub</code>) is on <em>other</em> computers and identifies you. It only works together with your private key, so don&rsquo;t loose it. Your public key is on your computer as well so you can easily share it.</p>
-
 <p>You can find both keys with</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ls -l ~/.ssh
+total <span class="m">120</span>
+-rw-------  <span class="m">1</span> jannikarndt  staff  <span class="m">1766</span> Jan  <span class="m">3</span>  <span class="m">2017</span> id_rsa
+-rw-r--r--@ <span class="m">1</span> jannikarndt  staff   <span class="m">403</span> Jan  <span class="m">3</span>  <span class="m">2017</span> id_rsa.pub
+</code></pre></div><p>If you don&rsquo;t have a key, GitHub has a <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">great article on how to create one</a>.</p>
+<h4 id="1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi<a hidden class="anchor" aria-hidden="true" href="#1-copy-your-ssh-key-to-the-pi">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cat</span> ~/.ssh/id_rsa.pub <span class="p">|</span> ssh pi@192.168.2.149 <span class="s2">&#34;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#34;</span>
+The authenticity of host <span class="s1">&#39;192.168.2.149 (192.168.2.149)&#39;</span> can<span class="s1">&#39;t be established.
+</span><span class="s1">ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
+</span><span class="s1">Are you sure you want to continue connecting (yes/no)? yes
+</span><span class="s1">Warning: Permanently added &#39;</span>192.168.2.149<span class="s1">&#39; (ECDSA) to the list of known hosts.
+</span><span class="s1">pi@192.168.2.149&#39;</span>s password: raspberry
+</code></pre></div><h4 id="2-ssh-into-the-pi">2. SSH into the Pi<a hidden class="anchor" aria-hidden="true" href="#2-ssh-into-the-pi">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ssh pi@192.168.2.2
+Linux raspberrypi 4.14.79-v7+ <span class="c1">#1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l</span>
 
-<pre><code class="language-shell">$ ls -l ~/.ssh
-total 120
--rw-------  1 jannikarndt  staff  1766 Jan  3  2017 id_rsa
--rw-r--r--@ 1 jannikarndt  staff   403 Jan  3  2017 id_rsa.pub
-</code></pre>
-
-<p>If you don&rsquo;t have a key, GitHub has a <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">great article on how to create one</a>.</p>
-
-<h4 id="1-copy-your-ssh-key-to-the-pi">1. Copy your SSH Key to the Pi</h4>
-
-<pre><code class="language-shell">$cat ~/.ssh/id_rsa.pub | ssh pi@192.168.2.149 &quot;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;
-The authenticity of host '192.168.2.149 (192.168.2.149)' can't be established.
-ECDSA key fingerprint is SHA256:TDaxHjcZfoPqgvY2Mq0RVvcakKlEsU9AntEzicUXl6U.
-Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added '192.168.2.149' (ECDSA) to the list of known hosts.
-pi@192.168.2.149's password: raspberry
-</code></pre>
-
-<h4 id="2-ssh-into-the-pi">2. SSH into the Pi</h4>
-
-<pre><code class="language-shell">$ ssh pi@192.168.2.2
-Linux raspberrypi 4.14.79-v7+ #1159 SMP Sun Nov 4 17:50:20 GMT 2018 armv7l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
+The programs included with the Debian GNU/Linux system are free software<span class="p">;</span>
+the exact distribution terms <span class="k">for</span> each program are described in the
 individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
+SSH is enabled and the default password <span class="k">for</span> the <span class="s1">&#39;pi&#39;</span> user has not been changed.
+This is a security risk - please login as the <span class="s1">&#39;pi&#39;</span> user and <span class="nb">type</span> <span class="s1">&#39;passwd&#39;</span> to <span class="nb">set</span> a new password.
 
 
 Wi-Fi is disabled because the country is not set.
-Use raspi-config to set the country before use.
-</code></pre>
-
-<p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p>
-
-<h4 id="3-change-your-root-password">3. Change your root Password:</h4>
-
-<pre><code class="language-shell">sudo raspi-config
-</code></pre>
-
-<p><img src="../pi/raspi-config.png" alt="" /></p>
-
+Use raspi-config to <span class="nb">set</span> the country before use.
+</code></pre></div><p>The preconfigured password is <code>raspberry</code>. A good reason to change it right away:</p>
+<h4 id="3-change-your-root-password">3. Change your root Password:<a hidden class="anchor" aria-hidden="true" href="#3-change-your-root-password">#</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo raspi-config
+</code></pre></div><p><img loading="lazy" src="../pi/raspi-config.png" alt=""  />
+</p>
 <ol>
-<li><p>Add your wifi credentials in <code>2 Network Options</code> &gt; <code>N2 Wi-fi</code></p></li>
-
-<li><p>Permanently enable ssh access in <code>5 Interfacing Options</code> &gt; <code>P2 SSH</code>.</p></li>
+<li>
+<p>Add your wifi credentials in <code>2 Network Options</code> &gt; <code>N2 Wi-fi</code></p>
+</li>
+<li>
+<p>Permanently enable ssh access in <code>5 Interfacing Options</code> &gt; <code>P2 SSH</code>.</p>
+</li>
 </ol>
-
-<h2 id="4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code></h2>
-
+<h2 id="4-install-oh-my-zsh">4. Install <code>oh-my-zsh</code><a hidden class="anchor" aria-hidden="true" href="#4-install-oh-my-zsh">#</a></h2>
 <p>And now, for the grand finale, you can (should / will want to) install a proper shell, i.e. <a href="http://ohmyz.sh">oh my zsh</a>:</p>
-
-<pre><code class="language-shell">sudo apt-get update &amp;&amp; sudo apt-get upgrade
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get upgrade
 sudo apt-get install git zsh
 chsh -s /bin/zsh
-sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
-</code></pre>
-
-<h2 id="5-continue">5. Continue</h2>
-
+sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</code></pre></div><h2 id="5-continue">5. Continue<a hidden class="anchor" aria-hidden="true" href="#5-continue">#</a></h2>
 <p>Great! Now you can use your Pi, for example</p>
-
 <ul>
 <li>with Apple Home and Sonoff devices to <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">control your smart home</a> or</li>
 <li>as an alternative to <a href="https://www.apple.com/de/shop/product/ME177Z/A">Apples 329€ Time Capsule</a> <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/">for Time Machine backups over wifi</a>.</li>
 </ul>
-                </div>
-            </div>
-        </div>
-    </article>
 </div>
-        <!-- BLOG -->
-<section class="bg-dark" id="blog">
-    
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Blog</h2>
-                    <hr class="light">
-                </div>
-            </div>
-        </div>
-    
-    <div class="container">
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-12-04T21:00:00JST ">
-                Dec 4, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">Exception-Proof For-Comprehensions</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>I recently created a <em>wonderful</em> bug.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
 
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-28T13:00:00JST ">
-                Oct 28, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">oAuth2 with Akka HTTP</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
 
-<ul>
-<li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
-<li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
-<li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
-</ul>
 
-<p>From the server&rsquo;s point of view:</p>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
 
-<ul>
-<li><code>/</code> — publicly accessible, do nothing,</li>
-<li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
-<li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
-</ul>
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
 
-<p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-27T19:00:00JST ">
-                Oct 27, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">Akka HTTP on Heroku</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-07T18:00:00JST ">
-                Oct 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/">How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-31T17:00:00JST ">
-                Aug 31, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/">How Event Sourcing in Akka Persistent Actors Works</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-22T09:00:00JST ">
-                Aug 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/">Rotating PostgreSQL Passwords with no downtime</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-16T15:00:00JST ">
-                Aug 16, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/">Examining a PostgreSQL with psql or pgcli</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-05T16:00:00JST ">
-                Aug 5, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/">Using your Apple Watch Workout to Geotag DSLR Photos</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-07-22T07:00:00JST ">
-                Jul 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/">3 Ways How Passwords Get Leaked</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-05-25T23:00:00JST ">
-                May 25, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/">Kirschblütenfeuerwerk</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-05-25T23:00:00JST ">
-                May 25, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/">Russische Kirche, Fernsehturm, Landungsbrücken</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-08T12:00:00JST ">
-                Apr 8, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/boberg/">Boberg</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-07T13:38:00JST ">
-                Apr 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/alsterpanorama/">Alsterpanorama</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-07T12:35:00JST ">
-                Apr 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/">Hochwasserbassin</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-03-22T07:00:00JST ">
-                Mar 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/">How to add an SSH Key as a Kubernetes Secret</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-03-13T12:00:00JST ">
-                Mar 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/">Lazy Aliases in my Shell</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T20:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/">How to use a Raspberry Pi for your Time Machine backups</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T19:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/">How to install Tasmota on a Sonoff device without opening it</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T12:40:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">How to use a Raspberry Pi 3 with Apple Home</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T12:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-23T20:00:00JST ">
-                Nov 23, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">Terraform on Google Cloud Engine Quickstart</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-11T17:00:00JST ">
-                Nov 11, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/">Lessons learned in 2017</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-07T18:00:00JST ">
-                Nov 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/">What settings yield the sharpest landscape photo?</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-04T16:50:00JST ">
-                Nov 4, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/">Hamburg as seen from the Michel</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-09-10T21:07:00JST ">
-                Sep 10, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-08-19T10:05:00JST ">
-                Aug 19, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">Writing case classes to MongoDB in Scala</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-08-06T17:20:00JST ">
-                Aug 6, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">VERY Quick Start: Terraform</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-22T05:00:00JST ">
-                Jul 22, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/">Where bad code comes from</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-21T22:45:00JST ">
-                Jul 21, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">Storing sparse, key-value-like data in a relational database</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-15T17:00:00JST ">
-                Jul 15, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/">Tough Mudder Norddeutschland 2017</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-02T13:45:00JST ">
-                Jul 2, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/">A Minor Story Live at Methfesselfest</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-06-18T08:30:00JST ">
-                Jun 18, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/06/git_in_one_image/">Git in one Image</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-05-23T08:30:00JST ">
-                May 23, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/05/two_speed_it/">Two-speed IT</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-05-01T11:45:00JST ">
-                May 1, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/">The real world doesn&#39;t care about encoding</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-03-05T17:01:00JST ">
-                Mar 5, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/">Belugas at Finkenwerder</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-03-05T17:01:00JST ">
-                Mar 5, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/">Deploying Pentaho jobs into Production</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-07T11:20:00JST ">
-                Jan 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">Extracting Dimensions from an Oracle Database Table</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-07T11:20:00JST ">
-                Jan 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/">talend does not work</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-03T10:12:00JST ">
-                Jan 3, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/">Lessons learned in 2016</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-23T23:56:00JST ">
-                Nov 23, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/">Perfect Home Screen Layout</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-22T23:25:00JST ">
-                Nov 22, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/">Bug Fixing in Production</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-20T13:37:00JST ">
-                Nov 20, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/">The 2016-Personal-Website Infrastructure</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-    </div>
-</section>
-        <!-- CONTACT -->
-<section id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-lg-offset-3 text-center">
-                
-                    <a href="https://github.com/JannikArndt" target="_blank"><i class="fa fa-github fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://twitter.com/JannikArndt" target="_blank"><i class="fa fa-twitter fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.facebook.com/jannik.arndt" target="_blank"><i class="fa fa-facebook fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.linkedin.com/in/jannikarndt" target="_blank"><i class="fa fa-linkedin fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.xing.com/profile/Jannik_Arndt" target="_blank"><i class="fa fa-xing fa-3x">&nbsp;</i></a>
-                
-
-                
-                     <a href="mailto:jannik@jannikarndt.de"><i class="fa fa-envelope-o fa-3x">&nbsp;</i></a>
-                
-             </div>
-        </div>
-    </div>
-</section>
-
-        <script src="https://www.jannikarndt.de/js/jquery-3.3.1.min.js"></script>
-<script src="https://www.jannikarndt.de/js/jquery-ui.min.js"></script>
-<script src="https://www.jannikarndt.de/js/highlight.pack.js"></script>
-<script src="https://www.jannikarndt.de/js/bootstrap.min.js"></script>
-<script lang="">(function ($) {
-        "use strict";
-
-        hljs.initHighlightingOnLoad();
-
-        
-        $('a[href*="#"]').on('click', function (e) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
             e.preventDefault();
-
-            $('html, body').animate({
-                scrollTop: ($($(this).attr('href')).offset().top - 50)
-            }, 500, 'easeInOutExpo');
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
         });
-        
-        
-        $(document).scroll(function () {
-            $(".navbar").toggleClass("navbar-scrolled", $(this).scrollTop() > 50);
-        });
+    });
 
-    })(jQuery);</script>
-    </body>
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
 </html>

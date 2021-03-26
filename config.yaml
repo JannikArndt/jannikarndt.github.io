@@ -1,0 +1,112 @@
+baseURL: "https://www.jannikarndt.de"
+title: "Jannik Arndt"
+paginate: 50
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+pluralizelisttitles: false
+
+minify:
+    disableXML: true
+    minifyOutput: false
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
+
+params:
+    env: production # to enable google analytics, opengraph, twitter-cards and schema.
+    title: "Jannik Arndt"
+    description: "Product-, Data- and Software Engineer from Hamburg, Germany"
+    author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
+    images: ["<link or path of image for opengraph, twitter-cards>"]
+    defaultContentLanguage: en
+
+
+    defaultTheme: auto # dark, light
+    disableThemeToggle: false
+
+    ShowReadingTime: false
+    ShowShareButtons: false
+    #disableSpecial1stPost: false
+    ShowPostNavLinks: false # prev/next links at bottom
+    ShowBreadCrumbs: true
+    comments: false
+    hidemeta: false
+    showtoc: false
+    tocopen: false
+
+    assets:
+        disableHLJS: true # to disable highlight.js
+        # disableFingerprinting: true
+        favicon: "favicon.ico"
+        favicon16x16: "favicons/favicon-16x16.png"
+        favicon32x32: "favicons/favicon-16x16.png"
+        apple_touch_icon: "favicons/apple-touch-icon.png"
+        safari_pinned_tab: "favicons/apple-touch-icon.png"
+
+    label:
+        text: "JannikArndt.de"
+        icon: "/favicons/apple-touch-icon.png"
+        iconHeight: 35
+
+    # home-info mode
+    homeInfoParams:
+        Title: "Jannik Arndt"
+        Content: Scala Dev @ MOIA
+
+    socialIcons:
+        - name: twitter
+          url: "https://twitter.com/JannikArndt"
+        - name: github
+          url: "https://github.com/JannikArndt"
+        - name: linkedin
+          url: "https://www.linkedin.com/in/jannikarndt"
+        - name: xing
+          url: "https://www.xing.com/profile/Jannik_Arndt"
+        - name: email
+          url: "mailto:jannik@jannikarndt.de"
+
+    cover:
+        hidden: true # hide everywhere but not in structured data
+        hiddenInList: true # hide on list pages and home
+        hiddenInSingle: true # hide on single page
+
+    # for search
+    # https://fusejs.io/api/options.html
+    fuseOpts:
+        isCaseSensitive: false
+        shouldSort: true
+        location: 0
+        distance: 1000
+        threshold: 0.4
+        minMatchCharLength: 0
+        keys: ["title", "permalink", "summary", "content"]
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
+
+menu:
+    main:
+        - name: blog
+          url: archive/
+          weight: 5
+        - name: search
+          url: search/
+          weight: 15
+#        - identifier: categories
+#          name: categories
+#          url: /categories/
+#          weight: 10
+        - identifier: tags
+          name: tags
+          url: /tags/
+          weight: 10
+#Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+pygmentsUseClasses: true

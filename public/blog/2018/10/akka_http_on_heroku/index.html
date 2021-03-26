@@ -1,121 +1,234 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <title>Akka HTTP on Heroku</title>
-        <meta name="description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.">
-        <meta name="keywords" content="Programming, Scala, akka, Akka HTTP, Heroku, Deployment, App, Tutorial, How-To">
-        <meta charset="utf-8">
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Akka HTTP on Heroku | Jannik Arndt</title>
+
+<meta name="keywords" content="Programming, Scala, akka, Akka HTTP, Heroku, Deployment, App, Tutorial, How-To" />
+<meta name="description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.">
 <meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
 
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png?v=Jykddr29Nk">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png?v=Jykddr29Nk">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png?v=Jykddr29Nk">
-<link rel="manifest" href="https://www.jannikarndt.de/favicons/site.webmanifest?v=Jykddr29Nk">
-<link rel="shortcut icon" href="https://www.jannikarndt.de/favicons/favicon.ico?v=Jykddr29Nk">
-<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
 
-<!-- Bootstrap Core CSS -->
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/font-awesome/css/font-awesome.min.css" type="text/css">
 
-<!-- Custom CSS -->
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/main.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/navbar.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/blogentry.css" type="text/css">
-<link rel="stylesheet" href="https://www.jannikarndt.de/css/vs.min.css">
-    </head>
-    <body id="page-top">
-        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            
-            <a class="navbar-brand page-scroll" href="https://www.jannikarndt.de">jannikarndt.de</a>
-            
+<meta property="og:title" content="Akka HTTP on Heroku" />
+<meta property="og:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-10-27T19:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2018-10-27T19:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="Akka HTTP on Heroku"/>
+<meta name="twitter:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Akka HTTP on Heroku",
+      "item": "https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Akka HTTP on Heroku",
+  "name": "Akka HTTP on Heroku",
+  "description": "Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.\n",
+  "keywords": [
+    "Programming", "Scala", "akka", "Akka HTTP", "Heroku", "Deployment", "App", "Tutorial", "How-To"
+  ],
+  "articleBody": "Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.\nSetup First, create a new app on Heroku. The easiest way to deploy something is to push it to the attached git repository, as explained on the Deploy page:\n\nNext, setup you local sbt project. My way would be\n$ sbt new jannikarndt/scala.g8 Do the git thing:\n$ git init $ git add . $ git commit -m \"Template\" and next, connect the repository to Heroku. If you haven’t already, install their cli first:\n$ brew install heroku/brew/heroku ... $ heroku login heroku: Enter your login credentials Email: your@mail.com Password: ************ Logged in as your@mail.com $ heroku git:remote -a yourproject set git remote heroku to https://git.heroku.com/yourproject.git plugins.sbt and build.sbt To create a build that can be run on Heroku, you need the sbt-native-packager in your project/plugins.sbt:\naddSbtPlugin(\"com.typesafe.sbt\" % \"sbt-native-packager\" % \"1.3.12\") You also have to enable the plugin in the build.sbt:\nenablePlugins(JavaAppPackaging) This enables the stage command. Otherwise you’ll end up with weird errors:\nsbt stage [error] Not a valid command: stage (similar: last-grep, set, last) [error] Not a valid project ID: stage [error] Expected ':' [error] Not a valid key: stage (similar: state, target, tags) [error] stage [error] ^ sbt compile stage [error] Expected whitespace character [error] Expected '/' [error] compile stage [error] ^ Next, you need to define the Main class to be run. This is also done in your build.sbt:\nmainClass in Compile := Some(\"Main\") Note: If you use packages, you’ll need to write the full identifier, i.e. com.mycompany.myproject.Main or something similar.\nIf you get this part wrong, sbt stage will warn you:\nsbt stage [info] Wrote /target/scala-2.12/yourproject_2.12-1.0.pom [info] Packaging /target/scala-2.12/yourproject_2.12-1.0.jar ... [info] Done packaging. [warn] You have no main class in your project. No start script will be generated. [warn] You have no main class in your project. No start script will be generated. [success] Total time: 0 s, completed Oct 27, 2018 6:13:13 PM but on Heroku it will actually crash the app:\nheroku[web.1]: State changed from starting to crashed app[web.1]: Error: Main method not found in class Main, please define the main method as: app[web.1]: public static void main(String[] args) app[web.1]: or a JavaFX application class must extend javafx.application.Application The final build.sbt should look something like this:\nname := \"yourproject\" scalaVersion := \"2.12.7\" version := \"1.0\" maintainer := \"you\" mainClass in Compile := Some(\"Main\") enablePlugins(JavaAppPackaging) libraryDependencies ++= Seq( \"com.typesafe.akka\" %% \"akka-http\" % \"10.1.5\", \"com.typesafe.akka\" %% \"akka-stream\" % \"2.5.17\" ) Main.scala Now that you’ve managed to create a build and reference the correct mainClass, there’s only two caveats left: Binding the server. First, on Heroku you can not bind to localhost, you have to write 0.0.0.0 instead. Secondly, the port changes with every start of the app and is given as a parameter (-Dhttp.port=36803) and environment variable ($PORT). The code for this:\nval port: Int = sys.env.getOrElse(\"PORT\", \"8080\").toInt WebServer.startServer(\"0.0.0.0\", port) A complete example for a WebServer would be\nimport akka.http.scaladsl.server._ object Main { def main(args: Array[String]): Unit = { val port: Int = sys.env.getOrElse(\"PORT\", \"8080\").toInt WebServer.startServer(\"0.0.0.0\", port) } } object WebServer extends HttpApp { override protected def routes: Route = pathEndOrSingleSlash { get { complete(\"It works\") } } } Deploy After you tested locally running\n$ sbt compile stage (because that’s exactly the command that will be run on Heroku’s server) and maybe sbt run or sbt reStart, you can finally deploy.\nSince you already connected our git to the remote repository, all you have to do is push:\n$ git push --set-upstream heroku master Enumerating objects: 13, done. Counting objects: 100% (13/13), done. Delta compression using up to 4 threads Compressing objects: 100% (6/6), done. Writing objects: 100% (7/7), 1.25 KiB | 1.25 MiB/s, done. Total 7 (delta 3), reused 0 (delta 0) remote: Compressing source files... done. remote: Building source: remote: remote: ----- Scala app detected remote: ----- Installing JDK 1.8... done remote: ----- Running: sbt compile stage ... remote: [info] Done compiling. remote: [success] Total time: 4 s, completed Oct 27, 2018 5:44:33 PM ... remote: [info] Done packaging. remote: [success] Total time: 3 s, completed Oct 27, 2018 5:44:36 PM remote: ----- Dropping ivy cache from the slug remote: ----- Dropping sbt boot dir from the slug remote: ----- Dropping compilation artifacts from the slug remote: ----- Discovering process types remote: Procfile declares types - (none) remote: Default types for buildpack - web remote: remote: ----- Compressing... remote: Done: 71.9M remote: ----- Launching... remote: Released v10 remote: https://yourproject.herokuapp.com/ deployed to Heroku remote: remote: Verifying deploy... done. To https://git.heroku.com/yourproject.git ca5c7c5..4a5a138 master - master Now head to your url and start building the rest!\n",
+  "wordCount" : "777",
+  "inLanguage": "en",
+  "datePublished": "2018-10-27T19:00:00+01:00",
+  "dateModified": "2018-10-27T19:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="#page-top">TOP</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#blog">Blog</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-        <!-- BLOG ENTRY -->
-<div class="blogentry">
-    <section class="bg-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <time datetime=" 2018-10-27T19:00:00CET ">
-                        October 27, 2018
-                    </time>
-                    <h1>Akka HTTP on Heroku</h1>
-                    <p>by Jannik Arndt</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
 
-    <article class="bg-light" id="blogentry">
-        
-        <aside class="toc page-scroll">
-            <div class="toc_title"><a href="#page-top" class="page-scroll">Akka HTTP on Heroku</a></div>
-            <div class="toc_content"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#plugins-sbt-and-build-sbt"><code>plugins.sbt</code> and <code>build.sbt</code></a></li>
-<li><a href="#main-scala"><code>Main.scala</code></a></li>
-<li><a href="#deploy">Deploy</a></li>
-</ul></li>
-</ul>
-</nav></div>
-        </aside>
-        
+    <main class="main">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <p>Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.</p>
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
 
-<h2 id="setup">Setup</h2>
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
 
+    <h1 class="post-title">
+      Akka HTTP on Heroku
+    </h1>
+    <div class="post-meta">
+
+October 27, 2018&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.</p>
+<h2 id="setup">Setup<a hidden class="anchor" aria-hidden="true" href="#setup">#</a></h2>
 <p>First, <a href="https://dashboard.heroku.com/new-app">create a new app on Heroku</a>. The easiest way to deploy something is to push it to the attached git repository, as explained on the <em>Deploy</em> page:</p>
-
 <p><a href="/blog/2018/10/heroku1.png"><img src="/blog/2018/10/heroku1.png" alt=""></a></p>
-
 <p>Next, setup you local <code>sbt</code> project. My way would be</p>
-
-<pre><code class="language-shell">$ sbt new jannikarndt/scala.g8
-</code></pre>
-
-<p>Do the <code>git</code> thing:</p>
-
-<pre><code class="language-shell">$ git init
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sbt new jannikarndt/scala.g8
+</code></pre></div><p>Do the <code>git</code> thing:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git init
 $ git add .
-$ git commit -m &quot;Template&quot;  
-</code></pre>
-
-<p>and next, connect the repository to Heroku. If you haven&rsquo;t already, install their cli first:</p>
-
-<pre><code class="language-shell">$ brew install heroku/brew/heroku
+$ git commit -m <span class="s2">&#34;Template&#34;</span>  
+</code></pre></div><p>and next, connect the repository to Heroku. If you haven&rsquo;t already, install their cli first:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install heroku/brew/heroku
 ...
 $ heroku login
 heroku: Enter your login credentials
@@ -123,146 +236,108 @@ Email: your@mail.com
 Password: ************
 Logged in as your@mail.com
 $ heroku git:remote -a yourproject
-set git remote heroku to https://git.heroku.com/yourproject.git
-</code></pre>
-
-<h2 id="plugins-sbt-and-build-sbt"><code>plugins.sbt</code> and <code>build.sbt</code></h2>
-
+<span class="nb">set</span> git remote heroku to https://git.heroku.com/yourproject.git
+</code></pre></div><h2 id="pluginssbt-and-buildsbt"><code>plugins.sbt</code> and <code>build.sbt</code><a hidden class="anchor" aria-hidden="true" href="#pluginssbt-and-buildsbt">#</a></h2>
 <p>To create a build that can be run on Heroku, you need the <code>sbt-native-packager</code> in your <code>project/plugins.sbt</code>:</p>
-
-<pre><code class="language-scala">addSbtPlugin(&quot;com.typesafe.sbt&quot; % &quot;sbt-native-packager&quot; % &quot;1.3.12&quot;)
-</code></pre>
-
-<p>You also have to <em>enable</em> the plugin in the <code>build.sbt</code>:</p>
-
-<pre><code class="language-scala">enablePlugins(JavaAppPackaging)
-</code></pre>
-
-<p>This enables the <code>stage</code> command. Otherwise you&rsquo;ll end up with weird errors:</p>
-
-<pre><code class="language-scala">sbt&gt; stage
-[error] Not a valid command: stage (similar: last-grep, set, last)
-[error] Not a valid project ID: stage
-[error] Expected ':'
-[error] Not a valid key: stage (similar: state, target, tags)
-[error] stage
-[error]      ^
-sbt&gt; compile stage
-[error] Expected whitespace character
-[error] Expected '/'
-[error] compile stage
-[error]         ^
-</code></pre>
-
-<p>Next, you need to define the <code>Main</code> class to be run. This is also done in your <code>build.sbt</code>:</p>
-
-<pre><code class="language-scala">mainClass in Compile := Some(&quot;Main&quot;)
-</code></pre>
-
-<p>Note: If you use packages, you&rsquo;ll need to write the full identifier, i.e. <code>com.mycompany.myproject.Main</code> or something similar.</p>
-
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&#34;com.typesafe.sbt&#34;</span> <span class="o">%</span> <span class="s">&#34;sbt-native-packager&#34;</span> <span class="o">%</span> <span class="s">&#34;1.3.12&#34;</span><span class="o">)</span>
+</code></pre></div><p>You also have to <em>enable</em> the plugin in the <code>build.sbt</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+</code></pre></div><p>This enables the <code>stage</code> command. Otherwise you&rsquo;ll end up with weird errors:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">&gt;</span> <span class="n">stage</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">command</span><span class="k">:</span> <span class="kt">stage</span> <span class="o">(</span><span class="kt">similar:</span> <span class="kt">last-grep</span><span class="o">,</span> <span class="kt">set</span><span class="o">,</span> <span class="n">last</span><span class="o">)</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">project</span> <span class="nc">ID</span><span class="k">:</span> <span class="kt">stage</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Expected</span> <span class="sc">&#39;:&#39;</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">key</span><span class="k">:</span> <span class="kt">stage</span> <span class="o">(</span><span class="kt">similar:</span> <span class="kt">state</span><span class="o">,</span> <span class="kt">target</span><span class="o">,</span> <span class="n">tags</span><span class="o">)</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="n">stage</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span>      <span class="o">^</span>
+<span class="n">sbt</span><span class="o">&gt;</span> <span class="n">compile</span> <span class="n">stage</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Expected</span> <span class="n">whitespace</span> <span class="n">character</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Expected</span> <span class="sc">&#39;/&#39;</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="n">compile</span> <span class="n">stage</span>
+<span class="o">[</span><span class="kt">error</span><span class="o">]</span>         <span class="o">^</span>
+</code></pre></div><p>Next, you need to define the <code>Main</code> class to be run. This is also done in your <code>build.sbt</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="k">:</span><span class="o">=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&#34;Main&#34;</span><span class="o">)</span>
+</code></pre></div><p>Note: If you use packages, you&rsquo;ll need to write the full identifier, i.e. <code>com.mycompany.myproject.Main</code> or something similar.</p>
 <p>If you get this part wrong, <code>sbt stage</code> will warn you:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">&gt;</span> <span class="n">stage</span>
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Wrote</span> <span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.12</span><span class="o">/</span><span class="n">yourproject_2</span><span class="o">.</span><span class="mi">12</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="n">pom</span>
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Packaging</span> <span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.12</span><span class="o">/</span><span class="n">yourproject_2</span><span class="o">.</span><span class="mi">12</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="n">jar</span> <span class="o">...</span>
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Done</span> <span class="n">packaging</span><span class="o">.</span>
+<span class="o">[</span><span class="kt">warn</span><span class="o">]</span> <span class="nc">You</span> <span class="n">have</span> <span class="n">no</span> <span class="n">main</span> <span class="k">class</span> <span class="nc">in</span> <span class="n">your</span> <span class="n">project</span><span class="o">.</span> <span class="nc">No</span> <span class="n">start</span> <span class="n">script</span> <span class="n">will</span> <span class="n">be</span> <span class="n">generated</span><span class="o">.</span>
+<span class="o">[</span><span class="kt">warn</span><span class="o">]</span> <span class="nc">You</span> <span class="n">have</span> <span class="n">no</span> <span class="n">main</span> <span class="k">class</span> <span class="nc">in</span> <span class="n">your</span> <span class="n">project</span><span class="o">.</span> <span class="nc">No</span> <span class="n">start</span> <span class="n">script</span> <span class="n">will</span> <span class="n">be</span> <span class="n">generated</span><span class="o">.</span>
+<span class="o">[</span><span class="kt">success</span><span class="o">]</span> <span class="nc">Total</span> <span class="n">time</span><span class="k">:</span> <span class="err">0</span> <span class="kt">s</span><span class="o">,</span> <span class="n">completed</span> <span class="nc">Oct</span> <span class="mi">27</span><span class="o">,</span> <span class="mi">2018</span> <span class="mi">6</span><span class="k">:</span><span class="err">13</span><span class="kt">:</span><span class="err">13</span> <span class="kt">PM</span>
+</code></pre></div><p>but on Heroku it will actually crash the app:</p>
+<div class="highlight"><pre class="chroma"><code class="language-apache" data-lang="apache"><span class="err">heroku[web</span>.<span class="err">1]:</span> <span class="nb">State</span> changed from starting to crashed
+<span class="err">app[web</span>.<span class="err">1]:</span> <span class="err">Error:</span> <span class="nb">Main</span> method not found in class Main, please define the main method as:
+<span class="err">app[web</span>.<span class="err">1]:</span> <span class="nb">public</span> static void main(String[] args)
+<span class="err">app[web</span>.<span class="err">1]:</span> <span class="nb">or</span> a JavaFX application class must extend javafx.application.Application
+</code></pre></div><p>The final <code>build.sbt</code> should look something like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;yourproject&#34;</span>
+<span class="n">scalaVersion</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;2.12.7&#34;</span>
+<span class="n">version</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;1.0&#34;</span>
+<span class="n">maintainer</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;you&#34;</span>
+<span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="k">:</span><span class="o">=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&#34;Main&#34;</span><span class="o">)</span>
 
-<pre><code class="language-scala">sbt&gt; stage
-[info] Wrote /target/scala-2.12/yourproject_2.12-1.0.pom
-[info] Packaging /target/scala-2.12/yourproject_2.12-1.0.jar ...
-[info] Done packaging.
-[warn] You have no main class in your project. No start script will be generated.
-[warn] You have no main class in your project. No start script will be generated.
-[success] Total time: 0 s, completed Oct 27, 2018 6:13:13 PM
-</code></pre>
+<span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
 
-<p>but on Heroku it will actually crash the app:</p>
-
-<pre><code class="language-apache">heroku[web.1]: State changed from starting to crashed
-app[web.1]: Error: Main method not found in class Main, please define the main method as:
-app[web.1]: public static void main(String[] args)
-app[web.1]: or a JavaFX application class must extend javafx.application.Application
-</code></pre>
-
-<p>The final <code>build.sbt</code> should look something like this:</p>
-
-<pre><code class="language-scala">name := &quot;yourproject&quot;
-scalaVersion := &quot;2.12.7&quot;
-version := &quot;1.0&quot;
-maintainer := &quot;you&quot;
-mainClass in Compile := Some(&quot;Main&quot;)
-
-enablePlugins(JavaAppPackaging)
-
-libraryDependencies ++= Seq(
-  &quot;com.typesafe.akka&quot; %% &quot;akka-http&quot; % &quot;10.1.5&quot;,
-  &quot;com.typesafe.akka&quot; %% &quot;akka-stream&quot; % &quot;2.5.17&quot;
-)
-</code></pre>
-
-<h2 id="main-scala"><code>Main.scala</code></h2>
-
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">&#34;com.typesafe.akka&#34;</span> <span class="o">%%</span> <span class="s">&#34;akka-http&#34;</span> <span class="o">%</span> <span class="s">&#34;10.1.5&#34;</span><span class="o">,</span>
+  <span class="s">&#34;com.typesafe.akka&#34;</span> <span class="o">%%</span> <span class="s">&#34;akka-stream&#34;</span> <span class="o">%</span> <span class="s">&#34;2.5.17&#34;</span>
+<span class="o">)</span>
+</code></pre></div><h2 id="mainscala"><code>Main.scala</code><a hidden class="anchor" aria-hidden="true" href="#mainscala">#</a></h2>
 <p>Now that you&rsquo;ve managed to create a build and reference the correct <code>mainClass</code>, there&rsquo;s only two caveats left: Binding the server. First, on Heroku you can <strong>not</strong> bind to <code>localhost</code>, you have to write <code>0.0.0.0</code> instead. Secondly, the port changes with every start of the app and is given as a parameter (<code>-Dhttp.port=36803</code>) and environment variable (<code>$PORT</code>). The code for this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&#34;PORT&#34;</span><span class="o">,</span> <span class="s">&#34;8080&#34;</span><span class="o">).</span><span class="n">toInt</span>
+<span class="nc">WebServer</span><span class="o">.</span><span class="n">startServer</span><span class="o">(</span><span class="s">&#34;0.0.0.0&#34;</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span>
+</code></pre></div><p>A complete example for a WebServer would be</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.http.scaladsl.server._</span>
 
-<pre><code class="language-scala">val port: Int = sys.env.getOrElse(&quot;PORT&quot;, &quot;8080&quot;).toInt
-WebServer.startServer(&quot;0.0.0.0&quot;, port)
-</code></pre>
+<span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&#34;PORT&#34;</span><span class="o">,</span> <span class="s">&#34;8080&#34;</span><span class="o">).</span><span class="n">toInt</span>
+    <span class="nc">WebServer</span><span class="o">.</span><span class="n">startServer</span><span class="o">(</span><span class="s">&#34;0.0.0.0&#34;</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
 
-<p>A complete example for a WebServer would be</p>
+<span class="k">object</span> <span class="nc">WebServer</span> <span class="k">extends</span> <span class="nc">HttpApp</span> <span class="o">{</span>
 
-<pre><code class="language-scala">import akka.http.scaladsl.server._
+  <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="n">routes</span><span class="k">:</span> <span class="kt">Route</span> <span class="o">=</span>
+    <span class="n">pathEndOrSingleSlash</span> <span class="o">{</span>
+      <span class="n">get</span> <span class="o">{</span>
+        <span class="n">complete</span><span class="o">(</span><span class="s">&#34;It works&#34;</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
-object Main {
-  def main(args: Array[String]): Unit = {
-    val port: Int = sys.env.getOrElse(&quot;PORT&quot;, &quot;8080&quot;).toInt
-    WebServer.startServer(&quot;0.0.0.0&quot;, port)
-  }
-}
-
-object WebServer extends HttpApp {
-
-  override protected def routes: Route =
-    pathEndOrSingleSlash {
-      get {
-        complete(&quot;It works&quot;)
-      }
-    }
-}
-
-</code></pre>
-
-<h2 id="deploy">Deploy</h2>
-
+</code></pre></div><h2 id="deploy">Deploy<a hidden class="anchor" aria-hidden="true" href="#deploy">#</a></h2>
 <p>After you tested locally running</p>
-
-<pre><code class="language-shell">$ sbt compile stage
-</code></pre>
-
-<p>(because that&rsquo;s exactly the command that will be run on Heroku&rsquo;s server) and maybe <code>sbt run</code> or <code>sbt reStart</code>, you can finally deploy.</p>
-
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sbt compile stage
+</code></pre></div><p>(because that&rsquo;s exactly the command that will be run on Heroku&rsquo;s server) and maybe <code>sbt run</code> or <code>sbt reStart</code>, you can finally deploy.</p>
 <p>Since you already connected our git to the remote repository, all you have to do is <code>push</code>:</p>
-
-<pre><code class="language-shell">$ git push --set-upstream heroku master
-Enumerating objects: 13, done.
-Counting objects: 100% (13/13), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (7/7), 1.25 KiB | 1.25 MiB/s, done.
-Total 7 (delta 3), reused 0 (delta 0)
-remote: Compressing source files... done.
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git push --set-upstream heroku master
+Enumerating objects: 13, <span class="k">done</span>.
+Counting objects: 100% <span class="o">(</span>13/13<span class="o">)</span>, <span class="k">done</span>.
+Delta compression using up to <span class="m">4</span> threads
+Compressing objects: 100% <span class="o">(</span>6/6<span class="o">)</span>, <span class="k">done</span>.
+Writing objects: 100% <span class="o">(</span>7/7<span class="o">)</span>, 1.25 KiB <span class="p">|</span> 1.25 MiB/s, <span class="k">done</span>.
+Total <span class="m">7</span> <span class="o">(</span>delta 3<span class="o">)</span>, reused <span class="m">0</span> <span class="o">(</span>delta 0<span class="o">)</span>
+remote: Compressing <span class="nb">source</span> files... <span class="k">done</span>.
 remote: Building source:
 remote:
 remote: -----&gt; Scala app detected
-remote: -----&gt; Installing JDK 1.8... done
+remote: -----&gt; Installing JDK 1.8... <span class="k">done</span>
 remote: -----&gt; Running: sbt compile stage
 ...
-remote:        [info] Done compiling.
-remote:        [success] Total time: 4 s, completed Oct 27, 2018 5:44:33 PM
+remote:        <span class="o">[</span>info<span class="o">]</span> Done compiling.
+remote:        <span class="o">[</span>success<span class="o">]</span> Total time: <span class="m">4</span> s, completed Oct 27, <span class="m">2018</span> 5:44:33 PM
 ...
-remote:        [info] Done packaging.
-remote:        [success] Total time: 3 s, completed Oct 27, 2018 5:44:36 PM
+remote:        <span class="o">[</span>info<span class="o">]</span> Done packaging.
+remote:        <span class="o">[</span>success<span class="o">]</span> Total time: <span class="m">3</span> s, completed Oct 27, <span class="m">2018</span> 5:44:36 PM
 remote: -----&gt; Dropping ivy cache from the slug
 remote: -----&gt; Dropping sbt boot dir from the slug
 remote: -----&gt; Dropping compilation artifacts from the slug
 remote: -----&gt; Discovering process types
-remote:        Procfile declares types     -&gt; (none)
-remote:        Default types for buildpack -&gt; web
+remote:        Procfile declares types     -&gt; <span class="o">(</span>none<span class="o">)</span>
+remote:        Default types <span class="k">for</span> buildpack -&gt; web
 remote:
 remote: -----&gt; Compressing...
 remote:        Done: 71.9M
@@ -270,1144 +345,91 @@ remote: -----&gt; Launching...
 remote:        Released v10
 remote:        https://yourproject.herokuapp.com/ deployed to Heroku
 remote:
-remote: Verifying deploy... done.
+remote: Verifying deploy... <span class="k">done</span>.
 To https://git.heroku.com/yourproject.git
    ca5c7c5..4a5a138  master -&gt; master
-</code></pre>
-
-<p>Now head to your url and start building the rest!</p>
-                </div>
-            </div>
-        </div>
-    </article>
+</code></pre></div><p>Now head to your url and start building the rest!</p>
 </div>
-        <!-- BLOG -->
-<section class="bg-dark" id="blog">
-    
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Blog</h2>
-                    <hr class="light">
-                </div>
-            </div>
-        </div>
-    
-    <div class="container">
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-12-04T21:00:00JST ">
-                Dec 4, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">Exception-Proof For-Comprehensions</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>I recently created a <em>wonderful</em> bug.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://www.jannikarndt.de/tags/scala/">Scala</a></li>
+    </ul>
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
 
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-28T13:00:00JST ">
-                Oct 28, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">oAuth2 with Akka HTTP</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:</p>
 
-<ul>
-<li><code>/</code> — publicly accessible, returns “Welcome!”,</li>
-<li><code>/auth</code> — provide your <code>username</code> and <code>password</code>, receive an <code>access_token</code> in return,</li>
-<li><code>/api</code> — secured by oAuth, send the <code>access_token</code> in a header to gain access.</li>
-</ul>
 
-<p>From the server&rsquo;s point of view:</p>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
 
-<ul>
-<li><code>/</code> — publicly accessible, do nothing,</li>
-<li><code>/auth</code> — receive basic auth credentials, verify they&rsquo;re in the list of known credentials, create an <code>access_token</code>, return it,</li>
-<li><code>/api</code> — receive <code>authorization</code> header, check if <code>access_token</code> is in list of valid tokens.</li>
-</ul>
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
 
-<p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-27T19:00:00JST ">
-                Oct 27, 2018
-            </time>
-        </div>
-        <div>
-            <h3>
-                <a href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">Akka HTTP on Heroku</a>
-            </h3>
-        </div>
-        <div class="summary">
-            <p>Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.</p>
-        </div>
-        
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">Read More…</a>
-        </div>
-        
-        <br>
-        <br>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-10-07T18:00:00JST ">
-                Oct 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/">How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-31T17:00:00JST ">
-                Aug 31, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/">How Event Sourcing in Akka Persistent Actors Works</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-22T09:00:00JST ">
-                Aug 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/">Rotating PostgreSQL Passwords with no downtime</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-16T15:00:00JST ">
-                Aug 16, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/">Examining a PostgreSQL with psql or pgcli</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-08-05T16:00:00JST ">
-                Aug 5, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/">Using your Apple Watch Workout to Geotag DSLR Photos</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-07-22T07:00:00JST ">
-                Jul 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/">3 Ways How Passwords Get Leaked</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-05-25T23:00:00JST ">
-                May 25, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/">Kirschblütenfeuerwerk</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-05-25T23:00:00JST ">
-                May 25, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/">Russische Kirche, Fernsehturm, Landungsbrücken</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-08T12:00:00JST ">
-                Apr 8, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/boberg/">Boberg</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-07T13:38:00JST ">
-                Apr 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/alsterpanorama/">Alsterpanorama</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-04-07T12:35:00JST ">
-                Apr 7, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/">Hochwasserbassin</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-03-22T07:00:00JST ">
-                Mar 22, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/">How to add an SSH Key as a Kubernetes Secret</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-03-13T12:00:00JST ">
-                Mar 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/">Lazy Aliases in my Shell</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T20:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/">How to use a Raspberry Pi for your Time Machine backups</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T19:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/">How to install Tasmota on a Sonoff device without opening it</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T12:40:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">How to use a Raspberry Pi 3 with Apple Home</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2018-01-13T12:00:00JST ">
-                Jan 13, 2018
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-23T20:00:00JST ">
-                Nov 23, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">Terraform on Google Cloud Engine Quickstart</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-11T17:00:00JST ">
-                Nov 11, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/">Lessons learned in 2017</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-07T18:00:00JST ">
-                Nov 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/">What settings yield the sharpest landscape photo?</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-11-04T16:50:00JST ">
-                Nov 4, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/">Hamburg as seen from the Michel</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-09-10T21:07:00JST ">
-                Sep 10, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-08-19T10:05:00JST ">
-                Aug 19, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">Writing case classes to MongoDB in Scala</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-08-06T17:20:00JST ">
-                Aug 6, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">VERY Quick Start: Terraform</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-22T05:00:00JST ">
-                Jul 22, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/">Where bad code comes from</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-21T22:45:00JST ">
-                Jul 21, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">Storing sparse, key-value-like data in a relational database</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-15T17:00:00JST ">
-                Jul 15, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/">Tough Mudder Norddeutschland 2017</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-07-02T13:45:00JST ">
-                Jul 2, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/">A Minor Story Live at Methfesselfest</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-06-18T08:30:00JST ">
-                Jun 18, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/06/git_in_one_image/">Git in one Image</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-05-23T08:30:00JST ">
-                May 23, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/05/two_speed_it/">Two-speed IT</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-05-01T11:45:00JST ">
-                May 1, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/">The real world doesn&#39;t care about encoding</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-03-05T17:01:00JST ">
-                Mar 5, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/">Belugas at Finkenwerder</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-03-05T17:01:00JST ">
-                Mar 5, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/">Deploying Pentaho jobs into Production</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-07T11:20:00JST ">
-                Jan 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">Extracting Dimensions from an Oracle Database Table</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-07T11:20:00JST ">
-                Jan 7, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/">talend does not work</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2017-01-03T10:12:00JST ">
-                Jan 3, 2017
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/">Lessons learned in 2016</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-23T23:56:00JST ">
-                Nov 23, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/">Perfect Home Screen Layout</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-22T23:25:00JST ">
-                Nov 22, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/">Bug Fixing in Production</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-lg-12">
-                <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-2">
-        <div>
-            <i class="fa fa-calendar" aria-hidden="true"></i>&ensp;
-            <time datetime=" 2016-11-20T13:37:00JST ">
-                Nov 20, 2016
-            </time>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div>
-            <a href="https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/">The 2016-Personal-Website Infrastructure</a>
-        </div>
-        <br>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
-                </div>
-            </div>
-        
-    </div>
-</section>
-        <!-- CONTACT -->
-<section id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-lg-offset-3 text-center">
-                
-                    <a href="https://github.com/JannikArndt" target="_blank"><i class="fa fa-github fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://twitter.com/JannikArndt" target="_blank"><i class="fa fa-twitter fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.facebook.com/jannik.arndt" target="_blank"><i class="fa fa-facebook fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.linkedin.com/in/jannikarndt" target="_blank"><i class="fa fa-linkedin fa-3x">&nbsp;</i></a>
-                
-
-                
-                    <a href="https://www.xing.com/profile/Jannik_Arndt" target="_blank"><i class="fa fa-xing fa-3x">&nbsp;</i></a>
-                
-
-                
-                     <a href="mailto:jannik@jannikarndt.de"><i class="fa fa-envelope-o fa-3x">&nbsp;</i></a>
-                
-             </div>
-        </div>
-    </div>
-</section>
-
-        <script src="https://www.jannikarndt.de/js/jquery-3.3.1.min.js"></script>
-<script src="https://www.jannikarndt.de/js/jquery-ui.min.js"></script>
-<script src="https://www.jannikarndt.de/js/highlight.pack.js"></script>
-<script src="https://www.jannikarndt.de/js/bootstrap.min.js"></script>
-<script lang="">(function ($) {
-        "use strict";
-
-        hljs.initHighlightingOnLoad();
-
-        
-        $('a[href*="#"]').on('click', function (e) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
             e.preventDefault();
-
-            $('html, body').animate({
-                scrollTop: ($($(this).attr('href')).offset().top - 50)
-            }, 500, 'easeInOutExpo');
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
         });
-        
-        
-        $(document).scroll(function () {
-            $(".navbar").toggleClass("navbar-scrolled", $(this).scrollTop() > 50);
-        });
+    });
 
-    })(jQuery);</script>
-    </body>
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
 </html>
