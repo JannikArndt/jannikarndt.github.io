@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to add an SSH Key as a Kubernetes Secret | Jannik Arndt</title>
+
+<meta name="keywords" content="DevOps, Kubernetes, Docker, SSH" />
+<meta name="description" content="Adding an ssh-file as a secret sounds easy, but there are pitfalls.">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+<meta property="og:title" content="How to add an SSH Key as a Kubernetes Secret" />
+<meta property="og:description" content="Adding an ssh-file as a secret sounds easy, but there are pitfalls." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-03-22T07:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2018-03-22T07:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="How to add an SSH Key as a Kubernetes Secret"/>
+<meta name="twitter:description" content="Adding an ssh-file as a secret sounds easy, but there are pitfalls."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "How to add an SSH Key as a Kubernetes Secret",
+      "item": "https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to add an SSH Key as a Kubernetes Secret",
+  "name": "How to add an SSH Key as a Kubernetes Secret",
+  "description": "Adding an ssh-file as a secret sounds easy, but there are pitfalls.\n",
+  "keywords": [
+    "DevOps", "Kubernetes", "Docker", "SSH"
+  ],
+  "articleBody": "Adding an ssh-file as a secret sounds easy, but there are pitfalls.\nStep 1: Add secret to kubernetes First, add the key as a secret, for example with terraform\nresource \"kubernetes_secret\" \"ssh_key_verstehensystem_csv_ingest_bwh\" { metadata { name = \"my-ssh-key\" } data { \"id_rsa\" = \"${file(\"id_rsa\")}\" } type = \"Opaque\" } (see Docs) or with kubectl:\n$ kubectl create secret generic my-ssh-key --from-file=id_rsa=/path/to/local-ssh-keys (see Docs). Note that this command renames the file: --from-file==.\nStep 2: Mount the secret Now, in your pod, mount the secret as a volume:\nkind:PodapiVersion:v1metadata:name:...spec:containers:- name:...image:...volumeMounts:- name:ssh-key-volumemountPath:\"/etc/ssh-key\"volumes:- name:ssh-key-volumesecret:secretName:my-ssh-keydefaultMode:256Step 3: Do’s and Dont’s Mount to ~/.ssh/ Remember that mounting to an existing directory will overwrite it. Even if .ssh does not exist, it will be replaced by a read-only mount, so ssh will fail when it creates the known_hosts file.\nBesides, writing ~ in your yaml will most likely create a folder called '~'. You need absolute paths!\nForget the defaultMode ssh checks the key’s file permissions and will fail if they are too broad. Since the volume is read-only, you cannot simply chmod after the fact, you need to set the permissions in your yaml. But beware…\nWrite POSIX in defaultMode The docs state:\n Note that the JSON spec doesn’t support octal notation, so use the value 256 for 0400 permissions. If you use yaml instead of json for the pod, you can use octal notation to specify permissions in a more natural way.\n In my experience, the yaml spec also does not support octal notation, so you need to convert:\n400 = (4 * 8^2) + (4 * 8^1) + (4 * 8^0) = (4 * 64) + (0 * 8) + (0 * 1) = 256 + 0 + 0 = 256 ",
+  "wordCount" : "290",
+  "inLanguage": "en",
+  "datePublished": "2018-03-22T07:00:00+01:00",
+  "dateModified": "2018-03-22T07:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      How to add an SSH Key as a Kubernetes Secret
+    </h1>
+    <div class="post-meta">
+
+March 22, 2018&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>Adding an ssh-file as a secret sounds easy, but there are pitfalls.</p>
+<h2 id="step-1-add-secret-to-kubernetes">Step 1: Add secret to kubernetes<a hidden class="anchor" aria-hidden="true" href="#step-1-add-secret-to-kubernetes">#</a></h2>
+<p>First, add the key as a secret, for example with terraform</p>
+<div class="highlight"><pre class="chroma"><code class="language-hcl" data-lang="hcl"><span class="k">resource</span> <span class="s2">&#34;kubernetes_secret&#34; &#34;ssh_key_verstehensystem_csv_ingest_bwh&#34;</span> {
+  <span class="k">metadata</span> {
+<span class="n">    name</span>      <span class="o">=</span> <span class="s2">&#34;my-ssh-key&#34;</span>
+  }
+
+  <span class="k">data</span> {
+<span class="n">    &#34;id_rsa&#34;</span> <span class="o">=</span> <span class="s2">&#34;${file(&#34;id_rsa&#34;)}&#34;</span>
+  }
+
+<span class="n">  type</span> <span class="o">=</span> <span class="s2">&#34;Opaque&#34;</span>
+}
+</code></pre></div><p>(see <a href="https://www.terraform.io/docs/providers/kubernetes/r/secret.html">Docs</a>) or with <code>kubectl</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl create secret generic my-ssh-key --from-file<span class="o">=</span><span class="nv">id_rsa</span><span class="o">=</span>/path/to/local-ssh-keys
+</code></pre></div><p>(see <a href="https://kubernetes.io/docs/concepts/configuration/secret/#use-case-pod-with-ssh-keys">Docs</a>). Note that this command renames the file: <code>--from-file=&lt;name on the cluster&gt;=&lt;local file&gt;</code>.</p>
+<h2 id="step-2-mount-the-secret">Step 2: Mount the secret<a hidden class="anchor" aria-hidden="true" href="#step-2-mount-the-secret">#</a></h2>
+<p>Now, in your pod, mount the secret as a volume:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">...</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">...</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">...</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ssh-key-volume</span><span class="w">
+</span><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/etc/ssh-key&#34;</span><span class="w">
+</span><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ssh-key-volume</span><span class="w">
+</span><span class="w">    </span><span class="nt">secret</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">my-ssh-key</span><span class="w">
+</span><span class="w">      </span><span class="nt">defaultMode</span><span class="p">:</span><span class="w"> </span><span class="m">256</span><span class="w">
+</span></code></pre></div><h2 id="step-3-dos-and-donts">Step 3: Do&rsquo;s and Dont&rsquo;s<a hidden class="anchor" aria-hidden="true" href="#step-3-dos-and-donts">#</a></h2>
+<h3 id="mount-to-ssh">Mount to <code>~/.ssh/</code><a hidden class="anchor" aria-hidden="true" href="#mount-to-ssh">#</a></h3>
+<p>Remember that mounting to an existing directory will <em>overwrite</em> it. Even if <code>.ssh</code> does not exist, it will be replaced by a <em>read-only</em> mount, so <code>ssh</code> will fail when it creates the <code>known_hosts</code> file.</p>
+<p>Besides, writing <code>~</code> in your <code>yaml</code> will most likely create a folder called <code>'~'</code>. You need absolute paths!</p>
+<h3 id="forget-the-defaultmode">Forget the <code>defaultMode</code><a hidden class="anchor" aria-hidden="true" href="#forget-the-defaultmode">#</a></h3>
+<p><code>ssh</code> checks the key&rsquo;s file permissions and will fail if they are too broad. Since the volume is read-only, you cannot simply <code>chmod</code> after the fact, you need to set the permissions in your <code>yaml</code>. But beware…</p>
+<h3 id="write-posix-in-defaultmode">Write POSIX in <code>defaultMode</code><a hidden class="anchor" aria-hidden="true" href="#write-posix-in-defaultmode">#</a></h3>
+<p>The docs <a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod">state</a>:</p>
+<blockquote>
+<p>Note that the JSON spec doesn’t support octal notation, so use the value 256 for 0400 permissions. If you use yaml instead of json for the pod, you can use octal notation to specify permissions in a more natural way.</p>
+</blockquote>
+<p>In my experience, the <code>yaml</code> spec <em>also</em> does not support octal notation, so you need to convert:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">400</span> <span class="o">=</span> <span class="o">(</span><span class="m">4</span> * 8^2<span class="o">)</span> + <span class="o">(</span><span class="m">4</span> * 8^1<span class="o">)</span> + <span class="o">(</span><span class="m">4</span> * 8^0<span class="o">)</span> <span class="o">=</span> <span class="o">(</span><span class="m">4</span> * 64<span class="o">)</span> + <span class="o">(</span><span class="m">0</span> * 8<span class="o">)</span> + <span class="o">(</span><span class="m">0</span> * 1<span class="o">)</span> <span class="o">=</span> <span class="m">256</span> + <span class="m">0</span> + <span class="nv">0</span> <span class="o">=</span> <span class="m">256</span>
+</code></pre></div>
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

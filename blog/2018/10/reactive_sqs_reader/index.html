@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack | Jannik Arndt</title>
+
+<meta name="keywords" content="Programming, Scala, akka, alpakka, localstack, reactive programming, aws, simple queue service, message queue" />
+<meta name="description" content="This example show how to write a reactive reader for the AWS Simple Queue Service, using Scala and alpakka (respective akka streams).">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+<meta property="og:title" content="How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack" />
+<meta property="og:description" content="This example show how to write a reactive reader for the AWS Simple Queue Service, using Scala and alpakka (respective akka streams)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-10-07T18:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2018-10-07T18:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack"/>
+<meta name="twitter:description" content="This example show how to write a reactive reader for the AWS Simple Queue Service, using Scala and alpakka (respective akka streams)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack",
+      "item": "https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack",
+  "name": "How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack",
+  "description": "This example show how to write a reactive reader for the AWS Simple Queue Service, using Scala and alpakka (respective akka streams).\n",
+  "keywords": [
+    "Programming", "Scala", "akka", "alpakka", "localstack", "reactive programming", "aws", "simple queue service", "message queue"
+  ],
+  "articleBody": "This example show how to write a reactive reader for the AWS Simple Queue Service, using Scala and alpakka (respective akka streams).\nSQS Basics SQS is a AWS-managed message queue service. It can contain several queues. If a message is read from the queue, it is internally set to invisible for 30 seconds. If you don’t delete it after these 30 seconds, it becomes visible again. This is great for resilient, distributed microservices: If one instance of a service dies in the middle of handling a message, the message will re-appear and be handled by another instance. It is important though that you do the deletion step last.\nThis Project You can find the complete source code on https://github.com/JannikArndt/reactive-sqs.\nImports / build.sbt Let’s start with adding dependencies to our build.sbt:\nname := \"reactive-sqs\" scalaVersion := \"2.12.7\" version := \"1.0\" libraryDependencies ++= Seq( // https://mvnrepository.com/artifact/com.lightbend.akka/akka-stream-alpakka-sqs  \"com.lightbend.akka\" %% \"akka-stream-alpakka-sqs\" % \"0.20\", // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging  \"com.typesafe.scala-logging\" %% \"scala-logging\" % \"3.9.0\", \"org.slf4j\" % \"slf4j-simple\" % \"1.7.25\", // https://mvnrepository.com/artifact/com.typesafe.akka/akka-testkit  \"com.typesafe.akka\" %% \"akka-testkit\" % \"2.5.16\" % Test, // https://mvnrepository.com/artifact/org.scalatest/scalatest  \"org.scalatest\" %% \"scalatest\" % \"3.0.5\" % Test, // https://mvnrepository.com/artifact/org.mockito/mockito-core  \"org.mockito\" % \"mockito-core\" % \"2.23.0\" ) Since the com.amazonaws.aws-java-sdk-sqs-library is included in akka-stream-alpakka-sqs, we only need that one. I’m also using scala-logging, and for tests the akka-testkit, scalatest and mockito.\nSqsService.scala Next we’ll write the SqsService.scala. Its job is to create a flow and handle the messages. As parameters I want to give it the queueUrl, a function to handle messages and the maximum amount of messages that are handled in parallel:\nobject SqsService { case class MyMessage(content: String) def create(queueUrl: String, maxMessagesInFlight: Int) (messageHandler: MyMessage = Unit) = ??? } I can call this function from my Main.scala:\nSqsService.create(\"http://localhost:4576/queue/myqueue\", 20) { message = println(s\"Doing logic with ${message.content}\") } Since alpakka is running on akka streams, I will also have to provide an ActorSystem(). The return value of my create function is dictated by akka streams: a tuple of a KillSwitch and a Future[Done]. These enable me to stop the stream and wait for its completion. So the complete Main is\nimport akka.Done import akka.actor.ActorSystem import akka.stream._ import scala.concurrent.duration._ import scala.concurrent.{Await, Future} import scala.io.StdIn import scala.language.postfixOps object Main extends App { implicit val system = ActorSystem() val (killSwitch, completion): (KillSwitch, Future[Done]) = SqsService.create(\"http://localhost:4576/queue/myqueue\", 20) { message = println(s\"Doing logic with ${message.content}\") } println(s\"Running service. Press enter to stop.\") StdIn.readLine() killSwitch.shutdown() Await.ready(completion, 10 seconds) SqsService.stop() system.terminate() } Creating an SqsClient The first thing our SqsService needs to do is create an AmazonSQSAsyncClient. The last thing it needs to do is to shut it down — otherwise it won’t let you exit the program:\nobject SqsService extends StrictLogging { case class MyMessage(content: String) implicit private val sqsClient: AmazonSQSAsync = AmazonSQSAsyncClientBuilder .standard() .withRegion(\"eu-central-1\") .build() def stop(): Unit = sqsClient.shutdown() def create(queueUrl: String, maxMessagesInFlight: Int) (messageHandler: MyMessage = Unit) = ??? } Creating the Flow Next, we’ll implement the create function to create a Flow. The basic stream is build by this:\nsource .via(flow) .toMat(sink)(Keep.both) .run() As source we’ll use\nSqsSource(queueUrl).viaMat(KillSwitches.single)(Keep.right) This combines a SqsSource that emits sqs.model.Messages with a KillSwitch and makes sure the KillSwitch is returned. The return type is Source[Message, UniqueKillSwitch].\nAs sink we use SqsAckSink(queueUrl, SqsAckSinkSettings(maxMessagesInFlight)). It needs to receive the queueUrl because that’s where it sends the delete-commands to delete/acknowledge the currently invisible message.\nThe Flow is created in two steps: Step one creates a flow from a function and defines attributes:\nval flow = Flow .fromFunction(handleMessage(messageHandler)) .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider)) The supervisionStrategy decides what happens if an exception is thrown inside the flow. The standard strategy is to complete the stream with failure, i.e. one bad message will crash the entire program. The resumingDecider simply ignores elements that result in exceptions. This means you need to implement error handling inside the messageHandler.\nThe function itself reads the body from the message and hands it to the messageHandler we defined in the Main. It then returns a tuple of the original message and a delete-action. This is the input needed by the SqsAckSink:\nprivate def handleMessage(messageHandler: MyMessage = Unit) = { message: Message = messageHandler(MyMessage(message.getBody)) (message, MessageAction.Delete) } Now there’s only one thing left: The run() part, where the stream is materialized, needs an ActorMaterializer:\nimplicit val mat: ActorMaterializer = ActorMaterializer() The complete code is\nobject SqsService extends StrictLogging { case class MyMessage(content: String) implicit private val sqsClient: AmazonSQSAsync = AmazonSQSAsyncClientBuilder .standard() .withRegion(\"eu-central-1\") .build() def stop(): Unit = sqsClient.shutdown() def create(queueUrl: String, maxMessagesInFlight: Int) (messageHandler: MyMessage = Unit) (implicit system: ActorSystem): (KillSwitch, Future[Done]) = { implicit val mat: ActorMaterializer = ActorMaterializer() val source = SqsSource(queueUrl).viaMat(KillSwitches.single)(Keep.right) val sink = SqsAckSink(queueUrl, SqsAckSinkSettings(maxMessagesInFlight)) val flow = Flow .fromFunction(handleMessage(messageHandler)) .withAttributes(ActorAttributes.supervisionStrategy(Supervision.resumingDecider)) source .via(flow) .toMat(sink)(Keep.both) .run() } private def handleMessage(messageHandler: MyMessage = Unit) = { message: Message = messageHandler(MyMessage(message.getBody)) (message, MessageAction.Delete) } } Bonus Functions The AmazonSqsClient has one big caveat: it does not fail if the queue you’re subscribing to doesn’t exist. That’s why I wrote two extra functions:\nimport scala.collection.JavaConverters._ def findAvailableQueues(queueNamePrefix: String): Seq[String] = sqsClient.listQueues(queueNamePrefix).getQueueUrls.asScala.toVector This is just a Scala-wrapper around the library function. The second function calls a library function that does fail if the queue doesn’t exist:\ndef assertQueueExists(queueUrl: String): Unit = try { sqsClient.getQueueAttributes(queueUrl, Seq(\"All\").asJava) logger.info(s\"Queue at $queueUrlfound.\") } catch { case queueDoesNotExistException: QueueDoesNotExistException = logger.error(s\"The queue with url $queueUrldoes not exist.\") throw queueDoesNotExistException } The advantage of assertQueueExists over checking if the url is contained in the list of all available queues is, that you don’t need the permission to list all queues.\nTesting Testing our SqsService has three challenges: It is using an AWS service, it is running asynchronously and message queues have a live of their own.\nMocking AWS SQS Luckily, others have had the need to test AWS services as well, and created Localstack. It provides a Docker image that runs these services locally:\n$ docker run -d --env SERVICES=\"sqs\" --env TMPDIR=\"/tmp\" \\  --name \"localstack\" \\  --publish 4576:4576 \\  --rm localstack/localstack You list the services you want to use in the SERVICES variable and expose their respective port (--publish). The container is started in detached mode (-d) and cleans up after it is removed or the daemon exits (--rm).\nIf you want to access the Localstack-version of a service via the aws cli, you can use the --endpoint-url:\n$ aws --endpoint-url=http://localhost:4576 sqs send-message\\  --queue-url \"http://localhost:4576/queue/myqueue\"\\  --message-body \"Hallo\" Mocking the Function Our test will basically be “is this function called if a message arrives in SQS?”. For this we need\n the Localstack-version of SQS running a seperate SQSClient a queue dedicated for this test a way to test if a function gets called a way to wait for the round trip (test = Sqs = tested code = test)  We use the AWS client library thats included in alpakka to create a client in our test class:\nval awsSqsClient: AmazonSQSAsync = AmazonSQSAsyncClientBuilder .standard() .withEndpointConfiguration(new EndpointConfiguration(\"http://localhost:4576\", \"eu-central-1\")) .build() Note that the endpoint connects to the Localstack-version running in docker.\nNext, we’ll create a queue:\nval queueUrl: String = awsSqsClient.createQueue(\"integrationtest\").getQueueUrl Since we’re running on akka, with it’s own ExecutionContext, and the SqsClient has it’s own ExecutionContext as well, we should terminate both when the tests are done:\noverride def afterAll(): Unit = { awsSqsClient.shutdown() shutdown(system) super.afterAll() } We’ll use Mockito to verify that the function we’ll give to our SqsService is actually called. Mockito needs a class to create a mock, so:\nclass TestClass { def testFunction(message: MyMessage): Unit = Unit } val mock: TestClass = mock[TestClass] Since we’re mocking the testFunction, we don’t need to implement it.\nIt is good practice to put any values that appear in the test input as well as the output into a variable, so you can easily spot the expectation:\nval messageBody = \"Example Body\" Now we’re ready to write the test!\n\"SqsService\" should \"receive a message\" in { // Arrange  SqsService.create(queueUrl, maxMessagesInFlight = 20)(mock.testFunction) // Act: Send message to SQS (synchronous)  awsSqsClient.sendMessage(queueUrl, messageBody) // Assert  verify(mock, Mockito.timeout(1000)).testFunction(MyMessage(messageBody)) } The Mockito.timeout(1000) will wait a second for the result. Make sure to use timeout instead of after, because with timeout the test succeeds directly when the function is called, while after waits the full second.\nDealing with Message Queues Now the tests will mostly work. However, since it depends on an outside component, namely the SQS, it will fail, from time to time.\n[info] MainSpec: [info] SqsService [info] - should receive a message *** FAILED *** [info] org.mockito.exceptions.verification.WantedButNotInvoked: Wanted but not invoked: [info] testClass.testFunction( [info] MyMessage(Example Body) [info] ); [info] - at MainSpec.$anonfun$new$1(MainSpec.scala:64) It might also fail because the round trip takes longer on you CI-server or you broke the code. Try setting the timeout to around 100 ms to replicate the behavior. Now what’s really bad is that your next test will fail as well:\n[info] MainSpec: [info] SqsService [info] - should receive a message *** FAILED *** [info] org.mockito.exceptions.verification.TooManyActualInvocations: testClass.testFunction( [info] MyMessage(Example Body) [info] ); [info] Wanted 1 time: [info] - at MainSpec.$anonfun$new$1(MainSpec.scala:64) [info] But was 2 times: [info] - at MainSpec.$anonfun$new$2(MainSpec.scala:58) [info] - at MainSpec.$anonfun$new$2(MainSpec.scala:58) That’s because the message from the previous test is still in the queue! Luckily, this can be worked around with BeforeAndAfterEach:\nvar queueUrl: String = \"\" override def beforeEach(): Unit = { queueUrl = awsSqsClient.createQueue(\"integrationtest\").getQueueUrl println(\"--- Created queue ---\") super.beforeEach() } override def afterEach(): Unit = { awsSqsClient.deleteQueue(queueUrl) println(\"--- Deleted queue ---\") super.afterEach() } This way, one failed test won’t affect the next.\n",
+  "wordCount" : "1547",
+  "inLanguage": "en",
+  "datePublished": "2018-10-07T18:00:00+01:00",
+  "dateModified": "2018-10-07T18:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack
+    </h1>
+    <div class="post-meta">
+
+October 7, 2018&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>This example show how to write a reactive reader for the AWS <em>Simple Queue Service</em>, using Scala and alpakka (respective akka streams).</p>
+<h2 id="sqs-basics">SQS Basics<a hidden class="anchor" aria-hidden="true" href="#sqs-basics">#</a></h2>
+<p>SQS is a AWS-managed message queue service. It can contain several queues. If a message is read from the queue, it is internally set to <em>invisible</em> for <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html#configuring-visibility-timeout">30 seconds</a>. If you don&rsquo;t delete it after these 30 seconds, it becomes visible again. This is great for resilient, distributed microservices: If one instance of a service dies in the middle of handling a message, the message will re-appear and be handled by another instance. It is important though that you do the deletion step <em>last</em>.</p>
+<h2 id="this-project">This Project<a hidden class="anchor" aria-hidden="true" href="#this-project">#</a></h2>
+<p>You can find the complete source code on <a href="https://github.com/JannikArndt/reactive-sqs">https://github.com/JannikArndt/reactive-sqs</a>.</p>
+<h2 id="imports--buildsbt">Imports / build.sbt<a hidden class="anchor" aria-hidden="true" href="#imports--buildsbt">#</a></h2>
+<p>Let&rsquo;s start with adding dependencies to our <code>build.sbt</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;reactive-sqs&#34;</span>
+
+<span class="n">scalaVersion</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;2.12.7&#34;</span>
+
+<span class="n">version</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;1.0&#34;</span>
+
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="c1">// https://mvnrepository.com/artifact/com.lightbend.akka/akka-stream-alpakka-sqs
+</span><span class="c1"></span>  <span class="s">&#34;com.lightbend.akka&#34;</span> <span class="o">%%</span> <span class="s">&#34;akka-stream-alpakka-sqs&#34;</span> <span class="o">%</span> <span class="s">&#34;0.20&#34;</span><span class="o">,</span>
+
+  <span class="c1">// https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
+</span><span class="c1"></span>  <span class="s">&#34;com.typesafe.scala-logging&#34;</span> <span class="o">%%</span> <span class="s">&#34;scala-logging&#34;</span> <span class="o">%</span> <span class="s">&#34;3.9.0&#34;</span><span class="o">,</span>
+  <span class="s">&#34;org.slf4j&#34;</span> <span class="o">%</span> <span class="s">&#34;slf4j-simple&#34;</span> <span class="o">%</span> <span class="s">&#34;1.7.25&#34;</span><span class="o">,</span>
+  
+  <span class="c1">// https://mvnrepository.com/artifact/com.typesafe.akka/akka-testkit
+</span><span class="c1"></span>  <span class="s">&#34;com.typesafe.akka&#34;</span> <span class="o">%%</span> <span class="s">&#34;akka-testkit&#34;</span> <span class="o">%</span> <span class="s">&#34;2.5.16&#34;</span> <span class="o">%</span> <span class="nc">Test</span><span class="o">,</span>
+  <span class="c1">// https://mvnrepository.com/artifact/org.scalatest/scalatest
+</span><span class="c1"></span>  <span class="s">&#34;org.scalatest&#34;</span> <span class="o">%%</span> <span class="s">&#34;scalatest&#34;</span> <span class="o">%</span> <span class="s">&#34;3.0.5&#34;</span> <span class="o">%</span> <span class="nc">Test</span><span class="o">,</span>
+  <span class="c1">// https://mvnrepository.com/artifact/org.mockito/mockito-core
+</span><span class="c1"></span>  <span class="s">&#34;org.mockito&#34;</span> <span class="o">%</span> <span class="s">&#34;mockito-core&#34;</span> <span class="o">%</span> <span class="s">&#34;2.23.0&#34;</span>
+<span class="o">)</span>
+</code></pre></div><p>Since the <code>com.amazonaws.aws-java-sdk-sqs</code>-library is included in <code>akka-stream-alpakka-sqs</code>, we only need that one. I&rsquo;m also using <code>scala-logging</code>, and for tests the <code>akka-testkit</code>, <code>scalatest</code> and <code>mockito</code>.</p>
+<h2 id="sqsservicescala">SqsService.scala<a hidden class="anchor" aria-hidden="true" href="#sqsservicescala">#</a></h2>
+<p>Next we&rsquo;ll write the <code>SqsService.scala</code>. Its job is to create a flow and handle the messages. As parameters I want to give it the <code>queueUrl</code>, a function to handle messages and the maximum amount of messages that are handled in parallel:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">SqsService</span> <span class="o">{</span>
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">create</span><span class="o">(</span><span class="n">queueUrl</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxMessagesInFlight</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+            <span class="o">(</span><span class="n">messageHandler</span><span class="k">:</span> <span class="kt">MyMessage</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="o">???</span>
+<span class="o">}</span>
+</code></pre></div><p>I can call this function from my <code>Main.scala</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">SqsService</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="s">&#34;http://localhost:4576/queue/myqueue&#34;</span><span class="o">,</span> <span class="mi">20</span><span class="o">)</span> <span class="o">{</span> <span class="n">message</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">s&#34;Doing logic with </span><span class="si">${</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+</code></pre></div><p>Since <code>alpakka</code> is running on <code>akka streams</code>, I will also have to provide an <code>ActorSystem()</code>.
+The return value of my <code>create</code> function is dictated by <code>akka streams</code>: a tuple of a <code>KillSwitch</code> and a <code>Future[Done]</code>. These enable me to stop the stream and wait for its completion. So the complete <code>Main</code> is</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.Done</span>
+<span class="k">import</span> <span class="nn">akka.actor.ActorSystem</span>
+<span class="k">import</span> <span class="nn">akka.stream._</span>
+
+<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.</span><span class="o">{</span><span class="nc">Await</span><span class="o">,</span> <span class="nc">Future</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.io.StdIn</span>
+<span class="k">import</span> <span class="nn">scala.language.postfixOps</span>
+
+<span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">implicit</span> <span class="k">val</span> <span class="n">system</span> <span class="k">=</span> <span class="nc">ActorSystem</span><span class="o">()</span>
+
+  <span class="k">val</span> <span class="o">(</span><span class="n">killSwitch</span><span class="o">,</span> <span class="n">completion</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">KillSwitch</span><span class="o">,</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Done</span><span class="o">])</span> <span class="k">=</span>
+    <span class="nc">SqsService</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="s">&#34;http://localhost:4576/queue/myqueue&#34;</span><span class="o">,</span> <span class="mi">20</span><span class="o">)</span> <span class="o">{</span> <span class="n">message</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">s&#34;Doing logic with </span><span class="si">${</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+
+  <span class="n">println</span><span class="o">(</span><span class="s">s&#34;Running service. Press enter to stop.&#34;</span><span class="o">)</span>
+  <span class="nc">StdIn</span><span class="o">.</span><span class="n">readLine</span><span class="o">()</span>
+
+  <span class="n">killSwitch</span><span class="o">.</span><span class="n">shutdown</span><span class="o">()</span>
+  <span class="nc">Await</span><span class="o">.</span><span class="n">ready</span><span class="o">(</span><span class="n">completion</span><span class="o">,</span> <span class="mi">10</span> <span class="n">seconds</span><span class="o">)</span>
+  <span class="nc">SqsService</span><span class="o">.</span><span class="n">stop</span><span class="o">()</span>
+  <span class="n">system</span><span class="o">.</span><span class="n">terminate</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="creating-an-sqsclient">Creating an <code>SqsClient</code><a hidden class="anchor" aria-hidden="true" href="#creating-an-sqsclient">#</a></h2>
+<p>The first thing our <code>SqsService</code> needs to do is create an <code>AmazonSQSAsyncClient</code>. The <em>last</em> thing it needs to do is to shut it down — otherwise it won&rsquo;t let you exit the program:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">SqsService</span> <span class="k">extends</span> <span class="nc">StrictLogging</span> <span class="o">{</span>
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+  <span class="k">implicit</span> <span class="k">private</span> <span class="k">val</span> <span class="n">sqsClient</span><span class="k">:</span> <span class="kt">AmazonSQSAsync</span> <span class="o">=</span>
+    <span class="nc">AmazonSQSAsyncClientBuilder</span>
+      <span class="o">.</span><span class="n">standard</span><span class="o">()</span>
+      <span class="o">.</span><span class="n">withRegion</span><span class="o">(</span><span class="s">&#34;eu-central-1&#34;</span><span class="o">)</span>
+      <span class="o">.</span><span class="n">build</span><span class="o">()</span>
+
+  <span class="k">def</span> <span class="n">stop</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">sqsClient</span><span class="o">.</span><span class="n">shutdown</span><span class="o">()</span>
+
+  <span class="k">def</span> <span class="n">create</span><span class="o">(</span><span class="n">queueUrl</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxMessagesInFlight</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+            <span class="o">(</span><span class="n">messageHandler</span><span class="k">:</span> <span class="kt">MyMessage</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="o">???</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="creating-the-flow">Creating the Flow<a hidden class="anchor" aria-hidden="true" href="#creating-the-flow">#</a></h2>
+<p>Next, we&rsquo;ll implement the <code>create</code> function to create a <code>Flow</code>. The basic stream is build by this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">source</span>
+  <span class="o">.</span><span class="n">via</span><span class="o">(</span><span class="n">flow</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">toMat</span><span class="o">(</span><span class="n">sink</span><span class="o">)(</span><span class="nc">Keep</span><span class="o">.</span><span class="n">both</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">run</span><span class="o">()</span>
+</code></pre></div><p>As <code>source</code> we&rsquo;ll use</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">SqsSource</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">).</span><span class="n">viaMat</span><span class="o">(</span><span class="nc">KillSwitches</span><span class="o">.</span><span class="n">single</span><span class="o">)(</span><span class="nc">Keep</span><span class="o">.</span><span class="n">right</span><span class="o">)</span>
+</code></pre></div><p>This combines a <code>SqsSource</code> that emits <code>sqs.model.Message</code>s with a <code>KillSwitch</code> and makes sure the <code>KillSwitch</code> is returned. The return type is <code>Source[Message, UniqueKillSwitch]</code>.</p>
+<p>As sink we use <code>SqsAckSink(queueUrl, SqsAckSinkSettings(maxMessagesInFlight))</code>. It needs to receive the <code>queueUrl</code> because that&rsquo;s where it sends the <code>delete</code>-commands to delete/acknowledge the currently invisible message.</p>
+<p>The <code>Flow</code> is created in two steps: Step one creates a flow from a function and defines attributes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">flow</span> <span class="k">=</span> <span class="nc">Flow</span>
+  <span class="o">.</span><span class="n">fromFunction</span><span class="o">(</span><span class="n">handleMessage</span><span class="o">(</span><span class="n">messageHandler</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">withAttributes</span><span class="o">(</span><span class="nc">ActorAttributes</span><span class="o">.</span><span class="n">supervisionStrategy</span><span class="o">(</span><span class="nc">Supervision</span><span class="o">.</span><span class="n">resumingDecider</span><span class="o">))</span>
+</code></pre></div><p>The <code>supervisionStrategy</code> decides what happens if an exception is thrown inside the flow. The standard strategy is to complete the stream with failure, i.e. one bad message will crash the entire program. The <code>resumingDecider</code> simply ignores elements that result in exceptions. This means you need to implement error handling inside the <code>messageHandler</code>.</p>
+<p>The function itself reads the <code>body</code> from the message and hands it to the <code>messageHandler</code> we defined in the <code>Main</code>. It then returns a tuple of the original message and a delete-action. This is the input needed by the <code>SqsAckSink</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span> <span class="k">def</span> <span class="n">handleMessage</span><span class="o">(</span><span class="n">messageHandler</span><span class="k">:</span> <span class="kt">MyMessage</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> <span class="n">message</span><span class="k">:</span> <span class="kt">Message</span> <span class="o">=&gt;</span>
+    <span class="n">messageHandler</span><span class="o">(</span><span class="nc">MyMessage</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">getBody</span><span class="o">))</span>
+    <span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="nc">MessageAction</span><span class="o">.</span><span class="nc">Delete</span><span class="o">)</span>
+  <span class="o">}</span>
+</code></pre></div><p>Now there&rsquo;s only one thing left: The <code>run()</code> part, where the stream is <em>materialized</em>, needs an <code>ActorMaterializer</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">implicit</span> <span class="k">val</span> <span class="n">mat</span><span class="k">:</span> <span class="kt">ActorMaterializer</span> <span class="o">=</span> <span class="nc">ActorMaterializer</span><span class="o">()</span>
+</code></pre></div><p>The complete code is</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">SqsService</span> <span class="k">extends</span> <span class="nc">StrictLogging</span> <span class="o">{</span>
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+  <span class="k">implicit</span> <span class="k">private</span> <span class="k">val</span> <span class="n">sqsClient</span><span class="k">:</span> <span class="kt">AmazonSQSAsync</span> <span class="o">=</span>
+    <span class="nc">AmazonSQSAsyncClientBuilder</span>
+      <span class="o">.</span><span class="n">standard</span><span class="o">()</span>
+      <span class="o">.</span><span class="n">withRegion</span><span class="o">(</span><span class="s">&#34;eu-central-1&#34;</span><span class="o">)</span>
+      <span class="o">.</span><span class="n">build</span><span class="o">()</span>
+
+  <span class="k">def</span> <span class="n">stop</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">sqsClient</span><span class="o">.</span><span class="n">shutdown</span><span class="o">()</span>
+
+  <span class="k">def</span> <span class="n">create</span><span class="o">(</span><span class="n">queueUrl</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxMessagesInFlight</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+            <span class="o">(</span><span class="n">messageHandler</span><span class="k">:</span> <span class="kt">MyMessage</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span>
+            <span class="o">(</span><span class="k">implicit</span> <span class="n">system</span><span class="k">:</span> <span class="kt">ActorSystem</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">KillSwitch</span><span class="o">,</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Done</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+
+    <span class="k">implicit</span> <span class="k">val</span> <span class="n">mat</span><span class="k">:</span> <span class="kt">ActorMaterializer</span> <span class="o">=</span> <span class="nc">ActorMaterializer</span><span class="o">()</span>
+
+    <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="nc">SqsSource</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">).</span><span class="n">viaMat</span><span class="o">(</span><span class="nc">KillSwitches</span><span class="o">.</span><span class="n">single</span><span class="o">)(</span><span class="nc">Keep</span><span class="o">.</span><span class="n">right</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">sink</span> <span class="k">=</span> <span class="nc">SqsAckSink</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">,</span> <span class="nc">SqsAckSinkSettings</span><span class="o">(</span><span class="n">maxMessagesInFlight</span><span class="o">))</span>
+    <span class="k">val</span> <span class="n">flow</span> <span class="k">=</span> <span class="nc">Flow</span>
+      <span class="o">.</span><span class="n">fromFunction</span><span class="o">(</span><span class="n">handleMessage</span><span class="o">(</span><span class="n">messageHandler</span><span class="o">))</span>
+      <span class="o">.</span><span class="n">withAttributes</span><span class="o">(</span><span class="nc">ActorAttributes</span><span class="o">.</span><span class="n">supervisionStrategy</span><span class="o">(</span><span class="nc">Supervision</span><span class="o">.</span><span class="n">resumingDecider</span><span class="o">))</span>
+
+    <span class="n">source</span>
+      <span class="o">.</span><span class="n">via</span><span class="o">(</span><span class="n">flow</span><span class="o">)</span>
+      <span class="o">.</span><span class="n">toMat</span><span class="o">(</span><span class="n">sink</span><span class="o">)(</span><span class="nc">Keep</span><span class="o">.</span><span class="n">both</span><span class="o">)</span>
+      <span class="o">.</span><span class="n">run</span><span class="o">()</span>
+  <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="n">handleMessage</span><span class="o">(</span><span class="n">messageHandler</span><span class="k">:</span> <span class="kt">MyMessage</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> <span class="n">message</span><span class="k">:</span> <span class="kt">Message</span> <span class="o">=&gt;</span>
+    <span class="n">messageHandler</span><span class="o">(</span><span class="nc">MyMessage</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="n">getBody</span><span class="o">))</span>
+    <span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="nc">MessageAction</span><span class="o">.</span><span class="nc">Delete</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="bonus-functions">Bonus Functions<a hidden class="anchor" aria-hidden="true" href="#bonus-functions">#</a></h2>
+<p>The <code>AmazonSqsClient</code> has one big caveat: it <em>does not fail</em> if the queue you&rsquo;re subscribing to doesn&rsquo;t exist. That&rsquo;s why I wrote two extra functions:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">scala.collection.JavaConverters._</span>
+
+<span class="k">def</span> <span class="n">findAvailableQueues</span><span class="o">(</span><span class="n">queueNamePrefix</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span>
+    <span class="n">sqsClient</span><span class="o">.</span><span class="n">listQueues</span><span class="o">(</span><span class="n">queueNamePrefix</span><span class="o">).</span><span class="n">getQueueUrls</span><span class="o">.</span><span class="n">asScala</span><span class="o">.</span><span class="n">toVector</span>
+</code></pre></div><p>This is just a Scala-wrapper around the library function. The second function calls a library function that <em>does</em> fail if the queue doesn&rsquo;t exist:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">assertQueueExists</span><span class="o">(</span><span class="n">queueUrl</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span>
+  <span class="k">try</span> <span class="o">{</span>
+    <span class="n">sqsClient</span><span class="o">.</span><span class="n">getQueueAttributes</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&#34;All&#34;</span><span class="o">).</span><span class="n">asJava</span><span class="o">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">s&#34;Queue at </span><span class="si">$queueUrl</span><span class="s"> found.&#34;</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">queueDoesNotExistException</span><span class="k">:</span> <span class="kt">QueueDoesNotExistException</span> <span class="o">=&gt;</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="o">(</span><span class="s">s&#34;The queue with url </span><span class="si">$queueUrl</span><span class="s"> does not exist.&#34;</span><span class="o">)</span>
+      <span class="k">throw</span> <span class="n">queueDoesNotExistException</span>
+  <span class="o">}</span>
+</code></pre></div><p>The advantage of <code>assertQueueExists</code> over checking if the url is contained in the list of all available queues is, that you don&rsquo;t need the permission to list all queues.</p>
+<h2 id="testing">Testing<a hidden class="anchor" aria-hidden="true" href="#testing">#</a></h2>
+<p>Testing our <code>SqsService</code> has three challenges: It is using an AWS service, it is running asynchronously and message queues have a live of their own.</p>
+<h3 id="mocking-aws-sqs">Mocking AWS SQS<a hidden class="anchor" aria-hidden="true" href="#mocking-aws-sqs">#</a></h3>
+<p>Luckily, others have had the need to test AWS services as well, and created <a href="https://github.com/localstack/localstack">Localstack</a>. It provides a Docker image that runs these services locally:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ docker run -d --env <span class="nv">SERVICES</span><span class="o">=</span><span class="s2">&#34;sqs&#34;</span> --env <span class="nv">TMPDIR</span><span class="o">=</span><span class="s2">&#34;/tmp&#34;</span> <span class="se">\
+</span><span class="se"></span>    --name <span class="s2">&#34;localstack&#34;</span> <span class="se">\
+</span><span class="se"></span>    --publish 4576:4576 <span class="se">\
+</span><span class="se"></span>    --rm localstack/localstack
+</code></pre></div><p>You list the services you want to use in the <code>SERVICES</code> variable and expose their respective port (<code>--publish</code>). The container is started in <a href="https://docs.docker.com/engine/reference/run/#detached--d"><em>detached</em> mode</a> (<code>-d</code>) and <a href="https://docs.docker.com/engine/reference/run/#clean-up---rm">cleans up</a> after it is removed or the daemon exits (<code>--rm</code>).</p>
+<p>If you want to access the Localstack-version of a service via the <em>aws</em> cli, you can use the <code>--endpoint-url</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ aws --endpoint-url<span class="o">=</span>http://localhost:4576 sqs send-message<span class="se">\
+</span><span class="se"></span>    --queue-url <span class="s2">&#34;http://localhost:4576/queue/myqueue&#34;</span><span class="se">\
+</span><span class="se"></span>    --message-body <span class="s2">&#34;Hallo&#34;</span>
+</code></pre></div><h3 id="mocking-the-function">Mocking the Function<a hidden class="anchor" aria-hidden="true" href="#mocking-the-function">#</a></h3>
+<p>Our test will basically be “is this function called if a message arrives in SQS?”. For this we need</p>
+<ul>
+<li>the Localstack-version of SQS running</li>
+<li>a seperate SQSClient</li>
+<li>a queue dedicated for this test</li>
+<li>a way to test if a function gets called</li>
+<li>a way to wait for the round trip (test =&gt; Sqs =&gt; tested code =&gt; test)</li>
+</ul>
+<p>We use the AWS client library thats included in <code>alpakka</code> to create a client in our test class:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">awsSqsClient</span><span class="k">:</span> <span class="kt">AmazonSQSAsync</span> <span class="o">=</span> <span class="nc">AmazonSQSAsyncClientBuilder</span>
+  <span class="o">.</span><span class="n">standard</span><span class="o">()</span>
+  <span class="o">.</span><span class="n">withEndpointConfiguration</span><span class="o">(</span><span class="k">new</span> <span class="nc">EndpointConfiguration</span><span class="o">(</span><span class="s">&#34;http://localhost:4576&#34;</span><span class="o">,</span> <span class="s">&#34;eu-central-1&#34;</span><span class="o">))</span>
+  <span class="o">.</span><span class="n">build</span><span class="o">()</span>
+</code></pre></div><p>Note that the endpoint connects to the Localstack-version running in docker.</p>
+<p>Next, we&rsquo;ll create a queue:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">queueUrl</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">awsSqsClient</span><span class="o">.</span><span class="n">createQueue</span><span class="o">(</span><span class="s">&#34;integrationtest&#34;</span><span class="o">).</span><span class="n">getQueueUrl</span>
+</code></pre></div><p>Since we&rsquo;re running on akka, with it&rsquo;s own <code>ExecutionContext</code>, and the <code>SqsClient</code> has it&rsquo;s own <code>ExecutionContext</code> as well, we should terminate both when the tests are done:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">override</span> <span class="k">def</span> <span class="n">afterAll</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">awsSqsClient</span><span class="o">.</span><span class="n">shutdown</span><span class="o">()</span>
+  <span class="n">shutdown</span><span class="o">(</span><span class="n">system</span><span class="o">)</span>
+  <span class="k">super</span><span class="o">.</span><span class="n">afterAll</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div><p>We&rsquo;ll use <em>Mockito</em> to verify that the function we&rsquo;ll give to our <code>SqsService</code> is actually called. Mockito needs a <code>class</code> to create a mock, so:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">TestClass</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">testFunction</span><span class="o">(</span><span class="n">message</span><span class="k">:</span> <span class="kt">MyMessage</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nc">Unit</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">mock</span><span class="k">:</span> <span class="kt">TestClass</span> <span class="o">=</span> <span class="n">mock</span><span class="o">[</span><span class="kt">TestClass</span><span class="o">]</span>
+</code></pre></div><p>Since we&rsquo;re mocking the <code>testFunction</code>, we don&rsquo;t need to implement it.</p>
+<p>It is good practice to put any values that appear in the test <em>input</em> as well as the <em>output</em> into a variable, so you can easily spot the expectation:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">messageBody</span> <span class="k">=</span> <span class="s">&#34;Example Body&#34;</span>
+</code></pre></div><p>Now we&rsquo;re ready to write the test!</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="s">&#34;SqsService&#34;</span> <span class="n">should</span> <span class="s">&#34;receive a message&#34;</span> <span class="n">in</span> <span class="o">{</span>
+
+  <span class="c1">// Arrange
+</span><span class="c1"></span>  <span class="nc">SqsService</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">,</span> <span class="n">maxMessagesInFlight</span> <span class="k">=</span> <span class="mi">20</span><span class="o">)(</span><span class="n">mock</span><span class="o">.</span><span class="n">testFunction</span><span class="o">)</span>
+  
+  <span class="c1">// Act: Send message to SQS (synchronous)
+</span><span class="c1"></span>  <span class="n">awsSqsClient</span><span class="o">.</span><span class="n">sendMessage</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">,</span> <span class="n">messageBody</span><span class="o">)</span>
+  
+  <span class="c1">// Assert
+</span><span class="c1"></span>  <span class="n">verify</span><span class="o">(</span><span class="n">mock</span><span class="o">,</span> <span class="nc">Mockito</span><span class="o">.</span><span class="n">timeout</span><span class="o">(</span><span class="mi">1000</span><span class="o">)).</span><span class="n">testFunction</span><span class="o">(</span><span class="nc">MyMessage</span><span class="o">(</span><span class="n">messageBody</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre></div><p>The <code>Mockito.timeout(1000)</code> will <a href="https://static.javadoc.io/org.mockito/mockito-core/2.2.9/org/mockito/verification/VerificationWithTimeout.html">wait a second for the result</a>. Make sure to use <code>timeout</code> instead of <code>after</code>, because with <code>timeout</code> the test succeeds directly when the function is called, while after waits the full second.</p>
+<h3 id="dealing-with-message-queues">Dealing with Message Queues<a hidden class="anchor" aria-hidden="true" href="#dealing-with-message-queues">#</a></h3>
+<p>Now the tests will <em>mostly</em> work. However, since it depends on an outside component, namely the SQS, it <em>will</em> fail, from time to time.</p>
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">[info] MainSpec:
+[info] SqsService
+[info] - should receive a message <span class="gs">*** FAILED **</span>*
+[info]   org.mockito.exceptions.verification.WantedButNotInvoked: Wanted but not invoked:
+[info] testClass.testFunction(
+[info]     MyMessage(Example Body)
+[info] );
+[info] -&gt; at MainSpec.$anonfun$new$1(MainSpec.scala:64)
+</code></pre></div><p>It might also fail because the round trip takes longer on you CI-server or you broke the code. Try setting the timeout to around 100 ms to replicate the behavior. Now what&rsquo;s <em>really bad</em> is that your <em>next</em> test <em>will fail as well</em>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown">[info] MainSpec:
+[info] SqsService
+[info] - should receive a message <span class="gs">*** FAILED **</span>*
+[info]   org.mockito.exceptions.verification.TooManyActualInvocations: testClass.testFunction(
+[info]     MyMessage(Example Body)
+[info] );
+[info] Wanted 1 time:
+[info] -&gt; at MainSpec.$anonfun$new$1(MainSpec.scala:64)
+[info] But was 2 times:
+[info] -&gt; at MainSpec.$anonfun$new$2(MainSpec.scala:58)
+[info] -&gt; at MainSpec.$anonfun$new$2(MainSpec.scala:58)
+</code></pre></div><p>That&rsquo;s because the message from the previous test is still in the queue! Luckily, this can be worked around with <code>BeforeAndAfterEach</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">var</span> <span class="n">queueUrl</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
+
+<span class="k">override</span> <span class="k">def</span> <span class="n">beforeEach</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">queueUrl</span> <span class="k">=</span> <span class="n">awsSqsClient</span><span class="o">.</span><span class="n">createQueue</span><span class="o">(</span><span class="s">&#34;integrationtest&#34;</span><span class="o">).</span><span class="n">getQueueUrl</span>
+  <span class="n">println</span><span class="o">(</span><span class="s">&#34;--- Created queue ---&#34;</span><span class="o">)</span>
+  <span class="k">super</span><span class="o">.</span><span class="n">beforeEach</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="k">override</span> <span class="k">def</span> <span class="n">afterEach</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">awsSqsClient</span><span class="o">.</span><span class="n">deleteQueue</span><span class="o">(</span><span class="n">queueUrl</span><span class="o">)</span>
+  <span class="n">println</span><span class="o">(</span><span class="s">&#34;--- Deleted queue ---&#34;</span><span class="o">)</span>
+  <span class="k">super</span><span class="o">.</span><span class="n">afterEach</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div><p>This way, one failed test won&rsquo;t affect the next.</p>
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://www.jannikarndt.de/tags/scala/">Scala</a></li>
+    </ul>
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

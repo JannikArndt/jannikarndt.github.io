@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>talend does not work | Jannik Arndt</title>
+
+<meta name="keywords" content="Data Engineering, talend" />
+<meta name="description" content="I cannot believe that googleing “talend does not work” does not find anything helpful. With this entry I try to fill that void in the internet.">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+<meta property="og:title" content="talend does not work" />
+<meta property="og:description" content="I cannot believe that googleing “talend does not work” does not find anything helpful. With this entry I try to fill that void in the internet." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2017-01-07T11:20:00&#43;01:00" />
+<meta property="article:modified_time" content="2017-01-07T11:20:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="talend does not work"/>
+<meta name="twitter:description" content="I cannot believe that googleing “talend does not work” does not find anything helpful. With this entry I try to fill that void in the internet."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "talend does not work",
+      "item": "https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "talend does not work",
+  "name": "talend does not work",
+  "description": "I cannot believe that googleing “talend does not work” does not find anything helpful. With this entry I try to fill that void in the internet.\n",
+  "keywords": [
+    "Data Engineering", "talend"
+  ],
+  "articleBody": "I cannot believe that googleing “talend does not work” does not find anything helpful. With this entry I try to fill that void in the internet.\nFail 1: Download You can download talend on their website — except you can’t. After filling out all the information (pro-tip: store them in LastPass to insert them the next couple of times) you have to accept the terms of use—except you can’t!\nThere is no event listener. What the…?\nThere’s a trick: Select the “Phone”-field and alt + tab until you arrive at the checkbox, then hit space.\nNext: Enjoy your modern webbrowser prohibiting a site to cross-reference http from https\nBut there is a download-link hidden inside the plethora of error messages:\nIf you’re looking for these, here you go:\nhttps://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-mac-dlm.dmg https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-linux-x64-installer.run https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-win-dlm.exe  They won’t help you, because they might be offline. If not, you get one of the greatest tools of all times—not.\nFail 2: The Download-Tool Pretty simple: You start it, it does nothing:\nReminds me of “A Sharepoint that does throw errors is a good Sharepoint”.\nFail 3: The ZIP-File Okay, while you wait for the download tool to do anything, you can also try out the ZIP-download-option. This link surprisingly worked! And it contains a Talend-Studio-macosx-cocoa.app file!\nAn unsigned one, of course, because why make things easy? The common advise you find on the internet is to turn off Gatekeeper, Apples system tool to prevent you from running malicious code (i.e. from developers who do not pay apple 100$/year). The easy way to get around this is to right-click a file and then click open. One would suspect this to do the exact same thing as double clicking the file, but watch and learn: It gives you an extra button:\nAnd the next thing you see is: “The Talend-Studio-macosx-cocoa executable launcher was unable to locate its companion share library”.\nWHAT?\nThis is a hard one: You need to right-click the app, choose Show package contents, navigate to Contents:MacOS:Talend-Studio-macosx-cocoa and execute that. Voilà! It starts!\n",
+  "wordCount" : "336",
+  "inLanguage": "en",
+  "datePublished": "2017-01-07T11:20:00+01:00",
+  "dateModified": "2017-01-07T11:20:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      talend does not work
+    </h1>
+    <div class="post-meta">
+
+January 7, 2017&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>I cannot believe that googleing “talend does not work” does not find <em>anything</em> helpful. With this entry I try to fill that void in the internet.</p>
+<h2 id="fail-1-download">Fail 1: Download<a hidden class="anchor" aria-hidden="true" href="#fail-1-download">#</a></h2>
+<p>You can download <code>talend</code> on their <a href="https://info.talend.com/prodevaltedi.html">website</a> — except you can&rsquo;t. After filling out all the information (pro-tip: store them in LastPass to insert them the next couple of times) you have to accept the terms of use—except you can&rsquo;t!</p>
+<img src="/blog/2017/01/talend1.png" width="50%"  alt=""> 
+<p>There is no event listener. What the&hellip;?</p>
+<p>There&rsquo;s a trick: Select the &ldquo;Phone&rdquo;-field and <code>alt + tab</code> until you arrive at the checkbox, then hit <code>space</code>.</p>
+<p>Next: Enjoy your modern webbrowser prohibiting a site to cross-reference <code>http</code> from <code>https</code></p>
+<img src="/blog/2017/01/talend2.png" width="50%"  alt=""> 
+<p>But there is a download-link hidden inside the plethora of error messages:</p>
+<img src="/blog/2017/01/talend3.png" width="50%"  alt=""> 
+<p>If you&rsquo;re looking for these, here you go:</p>
+<pre><code>https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-mac-dlm.dmg
+https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-linux-x64-installer.run
+https://www.opensourceetl.net/eval/621/TalendToolsStudio-20160704_1411-V6.2.1-installer-win-dlm.exe
+</code></pre>
+<p>They won&rsquo;t help you, because they might be offline. If not, you get one of the greatest tools of all times—not.</p>
+<h2 id="fail-2-the-download-tool">Fail 2: The Download-Tool<a hidden class="anchor" aria-hidden="true" href="#fail-2-the-download-tool">#</a></h2>
+<p>Pretty simple: You start it, it does nothing:</p>
+<img src="/blog/2017/01/talend4.png" width="50%"  alt=""> 
+<p>Reminds me of “A Sharepoint that <em>does</em> throw errors is a good Sharepoint”.</p>
+<h2 id="fail-3-the-zip-file">Fail 3: The ZIP-File<a hidden class="anchor" aria-hidden="true" href="#fail-3-the-zip-file">#</a></h2>
+<p>Okay, while you wait for the download tool to do <em>anything</em>, you can also try out the ZIP-download-option. This link surprisingly worked! And it contains a <code>Talend-Studio-macosx-cocoa.app</code> file!</p>
+<p>An unsigned one, of course, because why make things easy? The common advise you find on the internet is to turn off <code>Gatekeeper</code>, Apples system tool to prevent you from running malicious code (i.e. from developers who do not pay apple 100$/year). The easy way to get around this is to <em>right-click</em> a file and then click <em>open</em>. One would suspect this to do the exact same thing as double clicking the file, but watch and learn: It gives you an extra button:</p>
+<img src="/blog/2017/01/talend5.png" width="50%"  alt=""> 
+<p>And the next thing you see is: “The Talend-Studio-macosx-cocoa executable launcher was unable to locate its companion share library”.</p>
+<img src="/blog/2017/01/talend6.png" width="50%"  alt=""> 
+<p>WHAT?</p>
+<p>This is a hard one: You need to right-click the app, choose <code>Show package contents</code>, navigate to <code>Contents:MacOS:Talend-Studio-macosx-cocoa</code> and execute <em>that</em>. Voilà! It starts!</p>
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

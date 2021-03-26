@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to install Tasmota on a Sonoff device without opening it | Jannik Arndt</title>
+
+<meta name="keywords" content="Raspberry Pi, Raspberry Pi 3, Setup, How to, MacOS, Tasmota, Sonoff, MQTT, Mosquitto" />
+<meta name="description" content="Sonoff takes the standard ESP8266 chip and adds two things:
+
+a casing with wifi and great connectors and
+a custom OS and an app to control the devices.
+
+Unfortunately, the second addition also means that all communication goes through Sonoff&rsquo;s servers. Here&rsquo;s how to get rid of that. Without soldering or connecting anything.">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+<meta property="og:title" content="How to install Tasmota on a Sonoff device without opening it" />
+<meta property="og:description" content="Sonoff takes the standard ESP8266 chip and adds two things:
+
+a casing with wifi and great connectors and
+a custom OS and an app to control the devices.
+
+Unfortunately, the second addition also means that all communication goes through Sonoff&rsquo;s servers. Here&rsquo;s how to get rid of that. Without soldering or connecting anything." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-01-13T19:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2018-01-13T19:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="How to install Tasmota on a Sonoff device without opening it"/>
+<meta name="twitter:description" content="Sonoff takes the standard ESP8266 chip and adds two things:
+
+a casing with wifi and great connectors and
+a custom OS and an app to control the devices.
+
+Unfortunately, the second addition also means that all communication goes through Sonoff&rsquo;s servers. Here&rsquo;s how to get rid of that. Without soldering or connecting anything."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "How to install Tasmota on a Sonoff device without opening it",
+      "item": "https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to install Tasmota on a Sonoff device without opening it",
+  "name": "How to install Tasmota on a Sonoff device without opening it",
+  "description": "Sonoff takes the standard ESP8266 chip and adds two things:\n a casing with wifi and great connectors and a custom OS and an app to control the devices.  Unfortunately, the second addition also means that all communication goes through Sonoff\u0026rsquo;s servers. Here\u0026rsquo;s how to get rid of that. Without soldering or connecting anything.\n",
+  "keywords": [
+    "Raspberry Pi", "Raspberry Pi 3", "Setup", "How to", "MacOS", "Tasmota", "Sonoff", "MQTT", "Mosquitto"
+  ],
+  "articleBody": "Sonoff takes the standard ESP8266 chip and adds two things:\n a casing with wifi and great connectors and a custom OS and an app to control the devices.  Unfortunately, the second addition also means that all communication goes through Sonoff’s servers. Here’s how to get rid of that. Without soldering or connecting anything.\nThe two repositories I’m using are\n https://github.com/arendst/Sonoff-Tasmota for the Tasmota operating system and https://github.com/mirko/SonOTA for a mechanism to flash the device “over the air”.  1. Get SonOTA Code First you need to clone (=download) the repository and install the requirements. For this you need git and pip.\n$ git clone https://github.com/mirko/SonOTA $ cd SonOTA $ pip3 install --user -r requirements.txt 2. Allow incoming and outgoing connections Your mac will serve as a server. Therefore it must allow incoming connections. Go to System Settings  Security \u0026 Privacy  Firewall and turn the firewall off. Remember to turn it back on afterwards!\nI also noticed LittleSnitch and TripMode trying to block connections. If you have them installed, put them into silent mode or turn them off.\n3. Start SonOTA script $ ./sonota.py Current IPs: ['192.168.31.210'] Select IP address of the WiFi interface: 0: 192.168.31.210 Select IP address [0]: 0 # WiFi SSID: Your SSID # WiFi Password: ***** 4. Put Sonoff into config mode Press the button on the Sonoff device for ~7 seconds until the LED starts blinking rapidly.\nIf the LED is blinking three times short and then one time long, you need to hold the button for 7 seconds again, until it blinks rapidly. I had to do this for the Sonoff Touch.\n5. Join Sonoff Wifi In config mode, the Sonoff broadcasts its own wifi.\n Look for and connect to ITEAD-100001XXXX The password is 12345678  6. Let the script configure the sonoff  HTTP GET /10.10.7.1/device # ...  HTTP POST /10.10.7.1/ap # ... ~~ Provisioning completed Starting stage2... ** The IP address of  (192.168.31.210) is not assigned to any interface on this machine. ** Please change WiFi network to Tor zur Welt and make sure 192.168.31.210 is being assigned to your WiFi interface. ** This application should be kept running and will wait until connected to the WiFi... ......Current IPs: [] The device now joins your wifi and ends providing its own (ITEAD-100001XXXX). Your computer will most likely switch back to your usual wifi.\n....Current IPs: ['192.168.31.210'] ~~ Starting web server (HTTP port: 8080, HTTPS port 8443) ~~ Waiting for device to connect # ... 200 POST /dispatch/device (192.168.31.213) 101 GET /api/ws (192.168.31.213) # ... (lots of \"action\": \"update\" payloads) # ... Sending file: /ota/image_user2-0x81000.bin # repeats a lot # ... ~~~ device acknowledged our action request (seq 1515773926583) with error code 0 ........................ *** IMPORTANT! *** ** AFTER the first download is COMPLETE, with in a minute or so you should connect to the new SSID \"FinalStage\" to finish the process. ** ONLY disconnect when the new \"FinalStage\" SSID is visible as an available WiFi network. This server should automatically be allocated the IP address: 192.168.4.2. If you have successfully connected to \"FinalStage\" and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff. 7. Switch to FinalStage Wifi If you have successfully connected to \"FinalStage\" and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff. ..Current IPs: [] .Sending file: /ota/image_arduino.bin .Current IPs: ['192.168.4.2'] The \"FinalStage\" SSID will disappear when the device has been fully flashed and image_arduino.bin has been installed. If there is no \"Sending file: /ota/image_arduino.bin\" log entry, ensure all firewalls have been COMPLETELY disabled on your system. ............200 GET /ota/image_arduino.bin (192.168.4.1) 25854.05ms ..............Current IPs: [] No longer on \"FinalStage\" SSID, all done! Now connect to the sonoff-#### SSID and configure for your WiFi (it will not be configured). Quitting. 8. Switch to sonoff-XXXX Wifi  Joining this Wifi might take 3–4 minutes Remember the numbers! Goto http://192.168.4.1  Enter your Wifi SSID and password Save The sonoff-XXXX Wifi will disappear and your computer will return to your usual wifi  9. Configure Device  Goto http://sonoff-XXXX.local where the number is the one from step 8  Go to Configuration  Configure Module and select the device type   10. Configure MQTT The idea here is that you have an MQTT broker somewhere to exchange messages between your smart devices and an app to control them. I use homebridge on a Raspberry Pi, here is a tutorial for my setup.\nIf you want to try without a raspberry pi, you can run the broker on your computer:\nbrew install mosquitto mosquitto Username and Password defaults are empty.\nIf brew has problems linking mosquitto, try\nsudo mkdir /usr/local/sbin sudo chown -R `whoami`:admin /usr/local/sbin brew link mosquitto Now follow these steps to let your device send messages to your MQTT broker:\n Go to Configuration  Configure MQTT and enter the MQTT parameters:  Host: e.g. your ip if MQTT is running locally Port: 1883 Topic: Specific Topic, e.g. bedroom_lights    Restart Go to Console to check the connection   You can use a program like MQTT.fx and subscribe to everything (“#”) to see how your devices communicate:\n11. Create a smart home Now that your lights, outlets, fans and what not talk to a message queue and receiver orders, you need something to control that. For example, setup a homebridge on a Raspberry Pi to use Apple Home from your iPhone, iPad or Apple Watch! Here’s how.\n",
+  "wordCount" : "924",
+  "inLanguage": "en",
+  "datePublished": "2018-01-13T19:00:00+01:00",
+  "dateModified": "2018-01-13T19:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      How to install Tasmota on a Sonoff device without opening it
+    </h1>
+    <div class="post-meta">
+
+January 13, 2018&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>Sonoff takes the standard ESP8266 chip and adds two things:</p>
+<ul>
+<li>a casing with wifi and great connectors and</li>
+<li>a custom OS and an app to control the devices.</li>
+</ul>
+<p>Unfortunately, the second addition <em>also</em> means that all communication goes through Sonoff&rsquo;s servers. Here&rsquo;s how to get rid of that. Without soldering or connecting anything.</p>
+<p>The two repositories I&rsquo;m using are</p>
+<ul>
+<li><a href="https://github.com/arendst/Sonoff-Tasmota">https://github.com/arendst/Sonoff-Tasmota</a> for the Tasmota operating system and</li>
+<li><a href="https://github.com/mirko/SonOTA">https://github.com/mirko/SonOTA</a> for a mechanism to flash the device “over the air”.</li>
+</ul>
+<h2 id="1-get-sonota-code">1. Get SonOTA Code<a hidden class="anchor" aria-hidden="true" href="#1-get-sonota-code">#</a></h2>
+<p>First you need to clone (=download) the repository and install the requirements. For this you need <code>git</code> and <code>pip</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git clone https://github.com/mirko/SonOTA
+$ <span class="nb">cd</span> SonOTA
+$ pip3 install --user -r requirements.txt
+</code></pre></div><h2 id="2-allow-incoming-and-outgoing-connections">2. Allow incoming and outgoing connections<a hidden class="anchor" aria-hidden="true" href="#2-allow-incoming-and-outgoing-connections">#</a></h2>
+<p>Your mac will serve as a server. Therefore it must allow incoming connections. Go to <em>System Settings</em> &gt; <em>Security &amp; Privacy</em> &gt; <em>Firewall</em> and turn the firewall off. Remember to turn it back on afterwards!</p>
+<p>I also noticed LittleSnitch and TripMode trying to block connections. If you have them installed, put them into silent mode or turn them off.</p>
+<h2 id="3-start-sonota-script">3. Start SonOTA script<a hidden class="anchor" aria-hidden="true" href="#3-start-sonota-script">#</a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ./sonota.py
+Current IPs: <span class="o">[</span><span class="s1">&#39;192.168.31.210&#39;</span><span class="o">]</span>
+Select IP address of the WiFi interface:
+    0: 192.168.31.210
+Select IP address <span class="o">[</span>0<span class="o">]</span>: <span class="m">0</span>      <span class="c1"># &lt;= enter &#39;0&#39; and enter</span>
+WiFi SSID: Your SSID          <span class="c1"># &lt;= no quotes</span>
+WiFi Password: *****
+</code></pre></div><p><img loading="lazy" src="../pi/sonota_1.png" alt=""  />
+</p>
+<h2 id="4-put-sonoff-into-config-mode">4. Put Sonoff into config mode<a hidden class="anchor" aria-hidden="true" href="#4-put-sonoff-into-config-mode">#</a></h2>
+<p>Press the button on the Sonoff device for ~7 seconds until the LED starts blinking rapidly.</p>
+<p>If the LED is blinking three times short and then one time long, you need to hold the button for 7 seconds again, until it blinks rapidly. I had to do this for the Sonoff Touch.</p>
+<h2 id="5-join-sonoff-wifi">5. Join Sonoff Wifi<a hidden class="anchor" aria-hidden="true" href="#5-join-sonoff-wifi">#</a></h2>
+<p>In config mode, the Sonoff broadcasts its own wifi.</p>
+<ul>
+<li>Look for and connect to <code>ITEAD-100001XXXX</code></li>
+<li>The password is <code>12345678</code></li>
+</ul>
+<p><img loading="lazy" src="../pi/ssid_1.png" alt=""  />
+</p>
+<h2 id="6-let-the-script-configure-the-sonoff">6. Let the script configure the sonoff<a hidden class="anchor" aria-hidden="true" href="#6-let-the-script-configure-the-sonoff">#</a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt;&gt; HTTP GET /10.10.7.1/device
+<span class="c1"># ...</span>
+&gt;&gt; HTTP POST /10.10.7.1/ap
+<span class="c1"># ...</span>
+~~ Provisioning completed
+Starting stage2...
+** The IP address of &lt;serve_host&gt; <span class="o">(</span>192.168.31.210<span class="o">)</span> is not assigned to any interface on this machine.
+** Please change WiFi network to Tor zur Welt and make sure 192.168.31.210 is being assigned to your WiFi interface.
+** This application should be kept running and will <span class="nb">wait</span> <span class="k">until</span> connected to the WiFi...
+......Current IPs: <span class="o">[]</span>
+</code></pre></div><p>The device now joins your wifi and ends providing its own (<code>ITEAD-100001XXXX</code>). Your computer will most likely switch back to your usual wifi.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">....Current IPs: <span class="o">[</span><span class="s1">&#39;192.168.31.210&#39;</span><span class="o">]</span>
+~~ Starting web server <span class="o">(</span>HTTP port: 8080, HTTPS port 8443<span class="o">)</span>
+~~ Waiting <span class="k">for</span> device to connect
+<span class="c1"># ...</span>
+&lt;&lt; HTTP POST /dispatch/device
+<span class="m">200</span> POST /dispatch/device <span class="o">(</span>192.168.31.213<span class="o">)</span>
+<span class="m">101</span> GET /api/ws <span class="o">(</span>192.168.31.213<span class="o">)</span>
+<span class="s">&lt;&lt; WEBSOCKET OPEN
+</span><span class="s"># ... (lots of &#34;action&#34;: &#34;update&#34; payloads)
+</span><span class="s"># ...
+</span><span class="s">Sending file: /ota/image_user2-0x81000.bin # repeats a lot
+</span><span class="s"># ...
+</span><span class="s">~~~ device acknowledged our action request (seq 1515773926583) with error code 0
+</span><span class="s">........................
+</span><span class="s">*** IMPORTANT! ***
+</span><span class="s">** AFTER the first download is COMPLETE, with in a minute or so you should connect to the new SSID &#34;FinalStage&#34; to finish the process.
+</span><span class="s">** ONLY disconnect when the new &#34;FinalStage&#34; SSID is visible as an available W</span>iFi network.
+This server should automatically be allocated the IP address: 192.168.4.2.
+If you have successfully connected to <span class="s2">&#34;FinalStage&#34;</span> and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
+</code></pre></div><p><img loading="lazy" src="../pi/sonota_2.png" alt=""  />
+</p>
+<h2 id="7-switch-to-finalstage-wifi">7. Switch to <code>FinalStage</code> Wifi<a hidden class="anchor" aria-hidden="true" href="#7-switch-to-finalstage-wifi">#</a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">If you have successfully connected to <span class="s2">&#34;FinalStage&#34;</span> and this is not the IP Address you were allocated, please ensure no other device has connected, and reboot your Sonoff.
+..Current IPs: <span class="o">[]</span>
+.Sending file: /ota/image_arduino.bin
+.Current IPs: <span class="o">[</span><span class="s1">&#39;192.168.4.2&#39;</span><span class="o">]</span>
+
+
+The <span class="s2">&#34;FinalStage&#34;</span> SSID will disappear when the device has been fully flashed and image_arduino.bin has been installed.
+If there is no <span class="s2">&#34;Sending file: /ota/image_arduino.bin&#34;</span> log entry, ensure all firewalls have been COMPLETELY disabled on your system.
+............200 GET /ota/image_arduino.bin <span class="o">(</span>192.168.4.1<span class="o">)</span> 25854.05ms
+..............Current IPs: <span class="o">[]</span>
+No longer on <span class="s2">&#34;FinalStage&#34;</span> SSID, all <span class="k">done</span>! Now connect to the sonoff-#### SSID and configure <span class="k">for</span> your WiFi <span class="o">(</span>it will not be configured<span class="o">)</span>.
+Quitting.
+</code></pre></div><p><img loading="lazy" src="../pi/sonota_3.png" alt=""  />
+</p>
+<h2 id="8-switch-to-sonoff-xxxx-wifi">8. Switch to <code>sonoff-XXXX</code> Wifi<a hidden class="anchor" aria-hidden="true" href="#8-switch-to-sonoff-xxxx-wifi">#</a></h2>
+<ul>
+<li>Joining this Wifi might take 3–4 minutes</li>
+<li>Remember the numbers!</li>
+<li>Goto http://192.168.4.1
+<img loading="lazy" src="../pi/config_1.png" alt=""  />
+</li>
+<li>Enter your Wifi SSID and password</li>
+<li>Save</li>
+<li>The <code>sonoff-XXXX</code> Wifi will disappear and your computer will return to your usual wifi</li>
+</ul>
+<h2 id="9-configure-device">9. Configure Device<a hidden class="anchor" aria-hidden="true" href="#9-configure-device">#</a></h2>
+<ul>
+<li>Goto <a href="http://sonoff-XXXX.local">http://sonoff-XXXX.local</a> where the number is the one from step 8
+<img loading="lazy" src="../pi/sonoff_setup_1.png" alt=""  />
+</li>
+<li>Go to Configuration &gt; Configure Module and select the device type
+<img loading="lazy" src="../pi/sonoff_setup_2.png" alt=""  />
+</li>
+</ul>
+<h2 id="10-configure-mqtt">10. Configure MQTT<a hidden class="anchor" aria-hidden="true" href="#10-configure-mqtt">#</a></h2>
+<p>The idea here is that you have an MQTT broker somewhere to exchange messages between your smart devices and an app to control them. I use <code>homebridge</code> on a Raspberry Pi, <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">here is a tutorial for my setup</a>.</p>
+<p>If you want to try without a raspberry pi, you can run the broker on your computer:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">brew install mosquitto
+mosquitto
+</code></pre></div><p>Username and Password defaults are empty.</p>
+<p>If <code>brew</code> has problems linking <code>mosquitto</code>, try</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo mkdir /usr/local/sbin
+sudo chown -R <span class="sb">`</span>whoami<span class="sb">`</span>:admin /usr/local/sbin
+brew link mosquitto
+</code></pre></div><p>Now follow these steps to let your device send messages to your MQTT broker:</p>
+<ul>
+<li>Go to Configuration &gt; Configure MQTT and enter the MQTT parameters:
+<ul>
+<li>Host: e.g. your ip if MQTT is running locally</li>
+<li>Port: 1883</li>
+<li>Topic: Specific Topic, e.g. <code>bedroom_lights</code>
+<img loading="lazy" src="../pi/sonoff_setup_3.png" alt=""  />
+</li>
+</ul>
+</li>
+<li>Restart</li>
+<li>Go to Console to check the connection
+<img loading="lazy" src="../pi/sonoff_console.png" alt=""  />
+</li>
+</ul>
+<p>You can use a program like <a href="http://mqttfx.jensd.de/index.php/download">MQTT.fx</a> and subscribe to everything (“#”) to see how your devices communicate:</p>
+<p><img loading="lazy" src="../pi/mqtt_fx.png" alt=""  />
+</p>
+<h2 id="11-create-a-smart-home">11. Create a smart home<a hidden class="anchor" aria-hidden="true" href="#11-create-a-smart-home">#</a></h2>
+<p>Now that your lights, outlets, fans and what not talk to a message queue and receiver orders, you need something to control that. For example, setup a <code>homebridge</code> on a Raspberry Pi to use Apple Home from your iPhone, iPad or Apple Watch! <a href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">Here&rsquo;s how</a>.</p>
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

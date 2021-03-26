@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Deploying Pentaho jobs into Production | Jannik Arndt</title>
+
+<meta name="keywords" content="Data Engineering, Pentaho, ETL" />
+<meta name="description" content="TL;DR: You don&rsquo;t. We eventually gave up on it.
+My personal lessons-learned:
+
+Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs.
+The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.
+Kerberos is a bitch.
+">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+<meta property="og:title" content="Deploying Pentaho jobs into Production" />
+<meta property="og:description" content="TL;DR: You don&rsquo;t. We eventually gave up on it.
+My personal lessons-learned:
+
+Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs.
+The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.
+Kerberos is a bitch.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2017-03-05T17:01:00&#43;01:00" />
+<meta property="article:modified_time" content="2017-03-05T17:01:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="Deploying Pentaho jobs into Production"/>
+<meta name="twitter:description" content="TL;DR: You don&rsquo;t. We eventually gave up on it.
+My personal lessons-learned:
+
+Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs.
+The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.
+Kerberos is a bitch.
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Deploying Pentaho jobs into Production",
+      "item": "https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Deploying Pentaho jobs into Production",
+  "name": "Deploying Pentaho jobs into Production",
+  "description": "TL;DR: You don\u0026rsquo;t. We eventually gave up on it.\nMy personal lessons-learned:\n Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs. The “Enterprise Edition” (EE) adds scheduling that doesn\u0026rsquo;t work reliably, and a very powerless server. Kerberos is a bitch. ",
+  "keywords": [
+    "Data Engineering", "Pentaho", "ETL"
+  ],
+  "articleBody": "TL;DR: You don’t. We eventually gave up on it.\nMy personal lessons-learned:\n Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for one-time data transfer or on-demand data transfer, but not for resilient, scheduled jobs. The “Enterprise Edition” (EE) adds scheduling that doesn’t work reliably, and a very powerless server. Kerberos is a bitch.  The requirements We were looking for a system to write, deploy and schedule ETL jobs. Since we actually want to move the data, the en-vogue trend of NoETL and queries on source systems doesn’t work for us. After giving up on talend, Pentaho made it quite easy to write the kind of jobs we need. However, making sure these jobs can be deployed to a server and reliably run there turn out as almost impossible.\nWhat I want:\n Deployment in one click (in 2017, Jenkins is nothing new!) Deployment on three development environments (dev, test, prod) Configuration of different schedules for each environment Version control (being able to answer “who changed what when?”)  Solution #1: Export and Import via GUI I was surprised that the official recommendation is exporting and importing the complete repository.\nProblems:\n You cannot deploy single jobs Every user needs to have access to production (no-go!) Nothing tracks what actually changed This needs way more than one click The export does not contain schedules  Solution #2: Export and Import via Shell Script The page also suggest using shell access. This sounds a lot closer to a one-click-solution. You need to have both repositories configured in your application. These settings are stored in ~~/.kettle/repositories.xml and matched by name:\n   PentahoEnterpriseRepository MyRepository Pentaho repository false http\u0026#x3a;\u0026#x2f;\u0026#x2f;localhost\u0026#x3a;8080\u0026#x2f;pentaho  N   With this configuration, you can export and import repositories via pan.sh and import.sh:\n./pan.sh -rep=MyRepository -user=Jannik -pass=password -dir=home/jannik -exprep=\"pentaho_export.xml\" -logfile=\"export.log\" ./import.sh -rep=\"Pentaho Repository\" -user=Jannik -pass=password -dir=home/import -file=\"pentaho_export.xml\" -logfile=\"export.log\" -replace=true -comment=\"New Version\" -norules=true Tip: The directory name is always in lower case, independent of what the web UI shows you.\nProblems:\n You cannot deploy single jobs Every user needs to have access to production (no-go!) Nothing tracks what actually changed This needs way more than one click The export does not contain schedules  Is that all? No. If you take a look at pan.sh you’ll find, what it really does:\n\"$DIR/spoon.sh\" -main org.pentaho.di.pan.Pan -initialDir \"$INITIALDIR/\" \"$@\" The same for import.sh:\n\"$DIR/spoon.sh\" -main org.pentaho.di.imp.Import \"$@\" Deployment suddenly means starting the complete Pentaho Suite — twice!\nSolution #3: Export and Import via REST Baffled with why I’m not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you’re still unsure if cyclic dependencies are a bad thing, try reading the API Documentation. And if you need to convince someone that generated documentation might be a bad idea, show him this overview. Spoiler: both fail to mention the actual address of the endpoint, which is http://localhost:8080/pentaho/api/repo/.... Luckily, there are people writing useful blog entries. And if you need a tool for trial-and-error, I recommend Insomnia. Spending a lot of nerves, I crafted this beauty:\n#!/bin/sh  source_url=$1 target_url=$2 echo \"\\033[1mDeploying from ${source_url}to ${target_url}\\033[0m\" echo \"\\033[0;32mExporting backup…\\033[0m\" # password encrypted via encr.sh curl -H \"Authorization: Basic EncryptedPassword\" -H \"Content-Type: application/json\" -i ${source_url}api/repo/files/backup -o Backup.zip echo \"\\033[0;32mUnzipping backup…\\033[0m\" unzip -o -q Backup.zip echo \"\\033[0;32mDeleting zip-file…\\033[0m\" rm Backup.zip echo \"\\033[0;32mDeleting home-folder…\\033[0m\" rm -r home/ # delete everything you don't want to deploy # add, commit and push to a git here echo \"\\033[0;32mCreating new zip-file for deployment…\\033[0m\" zip -r -q Backup.zip '_datasources/' 'etc/' 'exportManifest.xml' 'metastore.mzip' 'public/' echo \"\\033[0;32mDeploying...\\033[0m\" curl -H \"Authorization: Basic EncryptedPassword\" -H \"Content-Type: multipart/form-data\" -H \"overwrite: true\" -F \"fileUpload=@Backup.zip\" -i ${target_url}api/repo/files/systemRestore echo \"\\033[0;32mCleaning up…\\033[0m\" rm Backup.zip Let’s look at our problem-list:\n You cannot deploy single jobs - but single directories! Every user needs to have access to production (no-go!) (this can be run on a server) Nothing tracks what actually changed (you can automatically commit the xml file, the backup contains one for each job/transaction) This needs way more than one click The export does not contain schedules Pentaho Suite is started twice and takes minutes (this accesses the repository server directly)  Okay, so this sounds pretty good! What’s the problem? It doesn’t work. The systemRestore endpoint happily takes all your data, answers 200: OK and does nothing. I was told, a ticket would be raised, but so far I haven’t seen any of it and the implementation also hasn’t changed.\n",
+  "wordCount" : "735",
+  "inLanguage": "en",
+  "datePublished": "2017-03-05T17:01:00+01:00",
+  "dateModified": "2017-03-05T17:01:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      Deploying Pentaho jobs into Production
+    </h1>
+    <div class="post-meta">
+
+March 5, 2017&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p><strong>TL;DR:</strong> You don&rsquo;t. We eventually gave up on it.</p>
+<p>My personal lessons-learned:</p>
+<ul>
+<li>Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a great product for <em>one-time</em> data transfer or <em>on-demand</em> data transfer, but not for resilient, scheduled jobs.</li>
+<li>The “Enterprise Edition” (EE) adds scheduling that doesn&rsquo;t work reliably, and a very powerless server.</li>
+<li>Kerberos is a bitch.</li>
+</ul>
+<h2 id="the-requirements">The requirements<a hidden class="anchor" aria-hidden="true" href="#the-requirements">#</a></h2>
+<p>We were looking for a system to write, deploy and schedule ETL jobs. Since we actually want to move the data, the en-vogue trend of NoETL and queries on source systems doesn&rsquo;t work for us. After <a href="/blog/2017/01/talend_does_not_work">giving up on talend</a>, Pentaho made it quite easy to write the kind of jobs we need. However, making sure these jobs can be deployed to a server and reliably run there turn out as almost impossible.</p>
+<p>What I want:</p>
+<ul>
+<li>Deployment in one click (in 2017, Jenkins is nothing new!)</li>
+<li>Deployment on three development environments (dev, test, prod)</li>
+<li>Configuration of different schedules for each environment</li>
+<li>Version control (being able to answer “who changed what when?”)</li>
+</ul>
+<h2 id="solution-1-export-and-import-via-gui">Solution #1: Export and Import via GUI<a hidden class="anchor" aria-hidden="true" href="#solution-1-export-and-import-via-gui">#</a></h2>
+<p>I was surprised that the <a href="https://help.pentaho.com/Documentation/7.0/0D0/1A0/010/020">official recommendation</a> is <a href="https://help.pentaho.com/Documentation/7.0/0P0/Managing_the_Pentaho_Repository/Backup_and_Restore_Pentaho_Repositories">exporting</a> and <a href="https://help.pentaho.com/Documentation/7.0/0P0/Managing_the_Pentaho_Repository/Import_and_Export_PDI_Content">importing the complete repository</a>.</p>
+<p>Problems:</p>
+<ul>
+<li>You cannot deploy single jobs</li>
+<li>Every user needs to have access to production (no-go!)</li>
+<li>Nothing tracks what actually changed</li>
+<li>This needs way more than one click</li>
+<li>The export does not contain schedules</li>
+</ul>
+<h2 id="solution-2-export-and-import-via-shell-script">Solution #2: Export and Import via Shell Script<a hidden class="anchor" aria-hidden="true" href="#solution-2-export-and-import-via-shell-script">#</a></h2>
+<p>The page also suggest using shell access. This sounds a lot closer to a one-click-solution. You need to have both repositories configured in your application. These settings are stored in <code>~~/.kettle/repositories.xml</code> and matched <em>by name</em>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class="nt">&lt;repositories&gt;</span>
+  <span class="nt">&lt;repository&gt;</span>    
+    <span class="nt">&lt;id&gt;</span>PentahoEnterpriseRepository<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;name&gt;</span>MyRepository<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;description&gt;</span>Pentaho repository<span class="nt">&lt;/description&gt;</span>
+    <span class="nt">&lt;is_default&gt;</span>false<span class="nt">&lt;/is_default&gt;</span>
+    <span class="nt">&lt;repository_location_url&gt;</span>http<span class="ni">&amp;#x3a;&amp;#x2f;&amp;#x2f;</span>localhost<span class="ni">&amp;#x3a;</span>8080<span class="ni">&amp;#x2f;</span>pentaho
+      <span class="nt">&lt;/repository_location_url&gt;</span>
+    <span class="nt">&lt;version_comment_mandatory&gt;</span>N<span class="nt">&lt;/version_comment_mandatory&gt;</span>
+  <span class="nt">&lt;/repository&gt;</span>  
+<span class="nt">&lt;/repositories&gt;</span>
+</code></pre></div><p>With this configuration, you can export and import repositories via <code>pan.sh</code> and <code>import.sh</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">./pan.sh 
+  -rep<span class="o">=</span>MyRepository 
+  -user<span class="o">=</span>Jannik 
+  -pass<span class="o">=</span>password 
+  -dir<span class="o">=</span>home/jannik 
+  -exprep<span class="o">=</span><span class="s2">&#34;pentaho_export.xml&#34;</span> 
+  -logfile<span class="o">=</span><span class="s2">&#34;export.log&#34;</span>
+
+./import.sh 
+  -rep<span class="o">=</span><span class="s2">&#34;Pentaho Repository&#34;</span> 
+  -user<span class="o">=</span>Jannik 
+  -pass<span class="o">=</span>password 
+  -dir<span class="o">=</span>home/import 
+  -file<span class="o">=</span><span class="s2">&#34;pentaho_export.xml&#34;</span> 
+  -logfile<span class="o">=</span><span class="s2">&#34;export.log&#34;</span> 
+  -replace<span class="o">=</span><span class="nb">true</span> 
+  -comment<span class="o">=</span><span class="s2">&#34;New Version&#34;</span> 
+  -norules<span class="o">=</span><span class="nb">true</span>
+</code></pre></div><p>Tip: The directory name is always in lower case, independent of what the web UI shows you.</p>
+<p>Problems:</p>
+<ul>
+<li>You cannot deploy single jobs</li>
+<li>Every user needs to have access to production (no-go!)</li>
+<li>Nothing tracks what actually changed</li>
+<li><del>This needs way more than one click</del></li>
+<li>The export does not contain schedules</li>
+</ul>
+<p>Is that all? No. If you take a look at <code>pan.sh</code> you&rsquo;ll find, what it really does:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.pan.Pan -initialDir <span class="s2">&#34;</span><span class="nv">$INITIALDIR</span><span class="s2">/&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+</code></pre></div><p>The same for <code>import.sh</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.imp.Import <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+</code></pre></div><p>Deployment suddenly means starting the complete Pentaho Suite — <em>twice</em>!</p>
+<h2 id="solution-3-export-and-import-via-rest">Solution #3: Export and Import via REST<a hidden class="anchor" aria-hidden="true" href="#solution-3-export-and-import-via-rest">#</a></h2>
+<p>Baffled with why I&rsquo;m not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you&rsquo;re still unsure if cyclic dependencies are a bad thing, try reading the <a href="https://help.pentaho.com/Documentation/7.0/0R0/070">API Documentation</a>. And if you need to convince someone that generated documentation might be a bad idea, show him <a href="https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0">this overview</a>. Spoiler: both fail to mention <em>the actual address of the endpoint</em>, which is <code>http://localhost:8080/pentaho/api/repo/...</code>. Luckily, there are people writing <a href="https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/">useful blog entries</a>. And if you need a tool for trial-and-error, I recommend <a href="https://insomnia.rest">Insomnia</a>.
+Spending a lot of nerves, I crafted this beauty:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="nv">source_url</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">target_url</span><span class="o">=</span><span class="nv">$2</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[1mDeploying from </span><span class="si">${</span><span class="nv">source_url</span><span class="si">}</span><span class="s2"> to </span><span class="si">${</span><span class="nv">target_url</span><span class="si">}</span><span class="s2"> \033[0m&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mExporting backup…\033[0m&#34;</span>
+
+<span class="c1"># password encrypted via encr.sh</span>
+curl -H <span class="s2">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span class="s2">&#34;Content-Type: application/json&#34;</span> -i <span class="si">${</span><span class="nv">source_url</span><span class="si">}</span>api/repo/files/backup -o Backup.zip
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mUnzipping backup…\033[0m&#34;</span>
+unzip -o -q Backup.zip
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mDeleting zip-file…\033[0m&#34;</span>
+rm Backup.zip
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mDeleting home-folder…\033[0m&#34;</span>
+rm -r home/
+
+<span class="c1"># delete everything you don&#39;t want to deploy</span>
+
+<span class="c1"># add, commit and push to a git here</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mCreating new zip-file for deployment…\033[0m&#34;</span>
+zip -r -q Backup.zip <span class="s1">&#39;_datasources/&#39;</span> <span class="s1">&#39;etc/&#39;</span> <span class="s1">&#39;exportManifest.xml&#39;</span> <span class="s1">&#39;metastore.mzip&#39;</span> <span class="s1">&#39;public/&#39;</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mDeploying...\033[0m&#34;</span>
+curl -H <span class="s2">&#34;Authorization: Basic EncryptedPassword&#34;</span> -H <span class="s2">&#34;Content-Type: multipart/form-data&#34;</span> -H <span class="s2">&#34;overwrite: true&#34;</span> -F <span class="s2">&#34;fileUpload=@Backup.zip&#34;</span> -i <span class="si">${</span><span class="nv">target_url</span><span class="si">}</span>api/repo/files/systemRestore
+
+<span class="nb">echo</span> <span class="s2">&#34;\033[0;32mCleaning up…\033[0m&#34;</span>
+rm Backup.zip
+</code></pre></div><p>Let&rsquo;s look at our problem-list:</p>
+<ul>
+<li>You cannot deploy single jobs - <em>but single directories!</em></li>
+<li><del>Every user needs to have access to production (no-go!)</del> (this can be run on a server)</li>
+<li><del>Nothing tracks what actually changed</del> (you can automatically commit the xml file, the backup contains one for each job/transaction)</li>
+<li><del>This needs way more than one click</del></li>
+<li>The export does not contain schedules</li>
+<li><del>Pentaho Suite is started twice and takes <em>minutes</em></del> (this accesses the repository server directly)</li>
+</ul>
+<p>Okay, so this sounds pretty good! What&rsquo;s the problem? <em>It doesn&rsquo;t work.</em> The <code>systemRestore</code> endpoint happily takes all your data, answers <code>200: OK</code> and <em>does nothing</em>. I was told, a ticket would be raised, but so far <a href="http://jira.pentaho.com/issues/?jql=text%20~~%20%22systemRestore%22">I haven&rsquo;t seen any of it</a> and <a href="https://github.com/pentaho/pentaho-platform/blob/master/extensions/src/main/java/org/pentaho/platform/web/http/api/resources/FileResource.java#L195">the implementation also hasn&rsquo;t changed</a>.</p>
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" clip-rule="evenodd" viewBox="0 0 700 400">
+  <g id="InnerLogic">
+    <path fill="#ebebeb" stroke="#000" d="M220.142 0h300v400h-300z"/>
+    <g id="classText" font-family="'SourceCodePro-Regular','Source Code Pro',monospace" font-size="15" transform="translate(229 5)">
+      <text y="10" fill="#000075">
+        class
+      </text>
+      <text x="54" y="10" fill="#520053">
+        ExamplePersistentActor
+      </text>
+      <text y="25" fill="#000075">
+        extends
+      </text>
+      <text x="72" y="25" fill="#520053">
+        PersistentActor
+      </text>
+      <text x="216" y="25" fill="#535502">
+        {
+      </text>
+      <text x="18" y="70" fill="#000075">
+        val
+      </text>
+      <text x="54" y="70" fill="#0c262d">
+        receiveCommand
+      </text>
+      <text x="180" y="70" fill="#535502">
+        :
+      </text>
+      <text x="198" y="70" fill="#520053">
+        Receive
+      </text>
+      <text x="18" y="115" fill="#730002">
+        // validation
+      </text>
+      <text x="18" y="220" fill="#0c262d">
+        persist
+      </text>
+      <text x="81" y="220" fill="#535502">
+        ()
+      </text>
+      <text x="18" y="265" fill="#000075">
+        def
+      </text>
+      <text x="54" y="265" fill="#0c262d">
+        updateState
+      </text>
+      <text x="153" y="265" fill="#535502">
+        ()
+      </text>
+      <text x="18" y="325" fill="#000075">
+        val
+      </text>
+      <text x="54" y="325" fill="#0c262d">
+        receiveRecover
+      </text>
+      <text x="180" y="325" fill="#535502">
+        :
+      </text>
+      <text x="198" y="325" fill="#520053">
+        Receive
+      </text>
+      <text x="18" y="355" fill="#535502">
+        ...
+      </text>
+      <text y="385" fill="#535502">
+        }
+      </text>
+    </g>
+    <g id="Event">
+      <path fill="#ebebeb" stroke="#000" d="M243.9 153.778h152.266v25.282H243.9z"/>
+      <g font-family="'SourceCodePro-Regular','Source Code Pro',monospace" font-size="15" transform="translate(249 160)">
+        <text y="10" fill="#000075">
+          case
+        </text>
+        <text x="45" y="10" fill="#000075">
+          class
+        </text>
+        <text x="99" y="10" fill="#520053">
+          Evt
+        </text>
+        <text x="126" y="10" fill="#535502">
+          ()
+        </text>
+      </g>
+    </g>
+    <path fill="#797979" stroke="#030000" d="M302.676 77.766h4.2v21.986h3.9l-6 6-6-6h3.9V77.766zM302.676 123.792h4.2v21.986h3.9l-6 6-6-6h3.9v-21.986zM302.676 181.369h4.2v21.986h3.9l-6 6-6-6h3.9v-21.986zM306.876 318.208h-4.2v-36.922h-3.9l6-6 6 6h-3.9v36.922z"/>
+  </g>
+  <g id="Database">
+    <path fill="#ebebeb" stroke="#000" d="M591.655 218.988h.119c-.079-.391-.119-.786-.119-1.184 0-9.826 24.274-17.804 54.173-17.804 29.898 0 54.172 7.978 54.172 17.804 0 .398-.04.793-.118 1.184H700v103.269c0 9.826-24.274 17.804-54.172 17.804-29.899 0-54.173-7.978-54.173-17.804V218.988z"/>
+    <ellipse cx="645" cy="217" fill="none" stroke="#000" rx="54" ry="17"/>
+    <path fill="#797979" stroke="#030000" d="M328.319 223.23v-4.2h253.379v-3.9l6 6-6 6v-3.9H328.319zM587.698 261.93v4.2H410.389v3.9l-6-6 6-6v3.9h177.309zM587.698 322.108v4.2h-80.616v3.9l-6-6 6-6v3.9h80.616z"/>
+  </g>
+  <g id="Command">
+    <path fill="#ebebeb" stroke="#000" d="M0 58.431h152.266v25.282H0z"/>
+    <g font-family="'SourceCodePro-Regular','Source Code Pro',monospace" font-size="15" transform="translate(3 65)">
+      <text y="10" fill="#000075">
+        case
+      </text>
+      <text x="45" y="10" fill="#000075">
+        class
+      </text>
+      <text x="99" y="10" fill="#520053">
+        Cmd
+      </text>
+      <text x="126" y="10" fill="#535502">
+        ()
+      </text>
+    </g>
+    <path fill="#797979" stroke="#030000" d="M161.601 72.851v-4.2h68.012v-3.9l6 6-6 6v-3.9h-68.012z"/>
+  </g>
+  <g id="Annotations">
+    <text x="16" y="123" font-family="'ArialMT','Arial',sans-serif" font-size="12">
+      can fail
+    </text>
+    <text x="137" y="175" font-family="'ArialMT','Arial',sans-serif" font-size="12">
+      cannot fail
+    </text>
+    <text x="472" y="257" font-family="'ArialMT','Arial',sans-serif" font-size="12">
+      optional
+    </text>
+    <text x="548" y="356" font-family="'ArialMT','Arial',sans-serif" font-size="12">
+      events and snapshots
+    </text>
+    <path fill="none" stroke="#000" d="M198.607 171.077l43.691-4.438M58.98 118.858l57.663-35.145M544.39 353.345l-15.66-23"/>
+    <text x="446" y="212" font-family="'ArialMT','Arial',sans-serif" font-size="12">
+      async
+    </text>
+    <g id="transactional">
+      <path fill="none" stroke="#ffcd00" stroke-dasharray="4,6,0,0" stroke-width="2" d="M191.405 200h417.086v82.087H191.405z"/>
+      <text x="72" y="229" font-family="'ArialMT','Arial',sans-serif" font-size="12">
+        transactional
+      </text>
+      <path fill="none" stroke="#000" d="M144.92 225.637l46.485 15"/>
+    </g>
+  </g>
+</svg>

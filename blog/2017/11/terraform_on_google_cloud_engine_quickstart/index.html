@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Terraform on Google Cloud Engine Quickstart | Jannik Arndt</title>
+
+<meta name="keywords" content="Programming, Cloud, Infrastructure as Code, DevOps, Google Cloud Engine, GCE, terraform" />
+<meta name="description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/" />
+<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+<meta property="og:title" content="Terraform on Google Cloud Engine Quickstart" />
+<meta property="og:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2017-11-23T20:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2017-11-23T20:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="Terraform on Google Cloud Engine Quickstart"/>
+<meta name="twitter:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Terraform on Google Cloud Engine Quickstart",
+      "item": "https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform on Google Cloud Engine Quickstart",
+  "name": "Terraform on Google Cloud Engine Quickstart",
+  "description": "This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).\n",
+  "keywords": [
+    "Programming", "Cloud", "Infrastructure as Code", "DevOps", "Google Cloud Engine", "GCE", "terraform"
+  ],
+  "articleBody": "This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).\nPrerequisites Install terraform:\n$ brew install terraform Install Google Cloud SDK:\n$ brew cask install google-cloud-sdk create a new project in the console and login\n$ gcloud auth application-default login If you are using IntelliJ IDEA, install the HashiCorp Terraform Plugin.\nOption A: Import a project If you have created a project using the console, create a config.tf with the basic settings:\nprovider \"google\" { region = \"eu-central-1\" } resource \"google_project\" \"project\" {} Now run terraform init to download the google provider plugin. Now import the project via\n$ terraform import google_project.project project-id-186346 You now have a corresponding terraform.tfstate file that contains the name, billing account and other info about your project.\nOption B: Create a new project from scratch Make a new folder and create a config.tf file:\nprovider \"google\" { region = \"eu-central-1\" } resource \"google_project\" \"project\" { name = \"holisticon\" project_id = \"holisticon-123456\" billing_account = \"01B8C8-F33191-3DE337\" // optional } Now run terraform init to download the google provider plugin. Next run terraform apply to create the project. Note that the project_id may not already exist. The billing_account is optional. Also you can only have a maximum of 12 projects at the same time.\nAdding people So far you are the owner of the new project. Now you can create IAM roles and add other people to your project:\nresource \"google_project_iam_binding\" \"project_editors\" { project = \"${google_project.project.project_id}\" role = \"roles/editor\" members = [ \"user:nice.coworker@holisticon.de\", ] } You can find a description of all roles here. Note that you cannot grant the owner role through the API but only using the Cloud Platform Console.\n",
+  "wordCount" : "284",
+  "inLanguage": "en",
+  "datePublished": "2017-11-23T20:00:00+01:00",
+  "dateModified": "2017-11-23T20:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://www.jannikarndt.de">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a>
+</div>
+
+    <h1 class="post-title">
+      Terraform on Google Cloud Engine Quickstart
+    </h1>
+    <div class="post-meta">
+
+November 23, 2017&nbsp;·&nbsp;Jannik Arndt
+
+
+</div>
+  </header> 
+
+  <div class="post-content">
+<p>This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).</p>
+<h2 id="prerequisites">Prerequisites<a hidden class="anchor" aria-hidden="true" href="#prerequisites">#</a></h2>
+<p>Install terraform:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install terraform
+</code></pre></div><p>Install Google Cloud SDK:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew cask install google-cloud-sdk
+</code></pre></div><p><a href="https://console.cloud.google.com/projectcreate">create a new project</a> in the console
+and <a href="https://cloud.google.com/sdk/gcloud/reference/auth/login">login</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ gcloud auth application-default login
+</code></pre></div><p>If you are using IntelliJ IDEA, install the <a href="https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support">HashiCorp Terraform Plugin</a>.</p>
+<h2 id="option-a-import-a-project">Option A: Import a project<a hidden class="anchor" aria-hidden="true" href="#option-a-import-a-project">#</a></h2>
+<p>If you have created a project using the console, create a <code>config.tf</code> with the basic settings:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">provider <span class="s2">&#34;google&#34;</span> <span class="o">{</span>
+    <span class="nv">region</span>      <span class="o">=</span> <span class="s2">&#34;eu-central-1&#34;</span>
+<span class="o">}</span>
+
+resource <span class="s2">&#34;google_project&#34;</span> <span class="s2">&#34;project&#34;</span> <span class="o">{}</span>
+</code></pre></div><p>Now run <code>terraform init</code> to download the google provider plugin. Now import the project via</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform import google_project.project project-id-186346
+</code></pre></div><p>You now have a corresponding <code>terraform.tfstate</code> file that contains the name, billing account and other info about your project.</p>
+<h2 id="option-b-create-a-new-project-from-scratch">Option B: Create a new project from scratch<a hidden class="anchor" aria-hidden="true" href="#option-b-create-a-new-project-from-scratch">#</a></h2>
+<p>Make a new folder and create a <code>config.tf</code> file:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">provider <span class="s2">&#34;google&#34;</span> <span class="o">{</span>
+  <span class="nv">region</span>      <span class="o">=</span> <span class="s2">&#34;eu-central-1&#34;</span>
+<span class="o">}</span>
+
+resource <span class="s2">&#34;google_project&#34;</span> <span class="s2">&#34;project&#34;</span> <span class="o">{</span>
+  <span class="nv">name</span> <span class="o">=</span> <span class="s2">&#34;holisticon&#34;</span>
+  <span class="nv">project_id</span> <span class="o">=</span> <span class="s2">&#34;holisticon-123456&#34;</span>
+  <span class="nv">billing_account</span> <span class="o">=</span> <span class="s2">&#34;01B8C8-F33191-3DE337&#34;</span> // optional
+<span class="o">}</span>
+</code></pre></div><p>Now run <code>terraform init</code> to download the google provider plugin. Next run <code>terraform apply</code> to create the project. Note that the <code>project_id</code> may not already exist. The <code>billing_account</code> is optional. Also you can only have a maximum of 12 projects at the same time.</p>
+<h2 id="adding-people">Adding people<a hidden class="anchor" aria-hidden="true" href="#adding-people">#</a></h2>
+<p>So far you are the owner of the new project. Now you can create IAM roles and add other people to your project:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">resource <span class="s2">&#34;google_project_iam_binding&#34;</span> <span class="s2">&#34;project_editors&#34;</span> <span class="o">{</span>
+  <span class="nv">project</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">google_project</span><span class="p">.project.project_id</span><span class="si">}</span><span class="s2">&#34;</span>
+  <span class="nv">role</span> <span class="o">=</span> <span class="s2">&#34;roles/editor&#34;</span>
+  <span class="nv">members</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="s2">&#34;user:nice.coworker@holisticon.de&#34;</span>,
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div><p>You can find a description of all roles <a href="https://cloud.google.com/iam/docs/understanding-roles#primitive_roles">here</a>. Note that you <a href="https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy">cannot grant the owner role through the API but only using the Cloud Platform Console</a>.</p>
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>
