@@ -23,7 +23,7 @@ params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     title: "Jannik Arndt"
     description: "Product-, Data- and Software Engineer from Hamburg, Germany"
-    author: "Jannik" # author: ["Me", "You"] # multiple authors
+    author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
     images: ["<link or path of image for opengraph, twitter-cards>"]
     defaultContentLanguage: en
 
