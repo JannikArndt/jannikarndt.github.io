@@ -16,5 +16,5 @@ jobs:
           port: '2244'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} 
           local_path: './public/*'
-          remote_path: '/html/web/'
+          remote_path: '/home/webnhdsfg/html/web'
           args: '-o ConnectTimeout=5'
