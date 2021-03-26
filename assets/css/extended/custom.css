@@ -1,7 +1,3 @@
-.chroma {
-    background-color: unset !important;
-}
-
 body {
     font-family: 'Helvetica Neue',Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -16,12 +12,29 @@ body {
     color: rgba(0, 0, 0, 0.2);
 }
 
-.post-content pre code {
-    color: var(--content);
+.post-content h2 {
+    margin: 48px auto 24px;
+}
+
+.chroma {
+    background-color: unset !important;
+    border: 1px solid;
 }
 
 .chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .o, .chroma .ow {
     color: var(--content) !important;
+}
+
+
+.post-content pre code {
+    color: var(--content);
+}
+
+.filename {
+    margin-bottom: -10px;
+    padding: 4px 10px;
+    font-family: Menlo,Monaco,courier new,Courier,monospace;
+    font-size: .7em;
 }
 
 :root {

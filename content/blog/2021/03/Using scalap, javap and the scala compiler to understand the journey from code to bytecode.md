@@ -20,20 +20,23 @@ Do you know what happens after you compile? Let's take a look at what the Scala 
 
 First, we'll need something very small to compile, to still understand _all_ of the output. 
 
-build.sbt
-```scala 
+{{< filename title="build.sbt" >}}
+
+```scala
 name := "scala-start"
 version := "1"
 scalaVersion := "2.13.5"
 scalacOptions := Seq("-target:11")
 ```
 
-project/build.properties
+{{< filename title="project/build.properties" >}}
+
 ```scala
 sbt.version=1.4.9
 ```
 
-src/main/scala/Main.scala
+{{< filename title="src/main/scala/Main.scala" >}}
+
 ```scala
 object Main {
     def main(args: Array[String]) = {
@@ -67,7 +70,8 @@ Hello.
 
 To go even more minimal, you can work with a single scala-file:
 
-Main.scala
+{{< filename title="Main.scala" >}}
+
 ```scala
 object Main {
     def main(args: Array[String]) = {
@@ -122,7 +126,7 @@ object Main$ {
 You can also use `javap`, since it's just class-files:
 
 ```shell
-javap Main Main$
+$ javap Main Main$
 ```
 ```java
 Compiled from "Main.scala"
@@ -166,7 +170,7 @@ object Main$ {
 …while the `javap` output stays _almost_ the same (except for `implements java.io.Serializable`).
 
 ```shell
-javap Main Main$
+$ javap Main Main$
 ```
 ```java
 Compiled from "Main.scala"
@@ -343,13 +347,13 @@ Caused by: java.lang.ClassNotFoundException: scala.Predef$
 => your `jar` is missing the `scala-library`. Either package it (using `sbt stage` for example) or add it to the classpath. Either way you probably want to use
 
 ```
-java -cp "path/to/scala/lib/*:path/to/your/jar" NameOfTheMainClass
+$ java -cp "path/to/scala/lib/*:path/to/your/jar" NameOfTheMainClass
 ```
 
 for example
 
 ```
-java -cp "/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar" Main
+$ java -cp "/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar" Main
 ```
 
 ### NoClassDefFoundError: scala/Function0
