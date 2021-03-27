@@ -3,6 +3,7 @@ title = "Terraform on Google Cloud Engine Quickstart"
 draft = false
 date = "2017-11-23T20:00:00+01:00"
 keywords = [ "Programming", "Cloud", "Infrastructure as Code", "DevOps", "Google Cloud Engine", "GCE", "terraform" ]
+tags = [ "Programming" ]
 slug = "terraform_on_google_cloud_engine_quickstart"
 
 [params]

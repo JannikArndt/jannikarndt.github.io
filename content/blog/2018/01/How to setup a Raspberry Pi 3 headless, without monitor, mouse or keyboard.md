@@ -3,6 +3,7 @@ title = "How to setup a Raspberry Pi 3 headless, without monitor, mouse or keybo
 draft = false
 date = "2018-01-13T12:00:00+01:00"
 keywords = [ "Raspberry Pi", "Raspberry Pi 3", "Setup", "How to", "Headless", "Raspbian", "SSH", "MacOS" ]
+tags = [ "Programming", "Raspberry Pi" ]
 slug = "raspberry_pi_3_headless_setup"
 toc = true
 

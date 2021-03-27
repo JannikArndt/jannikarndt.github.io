@@ -3,7 +3,7 @@ title = "Akka HTTP on Heroku"
 draft = false
 date = "2018-10-27T19:00:00+01:00"
 keywords = [ "Programming", "Scala", "akka", "Akka HTTP", "Heroku", "Deployment", "App", "Tutorial", "How-To" ]
-tags = [ "Scala" ]
+tags = [ "Scala", "Programming", "Akka HTTP" ]
 slug = "akka_http_on_heroku"
 toc = true
 

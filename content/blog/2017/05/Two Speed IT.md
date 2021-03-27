@@ -3,6 +3,7 @@ title = "Two-speed IT"
 draft = false
 date = "2017-05-23T08:30:00+01:00"
 keywords = [ "Consulting" ]
+tags = [ "Programming" ]
 slug = "two_speed_it"
 
 [params]

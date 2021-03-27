@@ -3,6 +3,7 @@ title = "Extracting Dimensions from an Oracle Database Table"
 draft = false
 date = "2017-01-07T11:20:00+01:00"
 keywords = [ "Data Engineering", "Database", "Oracle", "ETL" ]
+tags = [ "Programming", "Databases" ]
 slug = "extracting_dimensions_from_an_oracle_database_table"
 
 [params]

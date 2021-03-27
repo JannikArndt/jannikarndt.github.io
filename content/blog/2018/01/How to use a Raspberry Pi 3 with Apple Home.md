@@ -3,6 +3,7 @@ title = "How to use a Raspberry Pi 3 with Apple Home"
 draft = false
 date = "2018-01-13T12:40:00+01:00"
 keywords = [ "Raspberry Pi", "Raspberry Pi 3", "Setup", "How to", "MacOS", "iOS", "HomeKit", "Apple Home", "Homebridge", "MQTT", "Mosquitto" ]
+tags = [ "Programming", "Raspberry Pi", "Smart Home" ]
 slug = "how_to_use_a_raspberry_pi_3_with_apple_home"
 toc = true
 

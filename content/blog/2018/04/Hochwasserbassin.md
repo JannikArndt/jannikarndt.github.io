@@ -3,6 +3,7 @@ title = "Hochwasserbassin"
 draft = false
 date = "2018-04-07T12:35:00+01:00"
 keywords = [ "Photography", "Long Exposure", "Nikon", "D7100" ]
+tags = [ "Photography", "Hamburg" ]
 slug = "hochwasserbassin"
 
 [params]

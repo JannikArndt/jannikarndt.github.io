@@ -3,6 +3,7 @@ title = "How To Define Tables for Different Databases in Slick"
 draft = true
 date = "2017-01-07T11:20:00+01:00"
 keywords = [ "Data Engineering", "ETL", "Slick", "Scala" ]
+tags = [ "Programming", "Scala" ]
 slug = "how_to_define_tables_for_different_databases_in_slick"
 
 [params]

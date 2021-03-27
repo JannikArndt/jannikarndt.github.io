@@ -3,6 +3,7 @@ title = "Tough Mudder Norddeutschland 2017"
 draft = false
 date = "2017-07-15T17:00:00+01:00"
 keywords = [ "Sport" ]
+tags = [ "Photography" ]
 slug = "tough_mudder_norddeutschland_2017"
 
 [params]

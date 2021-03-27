@@ -3,6 +3,7 @@ title = "Best Reads of 2017"
 draft = true
 date = "2018-01-04T19:00:00+01:00"
 keywords = [ "Programming", "Hacker News" ]
+tags = [ "Programming" ]
 slug = "best_reads_of_2017"
 toc = true
 

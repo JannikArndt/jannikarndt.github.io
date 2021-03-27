@@ -8,6 +8,12 @@
     <loc>https://www.jannikarndt.de/</loc>
     <lastmod>2021-03-25T09:00:00+01:00</lastmod>
   </url><url>
+    <loc>https://www.jannikarndt.de/tags/jvm/</loc>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/tags/programming/</loc>
+    <lastmod>2021-03-25T09:00:00+01:00</lastmod>
+  </url><url>
     <loc>https://www.jannikarndt.de/tags/scala/</loc>
     <lastmod>2021-03-25T09:00:00+01:00</lastmod>
   </url><url>
@@ -20,11 +26,17 @@
     <loc>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</loc>
     <lastmod>2018-12-04T21:00:00+01:00</lastmod>
   </url><url>
+    <loc>https://www.jannikarndt.de/tags/akka-http/</loc>
+    <lastmod>2018-10-28T13:00:00+01:00</lastmod>
+  </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</loc>
     <lastmod>2018-10-28T13:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</loc>
     <lastmod>2018-10-27T19:00:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/tags/aws/</loc>
+    <lastmod>2018-10-07T18:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</loc>
     <lastmod>2018-10-07T18:00:00+01:00</lastmod>
@@ -41,11 +53,17 @@
     <loc>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</loc>
     <lastmod>2018-08-16T15:00:00+01:00</lastmod>
   </url><url>
+    <loc>https://www.jannikarndt.de/tags/photography/</loc>
+    <lastmod>2018-08-05T16:00:00+01:00</lastmod>
+  </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</loc>
     <lastmod>2018-08-05T16:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/</loc>
     <lastmod>2018-07-22T07:00:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/tags/hamburg/</loc>
+    <lastmod>2018-05-25T23:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</loc>
     <lastmod>2018-05-25T23:00:00+01:00</lastmod>
@@ -65,13 +83,22 @@
     <loc>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</loc>
     <lastmod>2018-03-22T07:00:00+01:00</lastmod>
   </url><url>
+    <loc>https://www.jannikarndt.de/tags/kubernetes/</loc>
+    <lastmod>2018-03-22T07:00:00+01:00</lastmod>
+  </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</loc>
     <lastmod>2018-03-13T12:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</loc>
     <lastmod>2018-01-13T20:00:00+01:00</lastmod>
   </url><url>
+    <loc>https://www.jannikarndt.de/tags/raspberry-pi/</loc>
+    <lastmod>2018-01-13T20:00:00+01:00</lastmod>
+  </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</loc>
+    <lastmod>2018-01-13T19:00:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/tags/smart-home/</loc>
     <lastmod>2018-01-13T19:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</loc>
@@ -104,6 +131,9 @@
     <loc>https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</loc>
     <lastmod>2017-07-22T05:00:00+01:00</lastmod>
   </url><url>
+    <loc>https://www.jannikarndt.de/tags/database/</loc>
+    <lastmod>2017-07-21T22:45:00+01:00</lastmod>
+  </url><url>
     <loc>https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</loc>
     <lastmod>2017-07-21T22:45:00+01:00</lastmod>
   </url><url>
@@ -111,6 +141,9 @@
     <lastmod>2017-07-15T17:00:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</loc>
+    <lastmod>2017-07-02T13:45:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/tags/music/</loc>
     <lastmod>2017-07-02T13:45:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</loc>
@@ -127,6 +160,9 @@
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</loc>
     <lastmod>2017-03-05T17:01:00+01:00</lastmod>
+  </url><url>
+    <loc>https://www.jannikarndt.de/tags/databases/</loc>
+    <lastmod>2017-01-07T11:20:00+01:00</lastmod>
   </url><url>
     <loc>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</loc>
     <lastmod>2017-01-07T11:20:00+01:00</lastmod>

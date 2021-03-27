@@ -3,7 +3,7 @@ title: "Using scalap, javap and the scala compiler to understand the journey fro
 date: "2021-03-25T09:00:00+01:00"
 author: "Jannik Arndt"
 keywords: [ "Programming", "Scala", "Scalac", "Scalap", "Javap", "Scala Compiler", "JVM", "Bytecode", "JAR" ]
-tags: [ "Scala" ]
+tags: [ "Scala", "Programming", "JVM" ]
 slug: "using_scalap_javap_and_the_scala_compiler"
 toc: true
 showToc: true

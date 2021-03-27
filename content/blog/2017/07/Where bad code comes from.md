@@ -3,6 +3,7 @@ title = "Where bad code comes from"
 draft = false
 date = "2017-07-22T05:00:00+01:00"
 keywords = [ "Programming" ]
+tags = [ "Programming" ]
 slug = "where_bad_code_comes_from"
 
 [params]

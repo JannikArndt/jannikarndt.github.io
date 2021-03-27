@@ -3,6 +3,7 @@ title = "How to install Tasmota on a Sonoff device without opening it"
 draft = false
 date = "2018-01-13T19:00:00+01:00"
 keywords = [ "Raspberry Pi", "Raspberry Pi 3", "Setup", "How to", "MacOS", "Tasmota", "Sonoff", "MQTT", "Mosquitto" ]
+tags = [ "Programming", "Raspberry Pi", "Smart Home" ]
 slug = "how_to_install_tasmota_on_a_sonoff_device_without_opening_it"
 toc = true
 

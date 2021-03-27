@@ -3,6 +3,7 @@ title = "Belugas at Finkenwerder"
 draft = false
 date = "2017-03-05T17:01:00+01:00"
 keywords = [ "Airbus", "Beluga", "Finkenwerder", "Photos" ]
+tags = [ "Photography", "Hamburg" ]
 slug = "belugas_at_finkenwerder"
 
 [params]

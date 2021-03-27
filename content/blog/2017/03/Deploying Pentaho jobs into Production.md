@@ -3,6 +3,7 @@ title = "Deploying Pentaho jobs into Production"
 draft = false
 date = "2017-03-05T17:01:00+01:00"
 keywords = [ "Data Engineering", "Pentaho", "ETL" ]
+tags = [ "Programming" ]
 slug = "deploying_pentaho_jobs_into_production"
 
 [params]

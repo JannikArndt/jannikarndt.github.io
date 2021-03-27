@@ -3,6 +3,7 @@ title = "How to add an SSH Key as a Kubernetes Secret"
 draft = false
 date = "2018-03-22T07:00:00+01:00"
 keywords = [ "DevOps", "Kubernetes", "Docker", "SSH" ]
+tags = [ "Programming", "Kubernetes" ]
 slug = "ssh_key_as_kubernetes_secret"
 
 [params]

@@ -3,6 +3,7 @@ title = "Releasing a Scala + Maven project to Maven Central (Sonatype OSS)"
 draft = false
 date = "2017-09-10T21:07:00+01:00"
 keywords = [ "Scala", "Maven", "Open Source", "DataMover", "Sonatype" ]
+tags = [ "Programming", "Scala" ]
 slug = "releasing_a_scala_maven_project_to_maven_central"
 toc = true
 

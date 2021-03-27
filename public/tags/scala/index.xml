@@ -77,5 +77,26 @@
 &lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
+      <link>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</link>
+      <pubDate>Sun, 10 Sep 2017 21:07:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
+      <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
+Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
+ create a JIRA account and then create a ticket for a new project.</description>
+    </item>
+    
+    <item>
+      <title>Writing case classes to MongoDB in Scala</title>
+      <link>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</link>
+      <pubDate>Sat, 19 Aug 2017 10:05:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
+      <description>&lt;p&gt;Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for &lt;code&gt;java.time&lt;/code&gt; classes such as &lt;code&gt;ZonedDateTime&lt;/code&gt;, &lt;code&gt;LocalDate&lt;/code&gt; or &lt;code&gt;Duration&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

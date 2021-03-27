@@ -3,6 +3,7 @@ title = "Kirschblütenfeuerwerk"
 draft = false
 date = "2018-05-25T23:00:00+01:00"
 keywords = [ "Photography", "Nikon", "D7100", "Hamburg", "Alster", "Fireworks", "Kirschblütenfest" ]
+tags = [ "Photography", "Hamburg" ]
 slug = "kirschbluetenfeuerwerk"
 
 [params]

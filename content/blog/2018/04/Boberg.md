@@ -3,6 +3,7 @@ title = "Boberg"
 draft = false
 date = "2018-04-08T12:00:00+01:00"
 keywords = [ "Photography", "Panorama", "Nikon", "D7100", "Boberg", "Hamburg" ]
+tags = [ "Photography", "Hamburg" ]
 slug = "boberg"
 
 [params]

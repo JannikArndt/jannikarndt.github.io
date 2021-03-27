@@ -3,7 +3,7 @@ title = "How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka
 draft = false
 date = "2018-10-07T18:00:00+01:00"
 keywords = [ "Programming", "Scala", "akka", "alpakka", "localstack", "reactive programming", "aws", "simple queue service", "message queue" ]
-tags = [ "Scala" ]
+tags = [ "Scala", "Programming", "AWS" ]
 slug = "reactive_sqs_reader"
 toc = true
 

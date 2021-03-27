@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Music on Jannik Arndt</title>
+    <link>https://www.jannikarndt.de/tags/music/</link>
+    <description>Recent content in Music on Jannik Arndt</description>
+    <image>
+      <url>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 02 Jul 2017 13:45:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/music/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Minor Story Live at Methfesselfest</title>
+      <link>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</link>
+      <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
+      <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

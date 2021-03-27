@@ -3,6 +3,7 @@ title = "3 Ways How Passwords Get Leaked"
 draft = false
 date = "2018-07-22T07:00:00+01:00"
 keywords = [ "DevOps", "Security", "Programming", "Passwords", "Leak", "git" ]
+tags = [ "Programming" ]
 slug = "how_passwords_get_leaked"
 
 [params]

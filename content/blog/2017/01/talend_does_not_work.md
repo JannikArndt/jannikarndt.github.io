@@ -3,6 +3,7 @@ title = "talend does not work"
 draft = false
 date = "2017-01-07T11:20:00+01:00"
 keywords = [ "Data Engineering", "talend" ]
+tags = [ "Programming" ]
 slug = "talend_does_not_work"
 
 [params]

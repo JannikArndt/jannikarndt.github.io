@@ -3,7 +3,7 @@ title = "Rotating PostgreSQL Passwords with no downtime"
 draft = false
 date = "2018-08-22T09:00:00+01:00"
 keywords = [ "DevOps", "Programming", "PostgreSQL", "Database", "Security", "Keys", "Key Rotation", "liquibase", "roles" ]
-tags = [ "PostgreSQL" ]
+tags = [ "PostgreSQL", "Programming" ]
 slug = "rotating_postgresql_passwords_with_no_downtime"
 toc = false
 

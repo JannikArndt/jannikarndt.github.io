@@ -3,6 +3,7 @@ title = "Hamburg as seen from the Michel"
 draft = false
 date = "2017-11-04T16:50:00+01:00"
 keywords = [ "Photography", "Hamburg", "Michel", "Panorama", "Hauptkirche St. Michaelis", "Shot on iPhone 8" ]
+tags = [ "Photography", "Hamburg" ]
 slug = "hamburg_as_seen_from_the_michel"
 
 [params]

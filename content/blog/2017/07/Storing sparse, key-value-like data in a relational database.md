@@ -3,6 +3,7 @@ title = "Storing sparse, key-value-like data in a relational database"
 draft = false
 date = "2017-07-21T22:45:00+01:00"
 keywords = [ "Programming", "Databases" ]
+tags = [ "Programming", "Database" ]
 slug = "storing_sparse_key_value_like_data_in_a_relational_database"
 toc = true
 

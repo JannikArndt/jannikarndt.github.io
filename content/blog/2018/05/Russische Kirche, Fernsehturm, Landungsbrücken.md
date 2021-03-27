@@ -3,6 +3,7 @@ title = "Russische Kirche, Fernsehturm, Landungsbrücken"
 draft = false
 date = "2018-05-25T23:00:00+01:00"
 keywords = [ "Photography", "Nikon", "D7100", "Hamburg", "Russische Kirche", "Russian Church", "Fernsehturm", "Landungsbrücken", "St. Pauli", "Russische Orthodoxe Kirche des Hl. Johannes von Kronstadt", "Heinrich-Hertz-Turm" ]
+tags = [ "Photography", "Hamburg" ]
 slug = "russische_kirche_fernsehturm_landungsbruecken"
 
 [params]

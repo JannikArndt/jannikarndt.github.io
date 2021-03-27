@@ -3,7 +3,7 @@ title = "oAuth2 with Akka HTTP"
 draft = false
 date = "2018-10-28T13:00:00+01:00"
 keywords = [ "Programming", "Scala", "akka", "Akka HTTP", "oAuth2", "App", "Tutorial", "How-To" ]
-tags = [ "Scala" ]
+tags = [ "Scala", "Programming", "Akka HTTP" ]
 slug = "oauth2-akka-http"
 toc = true
 

@@ -3,6 +3,7 @@ title = "Git in one Image"
 draft = false
 date = "2017-06-18T08:30:00+01:00"
 keywords = [ "Programming", "Git" ]
+tags = [ "Programming" ]
 slug = "git_in_one_image"
 
 [params]

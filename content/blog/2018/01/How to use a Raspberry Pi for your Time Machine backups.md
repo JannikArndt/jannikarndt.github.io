@@ -3,6 +3,7 @@ title = "How to use a Raspberry Pi for your Time Machine backups"
 draft = false
 date = "2018-01-13T20:00:00+01:00"
 keywords = [ "Raspberry Pi", "Raspberry Pi 3", "Setup", "How to", "MacOS", "Time Machine", "Backup", "Time Capsule" ]
+tags = [ "Programming", "Raspberry Pi" ]
 slug = "how_to_use_a_raspberry_pi_for_your_time_machine_backups"
 toc = true
 

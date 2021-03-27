@@ -3,6 +3,7 @@ title = "Using your Apple Watch Workout to Geotag DSLR Photos"
 draft = false
 date = "2018-08-05T16:00:00+01:00"
 keywords = [ "Apple", "Apple Watch", "Outdoor Walk", "Geotag", "GPS", "Route", "Photography", "exiftool" ]
+tags = [ "Photography" ]
 slug = "using_your_apple_watch_workout_to_geotag_dslr_photos"
 
 [params]
