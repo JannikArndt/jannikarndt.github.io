@@ -1,15 +1,16 @@
-+++
-title = "Using scalap, javap and the scala compiler to understand the journey from code to bytecode"
-draft = false
-date = "2021-03-25T09:00:00+01:00"
-keywords = [ "Programming", "Scala", "Scalac", "Scalap", "Javap", "Scala Compiler", "JVM", "Bytecode", "JAR" ]
-tags = [ "Scala" ]
-slug = "using_scalap_javap_and_the_scala_compiler"
-toc = true
-
-[params]
-  author = "Jannik Arndt"
-+++
+---
+title: "Using scalap, javap and the scala compiler to understand the journey from code to bytecode"
+date: "2021-03-25T09:00:00+01:00"
+author: "Jannik Arndt"
+keywords: [ "Programming", "Scala", "Scalac", "Scalap", "Javap", "Scala Compiler", "JVM", "Bytecode", "JAR" ]
+tags: [ "Scala" ]
+slug: "using_scalap_javap_and_the_scala_compiler"
+toc: true
+showToc: true
+TocOpen: true
+draft: false
+comments: false
+---
 
 Do you know what happens after you compile? Let's take a look at what the Scala compiler tells us, and what `scalap` and `javap` can reveal about `.class` files.
 

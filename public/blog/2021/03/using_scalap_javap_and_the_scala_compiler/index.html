@@ -11,7 +11,7 @@
 <meta name="description" content="Do you know what happens after you compile? Let&rsquo;s take a look at what the Scala compiler tells us, and what scalap and javap can reveal about .class files.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/" />
-<link href="/assets/css/stylesheet.min.75c82060afc00647e4f602bc5a3d7c6e09eff38753cdfb2d9e5490a91d77531d.css" integrity="sha256-dcggYK/ABkfk9gK8Wj18bgnv84dTzfstnlSQqR13Ux0=" rel="preload stylesheet"
+<link href="/assets/css/stylesheet.min.e41b3f5b7c7c7c9810b8d0bf118d8f75199b1ebb77c1922d9cbb24cb9065088e.css" integrity="sha256-5Bs/W3x8fJgQuNC/EY2PdRmbHrt3wZItnLsky5BlCI4=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
@@ -215,7 +215,28 @@ March 25, 2021&nbsp;·&nbsp;Jannik Arndt
 
 </div>
   </header> 
-
+  <div class="toc">
+    <details  open>
+      <summary accesskey="c" title="(Alt + C)">
+        <div class="details">Using scalap, javap and the scala compiler to understand the journey from code to bytecode</div>
+      </summary>
+      <div class="inner"><ul><li>
+        <a href="#creating-a-minimal-example-with-sbt" aria-label="Creating a Minimal Example with sbt">Creating a Minimal Example with <code>sbt</code></a></li><li>
+        <a href="#creating-a-really-minimal-example-without-sbt" aria-label="Creating a Really Minimal Example (without sbt)">Creating a Really Minimal Example (without <code>sbt</code>)</a></li><li>
+        <a href="#running-scalap-and-javap" aria-label="Running scalap and javap">Running <code>scalap</code> and <code>javap</code></a></li><li>
+        <a href="#excursion-scala-3--dotty" aria-label="Excursion: Scala 3 / dotty">Excursion: Scala 3 / dotty</a></li><li>
+        <a href="#printing-just-before-jvm-bytecode-generation" aria-label="Printing just before JVM Bytecode Generation">Printing just before JVM Bytecode Generation</a></li><li>
+        <a href="#the-bytecode" aria-label="The Bytecode">The Bytecode</a></li><li>
+        <a href="#the-java-code" aria-label="The Java Code">The Java Code</a></li><li>
+        <a href="#errors-you-can-run-into" aria-label="Errors you can run into">Errors you can run into</a><ul>
+            <li>
+        <a href="#noclassdeffounderror-scalapredef" aria-label="NoClassDefFoundError: scala/Predef$">NoClassDefFoundError: scala/Predef$</a></li><li>
+        <a href="#noclassdeffounderror-scalafunction0" aria-label="NoClassDefFoundError: scala/Function0">NoClassDefFoundError: scala/Function0</a></li><li>
+        <a href="#no-such-file-or-class-on-classpath-main" aria-label="No such file or class on classpath: Main">No such file or class on classpath: Main</a></li><li>
+        <a href="#classobject-main-not-found" aria-label="class/object Main not found.">class/object Main not found.</a></li></ul>
+</li></ul></div>
+    </details>
+  </div>
   <div class="post-content">
 <p>Do you know what happens after you compile? Let&rsquo;s take a look at what the Scala compiler tells us, and what <code>scalap</code> and <code>javap</code> can reveal about <code>.class</code> files.</p>
 <h2 id="creating-a-minimal-example-with-sbt">Creating a Minimal Example with <code>sbt</code><a hidden class="anchor" aria-hidden="true" href="#creating-a-minimal-example-with-sbt">#</a></h2>
