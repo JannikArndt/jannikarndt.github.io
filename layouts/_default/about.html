@@ -1,0 +1,21 @@
+{{- define "main" }}
+
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">
+        {{ .Description }}
+    </div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+        {{- partial "translation_list.html" . -}}
+    </div>
+    {{- end}}
+</header>
+
+<div class="post-content">
+    {{- partial "anchored_headings.html" .Content -}}
+</div>
+
+{{- end }}{{/* end main */}}

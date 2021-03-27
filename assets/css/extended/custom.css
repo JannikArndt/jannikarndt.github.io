@@ -71,6 +71,9 @@ body {
 
 }
 
+tr {
+    vertical-align: baseline;
+}
 
 
 summary {

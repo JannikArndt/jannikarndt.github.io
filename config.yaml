@@ -94,9 +94,13 @@ markup:
 
 menu:
     main:
+        - identifier: about
+          name: about
+          url: about/
+          weight: 5
         - name: blog
           url: archive/
-          weight: 5
+          weight: 10
         - name: search
           url: search/
           weight: 15

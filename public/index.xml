@@ -469,6 +469,15 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>About</title>
+      <link>https://www.jannikarndt.de/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.jannikarndt.de/about/</guid>
+      <description>about</description>
+    </item>
+    
     
     
   </channel>
