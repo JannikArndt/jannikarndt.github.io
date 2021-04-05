@@ -24,7 +24,7 @@ params:
     title: "Jannik Arndt"
     description: "Product-, Data- and Software Engineer from Hamburg, Germany"
     author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
-    images: ["<link or path of image for opengraph, twitter-cards>"]
+    images: ["jannik.jpg"]
     defaultContentLanguage: en
 
 
