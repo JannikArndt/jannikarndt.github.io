@@ -32,9 +32,9 @@ That gives you the language-overview:
 
 {{< figure src="/blog/2021/04/rust/languages.png" alt="languages overview" width="40%" >}}
 
-And a proper `Cargo.yaml`, prominently featuring dependencies that seem to make sense:
+And a proper `Cargo.toml`, prominently featuring dependencies that seem to make sense:
 
-![the cargo.yaml](/blog/2021/04/rust/cargo.png)
+![the cargo.toml](/blog/2021/04/rust/cargo.png)
 
 I committed using the `--date` flag:
 
