@@ -25,6 +25,10 @@ body {
     color: var(--content) !important;
 }
 
+.chroma .nt {
+    color: rgb(113, 113, 237) !important;
+}
+
 
 .post-content pre code {
     color: var(--content);
@@ -44,6 +48,14 @@ body {
     font-size: 12px;
 }
 
+figure {
+    margin-bottom: calc(2* var(--content-gap));
+    margin-top: calc(2* var(--content-gap));
+}
+
+figure img {
+    box-shadow: 5px 5px 25px;
+}
 
 @media (min-width: 1280px) {
     .toc {
