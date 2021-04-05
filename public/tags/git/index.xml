@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on Jannik Arndt</title>
+    <link>https://www.jannikarndt.de/tags/git/</link>
+    <description>Recent content in Git on Jannik Arndt</description>
+    <image>
+      <url>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 05 Apr 2021 02:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo</title>
+      <link>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</link>
+      <pubDate>Mon, 05 Apr 2021 02:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</guid>
+      <description>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+But, at good prank isn&amp;rsquo;t just &amp;ldquo;I thought this was true, but it wasn&amp;rsquo;t&amp;rdquo;. It&amp;rsquo;s &amp;ldquo;I though it was a joke, but for a brief moment doubted that&amp;rdquo;. The &amp;ldquo;Oh, no, he didn&amp;rsquo;t&amp;quot;-moment.
+Alas, one more line was necessary:</description>
+    </item>
+    
+    <item>
+      <title>Git in one Image</title>
+      <link>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</link>
+      <pubDate>Sun, 18 Jun 2017 08:30:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</guid>
+      <description>&lt;p&gt;I tried to create a single image that contains all the most important &lt;code&gt;git&lt;/code&gt; commands:&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

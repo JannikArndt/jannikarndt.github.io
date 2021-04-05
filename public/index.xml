@@ -9,7 +9,18 @@
       <link>https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 25 Mar 2021 09:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Apr 2021 02:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo</title>
+      <link>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</link>
+      <pubDate>Mon, 05 Apr 2021 02:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</guid>
+      <description>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+But, at good prank isn&amp;rsquo;t just &amp;ldquo;I thought this was true, but it wasn&amp;rsquo;t&amp;rdquo;. It&amp;rsquo;s &amp;ldquo;I though it was a joke, but for a brief moment doubted that&amp;rdquo;. The &amp;ldquo;Oh, no, he didn&amp;rsquo;t&amp;quot;-moment.
+Alas, one more line was necessary:</description>
+    </item>
+    
     <item>
       <title>Using scalap, javap and the scala compiler to understand the journey from code to bytecode</title>
       <link>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</link>

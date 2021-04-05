@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Git | Jannik Arndt</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Product-, Data- and Software Engineer from Hamburg, Germany">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/tags/git/" />
+<link href="/assets/css/stylesheet.min.9b8d29ed5b564ec6a5dbdd2fe5a06ddb12abe4d0ae0f885133a0c0a9ba66aaf4.css" integrity="sha256-m40p7VtWTsal290v5aBt2xKr5NCuD4hRM6DAqbpmqvQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+<link rel="alternate" type="application/rss&#43;xml" href="https://www.jannikarndt.de/tags/git/index.xml">
+<meta property="og:title" content="Git" />
+<meta property="og:description" content="Product-, Data- and Software Engineer from Hamburg, Germany" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.jannikarndt.de/tags/git/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="Git"/>
+<meta name="twitter:description" content="Product-, Data- and Software Engineer from Hamburg, Germany"/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/about/" title="about">
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/tags/">Tags</a></div>
+  <h1>Git</h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo</h2>
+  </header>
+  <section class="entry-content">
+    <p>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+But, at good prank isn’t just “I thought this was true, but it wasn’t”. It’s “I though it was a joke, but for a brief moment doubted that”. The “Oh, no, he didn’t&#34;-moment.
+Alas, one more line was necessary:...</p>
+  </section>
+  <footer class="entry-footer">April 5, 2021&nbsp;·&nbsp;Jannik Arndt</footer>
+  <a class="entry-link" aria-label="post link to April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo" href="https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Git in one Image</h2>
+  </header>
+  <section class="entry-content">
+    <p>I tried to create a single image that contains all the most important git commands:
+...</p>
+  </section>
+  <footer class="entry-footer">June 18, 2017&nbsp;·&nbsp;Jannik Arndt</footer>
+  <a class="entry-link" aria-label="post link to Git in one Image" href="https://www.jannikarndt.de/blog/2017/06/git_in_one_image/"></a>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de/">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

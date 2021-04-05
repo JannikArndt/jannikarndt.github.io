@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo | Jannik Arndt</title>
+<meta name="keywords" content="Git, GitHub" />
+<meta name="description" content="We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+But, at good prank isn&rsquo;t just &ldquo;I thought this was true, but it wasn&rsquo;t&rdquo;. It&rsquo;s &ldquo;I though it was a joke, but for a brief moment doubted that&rdquo;. The &ldquo;Oh, no, he didn&rsquo;t&quot;-moment.
+Alas, one more line was necessary:">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/" />
+<link href="/assets/css/stylesheet.min.9b8d29ed5b564ec6a5dbdd2fe5a06ddb12abe4d0ae0f885133a0c0a9ba66aaf4.css" integrity="sha256-m40p7VtWTsal290v5aBt2xKr5NCuD4hRM6DAqbpmqvQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+<meta property="og:title" content="April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo" />
+<meta property="og:description" content="We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+But, at good prank isn&rsquo;t just &ldquo;I thought this was true, but it wasn&rsquo;t&rdquo;. It&rsquo;s &ldquo;I though it was a joke, but for a brief moment doubted that&rdquo;. The &ldquo;Oh, no, he didn&rsquo;t&quot;-moment.
+Alas, one more line was necessary:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/" /><meta property="og:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-04-05T02:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2021-04-05T02:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"/>
+
+<meta name="twitter:title" content="April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo"/>
+<meta name="twitter:description" content="We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+But, at good prank isn&rsquo;t just &ldquo;I thought this was true, but it wasn&rsquo;t&rdquo;. It&rsquo;s &ldquo;I though it was a joke, but for a brief moment doubted that&rdquo;. The &ldquo;Oh, no, he didn&rsquo;t&quot;-moment.
+Alas, one more line was necessary:"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "April Fools': “We rewrote it in Rust” or How To Fake A GitHub Repo",
+      "item": "https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "April Fools': “We rewrote it in Rust” or How To Fake A GitHub Repo",
+  "name": "April Fools\u0027: “We rewrote it in Rust” or How To Fake A GitHub Repo",
+  "description": "We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools' I made a big announcement that our team followed suit:\nBut, at good prank isn\u0026rsquo;t just \u0026ldquo;I thought this was true, but it wasn\u0026rsquo;t\u0026rdquo;. It\u0026rsquo;s \u0026ldquo;I though it was a joke, but for a brief moment doubted that\u0026rdquo;. The \u0026ldquo;Oh, no, he didn\u0026rsquo;t\u0026quot;-moment.\nAlas, one more line was necessary:",
+  "keywords": [
+    "Git", "GitHub"
+  ],
+  "articleBody": "We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools' I made a big announcement that our team followed suit:\nBut, at good prank isn’t just “I thought this was true, but it wasn’t”. It’s “I though it was a joke, but for a brief moment doubted that”. The “Oh, no, he didn’t\"-moment.\nAlas, one more line was necessary:\nThe proof. With a link. A Call-To-Action. Click it! Marvel at it!\nCreating fake commits Creating a GitHub repo that looks like Rust isn’t hard. You can look at a few open-source projects and copy what you need (respecting the license, of course).\nThat gives you the language-overview:\n  And a proper Cargo.yaml, prominently featuring dependencies that seem to make sense:\nI committed using the --date flag:\n$ git commit -a -m \"Initial template \u0026 infra for booking3\" \\ --date=\"7 days ago at 08:46\" and checked the log:\n$ git log commit 983e4977983ee134771885f6c08881513c4faef1 (HEAD - main) Author: Jannik Arndt  Date: Mon Mar 22 08:46:00 2021 +0100 Initial template \u0026 infra for booking3 Looks good. For a preview, I created a repo in my personal account and pushed it:\n$ git remote add origin https://github.com/JannikArndt/booking3.git $ git push --set-upstream origin main   TWO MINUTES AGO? How could that be?!\ngit has different formats for the log: oneline, short, medium, full, fuller, reference, email and raw. The default is medium.\nOnly the fuller format shows the whole truth:\n$ git log --pretty=fuller commit 983e4977983ee134771885f6c08881513c4faef1 (HEAD - main, origin/main) Author: Jannik Arndt  AuthorDate: Mon Mar 22 08:46:00 2021 +0100 Commit: Jannik Arndt  CommitDate: Tue Mar 30 22:47:39 2021 +0200 Initial template \u0026 infra for booking3 There’s an AuthorDate and a CommitDate!\nOkay, let’s try again.\nFaking AuthorDate and CommitDate A quick googling later I arrived at\n$ GIT_COMMITTER_DATE=\"2021-03-20T11:43:11\" \\ git commit -a -m \"Initial template \u0026 infra for booking3\" \\ --date=\"2021-03-20T11:43:11\" Force-push aaaannd\n  Nice 👍\nFaking the Author — and Committer Next I needed commits from the whole team to make this look realistic. Following the ENV-vars:\n$ GIT_COMMITTER_DATE=\"2021-03-23T11:43:11\" \\ GIT_COMMITTER_NAME=\"Cristina\" \\ GIT_COMMITTER_EMAIL=\"cristina@moia.io\" \\ git commit -a -m \"Change deployment to booking3\" --date=\"2021-03-23T11:43:11\" Of course not.\n  GitHub does make a difference between the author and the committer. So to fully fake someone else’s commit:\n$ GIT_COMMITTER_DATE=\"2021-03-23T11:43:11\" \\ GIT_COMMITTER_NAME=\"Cristina\" \\ GIT_COMMITTER_EMAIL=\"cristina@moia.io\" \\ git commit -a -m \"Change deployment to booking3\" --date=\"2021-03-23T11:43:11\" \\ --author=\"Cristina \" It worked 😎\nSince I had a few commits left to do and I don’t enjoy typing, I refactored my command a little:\n$ DATE=\"2021-03-23T11:43:11\"; \\ NAME=\"Cristina\"; \\ MAIL=cristina@moia.io; \\ GIT_COMMITTER_DATE=$DATE GIT_COMMITTER_NAME=$NAME GIT_COMMITTER_EMAIL=$MAIL \\ git commit --author=\"$NAME$MAIL\" --date=$DATE -m \"\" Fine-Tuning I also tried --allow-empty, and while the messages appear in the history, they don’t change the appearance on the first view, since they don’t touch any files. Obviously.\nI also tried to balance the amount of lines to generate a more realistic “Pulse” in the “Insights” section:\n  (I still remembered from when I found the other teams Rust-repo that I looked at this to find out who was leading this effort.)\nNext I needed the green little checkmark to fabricate a successful CI/CD:\n  It hurts a little to spin up a fresh Ubuntu just for a green checkmark, but I didn’t find a quicker way:\nname:deploymenton:push:branches:[main]jobs:test:runs-on:ubuntu-20.04steps:- run:echo \"April Fools!\"I also thought about creating and merging PRs, but those are way harder to forcibly overwrite (and I don’t know the GitHub API well enough to automate that on the spot).\nResult After about two hours of hacking, I was satisfied.\nThe reactions were rewarding: People dug into the code, found, commented on and appreciated all the details and even opened new Pull-Requests.\nHowever, one thing nobody noticed…\nLearnings After figuring out how, creating fake commits for my co-workers turned out surprisingly easy. Or for anyone else, for that matter:\n  That’s not great. What you can do about it is verified commits. Since we use the “Squash and merge” button, all commits on master are done through the GitHub UI and therefore verified by our logins:\n  To also have this for commits you create locally, you can sign commits via GPG\n$ git config --global commit.gpgsign true and tell GitHub what your public key is.\n  ",
+  "wordCount" : "706",
+  "inLanguage": "en",
+  "datePublished": "2021-04-05T02:00:00+01:00",
+  "dateModified": "2021-04-05T02:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/about/" title="about">
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
+    <h1 class="post-title">
+      April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo
+    </h1>
+    <div class="post-meta">April 5, 2021&nbsp;·&nbsp;Jannik Arndt
+</div>
+  </header> 
+  <div class="post-content"><p>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools' I made a big announcement that <em>our</em> team followed suit:</p>
+<p><img loading="lazy" src="/blog/2021/04/rust/slack1.png" alt="rust_1.png"  />
+</p>
+<p>But, at <em>good</em> prank isn&rsquo;t just &ldquo;I thought this was true, but it wasn&rsquo;t&rdquo;. It&rsquo;s &ldquo;I though it was a joke, but for a brief moment doubted that&rdquo;. The &ldquo;Oh, no, he <em>didn&rsquo;t</em>&quot;-moment.</p>
+<p>Alas, one more line was necessary:</p>
+<p><img loading="lazy" src="/blog/2021/04/rust/slack2.png" alt="1617575296.png"  />
+</p>
+<p>The proof. With a link. A Call-To-Action. Click it! Marvel at it!</p>
+<h2 id="creating-fake-commits">Creating fake commits<a hidden class="anchor" aria-hidden="true" href="#creating-fake-commits">#</a></h2>
+<p>Creating a GitHub repo that looks like Rust isn&rsquo;t hard. You can look at a few open-source projects and copy what you need (respecting the license, of course).</p>
+<p>That gives you the language-overview:</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/languages.png"
+         alt="languages overview" width="40%"/> 
+</figure>
+
+<p>And a proper <code>Cargo.yaml</code>, prominently featuring dependencies that seem to make sense:</p>
+<p><img loading="lazy" src="/blog/2021/04/rust/cargo.png" alt="the cargo.yaml"  />
+</p>
+<p>I committed using the <code>--date</code> flag:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git commit -a -m <span class="s2">&#34;Initial template &amp; infra for booking3&#34;</span> <span class="se">\
+</span><span class="se"></span>--date<span class="o">=</span><span class="s2">&#34;7 days ago at 08:46&#34;</span> 
+</code></pre></div><p>and checked the log:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git log                                                                               
+commit 983e4977983ee134771885f6c08881513c4faef1 <span class="o">(</span>HEAD -&gt; main<span class="o">)</span>
+Author: Jannik Arndt &lt;jannik@jannikarndt.de&gt;
+Date:   Mon Mar <span class="m">22</span> 08:46:00 <span class="m">2021</span> +0100
+
+    Initial template <span class="p">&amp;</span> infra <span class="k">for</span> booking3
+</code></pre></div><p>Looks good. For a preview, I created a repo in my personal account and pushed it:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git remote add origin https://github.com/JannikArndt/booking3.git
+$ git push --set-upstream origin main
+</code></pre></div><figure>
+    <img loading="lazy" src="/blog/2021/04/rust/firstpush.png"/> 
+</figure>
+
+<p>TWO MINUTES AGO? How could that be?!</p>
+<p><code>git</code> has different formats for the log: <code>oneline</code>, <code>short</code>, <code>medium</code>, <code>full</code>, <code>fuller</code>, <code>reference</code>, <code>email</code> and <code>raw</code>. The default is <code>medium</code>.</p>
+<p>Only the <code>fuller</code> format shows the whole truth:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git log --pretty<span class="o">=</span>fuller
+commit 983e4977983ee134771885f6c08881513c4faef1 <span class="o">(</span>HEAD -&gt; main, origin/main<span class="o">)</span>
+Author:     Jannik Arndt &lt;jannik@jannikarndt.de&gt;
+AuthorDate: Mon Mar <span class="m">22</span> 08:46:00 <span class="m">2021</span> +0100
+Commit:     Jannik Arndt &lt;jannik@jannikarndt.de&gt;
+CommitDate: Tue Mar <span class="m">30</span> 22:47:39 <span class="m">2021</span> +0200
+
+    Initial template <span class="p">&amp;</span> infra <span class="k">for</span> booking3
+</code></pre></div><p>There&rsquo;s an <code>AuthorDate</code> and a <code>CommitDate</code>!</p>
+<p>Okay, let&rsquo;s try again.</p>
+<h2 id="faking-authordate-_and_-commitdate">Faking AuthorDate <em>and</em> CommitDate<a hidden class="anchor" aria-hidden="true" href="#faking-authordate-_and_-commitdate">#</a></h2>
+<p>A quick googling later I arrived at</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-20T11:43:11&#34;</span> <span class="se">\
+</span><span class="se"></span>git commit -a -m <span class="s2">&#34;Initial template &amp; infra for booking3&#34;</span> <span class="se">\
+</span><span class="se"></span>--date<span class="o">=</span><span class="s2">&#34;2021-03-20T11:43:11&#34;</span>
+</code></pre></div><p>Force-push aaaannd</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/secondpush.png"/> 
+</figure>
+
+<p>Nice 👍</p>
+<h2 id="faking-the-author--and-committer">Faking the Author — and Committer<a hidden class="anchor" aria-hidden="true" href="#faking-the-author--and-committer">#</a></h2>
+<p>Next I needed commits from the whole team to make this look realistic. Following the <code>ENV</code>-vars:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&#34;Cristina&#34;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&#34;cristina@moia.io&#34;</span> <span class="se">\
+</span><span class="se"></span>git commit -a -m <span class="s2">&#34;Change deployment to booking3&#34;</span> --date<span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span>
+</code></pre></div><p>Of course <em>not</em>.</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/coauthor.png"/> 
+</figure>
+
+<p>GitHub <em>does</em> make a difference between the author and the committer. So to fully fake someone else&rsquo;s commit:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&#34;Cristina&#34;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&#34;cristina@moia.io&#34;</span> <span class="se">\
+</span><span class="se"></span>git commit -a -m <span class="s2">&#34;Change deployment to booking3&#34;</span> --date<span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
+</span><span class="se"></span>--author<span class="o">=</span><span class="s2">&#34;Cristina &lt;cristina@moia.io&gt;&#34;</span>
+</code></pre></div><p>It worked 😎</p>
+<p>Since I had a few commits left to do and I don&rsquo;t enjoy typing, I refactored my command a little:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span><span class="p">;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">NAME</span><span class="o">=</span><span class="s2">&#34;Cristina&#34;</span><span class="p">;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">MAIL</span><span class="o">=</span>cristina@moia.io<span class="p">;</span> <span class="se">\
+</span><span class="se"></span><span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="nv">$DATE</span> <span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="nv">$NAME</span> <span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="nv">$MAIL</span> <span class="se">\
+</span><span class="se"></span>git commit --author<span class="o">=</span><span class="s2">&#34;</span><span class="nv">$NAME</span><span class="s2"> &lt;</span><span class="nv">$MAIL</span><span class="s2">&gt;&#34;</span> --date<span class="o">=</span><span class="nv">$DATE</span> -m <span class="s2">&#34;&lt;the message&gt;&#34;</span>
+</code></pre></div><h2 id="fine-tuning">Fine-Tuning<a hidden class="anchor" aria-hidden="true" href="#fine-tuning">#</a></h2>
+<p>I also tried <code>--allow-empty</code>, and while the messages appear in the history, they <em>don&rsquo;t</em> change the appearance on the first view, since they don&rsquo;t touch any files. Obviously.</p>
+<p>I also tried to balance the amount of lines to generate a more realistic &ldquo;Pulse&rdquo; in the &ldquo;Insights&rdquo; section:</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/insights.png"/> 
+</figure>
+
+<p>(I still remembered from when I found the <em>other</em> teams Rust-repo that I looked at this to find out who was leading this effort.)</p>
+<p>Next I needed the green little checkmark to fabricate a successful CI/CD:</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/cicd.png"/> 
+</figure>
+
+<p>It hurts a little to spin up a fresh Ubuntu just for a green checkmark, but I didn&rsquo;t find a quicker way:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deployment</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">main]</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-20.04</span><span class="w">
+</span><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">echo &#34;April Fools!&#34;</span><span class="w">
+</span></code></pre></div><p>I also thought about creating and merging PRs, but those are way harder to forcibly overwrite (and I don&rsquo;t know the GitHub API well enough to automate that on the spot).</p>
+<h2 id="result">Result<a hidden class="anchor" aria-hidden="true" href="#result">#</a></h2>
+<p>After about two hours of hacking, I was satisfied.</p>
+<p><img loading="lazy" src="/blog/2021/04/rust/finished.png" alt="the finished result"  />
+</p>
+<p>The reactions were rewarding: People dug into the code, found, commented on and appreciated all the details and even opened new Pull-Requests.</p>
+<p>However, one thing nobody noticed…</p>
+<h2 id="learnings">Learnings<a hidden class="anchor" aria-hidden="true" href="#learnings">#</a></h2>
+<p>After figuring out <em>how</em>, creating fake commits for my co-workers turned out surprisingly easy. Or for anyone else, for that matter:</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/linus.png"
+         alt="Fake Commit by Linus"/> 
+</figure>
+
+<p>That&rsquo;s not great. What you can do about it is <em>verified</em> commits. Since we use the &ldquo;Squash and merge&rdquo; button, all commits on master are done through the GitHub UI and therefore verified by our logins:</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/verified.png"/> 
+</figure>
+
+<p>To also have this for commits you create locally, you can sign commits via GPG</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git config --global commit.gpgsign <span class="nb">true</span>
+</code></pre></div><p>and <a href="https://docs.github.com/en/github/authenticating-to-github/signing-commits">tell GitHub what your public key is</a>.</p>
+<figure>
+    <img loading="lazy" src="/blog/2021/04/rust/signed.png"/> 
+</figure>
+
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://www.jannikarndt.de/tags/git/">Git</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de/">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
