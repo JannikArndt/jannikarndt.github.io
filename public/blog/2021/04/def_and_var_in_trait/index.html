@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>def and var in traits on Scala 2.12, 2.13 and 3.0.0 | Jannik Arndt</title>
+<meta name="keywords" content="Programming, Scala, Scalac, Scalap, Javap, Scala Compiler, JVM, Bytecode, JAR" />
+<meta name="description" content="Scala traits should define defs, because
+
+“A val can override a def, but a def cannot override a val”
+
+(via Alvin Alexander via StackOverflow).
+But it&rsquo;s interesting to look at how the compiler treats that.
+Alvin Alexander did that, but only for Scala 2.12.8.
+Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/" />
+<link href="/assets/css/stylesheet.min.311c1b020ab2ec645c5cb2a085e827394183a136ecf09f9a63a06454ac1a8585.css" integrity="sha256-MRwbAgqy7GRcXLKghegnOUGDoTbs8J&#43;aY6BkVKwahYU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.0" />
+<meta property="og:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0" />
+<meta property="og:description" content="Scala traits should define defs, because
+
+“A val can override a def, but a def cannot override a val”
+
+(via Alvin Alexander via StackOverflow).
+But it&rsquo;s interesting to look at how the compiler treats that.
+Alvin Alexander did that, but only for Scala 2.12.8.
+Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-04-24T16:00:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-04-24T16:00:00&#43;02:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
+
+<meta name="twitter:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0"/>
+<meta name="twitter:description" content="Scala traits should define defs, because
+
+“A val can override a def, but a def cannot override a val”
+
+(via Alvin Alexander via StackOverflow).
+But it&rsquo;s interesting to look at how the compiler treats that.
+Alvin Alexander did that, but only for Scala 2.12.8.
+Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "def and var in traits on Scala 2.12, 2.13 and 3.0.0",
+      "item": "https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "def and var in traits on Scala 2.12, 2.13 and 3.0.0",
+  "name": "def and var in traits on Scala 2.12, 2.13 and 3.0.0",
+  "description": "Scala traits should define defs, because\n “A val can override a def, but a def cannot override a val”\n (via Alvin Alexander via StackOverflow).\nBut it\u0026rsquo;s interesting to look at how the compiler treats that. Alvin Alexander did that, but only for Scala 2.12.8. Let\u0026rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).\n",
+  "keywords": [
+    "Programming", "Scala", "Scalac", "Scalap", "Javap", "Scala Compiler", "JVM", "Bytecode", "JAR"
+  ],
+  "articleBody": "Scala traits should define defs, because\n “A val can override a def, but a def cannot override a val”\n (via Alvin Alexander via StackOverflow).\nBut it’s interesting to look at how the compiler treats that. Alvin Alexander did that, but only for Scala 2.12.8. Let’s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).\nGetting the scalac versions You can install different versions of the Scala compiler via brew:\n$ brew install scala@2.12 $ brew install scala # currently for 2.13 $ brew install dotty # currently Scala 3.0.0-RC2  Note: you can only have one scala and scalac on your path, so you want to keep the versions you don’t use unlinked (or “keg-only” in brew-speak).\n You can access the versions via\n$ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -version # one dash only! Scala compiler version 2.12.13 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc. $ /usr/local/Cellar/scala/2.13.5/bin/scalac --version Scala compiler version 2.13.5 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc. $ /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac --version Scala compiler version 3.0.0-RC3 -- Copyright 2002-2021, LAMP/EPFL At the end of scalac As you might know, the compiler works in multiple steps (“phases”)., and it can output the result after each step. The -Xshow-phases option prints out an overview of the compile-phases:\n  Here they are written out, if you want to read through them:  Scala 2.12.13 $ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -Xshow-phases phase name id description ---------- -- ----------- parser 1 parse source into ASTs, perform simple desugaring namer 2 resolve names, attach symbols to named trees packageobjects 3 load package objects typer 4 the meat and potatoes: type the trees patmat 5 translate match expressions superaccessors 6 add super accessors in traits and nested classes extmethods 7 add extension methods for inline classes pickler 8 serialize symbol tables refchecks 9 reference/override checking, translate nested objects uncurry 10 uncurry, translate function values to anonymous classes fields 11 synthesize accessors and fields, add bitmaps for lazy vals tailcalls 12 replace tail calls by jumps specialize 13 @specialized-driven class and method specialization explicitouter 14 this refs to outer pointers erasure 15 erase types, add interfaces for traits posterasure 16 clean up erased inline classes lambdalift 17 move nested functions to top level constructors 18 move field definitions into constructors flatten 19 eliminate inner classes mixin 20 mixin composition cleanup 21 platform-specific cleanups, generate reflective calls delambdafy 22 remove lambdas jvm 23 generate JVM bytecode terminal 24 the last phase during a compilation run Scala 2.13.5 /usr/local/Cellar/scala/2.13.5/bin/scalac -Xshow-phases phase name id description ---------- -- ----------- parser 1 parse source into ASTs, perform simple desugaring namer 2 resolve names, attach symbols to named trees packageobjects 3 load package objects typer 4 the meat and potatoes: type the trees superaccessors 5 add super accessors in traits and nested classes extmethods 6 add extension methods for inline classes pickler 7 serialize symbol tables refchecks 8 reference/override checking, translate nested objects patmat 9 translate match expressions uncurry 10 uncurry, translate function values to anonymous classes fields 11 synthesize accessors and fields, add bitmaps for lazy vals tailcalls 12 replace tail calls by jumps specialize 13 @specialized-driven class and method specialization explicitouter 14 this refs to outer pointers erasure 15 erase types, add interfaces for traits posterasure 16 clean up erased inline classes lambdalift 17 move nested functions to top level constructors 18 move field definitions into constructors flatten 19 eliminate inner classes mixin 20 mixin composition cleanup 21 platform-specific cleanups, generate reflective calls delambdafy 22 remove lambdas jvm 23 generate JVM bytecode terminal 24 the last phase during a compilation run Scala 3.0.0-RC3 aka dotty /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac -Xshow-phases typer inlinedPositions sbt-deps extractSemanticDB posttyper prepjsinterop sbt-api SetRootTree pickler inlining postInlining staging pickleQuotes {firstTransform, checkReentrant, elimPackagePrefixes, cookComments, checkStatic, betaReduce, inlineVals, expandSAMs, initChecker} {elimRepeated, protectedAccessors, extmethods, uncacheGivenAliases, byNameClosures, hoistSuperArgs, specializeApplyMethods, refchecks} {elimOpaque, tryCatchPatterns, patternMatcher, explicitJSClasses, explicitOuter, explicitSelf, elimByName, stringInterpolatorOpt} {pruneErasedDefs, inlinePatterns, vcInlineMethods, seqLiterals, intercepted, getters, specializeFunctions, liftTry, collectNullableFields, elimOuterSelect, resolveSuper, functionXXLForwarders, paramForwarding, genericTuples, letOverApply, arrayConstructors} erasure {elimErasedValueType, pureStats, vcElideAllocations, arrayApply, addLocalJSFakeNews, elimPolyFunction, tailrec, completeJavaEnums, mixin, lazyVals, memoize, nonLocalReturns, capturedVars} {constructors, instrumentation} {lambdaLift, elimStaticThis, countOuterAccesses} {dropOuterAccessors, flatten, renameLifted, transformWildcards, moveStatic, expandPrivate, restoreScopes, selectStatic, junitBootstrappers, collectSuperCalls, repeatableAnnotations} genSJSIR genBCode  Compile results and the result is\n$ /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac -Xprint:all Main.scala […] result of Main.scala after MegaPhase{dropOuterAccessors, flatten, renameLifted, transformWildcards, moveStatic, expandPrivate, restoreScopes, selectStatic, collectSuperCalls, repeatableAnnotations}: package empty { @scala.annotation.internal.SourceFile(\"Main.scala\") class MyClass extends Object , MyTrait { def init(): Unit = { super() this.id = 1 () } private val id: Int def id(): Int = this.id } @scala.annotation.internal.SourceFile(\"Main.scala\") trait MyTrait() extends Object { def id(): Int } } Example Code I combined the function, abstract value and concrete value into one example:\ntrait MyTrait { def id1: Int // function  val id2: Int // abstract value  val id3: Int = 3 // concrete value } class MyClass extends MyTrait { val id1 = 1 val id2 = 2 override val id3 = 3 } Results Here are the results:\n Let’s unpack this:\n1. Scala 2.12 and 2.13 have the same output: package empty { abstract trait MyTrait extends Object { accessor sub_synth protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit; def id1(): Int; stable accessor def id2(): Int; stable accessor sub_synth def id3(): Int; def /*MyTrait*/$init$(): Unit = { MyTrait.this.MyTrait$_setter_$id3_=((3: Int)); () } }; class MyClass extends Object with MyTrait { override accessor protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit = (); private[this] val id1: Int = _; stable accessor def id1(): Int = MyClass.this.id1; private[this] val id2: Int = _; stable accessor def id2(): Int = MyClass.this.id2; private[this] val id3: Int = _; override stable accessor def id3(): Int = MyClass.this.id3; def init(): MyClass = { MyClass.super.init(); MyClass.super./*MyTrait*/$init$(); MyClass.this.id1 = 1; MyClass.this.id2 = 2; MyClass.this.id3 = 3; () } } } In the trait, the function\ndef id1: Int becomes\ndef id1(): Int; the abstract val\nval id2: Int becomes\nstable accessor def id2(): Int; and the concrete val\nval id3: Int = 3 needs the most work:\nstable accessor sub_synth def id3(): Int; accessor sub_synth protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit; def /*MyTrait*/$init$(): Unit = { MyTrait.this.MyTrait$_setter_$id3_=((3: Int)); () } (The constructor would not be present if the trait only contained id1 and id2.)\nWhat do    mean exactly? I have no idea. Neither does Google.\nIn the class we have private vals for all three:\nprivate[this] val id1: Int = _; stable accessor def id1(): Int = MyClass.this.id1; private[this] val id2: Int = _; stable accessor def id2(): Int = MyClass.this.id2; private[this] val id3: Int = _; override stable accessor def id3(): Int = MyClass.this.id3; and the MyTrait$_setter_$id3_ from the trait is overridden:\noverride accessor protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit = (); So in summary: So far, there’s not much of a difference.\n2. Scala 3 has syntax-highlighting! After the compile-phases-output was so ugly, it’s nice to see that the output of the phases is actually colored.\n3. There’s an annotation @scala.annotation.internal.SourceFile(\"Main.scala\") points to the source file. Neat.\n4.    are gone I guess now I’ll never find out what they were…\nThis also means that all fields in the trait are now exactly the same:\ndef id1(): Int def id2(): Int def id3(): Int and the setter-function for id3 goes from\naccessor sub_synth protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit; to\ndef MyTrait$_setter_$id3_$eq(x$0: Int): Unit In the class, the three are also very much alike:\nprivate val id1: Int def id1(): Int = this.id1 private val id2: Int def id2(): Int = this.id2 private var id3: Int override def id3(): Int = this.id3 Bytecode deep-dive Let’s take one step further and take the actual Bytecode apart, using javap -c:\n Observations:\n Scala 2.12 and 2.13 result in the exact same Bytecode Scala 3 places the constructor first The MyTrait$_setter_$id3_$eq(int) actually contains some setting-code now! public void MyTrait$_setter_$id3_$eq(int); Code: 0: aload_0 1: iload_1 2: putfield #25 // Field id3:I 5: return as compared to\npublic void MyTrait$_setter_$id3_$eq(int); Code: 0: return  the scala.runtime.Statics$#releaseFence() has a single jvm-operation (invokestatic) resulting from it.  Next Level: JVM 17 The compiler can also target a specific version of the Java platform, using the -target:8 (-Xtarget for Scala 3) or -release option. However, for this simple example, there were no differences in the bytecode.\nSummary So, what to make of this? Easy: Using def or val in traits is purely a developer ergonomics decision, not a runtime difference.\n",
+  "wordCount" : "1367",
+  "inLanguage": "en",
+  "datePublished": "2021-04-24T16:00:00+02:00",
+  "dateModified": "2021-04-24T16:00:00+02:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/about/" title="about">
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
+    <h1 class="post-title">
+      def and var in traits on Scala 2.12, 2.13 and 3.0.0
+    </h1>
+    <div class="post-meta">April 24, 2021&nbsp;·&nbsp;Jannik Arndt
+</div>
+  </header> 
+  <div class="post-content"><p>Scala <code>trait</code>s should define <code>def</code>s, because</p>
+<blockquote>
+<p>“A val can override a def, but a def cannot override a val”</p>
+</blockquote>
+<p>(via <a href="https://alvinalexander.com/scala/fp-book/def-vs-val-abstract-members-traits-classes-override/">Alvin Alexander</a> via <a href="https://stackoverflow.com/questions/13126104/is-there-any-advantage-to-definining-a-val-over-a-def-in-a-trait">StackOverflow</a>).</p>
+<p>But it&rsquo;s interesting to look at how the <em>compiler</em> treats that.
+Alvin Alexander <a href="https://alvinalexander.com/scala/all-wanted-to-know-about-def-val-var-fields-in-traits/">did that</a>, but only for Scala 2.12.8.
+Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).</p>
+<h2 id="getting-the-scalac-versions">Getting the scalac versions<a hidden class="anchor" aria-hidden="true" href="#getting-the-scalac-versions">#</a></h2>
+<p>You can install different versions of the Scala compiler via brew:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install scala@2.12
+$ brew install scala <span class="c1"># currently for 2.13</span>
+$ brew install dotty <span class="c1"># currently Scala 3.0.0-RC2</span>
+</code></pre></div><blockquote>
+<p>Note: you can only have <em>one</em> <code>scala</code> and <code>scalac</code> on your path, so you want to keep the versions you <em>don&rsquo;t</em> use unlinked (or &ldquo;keg-only&rdquo; in brew-speak).</p>
+</blockquote>
+<p>You can access the versions via</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -version <span class="c1"># one dash only!</span>
+Scala compiler version 2.12.13 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc.
+
+$ /usr/local/Cellar/scala/2.13.5/bin/scalac --version      
+Scala compiler version 2.13.5 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc.
+
+$ /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac --version
+Scala compiler version 3.0.0-RC3 -- Copyright 2002-2021, LAMP/EPFL
+</code></pre></div><h2 id="at-the-end-of-scalac">At the end of scalac<a hidden class="anchor" aria-hidden="true" href="#at-the-end-of-scalac">#</a></h2>
+<p>As you might know, the compiler works in multiple steps (&ldquo;phases&rdquo;)., and it can output the result after each step. The <code>-Xshow-phases</code> option prints out  an overview of the compile-phases:</p>
+<figure class="large">
+    <img loading="lazy" src="/blog/2021/04/def_var_trait/phases.png"/> 
+</figure>
+
+<details>
+<summary>Here they are written out, if you want to read through them:
+</summary>
+<h3 id="scala-21213">Scala 2.12.13<a hidden class="anchor" aria-hidden="true" href="#scala-21213">#</a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -Xshow-phases
+    phase name  id  description
+    ----------  --  -----------
+        parser   <span class="m">1</span>  parse <span class="nb">source</span> into ASTs, perform simple desugaring
+         namer   <span class="m">2</span>  resolve names, attach symbols to named trees
+packageobjects   <span class="m">3</span>  load package objects
+         typer   <span class="m">4</span>  the meat and potatoes: <span class="nb">type</span> the trees
+        patmat   <span class="m">5</span>  translate match expressions
+superaccessors   <span class="m">6</span>  add super accessors in traits and nested classes
+    extmethods   <span class="m">7</span>  add extension methods <span class="k">for</span> inline classes
+       pickler   <span class="m">8</span>  serialize symbol tables
+     refchecks   <span class="m">9</span>  reference/override checking, translate nested objects
+       uncurry  <span class="m">10</span>  uncurry, translate <span class="k">function</span> values to anonymous classes
+        fields  <span class="m">11</span>  synthesize accessors and fields, add bitmaps <span class="k">for</span> lazy vals
+     tailcalls  <span class="m">12</span>  replace tail calls by jumps
+    specialize  <span class="m">13</span>  @specialized-driven class and method specialization
+ explicitouter  <span class="m">14</span>  this refs to outer pointers
+       erasure  <span class="m">15</span>  erase types, add interfaces <span class="k">for</span> traits
+   posterasure  <span class="m">16</span>  clean up erased inline classes
+    lambdalift  <span class="m">17</span>  move nested functions to top level
+  constructors  <span class="m">18</span>  move field definitions into constructors
+       flatten  <span class="m">19</span>  eliminate inner classes
+         mixin  <span class="m">20</span>  mixin composition
+       cleanup  <span class="m">21</span>  platform-specific cleanups, generate reflective calls
+    delambdafy  <span class="m">22</span>  remove lambdas
+           jvm  <span class="m">23</span>  generate JVM bytecode
+      terminal  <span class="m">24</span>  the last phase during a compilation run
+</code></pre></div><h3 id="scala-2135">Scala 2.13.5<a hidden class="anchor" aria-hidden="true" href="#scala-2135">#</a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">/usr/local/Cellar/scala/2.13.5/bin/scalac -Xshow-phases        
+    phase name  id  description
+    ----------  --  -----------
+        parser   <span class="m">1</span>  parse <span class="nb">source</span> into ASTs, perform simple desugaring
+         namer   <span class="m">2</span>  resolve names, attach symbols to named trees
+packageobjects   <span class="m">3</span>  load package objects
+         typer   <span class="m">4</span>  the meat and potatoes: <span class="nb">type</span> the trees
+superaccessors   <span class="m">5</span>  add super accessors in traits and nested classes
+    extmethods   <span class="m">6</span>  add extension methods <span class="k">for</span> inline classes
+       pickler   <span class="m">7</span>  serialize symbol tables
+     refchecks   <span class="m">8</span>  reference/override checking, translate nested objects
+        patmat   <span class="m">9</span>  translate match expressions
+       uncurry  <span class="m">10</span>  uncurry, translate <span class="k">function</span> values to anonymous classes
+        fields  <span class="m">11</span>  synthesize accessors and fields, add bitmaps <span class="k">for</span> lazy vals
+     tailcalls  <span class="m">12</span>  replace tail calls by jumps
+    specialize  <span class="m">13</span>  @specialized-driven class and method specialization
+ explicitouter  <span class="m">14</span>  this refs to outer pointers
+       erasure  <span class="m">15</span>  erase types, add interfaces <span class="k">for</span> traits
+   posterasure  <span class="m">16</span>  clean up erased inline classes
+    lambdalift  <span class="m">17</span>  move nested functions to top level
+  constructors  <span class="m">18</span>  move field definitions into constructors
+       flatten  <span class="m">19</span>  eliminate inner classes
+         mixin  <span class="m">20</span>  mixin composition
+       cleanup  <span class="m">21</span>  platform-specific cleanups, generate reflective calls
+    delambdafy  <span class="m">22</span>  remove lambdas
+           jvm  <span class="m">23</span>  generate JVM bytecode
+      terminal  <span class="m">24</span>  the last phase during a compilation run
+</code></pre></div><h3 id="scala-300-rc3-aka-dotty">Scala 3.0.0-RC3 aka dotty<a hidden class="anchor" aria-hidden="true" href="#scala-300-rc3-aka-dotty">#</a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">/usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac -Xshow-phases  
+typer
+inlinedPositions
+sbt-deps
+extractSemanticDB
+posttyper
+prepjsinterop
+sbt-api
+SetRootTree
+pickler
+inlining
+postInlining
+staging
+pickleQuotes
+<span class="o">{</span>firstTransform, checkReentrant, elimPackagePrefixes, cookComments, checkStatic, betaReduce, inlineVals, expandSAMs, initChecker<span class="o">}</span>
+<span class="o">{</span>elimRepeated, protectedAccessors, extmethods, uncacheGivenAliases, byNameClosures, hoistSuperArgs, specializeApplyMethods, refchecks<span class="o">}</span>
+<span class="o">{</span>elimOpaque, tryCatchPatterns, patternMatcher, explicitJSClasses, explicitOuter, explicitSelf, elimByName, stringInterpolatorOpt<span class="o">}</span>
+<span class="o">{</span>pruneErasedDefs, inlinePatterns, vcInlineMethods, seqLiterals, intercepted, getters, specializeFunctions, liftTry, collectNullableFields, elimOuterSelect, resolveSuper, functionXXLForwarders, paramForwarding, genericTuples, letOverApply, arrayConstructors<span class="o">}</span>
+erasure
+<span class="o">{</span>elimErasedValueType, pureStats, vcElideAllocations, arrayApply, addLocalJSFakeNews, elimPolyFunction, tailrec, completeJavaEnums, mixin, lazyVals, memoize, nonLocalReturns, capturedVars<span class="o">}</span>
+<span class="o">{</span>constructors, instrumentation<span class="o">}</span>
+<span class="o">{</span>lambdaLift, elimStaticThis, countOuterAccesses<span class="o">}</span>
+<span class="o">{</span>dropOuterAccessors, flatten, renameLifted, transformWildcards, moveStatic, expandPrivate, restoreScopes, selectStatic, junitBootstrappers, collectSuperCalls, repeatableAnnotations<span class="o">}</span>
+genSJSIR
+genBCode
+</code></pre></div></details>
+<h2 id="compile-results">Compile results<a hidden class="anchor" aria-hidden="true" href="#compile-results">#</a></h2>
+<p>and the result is</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac -Xprint:all Main.scala
+<span class="o">[</span>…<span class="o">]</span>
+result of Main.scala after MegaPhase<span class="o">{</span>dropOuterAccessors, flatten, renameLifted, transformWildcards, moveStatic, expandPrivate, restoreScopes, selectStatic, collectSuperCalls, repeatableAnnotations<span class="o">}</span>:
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">package</span> <span class="err">&lt;</span><span class="nn">empty</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="nd">@scala</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="nc">SourceFile</span><span class="o">(</span><span class="s">&#34;Main.scala&#34;</span><span class="o">)</span> <span class="k">class</span> <span class="nc">MyClass</span> <span class="k">extends</span> 
+    <span class="nc">Object</span>
+  <span class="o">,</span> <span class="nc">MyTrait</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> 
+      <span class="o">{</span>
+        <span class="k">super</span><span class="o">()</span>
+        <span class="k">this</span><span class="o">.</span><span class="n">id</span> <span class="k">=</span> <span class="mi">1</span>
+        <span class="o">()</span>
+      <span class="o">}</span>
+    <span class="k">private</span> <span class="k">val</span> <span class="n">id</span><span class="k">:</span> <span class="kt">Int</span>
+    <span class="k">def</span> <span class="n">id</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">id</span>
+  <span class="o">}</span>
+  <span class="nd">@scala</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="nc">SourceFile</span><span class="o">(</span><span class="s">&#34;Main.scala&#34;</span><span class="o">)</span> <span class="k">trait</span> <span class="nc">MyTrait</span><span class="o">()</span> <span class="k">extends</span> 
+    <span class="nc">Object</span>
+   <span class="o">{</span>
+    <span class="k">def</span> <span class="n">id</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="example-code">Example Code<a hidden class="anchor" aria-hidden="true" href="#example-code">#</a></h2>
+<p>I combined the function, abstract value and concrete value into one example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">MyTrait</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">id1</span><span class="k">:</span> <span class="kt">Int</span>     <span class="c1">// function
+</span><span class="c1"></span>    <span class="k">val</span> <span class="n">id2</span><span class="k">:</span> <span class="kt">Int</span>     <span class="c1">// abstract value
+</span><span class="c1"></span>    <span class="k">val</span> <span class="n">id3</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1">// concrete value
+</span><span class="c1"></span><span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">MyClass</span> <span class="k">extends</span> <span class="nc">MyTrait</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">id1</span> <span class="k">=</span> <span class="mi">1</span>
+    <span class="k">val</span> <span class="n">id2</span> <span class="k">=</span> <span class="mi">2</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="n">id3</span> <span class="k">=</span> <span class="mi">3</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="results">Results<a hidden class="anchor" aria-hidden="true" href="#results">#</a></h2>
+<p>Here are the results:</p>
+<figure class="large">
+    <img loading="lazy" src="/blog/2021/04/def_var_trait/lastphase.png"/> 
+</figure>
+
+<p>Let&rsquo;s unpack this:</p>
+<h3 id="1-scala-212-and-213-have-the-same-output">1. Scala 2.12 and 2.13 have the same output:<a hidden class="anchor" aria-hidden="true" href="#1-scala-212-and-213-have-the-same-output">#</a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">package</span> <span class="err">&lt;</span><span class="nn">empty</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="k">abstract</span> <span class="k">trait</span> <span class="nc">MyTrait</span> <span class="k">extends</span> <span class="nc">Object</span> <span class="o">{</span>
+    <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sub_synth</span><span class="o">&gt;</span> <span class="k">protected</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nc">MyTrait$_setter_$id3_</span><span class="o">=(</span><span class="n">x$1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span><span class="o">;</span>
+    <span class="k">def</span> <span class="n">id1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span>
+    <span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id2</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span>
+    <span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sub_synth</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id3</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span>
+    <span class="k">def</span> <span class="cm">/*MyTrait*/</span><span class="nc">$init</span><span class="n">$</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nc">MyTrait</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="nc">MyTrait$_setter_$id3_</span><span class="o">=((</span><span class="mi">3</span><span class="k">:</span> <span class="kt">Int</span><span class="o">));</span>
+      <span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">};</span>
+  <span class="k">class</span> <span class="nc">MyClass</span> <span class="k">extends</span> <span class="nc">Object</span> <span class="k">with</span> <span class="nc">MyTrait</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">protected</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nc">MyTrait$_setter_$id3_</span><span class="o">=(</span><span class="n">x$1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">();</span>
+    <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="n">id1</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span><span class="o">;</span>
+    <span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id1</span><span class="o">;</span>
+    <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="n">id2</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span><span class="o">;</span>
+    <span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id2</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id2</span><span class="o">;</span>
+    <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="n">id3</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span><span class="o">;</span>
+    <span class="k">override</span> <span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id3</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id3</span><span class="o">;</span>
+    <span class="k">def</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="k">:</span> <span class="kt">MyClass</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nc">MyClass</span><span class="o">.</span><span class="k">super</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;();</span>
+      <span class="nc">MyClass</span><span class="o">.</span><span class="k">super</span><span class="o">.</span><span class="cm">/*MyTrait*/</span><span class="nc">$init</span><span class="n">$</span><span class="o">();</span>
+      <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id1</span> <span class="k">=</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id2</span> <span class="k">=</span> <span class="mi">2</span><span class="o">;</span>
+      <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id3</span> <span class="k">=</span> <span class="mi">3</span><span class="o">;</span>
+      <span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>In the <code>trait</code>, the function</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">id1</span><span class="k">:</span> <span class="kt">Int</span>
+</code></pre></div><p>becomes</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">id1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span>
+</code></pre></div><p>the abstract <code>val</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">id2</span><span class="k">:</span> <span class="kt">Int</span>
+</code></pre></div><p>becomes</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id2</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span>
+</code></pre></div><p>and the concrete <code>val</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">id3</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">3</span>
+</code></pre></div><p>needs the most work:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sub_synth</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id3</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span><span class="o">;</span>
+<span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sub_synth</span><span class="o">&gt;</span> <span class="k">protected</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nc">MyTrait$_setter_$id3_</span><span class="o">=(</span><span class="n">x$1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span><span class="o">;</span>
+<span class="k">def</span> <span class="cm">/*MyTrait*/</span><span class="nc">$init</span><span class="n">$</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nc">MyTrait</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="nc">MyTrait$_setter_$id3_</span><span class="o">=((</span><span class="mi">3</span><span class="k">:</span> <span class="kt">Int</span><span class="o">));</span>
+  <span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div><p>(The constructor would not be present if the <code>trait</code> only contained <code>id1</code> and <code>id2</code>.)</p>
+<p>What do <code>&lt;stable&gt; &lt;accessor&gt; &lt;sub_synth&gt;</code> mean <em>exactly</em>? I have no idea. Neither does Google.</p>
+<p>In the <code>class</code> we have private <code>val</code>s for all three:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="n">id1</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span><span class="o">;</span>
+<span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id1</span><span class="o">;</span>
+
+<span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="n">id2</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span><span class="o">;</span>
+<span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id2</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id2</span><span class="o">;</span>
+
+<span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="n">id3</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span><span class="o">;</span>
+<span class="k">override</span> <span class="o">&lt;</span><span class="n">stable</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">id3</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nc">MyClass</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">id3</span><span class="o">;</span>
+</code></pre></div><p>and the <code>MyTrait$_setter_$id3_</code> from the <code>trait</code> is overridden:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">override</span> <span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="k">protected</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nc">MyTrait$_setter_$id3_</span><span class="o">=(</span><span class="n">x$1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">();</span>
+</code></pre></div><p>So in summary: So far, there&rsquo;s not <em>much</em> of a difference.</p>
+<h3 id="2-scala-3-has-syntax-highlighting">2. Scala 3 has syntax-highlighting!<a hidden class="anchor" aria-hidden="true" href="#2-scala-3-has-syntax-highlighting">#</a></h3>
+<p>After the compile-phases-output was so ugly, it&rsquo;s nice to see that the output of the phases is actually colored.</p>
+<h3 id="3-theres-an-annotation">3. There&rsquo;s an annotation<a hidden class="anchor" aria-hidden="true" href="#3-theres-an-annotation">#</a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nd">@scala</span><span class="o">.</span><span class="n">annotation</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="nc">SourceFile</span><span class="o">(</span><span class="s">&#34;Main.scala&#34;</span><span class="o">)</span>
+</code></pre></div><p>points to the source file. Neat.</p>
+<h3 id="4-stable-accessor-sub_synth-are-gone">4. <code>&lt;stable&gt; &lt;accessor&gt; &lt;sub_synth&gt;</code> are gone<a hidden class="anchor" aria-hidden="true" href="#4-stable-accessor-sub_synth-are-gone">#</a></h3>
+<p>I guess now I&rsquo;ll never find out what they were…</p>
+<p>This also means that all fields in the <code>trait</code> are now exactly the same:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">id1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span>
+<span class="k">def</span> <span class="n">id2</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span>
+<span class="k">def</span> <span class="n">id3</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span>
+</code></pre></div><p>and the setter-function for <code>id3</code> goes from</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="o">&lt;</span><span class="n">accessor</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sub_synth</span><span class="o">&gt;</span> <span class="k">protected</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nc">MyTrait$_setter_$id3_</span><span class="o">=(</span><span class="n">x$1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span><span class="o">;</span>
+</code></pre></div><p>to</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="nc">MyTrait$_setter_$id3_$eq</span><span class="o">(</span><span class="n">x$0</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span>
+</code></pre></div><p>In the <code>class</code>, the three are also very much alike:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span> <span class="k">val</span> <span class="n">id1</span><span class="k">:</span> <span class="kt">Int</span>
+<span class="k">def</span> <span class="n">id1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">id1</span>
+
+<span class="k">private</span> <span class="k">val</span> <span class="n">id2</span><span class="k">:</span> <span class="kt">Int</span>
+<span class="k">def</span> <span class="n">id2</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">id2</span>
+
+<span class="k">private</span> <span class="k">var</span> <span class="n">id3</span><span class="k">:</span> <span class="kt">Int</span>
+<span class="k">override</span> <span class="k">def</span> <span class="n">id3</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">id3</span>
+</code></pre></div><h2 id="bytecode-deep-dive">Bytecode deep-dive<a hidden class="anchor" aria-hidden="true" href="#bytecode-deep-dive">#</a></h2>
+<p>Let&rsquo;s take one step further and take the actual Bytecode apart, using <code>javap -c</code>:</p>
+<figure class="large">
+    <img loading="lazy" src="/blog/2021/04/def_var_trait/bytecode.png"/> 
+</figure>
+
+<p>Observations:</p>
+<ul>
+<li>Scala 2.12 and 2.13 result in the <em>exact</em> same Bytecode</li>
+<li>Scala 3 places the constructor first</li>
+<li>The <code>MyTrait$_setter_$id3_$eq(int)</code> actually contains some setting-code now!
+<pre><code>public void MyTrait$_setter_$id3_$eq(int);
+  Code:
+     0: aload_0
+     1: iload_1
+     2: putfield      #25                 // Field id3:I
+     5: return
+</code></pre><p>as compared to</p>
+<pre><code>public void MyTrait$_setter_$id3_$eq(int);
+  Code:
+     0: return
+</code></pre></li>
+<li>the <code>scala.runtime.Statics$#releaseFence()</code> has a single jvm-operation (<code>invokestatic</code>) resulting from it.</li>
+</ul>
+<h2 id="next-level-jvm-17">Next Level: JVM 17<a hidden class="anchor" aria-hidden="true" href="#next-level-jvm-17">#</a></h2>
+<p>The compiler can also target a specific version of the Java platform, using the <code>-target:8</code> (<code>-Xtarget</code> for Scala 3) or <code>-release</code> option. However, for this simple example, there were no differences in the bytecode.</p>
+<h2 id="summary">Summary<a hidden class="anchor" aria-hidden="true" href="#summary">#</a></h2>
+<p>So, what to make of this? Easy: Using <code>def</code> or <code>val</code> in traits is purely a <em>developer ergonomics</em> decision, <em>not</em> a runtime difference.</p>
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://www.jannikarndt.de/tags/scala/">Scala</a></li>
+      <li><a href="https://www.jannikarndt.de/tags/programming/">Programming</a></li>
+      <li><a href="https://www.jannikarndt.de/tags/jvm/">JVM</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de/">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

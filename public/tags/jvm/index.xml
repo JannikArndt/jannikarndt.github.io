@@ -9,7 +9,23 @@
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 25 Mar 2021 09:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Apr 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>def and var in traits on Scala 2.12, 2.13 and 3.0.0</title>
+      <link>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</link>
+      <pubDate>Sat, 24 Apr 2021 16:00:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</guid>
+      <description>&lt;p&gt;Scala &lt;code&gt;trait&lt;/code&gt;s should define &lt;code&gt;def&lt;/code&gt;s, because&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“A val can override a def, but a def cannot override a val”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;(via &lt;a href=&#34;https://alvinalexander.com/scala/fp-book/def-vs-val-abstract-members-traits-classes-override/&#34;&gt;Alvin Alexander&lt;/a&gt; via &lt;a href=&#34;https://stackoverflow.com/questions/13126104/is-there-any-advantage-to-definining-a-val-over-a-def-in-a-trait&#34;&gt;StackOverflow&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;But it&amp;rsquo;s interesting to look at how the &lt;em&gt;compiler&lt;/em&gt; treats that.
+Alvin Alexander &lt;a href=&#34;https://alvinalexander.com/scala/all-wanted-to-know-about-def-val-var-fields-in-traits/&#34;&gt;did that&lt;/a&gt;, but only for Scala 2.12.8.
+Let&amp;rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Using scalap, javap and the scala compiler to understand the journey from code to bytecode</title>
       <link>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</link>
