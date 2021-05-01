@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Things Developers are and aren&#39;t Good at | Jannik Arndt</title>
+<meta name="keywords" content="Programming, Developers" />
+<meta name="description" content="…in my experience.">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/" />
+<link href="/assets/css/stylesheet.min.311c1b020ab2ec645c5cb2a085e827394183a136ecf09f9a63a06454ac1a8585.css" integrity="sha256-MRwbAgqy7GRcXLKghegnOUGDoTbs8J&#43;aY6BkVKwahYU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.82.1" />
+<meta property="og:title" content="Things Developers are and aren&#39;t Good at" />
+<meta property="og:description" content="…in my experience." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-05-01T13:00:00&#43;01:00" />
+<meta property="article:modified_time" content="2021-05-01T13:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
+
+<meta name="twitter:title" content="Things Developers are and aren&#39;t Good at"/>
+<meta name="twitter:description" content="…in my experience."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blog",
+      "item": "https://www.jannikarndt.de/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Things Developers are and aren't Good at",
+      "item": "https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Things Developers are and aren't Good at",
+  "name": "Things Developers are and aren\u0027t Good at",
+  "description": "…in my experience.\n",
+  "keywords": [
+    "Programming", "Developers"
+  ],
+  "articleBody": "…in my experience.\nWhat we are Good at Splitting Big Problems into Smaller Problems This is what we do all day: Splitting problems into steps, steps into functions, functions into input and output, in- and output into data structures. Then we solve these one by one and connect them. Voilà.\nLayers of Abstraction The smaller problems are on a different layer, meaning they have a different level of detail. Since we (humans) can only keep a small number of things in our heads, this allows us to think about all things that are relevant for this layer, and then combine layers to solve the bigger problem.\nYou don’t usually think about how the operating system works if you design a website, because that problem is solved on a deeper layer.\nReuse existing Solutions Not only do you not think about the operating system or the HTTP server while you build a website — usually you don’t have to think about them at all, because others already did that. Many other layers are already solved, and you just put a new combination of solutions on top.\nThis doesn’t work perfectly, as the existence and prevalence of the Not Invented Here Syndrom shows. But the problem here is more of a nuance than a fundamental unwillingness.\nWrite new Solutions Like a cook mixes ingredients, we mix code as our everyday job. A lot. So we’re fairly good at it.\nThink about Edge Cases Making decisions explicit on code reveals cases when expectations are not met. Some languages (like Scala) make it painfully obvious or even refuse to compile if you don’t cover all cases. So we’re trained at finding edge-cases. Results vary on how well we handle them.\nExpress Oneself Eloquence does not help when writing code. Either you do what the compiler expects, or it doesn’t work. This forces you to learn how to express the structures and logic in your head in a clear manner. That’s why they call it “Programming Language”.\nAside from “talking” to compilers, we also talk a lot to other developers about the nuances of how we write code. It helps to be able to express yourself there as well.\nWhat we are not so Good at Each of these come with a downside.\nKeeping the Big Picture in Mind Too often we get lost in the details of a sub-sub-problem, that solves a slightly different sub-problem, that doesn’t really help our main-problem.\nCreating Good Layers of Abstraction Most abstractions are leaky. If you don’t understand the thing they abstract, you will sooner or later be surprised. These surprises are called “bugs”.\nResearching Existing Solutions It is way easier to write new solutions than searching through all the existing ones. It’s also very often perceived as faster, but that is only true for the first 80%. The second 80% take way more time than you anticipated. We also seldomly solve just one problem, so existing solutions tend to solve more or less than what we need. And we’re not good at expressing what exactly a thing solves.\nUnderstanding Old Solutions Old code, code written by others, code written by an earlier version of yourself, code written in another language, it’s all bad. Because we all know that reading code is that much harder than writing it, and even if you took the time to read it, you might still have solved the problem slightly differently.\nThinking about All Edge Cases That’s the other type of bug. You underestimated the complexity of the whole thing.\nExpressing Oneself Practising talking to a machine all day can make it really hard to talk to a human who is inaccurate, unsure or has feelings. The feedback loop is different, the errors you make aren’t always obvious.\n",
+  "wordCount" : "626",
+  "inLanguage": "en",
+  "datePublished": "2021-05-01T13:00:00+01:00",
+  "dateModified": "2021-05-01T13:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.jannikarndt.de/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://www.jannikarndt.de/about/" title="about">
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.jannikarndt.de/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
+    <h1 class="post-title">
+      Things Developers are and aren&#39;t Good at
+    </h1>
+    <div class="post-meta">May 1, 2021&nbsp;·&nbsp;Jannik Arndt
+</div>
+  </header> 
+  <div class="post-content"><p>…in <em>my</em> experience.</p>
+<h2 id="what-we-are-good-at">What we are Good at<a hidden class="anchor" aria-hidden="true" href="#what-we-are-good-at">#</a></h2>
+<h3 id="splitting-big-problems-into-smaller-problems">Splitting Big Problems into Smaller Problems<a hidden class="anchor" aria-hidden="true" href="#splitting-big-problems-into-smaller-problems">#</a></h3>
+<p>This is what we do all day: Splitting problems into steps, steps into functions, functions into input and output, in- and output into data structures. Then we solve these one by one and connect them. Voilà.</p>
+<h3 id="layers-of-abstraction">Layers of Abstraction<a hidden class="anchor" aria-hidden="true" href="#layers-of-abstraction">#</a></h3>
+<p>The smaller problems are on a different layer, meaning they have a different level of detail. Since we (humans) can only keep a small number of things in our heads, this allows us to think about <em>all</em> things that are relevant <em>for this layer</em>, and then combine layers to solve the bigger problem.</p>
+<p>You don&rsquo;t usually think about how the operating system works if you design a website, because that problem is solved on a deeper layer.</p>
+<h3 id="reuse-existing-solutions">Reuse existing Solutions<a hidden class="anchor" aria-hidden="true" href="#reuse-existing-solutions">#</a></h3>
+<p>Not only do you not think about the operating system or the HTTP server <em>while</em> you build a website — usually you don&rsquo;t have to think about them <em>at all</em>, because others already did that. Many other layers are already solved, and you just put a new combination of solutions on top.</p>
+<p>This doesn&rsquo;t work <em>perfectly</em>, as the existence and prevalence of the <em>Not Invented Here Syndrom</em> shows. But the problem here is more of a nuance than a fundamental unwillingness.</p>
+<h3 id="write-new-solutions">Write new Solutions<a hidden class="anchor" aria-hidden="true" href="#write-new-solutions">#</a></h3>
+<p>Like a cook mixes ingredients, we mix code as our everyday job. A lot. So we&rsquo;re fairly good at it.</p>
+<h3 id="think-about-edge-cases">Think about Edge Cases<a hidden class="anchor" aria-hidden="true" href="#think-about-edge-cases">#</a></h3>
+<p>Making decisions explicit on code reveals cases when expectations are <em>not</em> met. Some languages (like Scala) make it painfully obvious or even refuse to compile if you don&rsquo;t cover all cases. So we&rsquo;re trained at <em>finding</em> edge-cases. Results vary on how well we handle them.</p>
+<h3 id="express-oneself">Express Oneself<a hidden class="anchor" aria-hidden="true" href="#express-oneself">#</a></h3>
+<p>Eloquence does not help when writing code. Either you do what the compiler expects, or it doesn&rsquo;t work. This forces you to learn how to express the structures and logic in your head in a clear manner. That&rsquo;s why they call it &ldquo;Programming Language&rdquo;.</p>
+<p>Aside from &ldquo;talking&rdquo; to compilers, we also talk a lot to <em>other</em> developers <em>about</em> the nuances of how we write code. It helps to be able to express yourself there as well.</p>
+<h2 id="what-we-are-_not_-so-good-at">What we are <em>not</em> so Good at<a hidden class="anchor" aria-hidden="true" href="#what-we-are-_not_-so-good-at">#</a></h2>
+<p>Each of these come with a downside.</p>
+<h3 id="keeping-the-big-picture-in-mind">Keeping the Big Picture in Mind<a hidden class="anchor" aria-hidden="true" href="#keeping-the-big-picture-in-mind">#</a></h3>
+<p>Too often we get lost in the details of a sub-sub-problem, that solves a slightly different sub-problem, that doesn&rsquo;t really help our main-problem.</p>
+<h3 id="creating-_good_-layers-of-abstraction">Creating <em>Good</em> Layers of Abstraction<a hidden class="anchor" aria-hidden="true" href="#creating-_good_-layers-of-abstraction">#</a></h3>
+<p>Most abstractions are leaky. If you don&rsquo;t understand the thing they abstract, you will sooner or later be surprised. These surprises are called &ldquo;bugs&rdquo;.</p>
+<h3 id="researching-existing-solutions">Researching Existing Solutions<a hidden class="anchor" aria-hidden="true" href="#researching-existing-solutions">#</a></h3>
+<p>It is way easier to write new solutions than searching through all the existing ones. It&rsquo;s also very often perceived as <em>faster</em>, but that is only true for the first 80%. The second 80% take way more time than you anticipated.
+We also seldomly solve just one problem, so existing solutions tend to solve more or less than what we need.
+And we&rsquo;re not good at expressing <em>what exactly</em> a thing solves.</p>
+<h3 id="understanding-old-solutions">Understanding Old Solutions<a hidden class="anchor" aria-hidden="true" href="#understanding-old-solutions">#</a></h3>
+<p>Old code, code written by others, code written by an earlier version of yourself, code written in another language, it&rsquo;s all bad. Because we all know that <em>reading</em> code is that much harder than writing it, and <em>even if</em> you took the time to read it, you might still have solved the problem <em>slightly</em> differently.</p>
+<h3 id="thinking-about-_all_-edge-cases">Thinking about <em>All</em> Edge Cases<a hidden class="anchor" aria-hidden="true" href="#thinking-about-_all_-edge-cases">#</a></h3>
+<p>That&rsquo;s the other type of bug. You underestimated the complexity of the whole thing.</p>
+<h3 id="expressing-oneself">Expressing Oneself<a hidden class="anchor" aria-hidden="true" href="#expressing-oneself">#</a></h3>
+<p>Practising talking to a machine all day can make it really hard to talk to a human who is inaccurate, unsure or has feelings. The feedback loop is different, the errors you make aren&rsquo;t always obvious.</p>
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://www.jannikarndt.de/tags/programming/">Programming</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2021 <a href="https://www.jannikarndt.de/">Jannik Arndt</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

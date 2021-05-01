@@ -9,7 +9,16 @@
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Apr 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 May 2021 13:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Things Developers are and aren&#39;t Good at</title>
+      <link>https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/</link>
+      <pubDate>Sat, 01 May 2021 13:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/</guid>
+      <description>&lt;p&gt;…in &lt;em&gt;my&lt;/em&gt; experience.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>def and var in traits on Scala 2.12, 2.13 and 3.0.0</title>
       <link>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</link>
