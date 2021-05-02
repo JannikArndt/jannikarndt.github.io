@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Blog on Jannik Arndt</title>
     <link>https://www.jannikarndt.de/blog/</link>
@@ -9,7 +9,16 @@
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 May 2021 13:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 May 2021 14:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Generating Open Graph Images for my Blog</title>
+      <link>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</link>
+      <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Things Developers are and aren&#39;t Good at</title>
       <link>https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/</link>
