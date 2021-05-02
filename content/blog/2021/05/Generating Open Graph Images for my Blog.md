@@ -10,8 +10,8 @@ showToc: false
 TocOpen: true
 draft: false
 comments: false
-images:
-- "opengraphimages/Generating Open Graph Images for my Blog.png"
+cover:
+  image: "opengraphimages/Generating Open Graph Images for my Blog.png"
 
 ---
 
