@@ -124,3 +124,12 @@ This workflow still requires running the waaaaayyyy too long command for every n
 * have `hugo` trigger another step which calls this ⏭
 * have a service that _dynamically_ generates the image 🧑‍🎨
 * use `svg` as `og:image` ✨ ([you can define a mime-type](https://ogp.me/#structured), but [this StackOverflow entry from 2014](https://stackoverflow.com/questions/21636503/use-svg-as-ogimage) says svg is not allowed)
+
+### Result
+
+Definitely worth it:
+
+{{< figure src="/blog/2021/05/opengraphimages/resultslack.png" >}}
+{{< figure src="/blog/2021/05/opengraphimages/resultpreview.png" >}}
+
+Wow, that's enough of my face for one day 😬 😅 
