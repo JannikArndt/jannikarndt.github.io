@@ -3,7 +3,7 @@ title = "The 2016-Personal-Website Infrastructure"
 draft = false
 date = "2016-11-20T13:37:00+01:00"
 keywords = [ "Web", "Hugo" ]
-tags = [ "Programming" ]
+tags = [ "blog", "hugo", "website" ]
 slug = "The_2016-Personal-Website_Infrastructure"
 toc = true
 

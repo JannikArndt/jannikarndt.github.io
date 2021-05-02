@@ -3,7 +3,7 @@ title: "Generating Open Graph Images for my Blog"
 date: "2021-05-02T14:00:00+01:00"
 author: "Jannik Arndt"
 keywords: [ "Blog", "Open Graph" ]
-tags: [ "Programming" ]
+tags: [ "blog", "hugo", "website" ]
 slug: "generating_open_graph_images"
 toc: false
 showToc: false

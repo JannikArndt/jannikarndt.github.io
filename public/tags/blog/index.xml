@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>blog on Jannik Arndt</title>
+    <link>https://www.jannikarndt.de/tags/blog/</link>
+    <description>Recent content in blog on Jannik Arndt</description>
+    <image>
+      <url>https://www.jannikarndt.de/jannik.jpg</url>
+      <link>https://www.jannikarndt.de/jannik.jpg</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 02 May 2021 14:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Generating Open Graph Images for my Blog</title>
+      <link>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</link>
+      <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The 2016-Personal-Website Infrastructure</title>
+      <link>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</link>
+      <pubDate>Sun, 20 Nov 2016 13:37:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</guid>
+      <description>&lt;p&gt;Since I bought my personal domain name around 2003, I went through several web-solutions,
+using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

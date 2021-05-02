@@ -11,9 +11,36 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 02 May 2021 14:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>blog</title>
+      <link>https://www.jannikarndt.de/tags/blog/</link>
+      <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://www.jannikarndt.de/tags/hugo/</link>
+      <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>website</title>
+      <link>https://www.jannikarndt.de/tags/website/</link>
+      <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/website/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Programming</title>
       <link>https://www.jannikarndt.de/tags/programming/</link>
-      <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
+      <pubDate>Sat, 01 May 2021 13:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/tags/programming/</guid>
       <description></description>
