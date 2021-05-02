@@ -110,8 +110,8 @@ Running the command creates an image in `static/opengraphimages`, which `hugo` a
 Setting
 
 ```yaml
-images:
-- "opengraphimages/Generating Open Graph Images for my Blog.png"
+cover:
+  image: "opengraphimages/Generating Open Graph Images for my Blog.png"
 ```
 
 in my front-matter adds the link to my page. 
@@ -131,5 +131,9 @@ Definitely worth it:
 
 {{< figure src="/blog/2021/05/opengraphimages/resultslack.png" >}}
 {{< figure src="/blog/2021/05/opengraphimages/resultpreview.png" >}}
+
+And even [Google's "Rich Results Test" likes it](https://search.google.com/test/rich-results?id=0jWqiuwebnqeVa2ezpv1YQ):
+
+{{< figure src="/blog/2021/05/opengraphimages/resultgoogle.png" >}}
 
 Wow, that's enough of my face for one day 😬 😅 
