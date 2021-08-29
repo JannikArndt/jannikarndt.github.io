@@ -10,7 +10,7 @@
 <meta name="description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Terraform on Google Cloud Engine Quickstart" />
 <meta property="og:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project)." />
 <meta property="og:type" content="article" />
@@ -209,26 +209,26 @@
   <div class="post-content"><p>This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).</p>
 <h2 id="prerequisites">Prerequisites<a hidden class="anchor" aria-hidden="true" href="#prerequisites">#</a></h2>
 <p>Install terraform:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install terraform
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ brew install terraform
 </code></pre></div><p>Install Google Cloud SDK:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew cask install google-cloud-sdk
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ brew cask install google-cloud-sdk
 </code></pre></div><p><a href="https://console.cloud.google.com/projectcreate">create a new project</a> in the console
 and <a href="https://cloud.google.com/sdk/gcloud/reference/auth/login">login</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ gcloud auth application-default login
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ gcloud auth application-default login
 </code></pre></div><p>If you are using IntelliJ IDEA, install the <a href="https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support">HashiCorp Terraform Plugin</a>.</p>
 <h2 id="option-a-import-a-project">Option A: Import a project<a hidden class="anchor" aria-hidden="true" href="#option-a-import-a-project">#</a></h2>
 <p>If you have created a project using the console, create a <code>config.tf</code> with the basic settings:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">provider <span class="s2">&#34;google&#34;</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">provider <span class="s2">&#34;google&#34;</span> <span class="o">{</span>
     <span class="nv">region</span>      <span class="o">=</span> <span class="s2">&#34;eu-central-1&#34;</span>
 <span class="o">}</span>
 
 resource <span class="s2">&#34;google_project&#34;</span> <span class="s2">&#34;project&#34;</span> <span class="o">{}</span>
 </code></pre></div><p>Now run <code>terraform init</code> to download the google provider plugin. Now import the project via</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform import google_project.project project-id-186346
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform import google_project.project project-id-186346
 </code></pre></div><p>You now have a corresponding <code>terraform.tfstate</code> file that contains the name, billing account and other info about your project.</p>
 <h2 id="option-b-create-a-new-project-from-scratch">Option B: Create a new project from scratch<a hidden class="anchor" aria-hidden="true" href="#option-b-create-a-new-project-from-scratch">#</a></h2>
 <p>Make a new folder and create a <code>config.tf</code> file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">provider <span class="s2">&#34;google&#34;</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">provider <span class="s2">&#34;google&#34;</span> <span class="o">{</span>
   <span class="nv">region</span>      <span class="o">=</span> <span class="s2">&#34;eu-central-1&#34;</span>
 <span class="o">}</span>
 
@@ -240,7 +240,7 @@ resource <span class="s2">&#34;google_project&#34;</span> <span class="s2">&#34;
 </code></pre></div><p>Now run <code>terraform init</code> to download the google provider plugin. Next run <code>terraform apply</code> to create the project. Note that the <code>project_id</code> may not already exist. The <code>billing_account</code> is optional. Also you can only have a maximum of 12 projects at the same time.</p>
 <h2 id="adding-people">Adding people<a hidden class="anchor" aria-hidden="true" href="#adding-people">#</a></h2>
 <p>So far you are the owner of the new project. Now you can create IAM roles and add other people to your project:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">resource <span class="s2">&#34;google_project_iam_binding&#34;</span> <span class="s2">&#34;project_editors&#34;</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">resource <span class="s2">&#34;google_project_iam_binding&#34;</span> <span class="s2">&#34;project_editors&#34;</span> <span class="o">{</span>
   <span class="nv">project</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">google_project</span><span class="p">.project.project_id</span><span class="si">}</span><span class="s2">&#34;</span>
   <span class="nv">role</span> <span class="o">=</span> <span class="s2">&#34;roles/editor&#34;</span>
   <span class="nv">members</span> <span class="o">=</span> <span class="o">[</span>

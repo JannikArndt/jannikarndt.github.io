@@ -10,7 +10,7 @@
 <meta name="description" content="I want my photos to have location info in them, and Nikon wants way too much money for that. So I&rsquo;ll do this: Let my Apple Watch track where I go, using the Outdoor Walk, export the route as GPX and use exiftool to tag all my images. Here&rsquo;s how I do that.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Using your Apple Watch Workout to Geotag DSLR Photos" />
 <meta property="og:description" content="I want my photos to have location info in them, and Nikon wants way too much money for that. So I&rsquo;ll do this: Let my Apple Watch track where I go, using the Outdoor Walk, export the route as GPX and use exiftool to tag all my images. Here&rsquo;s how I do that." />
 <meta property="og:type" content="article" />
@@ -217,10 +217,10 @@
 <p><a href="https://www.j-berkemeier.de/ShowGPX.html" target="_blank"><img src="/blog/2018/08/ShowGPX.png" alt=""></a></p>
 <h2 id="write-gps-into-exif">Write GPS into EXIF<a hidden class="anchor" aria-hidden="true" href="#write-gps-into-exif">#</a></h2>
 <p>Next, I use <em>the</em> software to edit EXIF data, written in Perl, first published in 2003, still state of the art today: <a href="http://owl.phy.queensu.ca/~phil/exiftool/"><em>exiftool</em></a>. You can install it via</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">brew install exiftool
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">brew install exiftool
 </code></pre></div><p>(on a mac, of course).</p>
 <p>Then the command is pretty straightforward:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ~ exiftool -geotag<span class="o">=</span>myRoute.gpx ~/Pictures/UntaggedPictures/
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ ~ exiftool -geotag<span class="o">=</span>myRoute.gpx ~/Pictures/UntaggedPictures/
     <span class="m">1</span> directories scanned
    <span class="m">83</span> image files updated
 </code></pre></div><p>…and it&rsquo;s done!</p>

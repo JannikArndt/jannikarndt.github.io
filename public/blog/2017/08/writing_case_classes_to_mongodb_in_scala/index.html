@@ -11,7 +11,7 @@
 This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -20,7 +20,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Writing case classes to MongoDB in Scala" />
 <meta property="og:description" content="Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.
 This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer." />
@@ -213,7 +213,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 <p>This example uses the official <a href="https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11">Mongo Scala Driver</a> in version 2.x and the <a href="https://github.com/ralscha/bsoncodec">bsoncodec</a> project by <a href="https://github.com/ralscha">Ralph Schaer</a>.</p>
 <h2 id="the-solution">The solution<a hidden class="anchor" aria-hidden="true" href="#the-solution">#</a></h2>
 <p>First: A complete working example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">java.math.BigDecimal</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">java.math.BigDecimal</span>
 <span class="k">import</span> <span class="nn">java.time.</span><span class="o">{</span><span class="nc">LocalDate</span><span class="o">,</span> <span class="nc">LocalDateTime</span><span class="o">}</span>
 
 <span class="k">import</span> <span class="nn">scala.concurrent.Await</span>
@@ -278,7 +278,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
     <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div><p>This results in the following entry:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
     <span class="nt">&#34;_id&#34;</span> <span class="p">:</span> <span class="err">ObjectId(</span><span class="s2">&#34;5997f9ff96ddbad1d424981d&#34;</span><span class="err">)</span><span class="p">,</span>
     <span class="nt">&#34;sender&#34;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Online Shop 3000&#34;</span><span class="p">,</span>
@@ -306,7 +306,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 </code></pre></div><h2 id="how-to-get-there">How to get there<a hidden class="anchor" aria-hidden="true" href="#how-to-get-there">#</a></h2>
 <h3 id="adding-codecs-for-custom-classes">Adding codecs for custom classes<a hidden class="anchor" aria-hidden="true" href="#adding-codecs-for-custom-classes">#</a></h3>
 <p>The magic is obviously hidden in the <code>DB</code> object. Following <em>just</em> the <a href="http://mongodb.github.io/mongo-scala-driver/2.1/getting-started/quick-tour/">driver documentation</a>, one might start with this simpler version:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
     <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
 
     <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
@@ -321,7 +321,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 <p>The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).</p>
 </blockquote>
 <p>So the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
     <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries._</span>
     <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY</span>
     <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.Macros._</span>
@@ -342,12 +342,12 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 <p>This brings us one step further, to the next exception:</p>
 <pre><code class="language-none" data-lang="none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate.
 </code></pre><p>If you try to add <code>classOf[LocalDate]</code> to the list, you get a compile error, stating that</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Error</span><span class="k">:</span><span class="o">(</span><span class="err">41</span><span class="o">,</span> <span class="err">106</span><span class="o">)</span> <span class="n">java</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="nc">LocalDate</span> <span class="n">does</span> <span class="n">not</span> <span class="n">have</span> <span class="n">a</span> <span class="n">constructor</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Error</span><span class="k">:</span><span class="o">(</span><span class="err">41</span><span class="o">,</span> <span class="err">106</span><span class="o">)</span> <span class="n">java</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="nc">LocalDate</span> <span class="n">does</span> <span class="n">not</span> <span class="n">have</span> <span class="n">a</span> <span class="n">constructor</span>
     <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">])</span>
 </code></pre></div><p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.</p>
 <p>Luckily, <a href="https://github.com/ralscha">Ralph Schaer</a> has already done this — not just for <a href="https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java">LocalDate</a> but for <a href="https://github.com/ralscha/bsoncodec">most of <code>java.time</code>, <code>java.sql</code>, URLs, BigDecimal, <code>javax.money</code>, and more</a>, and for many types you can even decide how to encode them, i.e. to <code>date</code>, <code>document</code> or <code>string</code>.</p>
 <p>That&rsquo;s what the lines</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala">    <span class="k">private</span> <span class="k">val</span> <span class="n">javaCodecs</span> <span class="k">=</span> <span class="nc">CodecRegistries</span><span class="o">.</span><span class="n">fromCodecs</span><span class="o">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala">    <span class="k">private</span> <span class="k">val</span> <span class="n">javaCodecs</span> <span class="k">=</span> <span class="nc">CodecRegistries</span><span class="o">.</span><span class="n">fromCodecs</span><span class="o">(</span>
         <span class="k">new</span> <span class="nc">LocalDateTimeDateCodec</span><span class="o">(),</span>
         <span class="k">new</span> <span class="nc">LocalDateDateCodec</span><span class="o">(),</span>
         <span class="k">new</span> <span class="nc">BigDecimalStringCodec</span><span class="o">())</span>

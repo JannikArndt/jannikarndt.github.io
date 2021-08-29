@@ -12,7 +12,7 @@ What I do I work a lot with the shell (or “Terminal” app on MacOS), mostly k
 The Problem I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&rsquo;s annoying, because usually when I open a new tab, I want to quickly check on something, like the logs of a pod or if I have committed something in a different project.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -21,7 +21,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Lazy Aliases in my Shell" />
 <meta property="og:description" content="I reduced the startup time of my shell by one second. Here&rsquo;s how:
 What I do I work a lot with the shell (or “Terminal” app on MacOS), mostly kubectl, git, terraform and docker. And of course I use the absolutely best shell of all, oh-my-zsh.
@@ -225,7 +225,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 <li>When I start a new shell, I expect it to be fast. When I check on something in the Kubernetes cluster I expect it to go through the network, i.e. to be slow.</li>
 </ol>
 <p>So I delayed the initialization of the <code>kubectl completion</code> until I first call something:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> k<span class="o">()</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="k">function</span> k<span class="o">()</span> <span class="o">{</span>
   <span class="nb">source</span> &lt;<span class="o">(</span>kubectl completion zsh<span class="o">)</span>
   <span class="nb">alias</span> <span class="nv">k</span><span class="o">=</span>kubectl
   kubectl <span class="nv">$@</span>

@@ -10,7 +10,7 @@
 <meta name="description" content="Generating Open Graph Images for my Blog - Jannik Arndt">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Generating Open Graph Images for my Blog" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
@@ -232,12 +232,12 @@ And you can preview sites on <a href="https://www.opengraph.xyz/url/https:%2F%2F
     <img loading="lazy" src="/blog/2021/05/opengraphimages/tcardgenpreview.png"/> 
 </figure>
 
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">go get github.com/Ladicle/tcardgen
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">go get github.com/Ladicle/tcardgen
 </code></pre></div><p>A great, downloading half the internet again… 😅</p>
 <p>After about 50 executions, 3h hours of tweaking and ending up with <a href="https://github.com/JannikArndt/tcardgen">my own fork</a>, I finally made <em>something</em> work.</p>
 <h3 id="final-structure">Final structure<a hidden class="anchor" aria-hidden="true" href="#final-structure">#</a></h3>
 <p>The command I run (after <code>go install</code> on my fork) is</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">tcardgen -f opengraph/font -c opengraph/template.config.yaml -o static/opengraphimages content/blog/2021/05/Generating<span class="se">\ </span>Open<span class="se">\ </span>Graph<span class="se">\ </span>Images<span class="se">\ </span><span class="k">for</span><span class="se">\ </span>my<span class="se">\ </span>Blog.md
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">tcardgen -f opengraph/font -c opengraph/template.config.yaml -o static/opengraphimages content/blog/2021/05/Generating<span class="se">\ </span>Open<span class="se">\ </span>Graph<span class="se">\ </span>Images<span class="se">\ </span><span class="k">for</span><span class="se">\ </span>my<span class="se">\ </span>Blog.md
 </code></pre></div><p>This requires the following files:</p>
 <pre><code>opengraph/
 ├── font
@@ -247,7 +247,7 @@ And you can preview sites on <a href="https://www.opengraph.xyz/url/https:%2F%2F
 ├── template.config.yaml
 └── template.png
 </code></pre><p>The config I use is</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">opengraph/template.png</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">opengraph/template.png</span><span class="w">
 </span><span class="w"></span><span class="nt">title</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
@@ -278,7 +278,7 @@ And you can preview sites on <a href="https://www.opengraph.xyz/url/https:%2F%2F
 <p>I <em>really</em> bothers me that the template can be defined in the <code>template.config.yaml</code>, but the font-folder cannot. But I didn&rsquo;t find an easy way to add it, because I&rsquo;m not a big fan of messing with <code>go</code> code.</p>
 <p>Running the command creates an image in <code>static/opengraphimages</code>, which <code>hugo</code> automatically copies over to the output (<code>public</code>) folder.</p>
 <p>Setting</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">cover</span><span class="p">:</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">cover</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;opengraphimages/Generating Open Graph Images for my Blog.png&#34;</span><span class="w">
 </span></code></pre></div><p>in my front-matter adds the link to my page.</p>
 <h3 id="next-steps">Next Steps<a hidden class="anchor" aria-hidden="true" href="#next-steps">#</a></h3>

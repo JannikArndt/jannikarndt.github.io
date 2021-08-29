@@ -13,7 +13,7 @@ https://www.terraform.io/intro/getting-started/install.html
 ">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -22,7 +22,7 @@ https://www.terraform.io/intro/getting-started/install.html
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="VERY Quick Start: Terraform" />
 <meta property="og:description" content="
 This post contains the absolut essence from the Terraform Getting Started Guide:
@@ -220,9 +220,9 @@ https://www.terraform.io/intro/getting-started/install.html
 <a href="https://www.terraform.io/intro/getting-started/install.html">https://www.terraform.io/intro/getting-started/install.html</a></p>
 </blockquote>
 <h2 id="preparation">Preparation<a hidden class="anchor" aria-hidden="true" href="#preparation">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">brew install terraform
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">brew install terraform
 </code></pre></div><p>Create <code>aws.tf</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
   <span class="err">region</span>     <span class="err">=</span> <span class="nt">&#34;us-east-1&#34;</span> 
 <span class="p">}</span>
 
@@ -232,19 +232,19 @@ https://www.terraform.io/intro/getting-started/install.html
 <span class="p">}</span>
 </code></pre></div><p>AMI = <a href="https://cloud-images.ubuntu.com/locator/ec2/">Amazon Machine Images</a></p>
 <p>AWS credentials are stored in environment vars:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>...
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>...
 <span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>...
 </code></pre></div><h2 id="init">Init<a hidden class="anchor" aria-hidden="true" href="#init">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform init
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform init
 ...
 Terraform has been successfully initialized!
 ...
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan -out planfile
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan -out planfile
   + aws_instance.example
       ami:                          <span class="s2">&#34;ami-2757f631&#34;</span>
       associate_public_ip_address:  <span class="s2">&#34;&lt;computed&gt;&#34;</span>
 ...
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply planfile
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply planfile
 aws_instance.example: Creating...
 ...
 aws_instance.example: Still creating... <span class="o">(</span>10s elapsed<span class="o">)</span>
@@ -252,7 +252,7 @@ aws_instance.example: Still creating... <span class="o">(</span>20s elapsed<span
 aws_instance.example: Still creating... <span class="o">(</span>30s elapsed<span class="o">)</span>
 aws_instance.example: Still creating... <span class="o">(</span>40s elapsed<span class="o">)</span>
 aws_instance.example: Creation <span class="nb">complete</span> <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform show
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform show
 aws_instance.example:
   <span class="nv">id</span> <span class="o">=</span> i-00b2e1a29daee4371
   <span class="nv">ami</span> <span class="o">=</span> ami-2757f631
@@ -260,7 +260,7 @@ aws_instance.example:
 </code></pre></div><h2 id="change">Change<a hidden class="anchor" aria-hidden="true" href="#change">#</a></h2>
 <p><code>ami-2757f631</code> (Ubuntu 16.04 LTS AMI) =&gt; <code>ami-b374d5a5</code> (Ubuntu 16.10 AMI)</p>
 <p>In <code>aws.tf</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
   <span class="err">region</span>     <span class="err">=</span> <span class="nt">&#34;us-east-1&#34;</span>
 <span class="p">}</span>
 
@@ -268,7 +268,7 @@ aws_instance.example:
   <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-b374d5a5&#34;</span>
   <span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan
 Refreshing Terraform state in-memory prior to plan...
 aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
 ...
@@ -276,7 +276,7 @@ aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-00b2e1a2
       ami:                          <span class="s2">&#34;ami-2757f631&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;ami-b374d5a5&#34;</span> <span class="o">(</span>forces new resource<span class="o">)</span>
       associate_public_ip_address:  <span class="s2">&#34;true&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;&lt;computed&gt;&#34;</span>
 ...
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply
 aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
 aws_instance.example: Destroying... <span class="o">(</span>ID: i-00b2e1a29daee4371<span class="o">)</span>
 ...
@@ -287,12 +287,12 @@ aws_instance.example: Creating...
 ...
 aws_instance.example: Creation <span class="nb">complete</span> <span class="o">(</span>ID: i-05a8f2e88ae0faace<span class="o">)</span>
 </code></pre></div><h2 id="destroy">Destroy<a hidden class="anchor" aria-hidden="true" href="#destroy">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan -destroy
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform plan -destroy
 Refreshing Terraform state in-memory prior to plan...
 ...
   - aws_instance.example
 ...
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform destroy
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform destroy
 aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-05a8f2e88ae0faace<span class="o">)</span>
 ...
 
@@ -310,7 +310,7 @@ Destroy complete! Resources: <span class="m">1</span> destroyed.
 
 </code></pre></div><h2 id="assigning-an-ip-to-the-instance">Assigning an IP to the instance<a hidden class="anchor" aria-hidden="true" href="#assigning-an-ip-to-the-instance">#</a></h2>
 <p>In <code>aws.tf</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
   <span class="err">region</span>     <span class="err">=</span> <span class="nt">&#34;us-east-1&#34;</span>
 <span class="p">}</span>
 
@@ -322,7 +322,7 @@ Destroy complete! Resources: <span class="m">1</span> destroyed.
 <span class="err">resource</span> <span class="s2">&#34;aws_eip&#34;</span> <span class="s2">&#34;ip&#34;</span> <span class="p">{</span>
   <span class="err">instance</span> <span class="err">=</span> <span class="nt">&#34;${aws_instance.example.id}&#34;</span>
 <span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply planfile 
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform apply planfile 
 aws_instance.example: Creating...
 ...
 aws_instance.example: Creation <span class="nb">complete</span> <span class="o">(</span>ID: i-0478b3c5b6a085287<span class="o">)</span>
@@ -331,10 +331,10 @@ aws_eip.ip: Creating...
 aws_eip.ip: Creation <span class="nb">complete</span> <span class="o">(</span>ID: eipalloc-6be79a58<span class="o">)</span>
 
 Apply complete! Resources: <span class="m">2</span> added, <span class="m">0</span> changed, <span class="m">0</span> destroyed.
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform refresh
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform refresh
 aws_instance.example: Refreshing state... <span class="o">(</span>ID: i-0478b3c5b6a085287<span class="o">)</span>
 aws_eip.ip: Refreshing state... <span class="o">(</span>ID: eipalloc-6be79a58<span class="o">)</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform show
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform show
 aws_eip.ip:
   <span class="nv">id</span> <span class="o">=</span> eipalloc-6be79a58
   <span class="nv">association_id</span> <span class="o">=</span> eipassoc-590d9e6c
@@ -350,12 +350,12 @@ aws_instance.example:
   <span class="nv">associate_public_ip_address</span> <span class="o">=</span> <span class="nb">true</span>
 </code></pre></div><h2 id="dependencies">Dependencies<a hidden class="anchor" aria-hidden="true" href="#dependencies">#</a></h2>
 <p>The order in which resources are created is determined by terraforms analysis of (implicit) dependencies. Dependencies can also be defined explicitly, for example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">resource</span> <span class="s2">&#34;aws_eip&#34;</span> <span class="s2">&#34;ip&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="err">resource</span> <span class="s2">&#34;aws_eip&#34;</span> <span class="s2">&#34;ip&#34;</span> <span class="p">{</span>
   <span class="err">instance</span>   <span class="err">=</span> <span class="nt">&#34;${aws_instance.example.id}&#34;</span>
   <span class="err">depends_on</span> <span class="err">=</span> <span class="p">[</span><span class="s2">&#34;aws_instance.example&#34;</span><span class="p">]</span> <span class="err">#</span> <span class="err">&lt;-</span> <span class="err">explicit</span> <span class="err">dependency</span>
 <span class="p">}</span>
 </code></pre></div><p>To view a dependency graph:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform graph &gt; graph.dot
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform graph &gt; graph.dot
 </code></pre></div><p>And open with graphviz:
 <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 617.8 332">
 <g class="graph" transform="translate(4 328)">
@@ -427,7 +427,7 @@ provider.aws
 <p><a href="https://www.terraform.io/docs/provisioners/index.html">https://www.terraform.io/docs/provisioners/index.html</a></p>
 </blockquote>
 <p>Change <code>aws.tf</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
   <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-b374d5a5&#34;</span>
   <span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
   
@@ -442,7 +442,7 @@ provider.aws
   <span class="err">value</span> <span class="err">=</span> <span class="nt">&#34;${aws_eip.ip.public_ip}&#34;</span>
 <span class="p">}</span>
 </code></pre></div><p>Provisioners are only run, when a resource is first created!</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ terraform destroy
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ terraform destroy
 ...
 $ terraform apply
 ...

@@ -22,7 +22,7 @@ From the server&rsquo;s point of view:
 Since oAuth tokens are short lived, the server also has to invalidate expired tokens.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -31,7 +31,7 @@ Since oAuth tokens are short lived, the server also has to invalidate expired to
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="oAuth2 with Akka HTTP" />
 <meta property="og:description" content="This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:
 
@@ -257,7 +257,7 @@ Since oAuth tokens are short lived, the server also has to invalidate expired to
 <p>Since oAuth tokens are short lived, the server also has to invalidate expired tokens.</p>
 <h2 id="buildsbt"><code>build.sbt</code><a hidden class="anchor" aria-hidden="true" href="#buildsbt">#</a></h2>
 <p>This minimal example requires the following imports in your <code>build.sbt</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;oAuth-example&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;oAuth-example&#34;</span>
 <span class="n">scalaVersion</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;2.12.7&#34;</span>
 <span class="n">version</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;1.0&#34;</span>
 
@@ -271,7 +271,7 @@ Since oAuth tokens are short lived, the server also has to invalidate expired to
 <span class="o">)</span>
 </code></pre></div><h2 id="start-a-webserver">Start a <code>WebServer</code><a hidden class="anchor" aria-hidden="true" href="#start-a-webserver">#</a></h2>
 <p>The basic <code>WebServer</code> can be started using the following code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.http.scaladsl.server._</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.http.scaladsl.server._</span>
 <span class="k">import</span> <span class="nn">com.typesafe.scalalogging.StrictLogging</span>
 
 <span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
@@ -291,11 +291,11 @@ Since oAuth tokens are short lived, the server also has to invalidate expired to
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><p>You can test it in the console:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ~ curl --request GET --url http://localhost:8080
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ ~ curl --request GET --url http://localhost:8080
 Welcome!
 </code></pre></div><h2 id="basic-auth">Basic Auth<a hidden class="anchor" aria-hidden="true" href="#basic-auth">#</a></h2>
 <p>Next, we&rsquo;ll add the <code>auth</code> endpoint:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&#34;auth&#34;</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&#34;auth&#34;</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">authenticateBasic</span><span class="o">(</span><span class="n">realm</span> <span class="k">=</span> <span class="s">&#34;auth&#34;</span><span class="o">,</span> <span class="nc">BasicAuthAuthenticator</span><span class="o">)</span> <span class="o">{</span> <span class="n">user</span> <span class="k">=&gt;</span>
     <span class="n">post</span> <span class="o">{</span>
       <span class="c1">// do stuff with user
@@ -303,7 +303,7 @@ Welcome!
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><p>This calls a <code>BasicAuthAuthenticator</code> function which goes through the list of <code>validBasicAuthCredentials</code> and compares <code>username</code> and <code>password</code>. Note that <code>p.verify(user.password)</code> does a <em>constant time comparison</em> to make this <a href="https://doc.akka.io/docs/akka-http/current/routing-dsl/directives/security-directives/index.html#credentials-and-timing-attacks">invulnerable against timing attacks</a>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">BasicAuthCredentials</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">password</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">BasicAuthCredentials</span><span class="o">(</span><span class="n">username</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">password</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
 
 <span class="k">private</span> <span class="k">val</span> <span class="n">validBasicAuthCredentials</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">BasicAuthCredentials</span><span class="o">(</span><span class="s">&#34;jannik&#34;</span><span class="o">,</span> <span class="s">&#34;p4ssw0rd&#34;</span><span class="o">))</span>
 
@@ -315,7 +315,7 @@ Welcome!
     <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="nc">None</span>
   <span class="o">}</span>
 </code></pre></div><p>Our code then creates an <code>access_token</code>, stores it in a list and returns it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span> <span class="k">val</span> <span class="n">loggedInUsers</span> <span class="k">=</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">ArrayBuffer</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">LoggedInUser</span><span class="o">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span> <span class="k">val</span> <span class="n">loggedInUsers</span> <span class="k">=</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">ArrayBuffer</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">LoggedInUser</span><span class="o">]</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">oAuthToken</span><span class="o">(</span><span class="n">access_token</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="nc">UUID</span><span class="o">.</span><span class="n">randomUUID</span><span class="o">().</span><span class="n">toString</span><span class="o">,</span>
                       <span class="n">token_type</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;bearer&#34;</span><span class="o">,</span>
@@ -325,7 +325,7 @@ Welcome!
                         <span class="n">oAuthToken</span><span class="k">:</span> <span class="kt">oAuthToken</span> <span class="o">=</span> <span class="k">new</span> <span class="n">oAuthToken</span><span class="o">,</span>
                         <span class="n">loggedInAt</span><span class="k">:</span> <span class="kt">LocalDateTime</span> <span class="o">=</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="n">now</span><span class="o">())</span>
 </code></pre></div><p>Inside the <code>/auth</code> route:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&#34;auth&#34;</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&#34;auth&#34;</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">authenticateBasic</span><span class="o">(</span><span class="n">realm</span> <span class="k">=</span> <span class="s">&#34;auth&#34;</span><span class="o">,</span> <span class="nc">BasicAuthAuthenticator</span><span class="o">)</span> <span class="o">{</span> <span class="n">user</span> <span class="k">=&gt;</span>
     <span class="n">post</span> <span class="o">{</span>
       <span class="k">val</span> <span class="n">loggedInUser</span> <span class="k">=</span> <span class="nc">LoggedInUser</span><span class="o">(</span><span class="n">user</span><span class="o">)</span>
@@ -335,32 +335,32 @@ Welcome!
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><p>To make this work with JSON, I also added the following lines:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">de.heikoseeberger.akkahttpjson4s.Json4sSupport._</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">de.heikoseeberger.akkahttpjson4s.Json4sSupport._</span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">formats</span><span class="k">:</span> <span class="kt">DefaultFormats.</span><span class="k">type</span> <span class="o">=</span> <span class="nc">DefaultFormats</span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">serialization</span><span class="k">:</span> <span class="kt">Serialization.</span><span class="k">type</span> <span class="o">=</span> <span class="n">native</span><span class="o">.</span><span class="nc">Serialization</span>
 </code></pre></div><p>Try getting an <code>access_token</code> via</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl --request POST --url http://localhost:8080/auth --header <span class="s1">&#39;authorization: Basic amFubmlrOnA0c3N3MHJk&#39;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ curl --request POST --url http://localhost:8080/auth --header <span class="s1">&#39;authorization: Basic amFubmlrOnA0c3N3MHJk&#39;</span>
 <span class="o">{</span><span class="s2">&#34;access_token&#34;</span>:<span class="s2">&#34;2e510027-0eb9-4367-b310-68e1bab9dc3d&#34;</span>, <span class="s2">&#34;token_type&#34;</span>:<span class="s2">&#34;bearer&#34;</span>, <span class="s2">&#34;expires_in&#34;</span>:3600<span class="o">}</span>
 </code></pre></div><h2 id="oauth">oAuth<a hidden class="anchor" aria-hidden="true" href="#oauth">#</a></h2>
 <p>The <code>/api</code> endpoint looks very similar:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&#34;api&#34;</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&#34;api&#34;</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">authenticateOAuth2</span><span class="o">(</span><span class="n">realm</span> <span class="k">=</span> <span class="s">&#34;api&#34;</span><span class="o">,</span> <span class="n">oAuthAuthenticator</span><span class="o">)</span> <span class="o">{</span> <span class="n">validToken</span> <span class="k">=&gt;</span>
     <span class="n">complete</span><span class="o">(</span><span class="s">s&#34;It worked! user = </span><span class="si">$validToken</span><span class="s">&#34;</span><span class="o">)</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><p>It calls the <code>oAuthAuthenticator</code> function which looks through the list of <code>loggedInUsers</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span> <span class="k">def</span> <span class="n">oAuthAuthenticator</span><span class="o">(</span><span class="n">credentials</span><span class="k">:</span> <span class="kt">Credentials</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">LoggedInUser</span><span class="o">]</span> <span class="k">=</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">private</span> <span class="k">def</span> <span class="n">oAuthAuthenticator</span><span class="o">(</span><span class="n">credentials</span><span class="k">:</span> <span class="kt">Credentials</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">LoggedInUser</span><span class="o">]</span> <span class="k">=</span>
   <span class="n">credentials</span> <span class="k">match</span> <span class="o">{</span>
     <span class="k">case</span> <span class="n">p</span> <span class="k">@</span> <span class="nc">Credentials</span><span class="o">.</span><span class="nc">Provided</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span>
       <span class="n">loggedInUsers</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="n">user</span> <span class="k">=&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">verify</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="n">oAuthToken</span><span class="o">.</span><span class="n">access_token</span><span class="o">))</span>
     <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="nc">None</span>
   <span class="o">}</span>
 </code></pre></div><p>You call this endpoint via</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl --request GET --url http://localhost:8080/api --header <span class="s1">&#39;authorization: Bearer 2e510027-0eb9-4367-b310-68e1bab9dc3d&#39;</span> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ curl --request GET --url http://localhost:8080/api --header <span class="s1">&#39;authorization: Bearer 2e510027-0eb9-4367-b310-68e1bab9dc3d&#39;</span> 
 <span class="s2">&#34;It worked! user = LoggedInUser(BasicAuthCredentials(jannik,p4ssw0rd),oAuthToken(2e510027-0eb9-4367-b310-68e1bab9dc3d,bearer,3600),2018-10-28T12:58:33.048)&#34;</span>
 </code></pre></div><h2 id="expire-sessions">Expire Sessions<a hidden class="anchor" aria-hidden="true" href="#expire-sessions">#</a></h2>
 <p>For the final touches, we can hook into the <code>ActorSystem</code> to schedule a <code>cleanUpExpiredUsers()</code> function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">override</span> <span class="k">def</span> <span class="n">postHttpBinding</span><span class="o">(</span><span class="n">binding</span><span class="k">:</span> <span class="kt">Http.ServerBinding</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">override</span> <span class="k">def</span> <span class="n">postHttpBinding</span><span class="o">(</span><span class="n">binding</span><span class="k">:</span> <span class="kt">Http.ServerBinding</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
   <span class="n">systemReference</span><span class="o">.</span><span class="n">get</span><span class="o">().</span><span class="n">scheduler</span><span class="o">.</span><span class="n">schedule</span><span class="o">(</span><span class="mi">5</span> <span class="n">minutes</span><span class="o">,</span> <span class="mi">5</span> <span class="n">minutes</span><span class="o">)(</span><span class="n">cleanUpExpiredUsers</span><span class="o">())(</span><span class="n">systemReference</span><span class="o">.</span><span class="n">get</span><span class="o">().</span><span class="n">dispatcher</span><span class="o">)</span>
   <span class="k">super</span><span class="o">.</span><span class="n">postHttpBinding</span><span class="o">(</span><span class="n">binding</span><span class="o">)</span>
 <span class="o">}</span>
@@ -375,7 +375,7 @@ Welcome!
 <p>Since we store the time of login, we can simply add the <code>expires_in</code> to that an check if that <code>LocalDateTime</code> is in the past. If so, the session has expired and we remove the user from the <code>loggedInUsers</code> list.</p>
 <h2 id="complete-example">Complete Example<a hidden class="anchor" aria-hidden="true" href="#complete-example">#</a></h2>
 <p>And now the complete example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">java.time.LocalDateTime</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">java.time.LocalDateTime</span>
 
 <span class="k">import</span> <span class="nn">akka.http.scaladsl.Http</span>
 <span class="k">import</span> <span class="nn">akka.http.scaladsl.server._</span>

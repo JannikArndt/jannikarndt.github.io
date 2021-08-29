@@ -12,7 +12,7 @@ Since that is way harder than it sounds, there&rsquo;s a second option: Buy a 32
 That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with a Raspberry Pi 3 and an external hard drive.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -21,7 +21,7 @@ That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="How to use a Raspberry Pi for your Time Machine backups" />
 <meta property="og:description" content="Apples Time Machine is a great backup solution, you only have to do one thing: Connect your disk from time to time.
 Since that is way harder than it sounds, there&rsquo;s a second option: Buy a 329€ Time Capsule and do backups over wifi!
@@ -219,40 +219,40 @@ That&rsquo;s too expensive? Here&rsquo;s how to build your own Time Capsule with
 <h1 id="on-the-pi">On the pi<a hidden class="anchor" aria-hidden="true" href="#on-the-pi">#</a></h1>
 <h2 id="1-connect-usb-drive-to-pi">1. Connect USB drive to pi<a hidden class="anchor" aria-hidden="true" href="#1-connect-usb-drive-to-pi">#</a></h2>
 <h2 id="2-find-drive">2. Find drive<a hidden class="anchor" aria-hidden="true" href="#2-find-drive">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ lsblk -o KNAME,TYPE,SIZE,MODEL
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ lsblk -o KNAME,TYPE,SIZE,MODEL
 KNAME     TYPE   SIZE MODEL
 sda       disk 465.8G MK5065GSXF      &lt;<span class="o">=</span> probably that one
 mmcblk0   disk  14.9G
 mmcblk0p1 part  41.5M
 mmcblk0p2 part  14.9G
 </code></pre></div><h2 id="3-format-drive">3. Format drive<a hidden class="anchor" aria-hidden="true" href="#3-format-drive">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo mkfs.ext4 /dev/sda
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo mkfs.ext4 /dev/sda
 </code></pre></div><h2 id="4-install-netatalk">4. Install <code>netatalk</code><a hidden class="anchor" aria-hidden="true" href="#4-install-netatalk">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt-get update
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt-get update
 $ sudo apt-get upgrade
 $ sudo apt-get install netatalk
 </code></pre></div><h2 id="5-create-a-mount-point">5. Create a mount point<a hidden class="anchor" aria-hidden="true" href="#5-create-a-mount-point">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo mkdir /mnt/TimeMachine
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo mkdir /mnt/TimeMachine
 </code></pre></div><h2 id="6-add-mount-to-file-system-table-fstabhttpsenwikipediaorgwikifstab">6. Add mount to <a href="https://en.wikipedia.org/wiki/Fstab">file system table (<code>fstab</code>)</a><a hidden class="anchor" aria-hidden="true" href="#6-add-mount-to-file-system-table-fstabhttpsenwikipediaorgwikifstab">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/fstab
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/fstab
 </code></pre></div><p>Insert the mount post at the end of the file:
 <code>/dev/sda /mnt/TimeMachine auto defaults 0 2</code>
 and exit with <code>ctrl + x</code>, <code>y</code>, <code>enter</code>.</p>
 <h2 id="7-mount-device">7. Mount device<a hidden class="anchor" aria-hidden="true" href="#7-mount-device">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo mount /dev/sda
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo mount /dev/sda
 </code></pre></div><h2 id="8-make-it-accessible">8. Make it accessible<a hidden class="anchor" aria-hidden="true" href="#8-make-it-accessible">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo chmod <span class="m">777</span> /mnt/TimeMachine
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo chmod <span class="m">777</span> /mnt/TimeMachine
 </code></pre></div><h2 id="9-make-the-drive-known-to-netatalk">9. Make the drive known to <code>netatalk</code><a hidden class="anchor" aria-hidden="true" href="#9-make-the-drive-known-to-netatalk">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/netatalk/AppleVolumes.default
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo nano /etc/netatalk/AppleVolumes.default
 </code></pre></div><p>Add <code>/mnt/TimeMachine &quot;Time Machine&quot; options:tm</code> at the end, then exit with <code>ctrl + x</code>, <code>y</code>, <code>enter</code></p>
 <h2 id="10-restart-netatalk">10. Restart <code>netatalk</code><a hidden class="anchor" aria-hidden="true" href="#10-restart-netatalk">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo service netatalk restart
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo service netatalk restart
 </code></pre></div><h2 id="11-restart-the-pi">11. Restart the pi<a hidden class="anchor" aria-hidden="true" href="#11-restart-the-pi">#</a></h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo reboot
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sudo reboot
 </code></pre></div><h1 id="on-the-mac">On the Mac<a hidden class="anchor" aria-hidden="true" href="#on-the-mac">#</a></h1>
 <h2 id="1-allow-unsupported-devices">1. Allow unsupported devices<a hidden class="anchor" aria-hidden="true" href="#1-allow-unsupported-devices">#</a></h2>
 <p>In Terminal, make Time Machine show unsupported devices with</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes <span class="m">1</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes <span class="m">1</span>
 </code></pre></div><h2 id="2-find-the-remote-disk">2. Find the remote disk<a hidden class="anchor" aria-hidden="true" href="#2-find-the-remote-disk">#</a></h2>
 <p>Open the Finder and click on <code>raspberrypi</code> in the network interfaces</p>
 <p><img loading="lazy" src="../pi/finder_connect.png" alt=""  />

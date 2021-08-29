@@ -10,7 +10,7 @@
 <meta name="description" content="I recently created a wonderful bug.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Exception-Proof For-Comprehensions" />
 <meta property="og:description" content="I recently created a wonderful bug." />
 <meta property="og:type" content="article" />
@@ -208,7 +208,7 @@
   </header> 
   <div class="post-content"><p>I recently created a <em>wonderful</em> bug.</p>
 <p>Have a look at this code and tell me: Do you need to look out for exceptions?</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
 <span class="k">import</span> <span class="nn">scala.util.</span><span class="o">{</span><span class="nc">Failure</span><span class="o">,</span> <span class="nc">Success</span><span class="o">}</span>
 
@@ -229,21 +229,21 @@
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><p>Nahhh, probably not, because</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">{</span>
   <span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span>
 <span class="o">}</span>
 </code></pre></div><p>is the same as</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">apply</span><span class="o">(</span><span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">apply</span><span class="o">(</span><span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span><span class="o">)</span>
 </code></pre></div><p>is the same as</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span><span class="o">)</span>
 </code></pre></div><p>is the same as</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">successful</span><span class="o">(()).</span><span class="n">transform</span><span class="o">(</span><span class="k">_</span> <span class="n">map</span> <span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span><span class="o">))</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">successful</span><span class="o">(()).</span><span class="n">transform</span><span class="o">(</span><span class="k">_</span> <span class="n">map</span> <span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span><span class="o">))</span>
 </code></pre></div><p>and this <code>transform</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/concurrent/Future.scala#L257">is defined as</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">transform</span><span class="o">[</span><span class="kt">S</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">Try</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">Try</span><span class="o">[</span><span class="kt">S</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">executor</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">transform</span><span class="o">[</span><span class="kt">S</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">Try</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">Try</span><span class="o">[</span><span class="kt">S</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">executor</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span>
 </code></pre></div><p>and therefore the <code>map</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L105">is defined as</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">map</span><span class="o">[</span><span class="kt">U</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="n">U</span><span class="o">)</span><span class="k">:</span> <span class="kt">Try</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">map</span><span class="o">[</span><span class="kt">U</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="n">U</span><span class="o">)</span><span class="k">:</span> <span class="kt">Try</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span>
 </code></pre></div><p>and <code>Try</code> <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/util/Try.scala#L207-L216">has the constructor</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Try</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Try</span> <span class="o">{</span>
   <span class="cm">/** Constructs a `Try` using the by-name parameter.  This
 </span><span class="cm">   * method will ensure any non-fatal exception is caught and a
 </span><span class="cm">   * `Failure` object is returned.
@@ -257,23 +257,23 @@
 <h2 id="the-catch">The Catch<a hidden class="anchor" aria-hidden="true" href="#the-catch">#</a></h2>
 <p>While the conclusion is correct, and exceptions inside futures will be caught, <em>not all the code is inside a future!</em></p>
 <p>The <code>for</code> comprehension de-sugared is the same as</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">doFoo</span><span class="o">().</span><span class="n">flatMap</span><span class="o">(</span><span class="n">foo</span> <span class="k">=&gt;</span> <span class="n">doBar</span><span class="o">().</span><span class="n">map</span><span class="o">(</span><span class="n">bar</span> <span class="k">=&gt;</span> <span class="n">foo</span> <span class="o">+</span> <span class="n">bar</span><span class="o">))</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">doFoo</span><span class="o">().</span><span class="n">flatMap</span><span class="o">(</span><span class="n">foo</span> <span class="k">=&gt;</span> <span class="n">doBar</span><span class="o">().</span><span class="n">map</span><span class="o">(</span><span class="n">bar</span> <span class="k">=&gt;</span> <span class="n">foo</span> <span class="o">+</span> <span class="n">bar</span><span class="o">))</span>
 </code></pre></div><p>and although <code>doFoo()</code> <em>returns</em> a <code>Future</code>, there can be parts that are <em>not</em> inside that <code>Future</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">doFoo</span><span class="o">()</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">doFoo</span><span class="o">()</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
   <span class="k">throw</span> <span class="k">new</span> <span class="nc">Throwable</span>
   <span class="nc">Future</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div><p>BÄM! Now there&rsquo;s no <code>try</code> around the <code>throw</code> and the <code>Throwable</code> will bubble to the top and kill your program.</p>
 <h2 id="the-solution">The Solution<a hidden class="anchor" aria-hidden="true" href="#the-solution">#</a></h2>
 <p>Obviously, when returning a <code>Future</code> you shouldn&rsquo;t throw exceptions. But if you&rsquo;re the caller and don&rsquo;t have any influence on this, this will save you:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">myFuture</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">myFuture</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
   <span class="k">_</span>   <span class="k">&lt;-</span> <span class="nc">Future</span><span class="o">.</span><span class="n">unit</span>
   <span class="n">foo</span> <span class="k">&lt;-</span> <span class="n">doFoo</span><span class="o">()</span>
   <span class="n">bar</span> <span class="k">&lt;-</span> <span class="n">doBar</span><span class="o">()</span>
 <span class="o">}</span> <span class="k">yield</span> <span class="n">foo</span> <span class="o">+</span> <span class="n">bar</span>
 </code></pre></div><p>It&rsquo;s pretty much the same way the standard library does it: Start with something successful and <code>map</code> your way from there!</p>
 <p>De-sugared, this would be</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="n">doFoo</span><span class="o">().</span><span class="n">flatMap</span><span class="o">(</span><span class="n">foo</span> <span class="k">=&gt;</span> <span class="n">doBar</span><span class="o">().</span><span class="n">map</span><span class="o">(</span><span class="n">bar</span> <span class="k">=&gt;</span> <span class="n">foo</span> <span class="o">+</span> <span class="n">bar</span><span class="o">)))</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Future</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="n">doFoo</span><span class="o">().</span><span class="n">flatMap</span><span class="o">(</span><span class="n">foo</span> <span class="k">=&gt;</span> <span class="n">doBar</span><span class="o">().</span><span class="n">map</span><span class="o">(</span><span class="n">bar</span> <span class="k">=&gt;</span> <span class="n">foo</span> <span class="o">+</span> <span class="n">bar</span><span class="o">)))</span>
 </code></pre></div><p>What a mess, just to be on the safe side.</p>
 </div>
   <footer class="post-footer">

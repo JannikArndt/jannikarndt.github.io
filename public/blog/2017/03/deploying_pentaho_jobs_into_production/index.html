@@ -16,7 +16,7 @@ Kerberos is a bitch.
 ">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -25,7 +25,7 @@ Kerberos is a bitch.
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Deploying Pentaho jobs into Production" />
 <meta property="og:description" content="TL;DR: You don&rsquo;t. We eventually gave up on it.
 My personal lessons-learned:
@@ -252,7 +252,7 @@ Kerberos is a bitch.
 </ul>
 <h2 id="solution-2-export-and-import-via-shell-script">Solution #2: Export and Import via Shell Script<a hidden class="anchor" aria-hidden="true" href="#solution-2-export-and-import-via-shell-script">#</a></h2>
 <p>The page also suggest using shell access. This sounds a lot closer to a one-click-solution. You need to have both repositories configured in your application. These settings are stored in <code>~~/.kettle/repositories.xml</code> and matched <em>by name</em>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 <span class="nt">&lt;repositories&gt;</span>
   <span class="nt">&lt;repository&gt;</span>    
     <span class="nt">&lt;id&gt;</span>PentahoEnterpriseRepository<span class="nt">&lt;/id&gt;</span>
@@ -265,7 +265,7 @@ Kerberos is a bitch.
   <span class="nt">&lt;/repository&gt;</span>  
 <span class="nt">&lt;/repositories&gt;</span>
 </code></pre></div><p>With this configuration, you can export and import repositories via <code>pan.sh</code> and <code>import.sh</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">./pan.sh 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">./pan.sh 
   -rep<span class="o">=</span>MyRepository 
   -user<span class="o">=</span>Jannik 
   -pass<span class="o">=</span>password 
@@ -293,14 +293,14 @@ Kerberos is a bitch.
 <li>The export does not contain schedules</li>
 </ul>
 <p>Is that all? No. If you take a look at <code>pan.sh</code> you&rsquo;ll find, what it really does:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.pan.Pan -initialDir <span class="s2">&#34;</span><span class="nv">$INITIALDIR</span><span class="s2">/&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.pan.Pan -initialDir <span class="s2">&#34;</span><span class="nv">$INITIALDIR</span><span class="s2">/&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
 </code></pre></div><p>The same for <code>import.sh</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.imp.Import <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">/spoon.sh&#34;</span> -main org.pentaho.di.imp.Import <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
 </code></pre></div><p>Deployment suddenly means starting the complete Pentaho Suite — <em>twice</em>!</p>
 <h2 id="solution-3-export-and-import-via-rest">Solution #3: Export and Import via REST<a hidden class="anchor" aria-hidden="true" href="#solution-3-export-and-import-via-rest">#</a></h2>
 <p>Baffled with why I&rsquo;m not happy with manually ex- and importing, my contact at Pentaho suggested the REST API. If you&rsquo;re still unsure if cyclic dependencies are a bad thing, try reading the <a href="https://help.pentaho.com/Documentation/7.0/0R0/070">API Documentation</a>. And if you need to convince someone that generated documentation might be a bad idea, show him <a href="https://help.pentaho.com/Documentation/7.0/0R0/070/010/0A0/0O0">this overview</a>. Spoiler: both fail to mention <em>the actual address of the endpoint</em>, which is <code>http://localhost:8080/pentaho/api/repo/...</code>. Luckily, there are people writing <a href="https://anonymousbi.wordpress.com/2013/11/28/pentaho-5-restful-web-services/">useful blog entries</a>. And if you need a tool for trial-and-error, I recommend <a href="https://insomnia.rest">Insomnia</a>.
 Spending a lot of nerves, I crafted this beauty:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
 </span><span class="cp"></span>
 <span class="nv">source_url</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">target_url</span><span class="o">=</span><span class="nv">$2</span>

@@ -9,7 +9,43 @@
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 02 May 2021 14:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 Aug 2021 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>charts</title>
+      <link>https://www.jannikarndt.de/tags/charts/</link>
+      <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/charts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iOS</title>
+      <link>https://www.jannikarndt.de/tags/ios/</link>
+      <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/ios/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>swift</title>
+      <link>https://www.jannikarndt.de/tags/swift/</link>
+      <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/swift/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>swiftui</title>
+      <link>https://www.jannikarndt.de/tags/swiftui/</link>
+      <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/tags/swiftui/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>blog</title>
       <link>https://www.jannikarndt.de/tags/blog/</link>

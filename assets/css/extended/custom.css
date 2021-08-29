@@ -53,6 +53,10 @@ figure {
     margin-top: calc(2* var(--content-gap));
 }
 
+figure.right {
+    float: right;
+}
+
 @media (min-width: 720px) { /* 720 == main-width */
     figure.large {
         width: 90vw;

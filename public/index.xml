@@ -9,7 +9,32 @@
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 02 May 2021 14:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 Aug 2021 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Comparison of Chart Libraries for SwiftUI</title>
+      <link>https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/</link>
+      <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/</guid>
+      <description>&lt;p&gt;I want to add charts to my SwiftUI iOS App, &lt;a href=&#34;https://zettl.jannikarndt.de&#34;&gt;Zettl&lt;/a&gt;. For that, I am going to compare the following libraries:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ivanschuetz/SwiftCharts&#34;&gt;ivanschuetz/SwiftCharts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/denniscm190/stock-charts&#34;&gt;denniscm190/stock-charts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/spacenation/swiftui-charts&#34;&gt;spacenation/swiftui-charts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/AppPear/ChartView&#34;&gt;AppPear/ChartView&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/danielgindi/Charts/&#34;&gt;danielgindi/Charts&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--
+
+plus I will try to implement them myself, based on the following tutorials:
+
+* [Drawing Charts in SwiftUI](https://itnext.io/drawing-charts-in-swiftui-a5a87ac8cf9)
+* [Charts in SwiftUI - Part 1: Bar Chart](https://blckbirds.com/post/charts-in-swiftui-part-1-bar-chart/)
+* [Build Animated Pie and Donut Charts in SwiftUI](https://betterprogramming.pub/build-animated-pie-and-donut-charts-in-swiftui-9b74b95f8b39)
+* [Create Charts in SwiftUI (Line, Bar, Pie) - Xcode 12, Swift 5, 2020 iOS Development](https://youtu.be/F-dt0vOQ4Vg)
+--&gt;</description>
+    </item>
+    
     <item>
       <title>Generating Open Graph Images for my Blog</title>
       <link>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</link>

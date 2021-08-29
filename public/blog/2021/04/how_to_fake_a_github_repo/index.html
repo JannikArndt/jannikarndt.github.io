@@ -12,7 +12,7 @@ But, at good prank isn&rsquo;t just &ldquo;I thought this was true, but it wasn&
 Alas, one more line was necessary:">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -21,7 +21,7 @@ Alas, one more line was necessary:">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo" />
 <meta property="og:description" content="We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
 But, at good prank isn&rsquo;t just &ldquo;I thought this was true, but it wasn&rsquo;t&rdquo;. It&rsquo;s &ldquo;I though it was a joke, but for a brief moment doubted that&rdquo;. The &ldquo;Oh, no, he didn&rsquo;t&quot;-moment.
@@ -232,17 +232,17 @@ Alas, one more line was necessary:"/>
 <p><img loading="lazy" src="/blog/2021/04/rust/cargo.png" alt="the cargo.toml"  />
 </p>
 <p>I committed using the <code>--date</code> flag:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git commit -a -m <span class="s2">&#34;Initial template &amp; infra for booking3&#34;</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git commit -a -m <span class="s2">&#34;Initial template &amp; infra for booking3&#34;</span> <span class="se">\
 </span><span class="se"></span>--date<span class="o">=</span><span class="s2">&#34;7 days ago at 08:46&#34;</span> 
 </code></pre></div><p>and checked the log:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git log                                                                               
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git log                                                                               
 commit 983e4977983ee134771885f6c08881513c4faef1 <span class="o">(</span>HEAD -&gt; main<span class="o">)</span>
 Author: Jannik Arndt &lt;jannik@jannikarndt.de&gt;
 Date:   Mon Mar <span class="m">22</span> 08:46:00 <span class="m">2021</span> +0100
 
     Initial template <span class="p">&amp;</span> infra <span class="k">for</span> booking3
 </code></pre></div><p>Looks good. For a preview, I created a repo in my personal account and pushed it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git remote add origin https://github.com/JannikArndt/booking3.git
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git remote add origin https://github.com/JannikArndt/booking3.git
 $ git push --set-upstream origin main
 </code></pre></div><figure>
     <img loading="lazy" src="/blog/2021/04/rust/firstpush.png"/> 
@@ -251,7 +251,7 @@ $ git push --set-upstream origin main
 <p>TWO MINUTES AGO? How could that be?!</p>
 <p><code>git</code> has different formats for the log: <code>oneline</code>, <code>short</code>, <code>medium</code>, <code>full</code>, <code>fuller</code>, <code>reference</code>, <code>email</code> and <code>raw</code>. The default is <code>medium</code>.</p>
 <p>Only the <code>fuller</code> format shows the whole truth:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git log --pretty<span class="o">=</span>fuller
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git log --pretty<span class="o">=</span>fuller
 commit 983e4977983ee134771885f6c08881513c4faef1 <span class="o">(</span>HEAD -&gt; main, origin/main<span class="o">)</span>
 Author:     Jannik Arndt &lt;jannik@jannikarndt.de&gt;
 AuthorDate: Mon Mar <span class="m">22</span> 08:46:00 <span class="m">2021</span> +0100
@@ -263,7 +263,7 @@ CommitDate: Tue Mar <span class="m">30</span> 22:47:39 <span class="m">2021</spa
 <p>Okay, let&rsquo;s try again.</p>
 <h2 id="faking-authordate-_and_-commitdate">Faking AuthorDate <em>and</em> CommitDate<a hidden class="anchor" aria-hidden="true" href="#faking-authordate-_and_-commitdate">#</a></h2>
 <p>A quick googling later I arrived at</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-20T11:43:11&#34;</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-20T11:43:11&#34;</span> <span class="se">\
 </span><span class="se"></span>git commit -a -m <span class="s2">&#34;Initial template &amp; infra for booking3&#34;</span> <span class="se">\
 </span><span class="se"></span>--date<span class="o">=</span><span class="s2">&#34;2021-03-20T11:43:11&#34;</span>
 </code></pre></div><p>Force-push aaaannd</p>
@@ -274,7 +274,7 @@ CommitDate: Tue Mar <span class="m">30</span> 22:47:39 <span class="m">2021</spa
 <p>Nice 👍</p>
 <h2 id="faking-the-author--and-committer">Faking the Author — and Committer<a hidden class="anchor" aria-hidden="true" href="#faking-the-author--and-committer">#</a></h2>
 <p>Next I needed commits from the whole team to make this look realistic. Following the <code>ENV</code>-vars:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&#34;Cristina&#34;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&#34;cristina@moia.io&#34;</span> <span class="se">\
 </span><span class="se"></span>git commit -a -m <span class="s2">&#34;Change deployment to booking3&#34;</span> --date<span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span>
@@ -284,14 +284,14 @@ CommitDate: Tue Mar <span class="m">30</span> 22:47:39 <span class="m">2021</spa
 </figure>
 
 <p>GitHub <em>does</em> make a difference between the author and the committer. So to fully fake someone else&rsquo;s commit:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&#34;Cristina&#34;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&#34;cristina@moia.io&#34;</span> <span class="se">\
 </span><span class="se"></span>git commit -a -m <span class="s2">&#34;Change deployment to booking3&#34;</span> --date<span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span> <span class="se">\
 </span><span class="se"></span>--author<span class="o">=</span><span class="s2">&#34;Cristina &lt;cristina@moia.io&gt;&#34;</span>
 </code></pre></div><p>It worked 😎</p>
 <p>Since I had a few commits left to do and I don&rsquo;t enjoy typing, I refactored my command a little:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span><span class="p">;</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">DATE</span><span class="o">=</span><span class="s2">&#34;2021-03-23T11:43:11&#34;</span><span class="p">;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">NAME</span><span class="o">=</span><span class="s2">&#34;Cristina&#34;</span><span class="p">;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">MAIL</span><span class="o">=</span>cristina@moia.io<span class="p">;</span> <span class="se">\
 </span><span class="se"></span><span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="nv">$DATE</span> <span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="nv">$NAME</span> <span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="nv">$MAIL</span> <span class="se">\
@@ -310,7 +310,7 @@ CommitDate: Tue Mar <span class="m">30</span> 22:47:39 <span class="m">2021</spa
 </figure>
 
 <p>It hurts a little to spin up a fresh Ubuntu just for a green checkmark, but I didn&rsquo;t find a quicker way:</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deployment</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deployment</span><span class="w">
 </span><span class="w">
 </span><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
@@ -341,7 +341,7 @@ CommitDate: Tue Mar <span class="m">30</span> 22:47:39 <span class="m">2021</spa
 </figure>
 
 <p>To also have this for commits you create locally, you can sign commits via GPG</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git config --global commit.gpgsign <span class="nb">true</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git config --global commit.gpgsign <span class="nb">true</span>
 </code></pre></div><p>and <a href="https://docs.github.com/en/github/authenticating-to-github/signing-commits">tell GitHub what your public key is</a>.</p>
 <figure>
     <img loading="lazy" src="/blog/2021/04/rust/signed.png"/> 

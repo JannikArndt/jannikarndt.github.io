@@ -10,7 +10,7 @@
 <meta name="description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Akka HTTP on Heroku" />
 <meta property="og:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks." />
 <meta property="og:type" content="article" />
@@ -211,13 +211,13 @@
 <p>First, <a href="https://dashboard.heroku.com/new-app">create a new app on Heroku</a>. The easiest way to deploy something is to push it to the attached git repository, as explained on the <em>Deploy</em> page:</p>
 <p><a href="/blog/2018/10/heroku1.png"><img src="/blog/2018/10/heroku1.png" alt=""></a></p>
 <p>Next, setup you local <code>sbt</code> project. My way would be</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sbt new jannikarndt/scala.g8
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sbt new jannikarndt/scala.g8
 </code></pre></div><p>Do the <code>git</code> thing:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git init
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git init
 $ git add .
 $ git commit -m <span class="s2">&#34;Template&#34;</span>  
 </code></pre></div><p>and next, connect the repository to Heroku. If you haven&rsquo;t already, install their cli first:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ brew install heroku/brew/heroku
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ brew install heroku/brew/heroku
 ...
 $ heroku login
 heroku: Enter your login credentials
@@ -228,11 +228,11 @@ $ heroku git:remote -a yourproject
 <span class="nb">set</span> git remote heroku to https://git.heroku.com/yourproject.git
 </code></pre></div><h2 id="pluginssbt-and-buildsbt"><code>plugins.sbt</code> and <code>build.sbt</code><a hidden class="anchor" aria-hidden="true" href="#pluginssbt-and-buildsbt">#</a></h2>
 <p>To create a build that can be run on Heroku, you need the <code>sbt-native-packager</code> in your <code>project/plugins.sbt</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&#34;com.typesafe.sbt&#34;</span> <span class="o">%</span> <span class="s">&#34;sbt-native-packager&#34;</span> <span class="o">%</span> <span class="s">&#34;1.3.12&#34;</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&#34;com.typesafe.sbt&#34;</span> <span class="o">%</span> <span class="s">&#34;sbt-native-packager&#34;</span> <span class="o">%</span> <span class="s">&#34;1.3.12&#34;</span><span class="o">)</span>
 </code></pre></div><p>You also have to <em>enable</em> the plugin in the <code>build.sbt</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
 </code></pre></div><p>This enables the <code>stage</code> command. Otherwise you&rsquo;ll end up with weird errors:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">&gt;</span> <span class="n">stage</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">&gt;</span> <span class="n">stage</span>
 <span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">command</span><span class="k">:</span> <span class="kt">stage</span> <span class="o">(</span><span class="kt">similar:</span> <span class="kt">last-grep</span><span class="o">,</span> <span class="kt">set</span><span class="o">,</span> <span class="n">last</span><span class="o">)</span>
 <span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">project</span> <span class="nc">ID</span><span class="k">:</span> <span class="kt">stage</span>
 <span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">Expected</span> <span class="sc">&#39;:&#39;</span>
@@ -245,10 +245,10 @@ $ heroku git:remote -a yourproject
 <span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="n">compile</span> <span class="n">stage</span>
 <span class="o">[</span><span class="kt">error</span><span class="o">]</span>         <span class="o">^</span>
 </code></pre></div><p>Next, you need to define the <code>Main</code> class to be run. This is also done in your <code>build.sbt</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="k">:</span><span class="o">=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&#34;Main&#34;</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">mainClass</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="k">:</span><span class="o">=</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&#34;Main&#34;</span><span class="o">)</span>
 </code></pre></div><p>Note: If you use packages, you&rsquo;ll need to write the full identifier, i.e. <code>com.mycompany.myproject.Main</code> or something similar.</p>
 <p>If you get this part wrong, <code>sbt stage</code> will warn you:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">&gt;</span> <span class="n">stage</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">&gt;</span> <span class="n">stage</span>
 <span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Wrote</span> <span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.12</span><span class="o">/</span><span class="n">yourproject_2</span><span class="o">.</span><span class="mi">12</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="n">pom</span>
 <span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Packaging</span> <span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.12</span><span class="o">/</span><span class="n">yourproject_2</span><span class="o">.</span><span class="mi">12</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="n">jar</span> <span class="o">...</span>
 <span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Done</span> <span class="n">packaging</span><span class="o">.</span>
@@ -256,12 +256,12 @@ $ heroku git:remote -a yourproject
 <span class="o">[</span><span class="kt">warn</span><span class="o">]</span> <span class="nc">You</span> <span class="n">have</span> <span class="n">no</span> <span class="n">main</span> <span class="k">class</span> <span class="nc">in</span> <span class="n">your</span> <span class="n">project</span><span class="o">.</span> <span class="nc">No</span> <span class="n">start</span> <span class="n">script</span> <span class="n">will</span> <span class="n">be</span> <span class="n">generated</span><span class="o">.</span>
 <span class="o">[</span><span class="kt">success</span><span class="o">]</span> <span class="nc">Total</span> <span class="n">time</span><span class="k">:</span> <span class="err">0</span> <span class="kt">s</span><span class="o">,</span> <span class="n">completed</span> <span class="nc">Oct</span> <span class="mi">27</span><span class="o">,</span> <span class="mi">2018</span> <span class="mi">6</span><span class="k">:</span><span class="err">13</span><span class="kt">:</span><span class="err">13</span> <span class="kt">PM</span>
 </code></pre></div><p>but on Heroku it will actually crash the app:</p>
-<div class="highlight"><pre class="chroma"><code class="language-apache" data-lang="apache"><span class="err">heroku[web</span>.<span class="err">1]:</span> <span class="nb">State</span> changed from starting to crashed
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apache" data-lang="apache"><span class="err">heroku[web</span>.<span class="err">1]:</span> <span class="nb">State</span> changed from starting to crashed
 <span class="err">app[web</span>.<span class="err">1]:</span> <span class="err">Error:</span> <span class="nb">Main</span> method not found in class Main, please define the main method as:
 <span class="err">app[web</span>.<span class="err">1]:</span> <span class="nb">public</span> static void main(String[] args)
 <span class="err">app[web</span>.<span class="err">1]:</span> <span class="nb">or</span> a JavaFX application class must extend javafx.application.Application
 </code></pre></div><p>The final <code>build.sbt</code> should look something like this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;yourproject&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;yourproject&#34;</span>
 <span class="n">scalaVersion</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;2.12.7&#34;</span>
 <span class="n">version</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;1.0&#34;</span>
 <span class="n">maintainer</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;you&#34;</span>
@@ -275,10 +275,10 @@ $ heroku git:remote -a yourproject
 <span class="o">)</span>
 </code></pre></div><h2 id="mainscala"><code>Main.scala</code><a hidden class="anchor" aria-hidden="true" href="#mainscala">#</a></h2>
 <p>Now that you&rsquo;ve managed to create a build and reference the correct <code>mainClass</code>, there&rsquo;s only two caveats left: Binding the server. First, on Heroku you can <strong>not</strong> bind to <code>localhost</code>, you have to write <code>0.0.0.0</code> instead. Secondly, the port changes with every start of the app and is given as a parameter (<code>-Dhttp.port=36803</code>) and environment variable (<code>$PORT</code>). The code for this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&#34;PORT&#34;</span><span class="o">,</span> <span class="s">&#34;8080&#34;</span><span class="o">).</span><span class="n">toInt</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&#34;PORT&#34;</span><span class="o">,</span> <span class="s">&#34;8080&#34;</span><span class="o">).</span><span class="n">toInt</span>
 <span class="nc">WebServer</span><span class="o">.</span><span class="n">startServer</span><span class="o">(</span><span class="s">&#34;0.0.0.0&#34;</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span>
 </code></pre></div><p>A complete example for a WebServer would be</p>
-<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.http.scaladsl.server._</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.http.scaladsl.server._</span>
 
 <span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
@@ -299,10 +299,10 @@ $ heroku git:remote -a yourproject
 
 </code></pre></div><h2 id="deploy">Deploy<a hidden class="anchor" aria-hidden="true" href="#deploy">#</a></h2>
 <p>After you tested locally running</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sbt compile stage
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ sbt compile stage
 </code></pre></div><p>(because that&rsquo;s exactly the command that will be run on Heroku&rsquo;s server) and maybe <code>sbt run</code> or <code>sbt reStart</code>, you can finally deploy.</p>
 <p>Since you already connected our git to the remote repository, all you have to do is <code>push</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git push --set-upstream heroku master
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git push --set-upstream heroku master
 Enumerating objects: 13, <span class="k">done</span>.
 Counting objects: 100% <span class="o">(</span>13/13<span class="o">)</span>, <span class="k">done</span>.
 Delta compression using up to <span class="m">4</span> threads

@@ -12,7 +12,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
  create a JIRA account and then create a ticket for a new project.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ec9f30cd7f1a33dbb27bc3c5d3c4b0eef3204877aebad99a4b4479fbbb52e9ad.css" integrity="sha256-7J8wzX8aM9uye8PF08Sw7vMgSHeuutmaS0R5&#43;7tS6a0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.59dbb8b5b5de2fd74d89343862b2dcb09b1954542d0e38cdb29892073592396d.css" integrity="sha256-Wdu4tbXeL9dNiTQ4YrLcsJsZVFQtDjjNspiSBzWSOW0=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -21,7 +21,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.82.1" />
+<meta name="generator" content="Hugo 0.87.0" />
 <meta property="og:title" content="Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)" />
 <meta property="og:description" content="If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
@@ -237,7 +237,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <ol>
 <li>add the snapshot repository to the <code>distributionManagement</code> section of your <code>pom.xml</code>:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;distributionManagement&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;distributionManagement&gt;</span>
       <span class="nt">&lt;snapshotRepository&gt;</span>
         <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
         <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
@@ -246,7 +246,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 </code></pre></div><ol start="2">
 <li>add the <a href="https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin"><code>nexus-staging-maven-plugin</code></a> to your <code>pom.xml</code>:</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;build&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;build&gt;</span>
       <span class="nt">&lt;plugins&gt;</span>
         <span class="nt">&lt;plugin&gt;</span>
           <span class="nt">&lt;groupId&gt;</span>org.sonatype.plugins<span class="nt">&lt;/groupId&gt;</span>
@@ -265,7 +265,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 </code></pre></div><ol start="3">
 <li>add your credentials to your <code>settings.xml</code> (on macOS in <code>~/.m2/settings.xml</code>):</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;settings&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;settings&gt;</span>
       <span class="nt">&lt;servers&gt;</span>
         <span class="nt">&lt;server&gt;</span>
           <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
@@ -280,7 +280,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <ol start="4">
 <li>Make sure the version in your <code>pom.xml</code> ends in <code>-SNAPSHOT</code> and then</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$     mvn clean deploy
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$     mvn clean deploy
 </code></pre></div><p>Et voilà! A few seconds later your snapshot is deployed. Now let&rsquo;s get to the hard part…</p>
 <h2 id="step-3-deploy-your-first-release">Step 3: Deploy your first Release<a hidden class="anchor" aria-hidden="true" href="#step-3-deploy-your-first-release">#</a></h2>
 <p>The <a href="http://central.sonatype.org/pages/requirements.html">requirements</a> for a release are a bit tougher than those for a snapshot.</p>
@@ -290,7 +290,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <li>The <code>pom.xml</code> may not contain any snapshot-dependencies</li>
 <li>The <code>pom.xml</code> must contain the <code>name</code>, <code>description</code>, <code>url</code>, <code>license</code>, <code>developer</code> and <code>scm</code> tags, for example:</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;name&gt;</span>DataMover<span class="nt">&lt;/name&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;name&gt;</span>DataMover<span class="nt">&lt;/name&gt;</span>
     <span class="nt">&lt;description&gt;</span>Out of the box scheduling, logging, monitoring and data governance.<span class="nt">&lt;/description&gt;</span>
     <span class="nt">&lt;url&gt;</span>https://github.com/JannikArndt/DataMover<span class="nt">&lt;/url&gt;</span>
     <span class="nt">&lt;licenses&gt;</span>
@@ -315,7 +315,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 </code></pre></div><ul>
 <li>And you may need the staging repository in the <code>distributionManagement</code> section:</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;distributionManagement&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;distributionManagement&gt;</span>
     <span class="nt">&lt;snapshotRepository&gt;</span>
         <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
         <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
@@ -332,7 +332,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <p>If, for some reason (for example, license issue or it&rsquo;s a Scala project), you can not provide <code>-sources.jar</code> or <code>-javadoc.jar</code> , please make fake <code>-sources.jar</code> or <code>-javadoc.jar</code> with simple README inside to pass the checking. We do not want to disable the rules because some people tend to skip it if they have an option and we want to keep the quality of the user experience as high as possible.</p>
 </blockquote>
 <p>However, being a scala dev you probably don&rsquo;t fancy faking anything. <a href="http://davidb.github.io/scala-maven-plugin/example_doc.html"><code>scala-maven-plugin</code></a> to the rescue! In the <code>build</code> section of your <code>pom.xml</code>, you probably already have used the <code>scala-maven-plugin</code> to compile your project. Extend it with the following executions:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
     <span class="c">&lt;!-- https://mvnrepository.com/artifact/net.alchim31.maven/scala-maven-plugin --&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>net.alchim31.maven<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>scala-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
@@ -370,7 +370,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <p><small>(Carl Latann, unlucky musician only know for being cited by Erich “Fowler” Honecker)</small></p>
 </blockquote>
 <p>First things first: Add the <a href="http://maven.apache.org/plugins/maven-gpg-plugin/"><code>maven-gpg-plugin</code></a> to your <code>pom.xml</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
   <span class="c">&lt;!-- GPG signing --&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>maven-gpg-plugin<span class="nt">&lt;/artifactId&gt;</span>
@@ -387,7 +387,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <span class="nt">&lt;/plugin&gt;</span>
 </code></pre></div><p>This is supposedly running in the verify phase of the <a href="http://maven.apache.org/ref/3.5.0/maven-core/lifecycles.html#default_Lifecycle">maven lifecycle</a>. <a href="http://maven.apache.org/ref/3.5.0/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging">Or not</a>. It means, though, that you <em>can</em> invoke <code>mvn gpg:sign</code> to create the needed <code>.asc</code> files.</p>
 <p>This assumes that you have <a href="http://brewformulas.org/gnupg2">gpg installed</a> and the <code>gpg-agent</code> is running. Also, you need to provide the password to your key —devil or deep blue sea— either as a console argument or in plain text in your <code>settings.xml</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;profile&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;profile&gt;</span>
     <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
     <span class="nt">&lt;activation&gt;</span>
         <span class="nt">&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;</span>
@@ -401,7 +401,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <p>Well, this was bad. Let&rsquo;s go for the big finale…</p>
 <h3 id="step-3e-actually-deploy">Step 3e: Actually deploy<a hidden class="anchor" aria-hidden="true" href="#step-3e-actually-deploy">#</a></h3>
 <p>Okay, <em>usually</em> a <code>mvn deploy</code> goes through the complete lifecycle and does all the required steps, but we&rsquo;ve added a few non-standard steps, so…well…this works:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">mvn clean package source:jar gpg:sign install:install deploy:deploy
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mvn clean package source:jar gpg:sign install:install deploy:deploy
 </code></pre></div><p>But wait, there&rsquo;s more!</p>
 <h3 id="step-3f-release">Step 3f: Release<a hidden class="anchor" aria-hidden="true" href="#step-3f-release">#</a></h3>
 <p>Head over to <a href="https://oss.sonatype.org/#stagingRepositories">https://oss.sonatype.org/#stagingRepositories</a> and (if your prefix starts with anything after &lsquo;c&rsquo;) scroll to the bottom, where you find <em>your repository</em>!</p>
