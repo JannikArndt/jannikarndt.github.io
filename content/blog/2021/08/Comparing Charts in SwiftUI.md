@@ -228,9 +228,9 @@ My needs are
 
 ### Code
 
-* Bar Chart: https://github.com/JannikArndt/SwiftUI-Charts-Playground/blob/main/ChartsPlayground/Charts/ChartsBarChart.swift
-* Line Chart: https://github.com/JannikArndt/SwiftUI-Charts-Playground/blob/main/ChartsPlayground/Charts/ChartsLineChart.swift
-* Pie Chart: https://github.com/JannikArndt/SwiftUI-Charts-Playground/blob/main/ChartsPlayground/Charts/ChartsPieChart.swift
+* [Bar Chart](https://github.com/JannikArndt/SwiftUI-Charts-Playground/blob/main/ChartsPlayground/Charts/ChartsBarChart.swift)
+* [Line Chart](https://github.com/JannikArndt/SwiftUI-Charts-Playground/blob/main/ChartsPlayground/Charts/ChartsLineChart.swift)
+* [Pie Chart](https://github.com/JannikArndt/SwiftUI-Charts-Playground/blob/main/ChartsPlayground/Charts/ChartsPieChart.swift)
 
 {{< figure src="/blog/2021/08/charts/charts-line.PNG" width="200px" class="right" >}}
 
