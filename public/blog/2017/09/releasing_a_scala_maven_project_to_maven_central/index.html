@@ -142,6 +142,10 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     }
 
 </script>
+<script>
+  var themeColor = getComputedStyle(document.body).getPropertyValue('--primary');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor)
+</script>
 
 <header class="header">
     <nav class="nav">

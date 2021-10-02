@@ -145,6 +145,10 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
     }
 
 </script>
+<script>
+  var themeColor = getComputedStyle(document.body).getPropertyValue('--primary');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor)
+</script>
 
 <header class="header">
     <nav class="nav">

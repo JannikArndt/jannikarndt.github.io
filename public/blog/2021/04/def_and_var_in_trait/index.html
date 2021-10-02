@@ -157,6 +157,10 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
     }
 
 </script>
+<script>
+  var themeColor = getComputedStyle(document.body).getPropertyValue('--primary');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor)
+</script>
 
 <header class="header">
     <nav class="nav">
