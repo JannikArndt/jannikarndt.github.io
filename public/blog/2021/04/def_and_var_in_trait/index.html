@@ -26,7 +26,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.87.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 <meta property="og:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0" />
 <meta property="og:description" content="Scala traits should define defs, because
 
@@ -484,14 +484,14 @@ result of Main.scala after MegaPhase<span class="o">{</span>dropOuterAccessors, 
 <li>Scala 2.12 and 2.13 result in the <em>exact</em> same Bytecode</li>
 <li>Scala 3 places the constructor first</li>
 <li>The <code>MyTrait$_setter_$id3_$eq(int)</code> actually contains some setting-code now!
-<pre><code>public void MyTrait$_setter_$id3_$eq(int);
+<pre tabindex="0"><code>public void MyTrait$_setter_$id3_$eq(int);
   Code:
      0: aload_0
      1: iload_1
      2: putfield      #25                 // Field id3:I
      5: return
 </code></pre><p>as compared to</p>
-<pre><code>public void MyTrait$_setter_$id3_$eq(int);
+<pre tabindex="0"><code>public void MyTrait$_setter_$id3_$eq(int);
   Code:
      0: return
 </code></pre></li>

@@ -19,7 +19,7 @@
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.87.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 <meta property="og:title" content="Using scalap, javap and the scala compiler to understand the journey from code to bytecode" />
 <meta property="og:description" content="Do you know what happens after you compile? Let&rsquo;s take a look at what the Scala compiler tells us, and what scalap and javap can reveal about .class files." />
 <meta property="og:type" content="article" />
@@ -244,7 +244,7 @@
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><p>run</p>
-<pre><code class="language-shellsession" data-lang="shellsession">$ sbt package
+<pre tabindex="0"><code class="language-shellsession" data-lang="shellsession">$ sbt package
 </code></pre><p>The result is in <code>target/scala-2.13/scala-start_2.13-1.jar</code>. You can look at/unpack the contents via</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ jar -xvf target/scala-2.13/scala-start_2.13-1.jar             
  inflated: META-INF/MANIFEST.MF
@@ -449,9 +449,9 @@ Caused by: java.lang.ClassNotFoundException: scala.Predef$
 	at java.base/jdk.internal.loader.ClassLoaders<span class="nv">$AppClassLoader</span>.loadClass<span class="o">(</span>ClassLoaders.java:168<span class="o">)</span>
 	at java.base/java.lang.ClassLoader.loadClass<span class="o">(</span>ClassLoader.java:522<span class="o">)</span>
 </code></pre></div><p>=&gt; your <code>jar</code> is missing the <code>scala-library</code>. Either package it (using <code>sbt stage</code> for example) or add it to the classpath. Either way you probably want to use</p>
-<pre><code>$ java -cp &quot;path/to/scala/lib/*:path/to/your/jar&quot; NameOfTheMainClass
+<pre tabindex="0"><code>$ java -cp &quot;path/to/scala/lib/*:path/to/your/jar&quot; NameOfTheMainClass
 </code></pre><p>for example</p>
-<pre><code>$ java -cp &quot;/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar&quot; Main
+<pre tabindex="0"><code>$ java -cp &quot;/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar&quot; Main
 </code></pre><h3 id="noclassdeffounderror-scalafunction0">NoClassDefFoundError: scala/Function0<a hidden class="anchor" aria-hidden="true" href="#noclassdeffounderror-scalafunction0">#</a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">Error: Unable to initialize main class Main
 Caused by: java.lang.NoClassDefFoundError: scala/Function0
