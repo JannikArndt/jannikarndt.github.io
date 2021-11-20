@@ -29,6 +29,7 @@ params:
     author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
     images: ["jannik.jpg"]
     defaultContentLanguage: en
+    hideFooter: true
 
 
     defaultTheme: auto # dark, light
