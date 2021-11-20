@@ -10,6 +10,9 @@ buildExpired: false
 pluralizelisttitles: false
 
 minify:
+    disableCSS: true
+    disableHTML: true
+    disableJS: true
     disableXML: true
     minifyOutput: false
 
