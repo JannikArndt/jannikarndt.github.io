@@ -36,6 +36,7 @@ params:
     #disableSpecial1stPost: false
     ShowPostNavLinks: false # prev/next links at bottom
     ShowBreadCrumbs: true
+    disableScrollToTop: true
     comments: false
     hidemeta: false
     showtoc: false
