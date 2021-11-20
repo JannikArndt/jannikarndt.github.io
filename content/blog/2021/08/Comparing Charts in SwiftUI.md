@@ -77,7 +77,7 @@ My needs are
 * Examples are very complex
 
 {{< rawhtml >}}
-<div style="clear: right;"></div>
+<div class="clearright"></div>
 {{< /rawhtml >}}
 
 ------
@@ -122,7 +122,7 @@ My needs are
 
 
 {{< rawhtml >}}
-<div style="clear: right;"></div>
+<div class="clearright"></div>
 {{< /rawhtml >}}
 
 
@@ -162,7 +162,7 @@ My needs are
 
 
 {{< rawhtml >}}
-<div style="clear: right;"></div>
+<div class="clearright"></div>
 {{< /rawhtml >}}
 
 
@@ -202,7 +202,7 @@ My needs are
 {{< figure src="/blog/2021/08/charts/apppear-pie.PNG" width="200px" >}}
 
 {{< rawhtml >}}
-<div style="clear: right;"></div>
+<div class="clearright"></div>
 {{< /rawhtml >}}
 
 
@@ -244,7 +244,7 @@ My needs are
 {{< figure src="/blog/2021/08/charts/charts-pie.PNG" width="200px" >}}
 
 {{< rawhtml >}}
-<div style="clear: right;"></div>
+<div class="clearright"></div>
 {{< /rawhtml >}}
 
 

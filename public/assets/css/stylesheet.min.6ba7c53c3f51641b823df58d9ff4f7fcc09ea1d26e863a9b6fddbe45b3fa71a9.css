@@ -1249,6 +1249,10 @@ summary {
     cursor: pointer !important;
 }
 
+.clearright {
+    clear: right;
+}
+
 :root {
     --gap: 24px;
     --content-gap: 20px;

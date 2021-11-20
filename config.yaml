@@ -22,6 +22,16 @@ outputs:
         - RSS
         - JSON
 
+server:
+  headers:
+  - for: /**
+    values:
+      Content-Security-Policy: "default-src 'self' http://localhost:1313 ws://localhost:1313/livereload; script-src 'self' 'sha256-pYERp1GFTQcj76yK8huGHJtriZpv9dsW7AdV7O+VrcQ=' 'sha256-JVVDOwRpMQvCZqoDwpZ1OUJ81UoJpBxumeEHC89A9PU=' 'sha256-RK7LdSEhpwvmYMT+Jix2uBLUXxlWBpHbN6lasgC6hv8='; style-src 'self';"
+      Referrer-Policy: strict-origin-when-cross-origin
+      X-Content-Type-Options: nosniff
+      X-Frame-Options: DENY
+      X-XSS-Protection: 1; mode=block
+
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     title: "Jannik Arndt"
@@ -29,6 +39,7 @@ params:
     author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
     images: ["jannik.jpg"]
     defaultContentLanguage: en
+    disableFingerprinting: false
     hideFooter: true
 
 
