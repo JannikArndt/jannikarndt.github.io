@@ -10,9 +10,9 @@
 <meta name="description" content="search">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/search/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d43bed70851b016858e3e907db86e300f1fc0d0d38e16696f0858e9b0ab7600e.css" integrity="sha256-1DvtcIUbAWhY4&#43;kH24bjAPH8DQ044WaW8IWOmwq3YA4=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.2ae9ce9470f3fa6da3dacdf211e68409ddee3acf8935a91aae29d5c7fbb840e3.css" integrity="sha256-KunOlHDz&#43;m2j2s3yEeaECd3uOs&#43;JNakarinVx/u4QOM=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image"><link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
-<script defer crossorigin="anonymous" src="/assets/js/search.min.9209d7aec9f9b1f1cd7d32c3e3c554cbdaaeae3e0b0a78c91fbcba1a0fcbc4dd.js" integrity="sha256-kgnXrsn5sfHNfTLD48VUy9qurj4LCnjJH7y6Gg/LxN0="></script>
+<script defer crossorigin="anonymous" src="/assets/js/search.min.50eb6ed51a71c898c60db4e739f1376443cd4df52821f521236cac80b9e4f263.js" integrity="sha256-UOtu1RpxyJjGDbTnOfE3ZEPNTfUoIfUhI2ysgLnk8mM="></script>
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -202,7 +202,8 @@
 </header>
 
 <div id="searchbox">
-    <input id="searchInput" autofocus placeholder="Search ↵" aria-label="search" type="search">
+    <input id="searchInput" autofocus placeholder="Search ↵"
+        aria-label="search" type="search" autocomplete="off">
     <ul id="searchResults" aria-label="search results"></ul>
 </div>
     </main>
@@ -218,9 +219,11 @@
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

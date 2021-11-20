@@ -13,7 +13,7 @@ https://www.terraform.io/intro/getting-started/install.html
 ">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d43bed70851b016858e3e907db86e300f1fc0d0d38e16696f0858e9b0ab7600e.css" integrity="sha256-1DvtcIUbAWhY4&#43;kH24bjAPH8DQ044WaW8IWOmwq3YA4=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.2ae9ce9470f3fa6da3dacdf211e68409ddee3acf8935a91aae29d5c7fbb840e3.css" integrity="sha256-KunOlHDz&#43;m2j2s3yEeaECd3uOs&#43;JNakarinVx/u4QOM=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -211,7 +211,8 @@ https://www.terraform.io/intro/getting-started/install.html
     <h1 class="post-title">
       VERY Quick Start: Terraform
     </h1>
-    <div class="post-meta">August 6, 2017&nbsp;·&nbsp;Jannik Arndt
+    <div class="post-meta"><span title='2017-08-06 17:20:00 +0100 +0100'>August 6, 2017</span>&nbsp;·&nbsp;Jannik Arndt
+
 </div>
   </header> 
   <div class="post-content"><blockquote>
@@ -471,9 +472,11 @@ Outputs:
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

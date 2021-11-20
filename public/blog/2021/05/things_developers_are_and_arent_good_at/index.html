@@ -10,7 +10,7 @@
 <meta name="description" content="…in my experience.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d43bed70851b016858e3e907db86e300f1fc0d0d38e16696f0858e9b0ab7600e.css" integrity="sha256-1DvtcIUbAWhY4&#43;kH24bjAPH8DQ044WaW8IWOmwq3YA4=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.2ae9ce9470f3fa6da3dacdf211e68409ddee3acf8935a91aae29d5c7fbb840e3.css" integrity="sha256-KunOlHDz&#43;m2j2s3yEeaECd3uOs&#43;JNakarinVx/u4QOM=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -202,7 +202,8 @@
     <h1 class="post-title">
       Things Developers are and aren&#39;t Good at
     </h1>
-    <div class="post-meta">May 1, 2021&nbsp;·&nbsp;Jannik Arndt
+    <div class="post-meta"><span title='2021-05-01 13:00:00 +0100 +0100'>May 1, 2021</span>&nbsp;·&nbsp;Jannik Arndt
+
 </div>
   </header> 
   <div class="post-content"><p>…in <em>my</em> experience.</p>
@@ -260,9 +261,11 @@ And we&rsquo;re not good at expressing <em>what exactly</em> a thing solves.</p>
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -10,7 +10,7 @@
 <meta name="description" content="Product-, Data- and Software Engineer from Hamburg, Germany">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/tags/ios/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d43bed70851b016858e3e907db86e300f1fc0d0d38e16696f0858e9b0ab7600e.css" integrity="sha256-1DvtcIUbAWhY4&#43;kH24bjAPH8DQ044WaW8IWOmwq3YA4=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.2ae9ce9470f3fa6da3dacdf211e68409ddee3acf8935a91aae29d5c7fbb840e3.css" integrity="sha256-KunOlHDz&#43;m2j2s3yEeaECd3uOs&#43;JNakarinVx/u4QOM=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -153,7 +153,7 @@
     <p>I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:
  ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts  ...</p>
   </section>
-  <footer class="entry-footer">August 29, 2021&nbsp;·&nbsp;Jannik Arndt</footer>
+  <footer class="entry-footer"><span title='2021-08-29 11:30:00 +0200 CEST'>August 29, 2021</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Comparison of Chart Libraries for SwiftUI" href="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/"></a>
 </article>
     </main>
@@ -169,9 +169,11 @@
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -38,8 +38,21 @@ var e,t;e=this,t=function(){"use strict";function e(t){return(e="function"==type
                 "content"
               ]
             };
-            if (fuseOpts)
-              options = fuseOpts;
+            if (fuseOpts) {
+              options = {
+                isCaseSensitive: fuseOpts.iscasesensitive ? fuseOpts.iscasesensitive : false,
+                includeScore: fuseOpts.includescore ? fuseOpts.includescore : false,
+                includeMatches: fuseOpts.includematches ? fuseOpts.includematches : false,
+                minMatchCharLength: fuseOpts.minmatchcharlength ? fuseOpts.minmatchcharlength : 1,
+                shouldSort: fuseOpts.shouldsort ? fuseOpts.shouldsort : true,
+                findAllMatches: fuseOpts.findallmatches ? fuseOpts.findallmatches : false,
+                keys: fuseOpts.keys ? fuseOpts.keys : ["title", "permalink", "summary", "content"],
+                location: fuseOpts.location ? fuseOpts.location : 0,
+                threshold: fuseOpts.threshold ? fuseOpts.threshold : 0.4,
+                distance: fuseOpts.distance ? fuseOpts.distance : 100,
+                ignoreLocation: fuseOpts.ignorelocation ? fuseOpts.ignorelocation : true
+              };
+            }
             fuse = new Fuse(data, options);
           }
         } else {

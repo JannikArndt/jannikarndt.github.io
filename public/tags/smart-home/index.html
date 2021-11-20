@@ -10,7 +10,7 @@
 <meta name="description" content="Product-, Data- and Software Engineer from Hamburg, Germany">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/tags/smart-home/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d43bed70851b016858e3e907db86e300f1fc0d0d38e16696f0858e9b0ab7600e.css" integrity="sha256-1DvtcIUbAWhY4&#43;kH24bjAPH8DQ044WaW8IWOmwq3YA4=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.2ae9ce9470f3fa6da3dacdf211e68409ddee3acf8935a91aae29d5c7fbb840e3.css" integrity="sha256-KunOlHDz&#43;m2j2s3yEeaECd3uOs&#43;JNakarinVx/u4QOM=" rel="preload stylesheet" as="style">
 <link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -154,7 +154,7 @@
  a casing with wifi and great connectors and a custom OS and an app to control the devices.  Unfortunately, the second addition also means that all communication goes through Sonoff’s servers. Here’s how to get rid of that. Without soldering or connecting anything.
 ...</p>
   </section>
-  <footer class="entry-footer">January 13, 2018&nbsp;·&nbsp;Jannik Arndt</footer>
+  <footer class="entry-footer"><span title='2018-01-13 19:00:00 +0100 CET'>January 13, 2018</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to How to install Tasmota on a Sonoff device without opening it" href="https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/"></a>
 </article>
 
@@ -167,7 +167,7 @@
     <p>“Hey Siri, turn on the bedroom lights!” I want that. Here’s how I did it:
  I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch). I bought a raspberry pi (33€). I installed an MQTT broker and homebridge on the pi. ...</p>
   </section>
-  <footer class="entry-footer">January 13, 2018&nbsp;·&nbsp;Jannik Arndt</footer>
+  <footer class="entry-footer"><span title='2018-01-13 12:40:00 +0100 CET'>January 13, 2018</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to How to use a Raspberry Pi 3 with Apple Home" href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/"></a>
 </article>
     </main>
@@ -183,9 +183,11 @@
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
