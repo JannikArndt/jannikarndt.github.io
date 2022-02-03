@@ -29,7 +29,7 @@ Now you notice that you have a crucial area covered by _one_ person, and suddenl
 At this point you grow from ~20 to ~50 or maybe even ~100 people, and all seems fine. Along the way you have to split up teams because they grow too big. But splits are imperfect, you don't have two of _every_ role, so you need to hire more people for the new team. This works for a while. 
 But along the way, you will notice that people aren't all the same. That's a good thing, mostly, but not always. Some people find fullfillment in their job, while others have a private life. Some are heavy talkers in meetings, while others would rather focus on few, precise words. Some people change. Some people weren't that into the job in the first place. Some people were hired very early and don't really fit into what the company has turned out to be.
 
-At first, the teams themselves notice these differences. Their mostly fine, because individuals make up for their weaknesses with other qualities, and inside a team you usually know these trade-offs.
+At first, the teams themselves notice these differences. They're mostly fine, because individuals make up for their weaknesses with other qualities, and inside a team you usually know these trade-offs.
 
 Next, management will start to notice. But they have a different perspective. At the scale of the company, small effects sum up. You need to tackle that.
 
