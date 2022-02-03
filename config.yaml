@@ -41,6 +41,7 @@ params:
     defaultContentLanguage: en
     disableFingerprinting: false
     hideFooter: true
+    disableHugoGeneratorInject: true
 
 
     defaultTheme: auto # dark, light
