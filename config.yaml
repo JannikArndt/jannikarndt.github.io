@@ -8,6 +8,7 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 pluralizelisttitles: false
+disableHugoGeneratorInject: false
 
 minify:
     disableCSS: true
@@ -41,7 +42,6 @@ params:
     defaultContentLanguage: en
     disableFingerprinting: false
     hideFooter: true
-    disableHugoGeneratorInject: true
 
 
     defaultTheme: auto # dark, light
