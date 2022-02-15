@@ -35,7 +35,7 @@ server:
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     title: "Jannik Arndt"
-    description: "Product-, Data- and Software Engineer from Hamburg, Germany"
+    description: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
     author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
     images: ["jannik.jpg"]
     defaultContentLanguage: en
@@ -76,7 +76,7 @@ params:
     # home-info mode
     homeInfoParams:
         Title: "Jannik Arndt"
-        Content: Scala Dev @ MOIA
+        Content: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
 
     socialIcons:
         - name: twitter
