@@ -8,9 +8,6 @@ slug: "why_growth_is_so_bad"
 toc: false
 draft: false
 comments: false
-cover:
-  image: "opengraphimages/Generating Open Graph Images for my Blog.png"
-
 ---
 
 

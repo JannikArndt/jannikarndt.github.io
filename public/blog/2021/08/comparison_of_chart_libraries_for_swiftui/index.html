@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Comparison of Chart Libraries for SwiftUI | Jannik Arndt</title>
-<meta name="keywords" content="Blog, SwiftUI, iOS" />
+<meta name="keywords" content="Blog, SwiftUI, iOS">
 <meta name="description" content="I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:
 
 ivanschuetz/SwiftCharts
@@ -17,9 +17,8 @@ danielgindi/Charts
 
 ">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -74,13 +73,13 @@ danielgindi/Charts
 
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/" />
-<meta property="og:image" content="https://www.jannikarndt.de/opengraphimages/Generating%20Open%20Graph%20Images%20for%20my%20Blog.png" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2021-08-29T11:30:00&#43;02:00" />
-<meta property="article:modified_time" content="2021-08-29T11:30:00&#43;02:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-08-29T11:30:00+02:00" />
+<meta property="article:modified_time" content="2021-08-29T11:30:00+02:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://www.jannikarndt.de/opengraphimages/Generating%20Open%20Graph%20Images%20for%20my%20Blog.png" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
+
 <meta name="twitter:title" content="Comparison of Chart Libraries for SwiftUI"/>
 <meta name="twitter:description" content="I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:
 
@@ -119,14 +118,14 @@ danielgindi/Charts
   "@type": "BlogPosting",
   "headline": "Comparison of Chart Libraries for SwiftUI",
   "name": "Comparison of Chart Libraries for SwiftUI",
-  "description": "I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:\n ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts  ",
+  "description": "I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:\nivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts ",
   "keywords": [
     "Blog", "SwiftUI", "iOS"
   ],
-  "articleBody": "I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:\n ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts  Requirements My needs are\n bar charts for categorial data. Extra: I need images as labels. line charts for time-scale data. With multiple lines. Bonus points if I don’t have to care about the time distribution, i.e. can enter timestamps and they are spread correctly. pie charts for relative comparisons. Here, the magic lies in good annotations.    SwiftCharts   URL: https://github.com/ivanschuetz/SwiftCharts License: Apache 2 Maturity:  Created May 2015 ✅ ~2 backup contributors, 32 in total Last big changes 2019 😬 Last commit to main: 8 days ago 👍    Supported Chart Types  Bar Charts ✅ Line Charts ✅ (didn’t check) Donut Charts ✅ (didn’t check) more  Code  Bar Chart  Result  integration of UIView in SwiftUI sucks Docs don’t help a lot Examples are very complex    Stock-Charts   URL: https://github.com/denniscm190/stock-charts License: MIT Maturity:  Created April 2021 ⛲ Single-dev-project 👨‍💻 Ongoing development ✅ Last commit to main: 20 days ago 👍 Demo App: https://github.com/denniscm190/trades-demo    Supported Chart Types  Bar Charts = as “Capsule” Charts, for one value only ❌ Line Charts: without axis, only for this one specific use-case 🆗 Pie Charts: ❌  Code  Bar Chart Line Chart   Result  Super easy to integrate But very limited to this one use case The code offers some good inspiration to base upon    SwiftUI Charts   URL: https://github.com/spacenation/swiftui-charts License: MIT Maturity  Created Nov 2019 ✅ Single-dev-project 👨‍💻 Last big change in Oct 2020 😬 2 open PRs   Bug: Data is ordered in reverse Naming conflict: This package uses the same name as (the much older) https://github.com/danielgindi/Charts. To import both, I forked it to https://github.com/JannikArndt/swiftui-charts, changed the name and cherry-picked the open PRs.  Supported Chart Types  Bar Charts, also stacked, not no axis or labels 😬 Very simple line charts 🆗 No pie charts ❌   Code  Bar Chart Line Chart  Result  Easy to integrate But quite buggy No axis-options    AppPear/ChartView   URL: https://github.com/AppPear/ChartView License: MIT Maturity  Created continuously between Jun 2019 and today ✅ Version 2 is currently in beta Only small contributions from others    Supported Chart Types  Bar Charts ✅ (no axis though) Line Charts ✅ (with multiple lines, no axis) Pie Charts ✅ (no labels)  Code  Bar Chart Line Chart Pie Chart   Result  Nice library for that particular style, but cannot be changed to view axis / labels / more things      danielgindi/Charts   URL: https://github.com/danielgindi/Charts License: Apache 2 Maturity  Created Mar 2015 🕸 Ongoing maintenance by second dev 4 devs with larger contributions    Supported Chart Types  Bar Charts ✅ (even horizontal, with every option you can think of) Line Charts ✅ Pie Charts ✅  Code  Bar Chart Line Chart Pie Chart   Result  By far the most comprehensive library No docs, references the Android docs, but good amount of demos Many third-party tutorials, for example this one that explains the integration into SwiftUI The amount of options is a little overwhelming, and the defaults are insane, so you have to go through the options.      Conclusion I was close to building my own version of the required charts, until I tried danielgindi/Charts. While it is a heavyweight, I will give it a shot.\nYou can try out the demo-app with all five libraries here: https://github.com/JannikArndt/SwiftUI-Charts-Playground.\n ",
+  "articleBody": "I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:\nivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts Requirements My needs are\nbar charts for categorial data. Extra: I need images as labels. line charts for time-scale data. With multiple lines. Bonus points if I don’t have to care about the time distribution, i.e. can enter timestamps and they are spread correctly. pie charts for relative comparisons. Here, the magic lies in good annotations. SwiftCharts URL: https://github.com/ivanschuetz/SwiftCharts License: Apache 2 Maturity: Created May 2015 ✅ ~2 backup contributors, 32 in total Last big changes 2019 😬 Last commit to main: 8 days ago 👍 Supported Chart Types Bar Charts ✅ Line Charts ✅ (didn’t check) Donut Charts ✅ (didn’t check) more Code Bar Chart Result integration of UIView in SwiftUI sucks Docs don’t help a lot Examples are very complex Stock-Charts URL: https://github.com/denniscm190/stock-charts License: MIT Maturity: Created April 2021 ⛲ Single-dev-project 👨‍💻 Ongoing development ✅ Last commit to main: 20 days ago 👍 Demo App: https://github.com/denniscm190/trades-demo Supported Chart Types Bar Charts =\u003e as “Capsule” Charts, for one value only ❌ Line Charts: without axis, only for this one specific use-case 🆗 Pie Charts: ❌ Code Bar Chart Line Chart Result Super easy to integrate But very limited to this one use case The code offers some good inspiration to base upon SwiftUI Charts URL: https://github.com/spacenation/swiftui-charts License: MIT Maturity Created Nov 2019 ✅ Single-dev-project 👨‍💻 Last big change in Oct 2020 😬 2 open PRs Bug: Data is ordered in reverse Naming conflict: This package uses the same name as (the much older) https://github.com/danielgindi/Charts. To import both, I forked it to https://github.com/JannikArndt/swiftui-charts, changed the name and cherry-picked the open PRs. Supported Chart Types Bar Charts, also stacked, not no axis or labels 😬 Very simple line charts 🆗 No pie charts ❌ Code Bar Chart Line Chart Result Easy to integrate But quite buggy No axis-options AppPear/ChartView URL: https://github.com/AppPear/ChartView License: MIT Maturity Created continuously between Jun 2019 and today ✅ Version 2 is currently in beta Only small contributions from others Supported Chart Types Bar Charts ✅ (no axis though) Line Charts ✅ (with multiple lines, no axis) Pie Charts ✅ (no labels) Code Bar Chart Line Chart Pie Chart Result Nice library for that particular style, but cannot be changed to view axis / labels / more things danielgindi/Charts URL: https://github.com/danielgindi/Charts License: Apache 2 Maturity Created Mar 2015 🕸 Ongoing maintenance by second dev 4 devs with larger contributions Supported Chart Types Bar Charts ✅ (even horizontal, with every option you can think of) Line Charts ✅ Pie Charts ✅ Code Bar Chart Line Chart Pie Chart Result By far the most comprehensive library No docs, references the Android docs, but good amount of demos Many third-party tutorials, for example this one that explains the integration into SwiftUI The amount of options is a little overwhelming, and the defaults are insane, so you have to go through the options. Conclusion I was close to building my own version of the required charts, until I tried danielgindi/Charts. While it is a heavyweight, I will give it a shot.\nYou can try out the demo-app with all five libraries here: https://github.com/JannikArndt/SwiftUI-Charts-Playground.\n",
   "wordCount" : "537",
   "inLanguage": "en",
-  "image":"https://www.jannikarndt.de/opengraphimages/Generating%20Open%20Graph%20Images%20for%20my%20Blog.png","datePublished": "2021-08-29T11:30:00+02:00",
+  "datePublished": "2021-08-29T11:30:00+02:00",
   "dateModified": "2021-08-29T11:30:00+02:00",
   "author":{
     "@type": "Person",
@@ -164,16 +163,16 @@ danielgindi/Charts
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -187,7 +186,7 @@ danielgindi/Charts
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -327,7 +326,6 @@ plus I will try to implement them myself, based on the following tutorials:
 <li>Examples are very complex</li>
 </ul>
 
-
 <div class="clearright"></div>
 
 <hr>
@@ -370,7 +368,6 @@ plus I will try to implement them myself, based on the following tutorials:
 <li>But very limited to this one use case</li>
 <li>The code offers some good inspiration to base upon</li>
 </ul>
-
 
 <div class="clearright"></div>
 
@@ -416,7 +413,6 @@ plus I will try to implement them myself, based on the following tutorials:
 <li>No axis-options</li>
 </ul>
 
-
 <div class="clearright"></div>
 
 <hr>
@@ -459,7 +455,6 @@ plus I will try to implement them myself, based on the following tutorials:
 <figure>
     <img loading="lazy" src="/blog/2021/08/charts/apppear-pie.PNG" width="200px"/> 
 </figure>
-
 
 
 <div class="clearright"></div>
@@ -507,7 +502,6 @@ plus I will try to implement them myself, based on the following tutorials:
 <figure>
     <img loading="lazy" src="/blog/2021/08/charts/charts-pie.PNG" width="200px"/> 
 </figure>
-
 
 
 <div class="clearright"></div>

@@ -10,9 +10,6 @@ showToc: true
 TocOpen: true
 draft: false
 comments: false
-cover:
-  image: "opengraphimages/Generating Open Graph Images for my Blog.png"
-
 ---
 
 I want to add charts to my SwiftUI iOS App, [Zettl](https://zettl.jannikarndt.de). For that, I am going to compare the following libraries:

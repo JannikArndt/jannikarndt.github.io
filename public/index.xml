@@ -9,7 +9,16 @@
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 03 Feb 2022 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Aug 2022 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Finding yourself on the Safe Browsing List — a Post Mortem</title>
+      <link>https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/</link>
+      <pubDate>Fri, 05 Aug 2022 11:30:00 +0200</pubDate>
+      
+      <guid>https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/</guid>
+      <description>&lt;p&gt;This week we woke up to customer reports that they couldn&amp;rsquo;t reach their &amp;ldquo;Public Portal&amp;rdquo; (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them &amp;ldquo;Deceptive site ahead&amp;rdquo;. What had happened?&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Why growth is so bad</title>
       <link>https://www.jannikarndt.de/blog/2022/02/why_growth_is_so_bad/</link>
@@ -85,7 +94,7 @@ Let&amp;rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly kn
       <pubDate>Mon, 05 Apr 2021 02:00:00 +0100</pubDate>
       
       <guid>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</guid>
-      <description>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&#39; I made a big announcement that our team followed suit:
+      <description>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&amp;rsquo; I made a big announcement that our team followed suit:
 But, at good prank isn&amp;rsquo;t just &amp;ldquo;I thought this was true, but it wasn&amp;rsquo;t&amp;rdquo;. It&amp;rsquo;s &amp;ldquo;I though it was a joke, but for a brief moment doubted that&amp;rdquo;. The &amp;ldquo;Oh, no, he didn&amp;rsquo;t&amp;quot;-moment.
 Alas, one more line was necessary:</description>
     </item>
@@ -356,7 +365,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
       <guid>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
       <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project.</description>
+create a JIRA account and then create a ticket for a new project.</description>
     </item>
     
     <item>

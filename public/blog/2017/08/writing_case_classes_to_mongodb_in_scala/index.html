@@ -6,13 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Writing case classes to MongoDB in Scala | Jannik Arndt</title>
-<meta name="keywords" content="Scala, Case Class, MongoDB, Tutorial, How-To" />
+<meta name="keywords" content="Scala, Case Class, MongoDB, Tutorial, How-To">
 <meta name="description" content="Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.
 This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -61,8 +60,8 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-08-19T10:05:00&#43;01:00" />
-<meta property="article:modified_time" content="2017-08-19T10:05:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="article:published_time" content="2017-08-19T10:05:00+01:00" />
+<meta property="article:modified_time" content="2017-08-19T10:05:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
@@ -102,7 +101,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
   "keywords": [
     "Scala", "Case Class", "MongoDB", "Tutorial", "How-To"
   ],
-  "articleBody": "Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.\nThis example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.\nThe solution First: A complete working example:\nimport java.math.BigDecimal import java.time.{LocalDate, LocalDateTime} import scala.concurrent.Await import scala.concurrent.duration._ import scala.language.postfixOps object MongoDbExample { def main(args: Array[String]): Unit = { val myParcel = Parcel( sender = Address(\"Online Shop 3000\", \"E-Commerce-Street\", \"Berlin\"), receiver = Address(\"Jannik\", \"Fun-Street\", \"Hamburg\"), sent = LocalDate.of(2017, 8, 12), received = Some(LocalDateTime.of(2017, 8, 19, 10, 24)), contents = Seq(Content(\"Cool Robot\", new BigDecimal(\"39.99\")), Content(\"Drone\", new BigDecimal(\"199.99\"))) ) Await.result(DB.parcels.insertOne(myParcel).toFuture, 10 seconds) val allParcels = Await.result(DB.parcels.find().toFuture(), 10 seconds) allParcels.foreach(println) } } case class Parcel(sender: Address, receiver: Address, sent: LocalDate, received: Option[LocalDateTime], contents: Seq[Content]) case class Address(name: String, street: String, city: String) case class Content(name: String, price: BigDecimal) object DB { import ch.rasc.bsoncodec.math._ import ch.rasc.bsoncodec.time._ import org.bson.codecs.configuration.CodecRegistries import org.bson.codecs.configuration.CodecRegistries._ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY import org.mongodb.scala.bson.codecs.Macros._ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content]) private val javaCodecs = CodecRegistries.fromCodecs( new LocalDateTimeDateCodec(), new LocalDateDateCodec(), new BigDecimalStringCodec()) private val codecRegistry = fromRegistries(customCodecs, javaCodecs, DEFAULT_CODEC_REGISTRY) private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") .withCodecRegistry(codecRegistry) val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } This results in the following entry:\n{ \"_id\" : ObjectId(\"5997f9ff96ddbad1d424981d\"), \"sender\" : { \"name\" : \"Online Shop 3000\", \"street\" : \"E-Commerce-Street\", \"city\" : \"Berlin\" }, \"receiver\" : { \"name\" : \"Jannik\", \"street\" : \"Fun-Street\", \"city\" : \"Hamburg\" }, \"sent\" : ISODate(\"2017-08-12T00:00:00.000Z\"), \"received\" : ISODate(\"2017-08-19T10:24:00.000Z\"), \"contents\" : [ { \"name\" : \"Cool Robot\", \"price\" : \"39.99\" }, { \"name\" : \"Drone\", \"price\" : \"199.99\" } ] } How to get there Adding codecs for custom classes The magic is obviously hidden in the DB object. Following just the driver documentation, one might start with this simpler version:\nobject DB { import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } This results in the exception\nException in thread \"main\" org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel. Googleing for the problem, you find quite many outdated solutions, such as salat, which is still maintained but uses the outdated casbah driver (aka “version 1”).\nAlex Landa explains, that version 2 of the driver fixes this problem with macros:\n The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).\n So the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:\nobject DB { import org.bson.codecs.configuration.CodecRegistries._ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY import org.mongodb.scala.bson.codecs.Macros._ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content]) private val codecRegistry = fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY) private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") .withCodecRegistry(codecRegistry) val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } Adding codecs for system classes This brings us one step further, to the next exception:\nException in thread \"main\" org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate. If you try to add classOf[LocalDate] to the list, you get a compile error, stating that\nError:(41, 106) java.time.LocalDate does not have a constructor private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content], classOf[LocalDate]) You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a codec yourself, extending / implementing org.bson.codecs.Codec and overriding encode and decode.\nLuckily, Ralph Schaer has already done this — not just for LocalDate but for most of java.time, java.sql, URLs, BigDecimal, javax.money, and more, and for many types you can even decide how to encode them, i.e. to date, document or string.\nThat’s what the lines\nprivate val javaCodecs = CodecRegistries.fromCodecs( new LocalDateTimeDateCodec(), new LocalDateDateCodec(), new BigDecimalStringCodec()) private val codecRegistry = fromRegistries(customCodecs, javaCodecs, DEFAULT_CODEC_REGISTRY) in the final solution (see top of the page) are about.\n",
+  "articleBody": "Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.\nThis example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.\nThe solution First: A complete working example:\nimport java.math.BigDecimal import java.time.{LocalDate, LocalDateTime} import scala.concurrent.Await import scala.concurrent.duration._ import scala.language.postfixOps object MongoDbExample { def main(args: Array[String]): Unit = { val myParcel = Parcel( sender = Address(\"Online Shop 3000\", \"E-Commerce-Street\", \"Berlin\"), receiver = Address(\"Jannik\", \"Fun-Street\", \"Hamburg\"), sent = LocalDate.of(2017, 8, 12), received = Some(LocalDateTime.of(2017, 8, 19, 10, 24)), contents = Seq(Content(\"Cool Robot\", new BigDecimal(\"39.99\")), Content(\"Drone\", new BigDecimal(\"199.99\"))) ) Await.result(DB.parcels.insertOne(myParcel).toFuture, 10 seconds) val allParcels = Await.result(DB.parcels.find().toFuture(), 10 seconds) allParcels.foreach(println) } } case class Parcel(sender: Address, receiver: Address, sent: LocalDate, received: Option[LocalDateTime], contents: Seq[Content]) case class Address(name: String, street: String, city: String) case class Content(name: String, price: BigDecimal) object DB { import ch.rasc.bsoncodec.math._ import ch.rasc.bsoncodec.time._ import org.bson.codecs.configuration.CodecRegistries import org.bson.codecs.configuration.CodecRegistries._ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY import org.mongodb.scala.bson.codecs.Macros._ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content]) private val javaCodecs = CodecRegistries.fromCodecs( new LocalDateTimeDateCodec(), new LocalDateDateCodec(), new BigDecimalStringCodec()) private val codecRegistry = fromRegistries(customCodecs, javaCodecs, DEFAULT_CODEC_REGISTRY) private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") .withCodecRegistry(codecRegistry) val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } This results in the following entry:\n{ \"_id\" : ObjectId(\"5997f9ff96ddbad1d424981d\"), \"sender\" : { \"name\" : \"Online Shop 3000\", \"street\" : \"E-Commerce-Street\", \"city\" : \"Berlin\" }, \"receiver\" : { \"name\" : \"Jannik\", \"street\" : \"Fun-Street\", \"city\" : \"Hamburg\" }, \"sent\" : ISODate(\"2017-08-12T00:00:00.000Z\"), \"received\" : ISODate(\"2017-08-19T10:24:00.000Z\"), \"contents\" : [ { \"name\" : \"Cool Robot\", \"price\" : \"39.99\" }, { \"name\" : \"Drone\", \"price\" : \"199.99\" } ] } How to get there Adding codecs for custom classes The magic is obviously hidden in the DB object. Following just the driver documentation, one might start with this simpler version:\nobject DB { import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } This results in the exception\nException in thread \"main\" org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel. Googleing for the problem, you find quite many outdated solutions, such as salat, which is still maintained but uses the outdated casbah driver (aka “version 1”).\nAlex Landa explains, that version 2 of the driver fixes this problem with macros:\nThe Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).\nSo the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:\nobject DB { import org.bson.codecs.configuration.CodecRegistries._ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY import org.mongodb.scala.bson.codecs.Macros._ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content]) private val codecRegistry = fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY) private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") .withCodecRegistry(codecRegistry) val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } Adding codecs for system classes This brings us one step further, to the next exception:\nException in thread \"main\" org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate. If you try to add classOf[LocalDate] to the list, you get a compile error, stating that\nError:(41, 106) java.time.LocalDate does not have a constructor private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content], classOf[LocalDate]) You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a codec yourself, extending / implementing org.bson.codecs.Codec and overriding encode and decode.\nLuckily, Ralph Schaer has already done this — not just for LocalDate but for most of java.time, java.sql, URLs, BigDecimal, javax.money, and more, and for many types you can even decide how to encode them, i.e. to date, document or string.\nThat’s what the lines\nprivate val javaCodecs = CodecRegistries.fromCodecs( new LocalDateTimeDateCodec(), new LocalDateDateCodec(), new BigDecimalStringCodec()) private val codecRegistry = fromRegistries(customCodecs, javaCodecs, DEFAULT_CODEC_REGISTRY) in the final solution (see top of the page) are about.\n",
   "wordCount" : "623",
   "inLanguage": "en",
   "datePublished": "2017-08-19T10:05:00+01:00",
@@ -143,16 +142,16 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -166,7 +165,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -208,149 +207,149 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 <p>This example uses the official <a href="https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11">Mongo Scala Driver</a> in version 2.x and the <a href="https://github.com/ralscha/bsoncodec">bsoncodec</a> project by <a href="https://github.com/ralscha">Ralph Schaer</a>.</p>
 <h2 id="the-solution">The solution<a hidden class="anchor" aria-hidden="true" href="#the-solution">#</a></h2>
 <p>First: A complete working example:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">java.math.BigDecimal</span>
-<span class="k">import</span> <span class="nn">java.time.</span><span class="o">{</span><span class="nc">LocalDate</span><span class="o">,</span> <span class="nc">LocalDateTime</span><span class="o">}</span>
-
-<span class="k">import</span> <span class="nn">scala.concurrent.Await</span>
-<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
-<span class="k">import</span> <span class="nn">scala.language.postfixOps</span>
-
-<span class="k">object</span> <span class="nc">MongoDbExample</span> <span class="o">{</span>
-
-    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="k">val</span> <span class="n">myParcel</span> <span class="k">=</span> <span class="nc">Parcel</span><span class="o">(</span>
-            <span class="n">sender</span> <span class="k">=</span> <span class="nc">Address</span><span class="o">(</span><span class="s">&#34;Online Shop 3000&#34;</span><span class="o">,</span> <span class="s">&#34;E-Commerce-Street&#34;</span><span class="o">,</span> <span class="s">&#34;Berlin&#34;</span><span class="o">),</span>
-            <span class="n">receiver</span> <span class="k">=</span> <span class="nc">Address</span><span class="o">(</span><span class="s">&#34;Jannik&#34;</span><span class="o">,</span> <span class="s">&#34;Fun-Street&#34;</span><span class="o">,</span> <span class="s">&#34;Hamburg&#34;</span><span class="o">),</span>
-            <span class="n">sent</span> <span class="k">=</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="n">of</span><span class="o">(</span><span class="mi">2017</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">12</span><span class="o">),</span>
-            <span class="n">received</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">LocalDateTime</span><span class="o">.</span><span class="n">of</span><span class="o">(</span><span class="mi">2017</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">19</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">24</span><span class="o">)),</span>
-            <span class="n">contents</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Content</span><span class="o">(</span><span class="s">&#34;Cool Robot&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BigDecimal</span><span class="o">(</span><span class="s">&#34;39.99&#34;</span><span class="o">)),</span> 
-                           <span class="nc">Content</span><span class="o">(</span><span class="s">&#34;Drone&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BigDecimal</span><span class="o">(</span><span class="s">&#34;199.99&#34;</span><span class="o">)))</span>
-        <span class="o">)</span>
-
-        <span class="nc">Await</span><span class="o">.</span><span class="n">result</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">parcels</span><span class="o">.</span><span class="n">insertOne</span><span class="o">(</span><span class="n">myParcel</span><span class="o">).</span><span class="n">toFuture</span><span class="o">,</span> <span class="mi">10</span> <span class="n">seconds</span><span class="o">)</span>
-
-        <span class="k">val</span> <span class="n">allParcels</span> <span class="k">=</span> <span class="nc">Await</span><span class="o">.</span><span class="n">result</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">parcels</span><span class="o">.</span><span class="n">find</span><span class="o">().</span><span class="n">toFuture</span><span class="o">(),</span> <span class="mi">10</span> <span class="n">seconds</span><span class="o">)</span>
-        <span class="n">allParcels</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
-    <span class="o">}</span>
-
-<span class="o">}</span>
-
-<span class="k">case</span> <span class="k">class</span> <span class="nc">Parcel</span><span class="o">(</span><span class="n">sender</span><span class="k">:</span> <span class="kt">Address</span><span class="o">,</span> 
-                  <span class="n">receiver</span><span class="k">:</span> <span class="kt">Address</span><span class="o">,</span> 
-                  <span class="n">sent</span><span class="k">:</span> <span class="kt">LocalDate</span><span class="o">,</span> 
-                  <span class="n">received</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">LocalDateTime</span><span class="o">],</span> 
-                  <span class="n">contents</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Content</span><span class="o">])</span>
-
-<span class="k">case</span> <span class="k">class</span> <span class="nc">Address</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">city</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
-
-<span class="k">case</span> <span class="k">class</span> <span class="nc">Content</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">price</span><span class="k">:</span> <span class="kt">BigDecimal</span><span class="o">)</span>
-
-<span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
-    <span class="k">import</span> <span class="nn">ch.rasc.bsoncodec.math._</span>
-    <span class="k">import</span> <span class="nn">ch.rasc.bsoncodec.time._</span>
-    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries</span>
-    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries._</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.Macros._</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> 
-                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> 
-                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">])</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">javaCodecs</span> <span class="k">=</span> <span class="nc">CodecRegistries</span><span class="o">.</span><span class="n">fromCodecs</span><span class="o">(</span>
-        <span class="k">new</span> <span class="nc">LocalDateTimeDateCodec</span><span class="o">(),</span>
-        <span class="k">new</span> <span class="nc">LocalDateDateCodec</span><span class="o">(),</span>
-        <span class="k">new</span> <span class="nc">BigDecimalStringCodec</span><span class="o">())</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">codecRegistry</span> <span class="k">=</span> <span class="n">fromRegistries</span><span class="o">(</span><span class="n">customCodecs</span><span class="o">,</span> 
-                                               <span class="n">javaCodecs</span><span class="o">,</span> 
-                                               <span class="nc">DEFAULT_CODEC_REGISTRY</span><span class="o">)</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
-                                                       <span class="o">.</span><span class="n">withCodecRegistry</span><span class="o">(</span><span class="n">codecRegistry</span><span class="o">)</span>
-
-    <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
-<span class="o">}</span>
-</code></pre></div><p>This results in the following entry:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;_id&#34;</span> <span class="p">:</span> <span class="err">ObjectId(</span><span class="s2">&#34;5997f9ff96ddbad1d424981d&#34;</span><span class="err">)</span><span class="p">,</span>
-    <span class="nt">&#34;sender&#34;</span> <span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Online Shop 3000&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;street&#34;</span> <span class="p">:</span> <span class="s2">&#34;E-Commerce-Street&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;city&#34;</span> <span class="p">:</span> <span class="s2">&#34;Berlin&#34;</span>
-    <span class="p">},</span>
-    <span class="nt">&#34;receiver&#34;</span> <span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Jannik&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;street&#34;</span> <span class="p">:</span> <span class="s2">&#34;Fun-Street&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;city&#34;</span> <span class="p">:</span> <span class="s2">&#34;Hamburg&#34;</span>
-    <span class="p">},</span>
-    <span class="nt">&#34;sent&#34;</span> <span class="p">:</span> <span class="err">ISODate(</span><span class="s2">&#34;2017-08-12T00:00:00.000Z&#34;</span><span class="err">)</span><span class="p">,</span>
-    <span class="nt">&#34;received&#34;</span> <span class="p">:</span> <span class="err">ISODate(</span><span class="s2">&#34;2017-08-19T10:24:00.000Z&#34;</span><span class="err">)</span><span class="p">,</span>
-    <span class="nt">&#34;contents&#34;</span> <span class="p">:</span> <span class="p">[</span> 
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Cool Robot&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;price&#34;</span> <span class="p">:</span> <span class="s2">&#34;39.99&#34;</span>
-        <span class="p">},</span> 
-        <span class="p">{</span>
-            <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Drone&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;price&#34;</span> <span class="p">:</span> <span class="s2">&#34;199.99&#34;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><h2 id="how-to-get-there">How to get there<a hidden class="anchor" aria-hidden="true" href="#how-to-get-there">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">java.math.BigDecimal</span>
+</span></span><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">java.time.</span><span class="o">{</span><span class="nc">LocalDate</span><span class="o">,</span> <span class="nc">LocalDateTime</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">scala.concurrent.Await</span>
+</span></span><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+</span></span><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">scala.language.postfixOps</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">MongoDbExample</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="n">myParcel</span> <span class="k">=</span> <span class="nc">Parcel</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sender</span> <span class="k">=</span> <span class="nc">Address</span><span class="o">(</span><span class="s">&#34;Online Shop 3000&#34;</span><span class="o">,</span> <span class="s">&#34;E-Commerce-Street&#34;</span><span class="o">,</span> <span class="s">&#34;Berlin&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">receiver</span> <span class="k">=</span> <span class="nc">Address</span><span class="o">(</span><span class="s">&#34;Jannik&#34;</span><span class="o">,</span> <span class="s">&#34;Fun-Street&#34;</span><span class="o">,</span> <span class="s">&#34;Hamburg&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sent</span> <span class="k">=</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="n">of</span><span class="o">(</span><span class="mi">2017</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">12</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">received</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">LocalDateTime</span><span class="o">.</span><span class="n">of</span><span class="o">(</span><span class="mi">2017</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">19</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">24</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">contents</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Content</span><span class="o">(</span><span class="s">&#34;Cool Robot&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BigDecimal</span><span class="o">(</span><span class="s">&#34;39.99&#34;</span><span class="o">)),</span> 
+</span></span><span class="line"><span class="cl">                           <span class="nc">Content</span><span class="o">(</span><span class="s">&#34;Drone&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BigDecimal</span><span class="o">(</span><span class="s">&#34;199.99&#34;</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nc">Await</span><span class="o">.</span><span class="n">result</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">parcels</span><span class="o">.</span><span class="n">insertOne</span><span class="o">(</span><span class="n">myParcel</span><span class="o">).</span><span class="n">toFuture</span><span class="o">,</span> <span class="mi">10</span> <span class="n">seconds</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">val</span> <span class="n">allParcels</span> <span class="k">=</span> <span class="nc">Await</span><span class="o">.</span><span class="n">result</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">parcels</span><span class="o">.</span><span class="n">find</span><span class="o">().</span><span class="n">toFuture</span><span class="o">(),</span> <span class="mi">10</span> <span class="n">seconds</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">allParcels</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Parcel</span><span class="o">(</span><span class="n">sender</span><span class="k">:</span> <span class="kt">Address</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                  <span class="n">receiver</span><span class="k">:</span> <span class="kt">Address</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                  <span class="n">sent</span><span class="k">:</span> <span class="kt">LocalDate</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                  <span class="n">received</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">LocalDateTime</span><span class="o">],</span> 
+</span></span><span class="line"><span class="cl">                  <span class="n">contents</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Content</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Address</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">street</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">city</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Content</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">price</span><span class="k">:</span> <span class="kt">BigDecimal</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">ch.rasc.bsoncodec.math._</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">ch.rasc.bsoncodec.time._</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries._</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.Macros._</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> 
+</span></span><span class="line"><span class="cl">                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> 
+</span></span><span class="line"><span class="cl">                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">javaCodecs</span> <span class="k">=</span> <span class="nc">CodecRegistries</span><span class="o">.</span><span class="n">fromCodecs</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nc">LocalDateTimeDateCodec</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nc">LocalDateDateCodec</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nc">BigDecimalStringCodec</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">codecRegistry</span> <span class="k">=</span> <span class="n">fromRegistries</span><span class="o">(</span><span class="n">customCodecs</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                               <span class="n">javaCodecs</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                               <span class="nc">DEFAULT_CODEC_REGISTRY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                                                       <span class="o">.</span><span class="n">withCodecRegistry</span><span class="o">(</span><span class="n">codecRegistry</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>This results in the following entry:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;_id&#34;</span> <span class="p">:</span> <span class="err">ObjectId(</span><span class="s2">&#34;5997f9ff96ddbad1d424981d&#34;</span><span class="err">)</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;sender&#34;</span> <span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Online Shop 3000&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;street&#34;</span> <span class="p">:</span> <span class="s2">&#34;E-Commerce-Street&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;city&#34;</span> <span class="p">:</span> <span class="s2">&#34;Berlin&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;receiver&#34;</span> <span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Jannik&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;street&#34;</span> <span class="p">:</span> <span class="s2">&#34;Fun-Street&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;city&#34;</span> <span class="p">:</span> <span class="s2">&#34;Hamburg&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;sent&#34;</span> <span class="p">:</span> <span class="err">ISODate(</span><span class="s2">&#34;2017-08-12T00:00:00.000Z&#34;</span><span class="err">)</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;received&#34;</span> <span class="p">:</span> <span class="err">ISODate(</span><span class="s2">&#34;2017-08-19T10:24:00.000Z&#34;</span><span class="err">)</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;contents&#34;</span> <span class="p">:</span> <span class="p">[</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Cool Robot&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;price&#34;</span> <span class="p">:</span> <span class="s2">&#34;39.99&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;Drone&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;price&#34;</span> <span class="p">:</span> <span class="s2">&#34;199.99&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="how-to-get-there">How to get there<a hidden class="anchor" aria-hidden="true" href="#how-to-get-there">#</a></h2>
 <h3 id="adding-codecs-for-custom-classes">Adding codecs for custom classes<a hidden class="anchor" aria-hidden="true" href="#adding-codecs-for-custom-classes">#</a></h3>
 <p>The magic is obviously hidden in the <code>DB</code> object. Following <em>just</em> the <a href="http://mongodb.github.io/mongo-scala-driver/2.1/getting-started/quick-tour/">driver documentation</a>, one might start with this simpler version:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
-
-    <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
-<span class="o">}</span>
-</code></pre></div><p>This results in the exception</p>
-<pre tabindex="0"><code class="language-none" data-lang="none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>This results in the exception</p>
+<pre tabindex="0"><code class="language-none" data-lang="none">Exception in thread &#34;main&#34; org.bson.codecs.configuration.CodecConfigurationException: Can&#39;t find a codec for class de.jannikarndt.MongoDbExample.Parcel.
 </code></pre><p>Googleing for the problem, you find quite many outdated solutions, such as <a href="https://github.com/salat/salat">salat</a>, which is still maintained but uses the outdated <a href="https://github.com/mongodb/casbah/">casbah</a> driver (aka &ldquo;version 1&rdquo;).</p>
 <p>Alex Landa <a href="http://trainologic.com/working-case-classes-mongodb-scala/">explains</a>, that version 2 of the driver fixes this problem with macros:</p>
 <blockquote>
 <p>The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).</p>
 </blockquote>
 <p>So the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
-    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries._</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.Macros._</span>
-    <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> 
-                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> 
-                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">])</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">codecRegistry</span> <span class="k">=</span> <span class="n">fromRegistries</span><span class="o">(</span><span class="n">customCodecs</span><span class="o">,</span> <span class="nc">DEFAULT_CODEC_REGISTRY</span><span class="o">)</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
-                                                       <span class="o">.</span><span class="n">withCodecRegistry</span><span class="o">(</span><span class="n">codecRegistry</span><span class="o">)</span>
-
-    <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
-<span class="o">}</span>
-</code></pre></div><h3 id="adding-codecs-for-system-classes">Adding codecs for system classes<a hidden class="anchor" aria-hidden="true" href="#adding-codecs-for-system-classes">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries._</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.bson.codecs.Macros._</span>
+</span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.mongodb.scala.</span><span class="o">{</span><span class="nc">MongoClient</span><span class="o">,</span> <span class="nc">MongoCollection</span><span class="o">,</span> <span class="nc">MongoDatabase</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> 
+</span></span><span class="line"><span class="cl">                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> 
+</span></span><span class="line"><span class="cl">                                             <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">codecRegistry</span> <span class="k">=</span> <span class="n">fromRegistries</span><span class="o">(</span><span class="n">customCodecs</span><span class="o">,</span> <span class="nc">DEFAULT_CODEC_REGISTRY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">database</span><span class="k">:</span> <span class="kt">MongoDatabase</span> <span class="o">=</span> <span class="nc">MongoClient</span><span class="o">().</span><span class="n">getDatabase</span><span class="o">(</span><span class="s">&#34;TrackingData&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                                                       <span class="o">.</span><span class="n">withCodecRegistry</span><span class="o">(</span><span class="n">codecRegistry</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">parcels</span><span class="k">:</span> <span class="kt">MongoCollection</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">]</span> <span class="k">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getCollection</span><span class="o">(</span><span class="s">&#34;Parcels&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="adding-codecs-for-system-classes">Adding codecs for system classes<a hidden class="anchor" aria-hidden="true" href="#adding-codecs-for-system-classes">#</a></h3>
 <p>This brings us one step further, to the next exception:</p>
-<pre tabindex="0"><code class="language-none" data-lang="none">Exception in thread &quot;main&quot; org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate.
+<pre tabindex="0"><code class="language-none" data-lang="none">Exception in thread &#34;main&#34; org.bson.codecs.configuration.CodecConfigurationException: Can&#39;t find a codec for class java.time.LocalDate.
 </code></pre><p>If you try to add <code>classOf[LocalDate]</code> to the list, you get a compile error, stating that</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="nc">Error</span><span class="k">:</span><span class="o">(</span><span class="err">41</span><span class="o">,</span> <span class="err">106</span><span class="o">)</span> <span class="n">java</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="nc">LocalDate</span> <span class="n">does</span> <span class="n">not</span> <span class="n">have</span> <span class="n">a</span> <span class="n">constructor</span>
-    <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">])</span>
-</code></pre></div><p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">Error</span><span class="k">:</span><span class="o">(</span><span class="err">41</span><span class="o">,</span> <span class="err">106</span><span class="o">)</span> <span class="n">java</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="nc">LocalDate</span> <span class="n">does</span> <span class="n">not</span> <span class="n">have</span> <span class="n">a</span> <span class="n">constructor</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">customCodecs</span> <span class="k">=</span> <span class="n">fromProviders</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Parcel</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">Content</span><span class="o">],</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">])</span>
+</span></span></code></pre></div><p>You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a <code>codec</code> yourself, extending / implementing <code>org.bson.codecs.Codec</code> and overriding <code>encode</code> and <code>decode</code>.</p>
 <p>Luckily, <a href="https://github.com/ralscha">Ralph Schaer</a> has already done this — not just for <a href="https://github.com/ralscha/bsoncodec/blob/master/src/main/java/ch/rasc/bsoncodec/time/LocalDateDateCodec.java">LocalDate</a> but for <a href="https://github.com/ralscha/bsoncodec">most of <code>java.time</code>, <code>java.sql</code>, URLs, BigDecimal, <code>javax.money</code>, and more</a>, and for many types you can even decide how to encode them, i.e. to <code>date</code>, <code>document</code> or <code>string</code>.</p>
 <p>That&rsquo;s what the lines</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala">    <span class="k">private</span> <span class="k">val</span> <span class="n">javaCodecs</span> <span class="k">=</span> <span class="nc">CodecRegistries</span><span class="o">.</span><span class="n">fromCodecs</span><span class="o">(</span>
-        <span class="k">new</span> <span class="nc">LocalDateTimeDateCodec</span><span class="o">(),</span>
-        <span class="k">new</span> <span class="nc">LocalDateDateCodec</span><span class="o">(),</span>
-        <span class="k">new</span> <span class="nc">BigDecimalStringCodec</span><span class="o">())</span>
-
-    <span class="k">private</span> <span class="k">val</span> <span class="n">codecRegistry</span> <span class="k">=</span> <span class="n">fromRegistries</span><span class="o">(</span><span class="n">customCodecs</span><span class="o">,</span> 
-                                               <span class="n">javaCodecs</span><span class="o">,</span> 
-                                               <span class="nc">DEFAULT_CODEC_REGISTRY</span><span class="o">)</span>
-</code></pre></div><p>in the final solution (see top of the page) are about.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">javaCodecs</span> <span class="k">=</span> <span class="nc">CodecRegistries</span><span class="o">.</span><span class="n">fromCodecs</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nc">LocalDateTimeDateCodec</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nc">LocalDateDateCodec</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nc">BigDecimalStringCodec</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">val</span> <span class="n">codecRegistry</span> <span class="k">=</span> <span class="n">fromRegistries</span><span class="o">(</span><span class="n">customCodecs</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                               <span class="n">javaCodecs</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                               <span class="nc">DEFAULT_CODEC_REGISTRY</span><span class="o">)</span>
+</span></span></code></pre></div><p>in the final solution (see top of the page) are about.</p>
 
   </div>
 

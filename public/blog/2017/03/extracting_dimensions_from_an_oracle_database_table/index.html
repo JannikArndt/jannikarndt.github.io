@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Extracting Dimensions from an Oracle Database Table | Jannik Arndt</title>
-<meta name="keywords" content="Data Engineering, Database, Oracle, ETL" />
+<meta name="keywords" content="Data Engineering, Database, Oracle, ETL">
 <meta name="description" content="Task
 You have a denormalized table and want to extract a column into a dimension table.
 Caveat
@@ -14,9 +14,8 @@ You have to keep the ids.
 Extra-Caveat
 You use an Oracle database.">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -69,8 +68,8 @@ Extra-Caveat
 You use an Oracle database." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-01-07T11:20:00&#43;01:00" />
-<meta property="article:modified_time" content="2017-01-07T11:20:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="article:published_time" content="2017-01-07T11:20:00+01:00" />
+<meta property="article:modified_time" content="2017-01-07T11:20:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
@@ -114,8 +113,8 @@ You use an Oracle database."/>
   "keywords": [
     "Data Engineering", "Database", "Oracle", "ETL"
   ],
-  "articleBody": "Task You have a denormalized table and want to extract a column into a dimension table.\nCaveat You have to keep the ids.\nExtra-Caveat You use an Oracle database.\nExample CARS    id manufacturer_id model_id color     1 1 1 ‘blue’   2 1 4 ‘red’   3 2 6 ‘black’   4 2 8 ‘red’    becomes\nCARS    id manufacturer_id model_id color_id     1 1 1 1   2 1 4 2   3 2 6 3   4 2 8 2    COLORS    id name     1 ‘blue’   2 ‘red’   3 ‘black’    Solution:\n-- Create new table from Select-Statement CREATETABLEcolorsASSELECTROWNUMasid,nameFROM(SELECTcolorFROMcarsGROUPBYcolor);-- Add constraints on newly create table CREATEUNIQUEINDEXcolors_id_uindexONcolors(id);ALTERTABLEcolorsADDCONSTRAINTcolors_id_pkPRIMARYKEY(id);-- Add reference from fact-table to new dimension ALTERTABLEcarsADDcolor_idNUMBERDEFAULTNULLNULL;UPDATEcarsSETcolor_id=(SELECTidFROMcolorsWHEREcolors.id=cars.color);-- Delete original column ALTERTABLEcarsDROPCOLUMNcolor;",
-  "wordCount" : "109",
+  "articleBody": "Task You have a denormalized table and want to extract a column into a dimension table.\nCaveat You have to keep the ids.\nExtra-Caveat You use an Oracle database.\nExample CARS id manufacturer_id model_id color 1 1 1 ‘blue’ 2 1 4 ‘red’ 3 2 6 ‘black’ 4 2 8 ‘red’ becomes\nCARS id manufacturer_id model_id color_id 1 1 1 1 2 1 4 2 3 2 6 3 4 2 8 2 COLORS id name 1 ‘blue’ 2 ‘red’ 3 ‘black’ Solution:\n-- Create new table from Select-Statement CREATE TABLE colors AS SELECT ROWNUM as id, name FROM (SELECT color FROM cars GROUP BY color); -- Add constraints on newly create table CREATE UNIQUE INDEX colors_id_uindex ON colors(id); ALTER TABLE colors ADD CONSTRAINT colors_id_pk PRIMARY KEY (id); -- Add reference from fact-table to new dimension ALTER TABLE cars ADD color_id NUMBER DEFAULT NULL NULL; UPDATE cars SET color_id = (SELECT id FROM colors WHERE colors.id = cars.color); -- Delete original column ALTER TABLE cars DROP COLUMN color; ",
+  "wordCount" : "168",
   "inLanguage": "en",
   "datePublished": "2017-01-07T11:20:00+01:00",
   "dateModified": "2017-01-07T11:20:00+01:00",
@@ -155,16 +154,16 @@ You use an Oracle database."/>
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -178,7 +177,7 @@ You use an Oracle database."/>
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -322,22 +321,22 @@ You use an Oracle database."/>
 </tbody>
 </table>
 <p>Solution:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SQL" data-lang="SQL"><span class="c1">-- Create new table from Select-Statement
-</span><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="k">AS</span><span class="w">
-</span><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ROWNUM</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">FROM</span><span class="w">
-</span><span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">color</span><span class="p">);</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c1">-- Add constraints on newly create table
-</span><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">colors_id_uindex</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">colors</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
-</span><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">colors_id_pk</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c1">-- Add reference from fact-table to new dimension
-</span><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">color_id</span><span class="w"> </span><span class="nb">NUMBER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
-</span><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">color_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">colors</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cars</span><span class="p">.</span><span class="n">color</span><span class="p">);</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c1">-- Delete original column
-</span><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">color</span><span class="p">;</span><span class="w">
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SQL" data-lang="SQL"><span class="line"><span class="cl"><span class="c1">-- Create new table from Select-Statement
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ROWNUM</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">color</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Add constraints on newly create table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">colors_id_uindex</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">colors</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">colors_id_pk</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Add reference from fact-table to new dimension
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">color_id</span><span class="w"> </span><span class="nb">NUMBER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">color_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">colors</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">colors</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cars</span><span class="p">.</span><span class="n">color</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Delete original column
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">cars</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">color</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div>
 
   </div>
 

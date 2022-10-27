@@ -6,12 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Generating Open Graph Images for my Blog | Jannik Arndt</title>
-<meta name="keywords" content="Blog, Open Graph" />
+<meta name="keywords" content="Blog, Open Graph">
 <meta name="description" content="Generating Open Graph Images for my Blog - Jannik Arndt">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -60,8 +59,8 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/" />
 <meta property="og:image" content="https://www.jannikarndt.de/opengraphimages/Generating%20Open%20Graph%20Images%20for%20my%20Blog.png" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2021-05-02T14:00:00&#43;01:00" />
-<meta property="article:modified_time" content="2021-05-02T14:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="article:published_time" content="2021-05-02T14:00:00+01:00" />
+<meta property="article:modified_time" content="2021-05-02T14:00:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://www.jannikarndt.de/opengraphimages/Generating%20Open%20Graph%20Images%20for%20my%20Blog.png" />
@@ -99,8 +98,8 @@
   "keywords": [
     "Blog", "Open Graph"
   ],
-  "articleBody": "On a recent Google stroll, I found an image about a GitHub repository:\n  Neat, where does that come from?\n  Neat, it’s generating them! Of course, there’s a blog post about it. And you can preview sites on https://www.opengraph.xyz/:\n  To be honest: I have been bothered with see my face whenever I share a blog post in Slack:\n  So question: How do I generated them myself?\nChecking out tcardgen A quick googeling later, I found https://github.com/Ladicle/tcardgen\n  go get github.com/Ladicle/tcardgen A great, downloading half the internet again… 😅\nAfter about 50 executions, 3h hours of tweaking and ending up with my own fork, I finally made something work.\nFinal structure The command I run (after go install on my fork) is\ntcardgen -f opengraph/font -c opengraph/template.config.yaml -o static/opengraphimages content/blog/2021/05/Generating\\ Open\\ Graph\\ Images\\ for\\ my\\ Blog.md This requires the following files:\nopengraph/ ├── font │ ├── My-favorite-font-Bold.ttf │ ├── My-favorite-font-Medium.ttf │ └── My-favorite-font-Regular.ttf ├── template.config.yaml └── template.png The config I use is\ntemplate:opengraph/template.pngtitle:start:px:100py:172fgHexColor:\"#7B8EA6\"fontSize:72fontStyle:BoldmaxWidth:700lineSpacing:10info:start:px:100py:120fgHexColor:\"#A0A0A0\"fontSize:38fontStyle:Regularseparator:\" — \"tags:start:px:120py:-475I don’t use categories, I do use tags, but I don’t want them, so I move them off the canvas.\nThe image I use looks like this:\n  I really bothers me that the template can be defined in the template.config.yaml, but the font-folder cannot. But I didn’t find an easy way to add it, because I’m not a big fan of messing with go code.\nRunning the command creates an image in static/opengraphimages, which hugo automatically copies over to the output (public) folder.\nSetting\ncover:image:\"opengraphimages/Generating Open Graph Images for my Blog.png\"in my front-matter adds the link to my page.\nNext Steps This workflow still requires running the waaaaayyyy too long command for every new post, and manually copying filenames. I would much rather\n have hugo generate the image automagically 🧙 have hugo trigger another step which calls this ⏭ have a service that dynamically generates the image 🧑‍🎨 use svg as og:image ✨ (you can define a mime-type, but this StackOverflow entry from 2014 says svg is not allowed)  Result Definitely worth it:\n    And even Google’s “Rich Results Test” likes it:\n  Wow, that’s enough of my face for one day 😬 😅\n",
-  "wordCount" : "353",
+  "articleBody": "On a recent Google stroll, I found an image about a GitHub repository:\nNeat, where does that come from?\nNeat, it’s generating them! Of course, there’s a blog post about it. And you can preview sites on https://www.opengraph.xyz/:\nTo be honest: I have been bothered with see my face whenever I share a blog post in Slack:\nSo question: How do I generated them myself?\nChecking out tcardgen A quick googeling later, I found https://github.com/Ladicle/tcardgen\ngo get github.com/Ladicle/tcardgen A great, downloading half the internet again… 😅\nAfter about 50 executions, 3h hours of tweaking and ending up with my own fork, I finally made something work.\nFinal structure The command I run (after go install on my fork) is\ntcardgen -f opengraph/font -c opengraph/template.config.yaml -o static/opengraphimages content/blog/2021/05/Generating\\ Open\\ Graph\\ Images\\ for\\ my\\ Blog.md This requires the following files:\nopengraph/ ├── font │ ├── My-favorite-font-Bold.ttf │ ├── My-favorite-font-Medium.ttf │ └── My-favorite-font-Regular.ttf ├── template.config.yaml └── template.png The config I use is\ntemplate: opengraph/template.png title: start: px: 100 py: 172 fgHexColor: \"#7B8EA6\" fontSize: 72 fontStyle: Bold maxWidth: 700 lineSpacing: 10 info: start: px: 100 py: 120 fgHexColor: \"#A0A0A0\" fontSize: 38 fontStyle: Regular separator: \" — \" tags: start: px: 120 py: -475 I don’t use categories, I do use tags, but I don’t want them, so I move them off the canvas.\nThe image I use looks like this:\nI really bothers me that the template can be defined in the template.config.yaml, but the font-folder cannot. But I didn’t find an easy way to add it, because I’m not a big fan of messing with go code.\nRunning the command creates an image in static/opengraphimages, which hugo automatically copies over to the output (public) folder.\nSetting\ncover: image: \"opengraphimages/Generating Open Graph Images for my Blog.png\" in my front-matter adds the link to my page.\nNext Steps This workflow still requires running the waaaaayyyy too long command for every new post, and manually copying filenames. I would much rather\nhave hugo generate the image automagically 🧙 have hugo trigger another step which calls this ⏭ have a service that dynamically generates the image 🧑‍🎨 use svg as og:image ✨ (you can define a mime-type, but this StackOverflow entry from 2014 says svg is not allowed) Result Definitely worth it:\nAnd even Google’s “Rich Results Test” likes it:\nWow, that’s enough of my face for one day 😬 😅\n",
+  "wordCount" : "394",
   "inLanguage": "en",
   "image":"https://www.jannikarndt.de/opengraphimages/Generating%20Open%20Graph%20Images%20for%20my%20Blog.png","datePublished": "2021-05-02T14:00:00+01:00",
   "dateModified": "2021-05-02T14:00:00+01:00",
@@ -140,16 +139,16 @@
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -163,7 +162,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -229,13 +228,13 @@ And you can preview sites on <a href="https://www.opengraph.xyz/url/https:%2F%2F
     <img loading="lazy" src="/blog/2021/05/opengraphimages/tcardgenpreview.png"/> 
 </figure>
 
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">go get github.com/Ladicle/tcardgen
-</code></pre></div><p>A great, downloading half the internet again… 😅</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">go get github.com/Ladicle/tcardgen
+</span></span></code></pre></div><p>A great, downloading half the internet again… 😅</p>
 <p>After about 50 executions, 3h hours of tweaking and ending up with <a href="https://github.com/JannikArndt/tcardgen">my own fork</a>, I finally made <em>something</em> work.</p>
 <h3 id="final-structure">Final structure<a hidden class="anchor" aria-hidden="true" href="#final-structure">#</a></h3>
 <p>The command I run (after <code>go install</code> on my fork) is</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">tcardgen -f opengraph/font -c opengraph/template.config.yaml -o static/opengraphimages content/blog/2021/05/Generating<span class="se">\ </span>Open<span class="se">\ </span>Graph<span class="se">\ </span>Images<span class="se">\ </span><span class="k">for</span><span class="se">\ </span>my<span class="se">\ </span>Blog.md
-</code></pre></div><p>This requires the following files:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">tcardgen -f opengraph/font -c opengraph/template.config.yaml -o static/opengraphimages content/blog/2021/05/Generating<span class="se">\ </span>Open<span class="se">\ </span>Graph<span class="se">\ </span>Images<span class="se">\ </span><span class="k">for</span><span class="se">\ </span>my<span class="se">\ </span>Blog.md
+</span></span></code></pre></div><p>This requires the following files:</p>
 <pre tabindex="0"><code>opengraph/
 ├── font
 │   ├── My-favorite-font-Bold.ttf
@@ -244,29 +243,29 @@ And you can preview sites on <a href="https://www.opengraph.xyz/url/https:%2F%2F
 ├── template.config.yaml
 └── template.png
 </code></pre><p>The config I use is</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">opengraph/template.png</span><span class="w">
-</span><span class="w"></span><span class="nt">title</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
-</span><span class="w">    </span><span class="nt">py</span><span class="p">:</span><span class="w"> </span><span class="m">172</span><span class="w">
-</span><span class="w">  </span><span class="nt">fgHexColor</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;#7B8EA6&#34;</span><span class="w">
-</span><span class="w">  </span><span class="nt">fontSize</span><span class="p">:</span><span class="w"> </span><span class="m">72</span><span class="w">
-</span><span class="w">  </span><span class="nt">fontStyle</span><span class="p">:</span><span class="w"> </span><span class="l">Bold</span><span class="w">
-</span><span class="w">  </span><span class="nt">maxWidth</span><span class="p">:</span><span class="w"> </span><span class="m">700</span><span class="w">
-</span><span class="w">  </span><span class="nt">lineSpacing</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
-</span><span class="w"></span><span class="nt">info</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
-</span><span class="w">    </span><span class="nt">py</span><span class="p">:</span><span class="w"> </span><span class="m">120</span><span class="w">
-</span><span class="w">  </span><span class="nt">fgHexColor</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;#A0A0A0&#34;</span><span class="w">
-</span><span class="w">  </span><span class="nt">fontSize</span><span class="p">:</span><span class="w"> </span><span class="m">38</span><span class="w">
-</span><span class="w">  </span><span class="nt">fontStyle</span><span class="p">:</span><span class="w"> </span><span class="l">Regular</span><span class="w">
-</span><span class="w">  </span><span class="nt">separator</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34; — &#34;</span><span class="w">
-</span><span class="w"></span><span class="nt">tags</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">120</span><span class="w">
-</span><span class="w">    </span><span class="nt">py</span><span class="p">:</span><span class="w"> </span>-<span class="m">475</span><span class="w">
-</span></code></pre></div><p>I don&rsquo;t use categories, I <em>do</em> use tags, but I don&rsquo;t want them, so I move them off the canvas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l">opengraph/template.png</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">title</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">py</span><span class="p">:</span><span class="w"> </span><span class="m">172</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fgHexColor</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;#7B8EA6&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fontSize</span><span class="p">:</span><span class="w"> </span><span class="m">72</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fontStyle</span><span class="p">:</span><span class="w"> </span><span class="l">Bold</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">maxWidth</span><span class="p">:</span><span class="w"> </span><span class="m">700</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">lineSpacing</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">info</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">py</span><span class="p">:</span><span class="w"> </span><span class="m">120</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fgHexColor</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;#A0A0A0&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fontSize</span><span class="p">:</span><span class="w"> </span><span class="m">38</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fontStyle</span><span class="p">:</span><span class="w"> </span><span class="l">Regular</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">separator</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34; — &#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">tags</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">px</span><span class="p">:</span><span class="w"> </span><span class="m">120</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">py</span><span class="p">:</span><span class="w"> </span>-<span class="m">475</span><span class="w">
+</span></span></span></code></pre></div><p>I don&rsquo;t use categories, I <em>do</em> use tags, but I don&rsquo;t want them, so I move them off the canvas.</p>
 <p>The image I use looks like this:</p>
 <figure>
     <img loading="lazy" src="/blog/2021/05/opengraphimages/template.png"/> 
@@ -275,9 +274,9 @@ And you can preview sites on <a href="https://www.opengraph.xyz/url/https:%2F%2F
 <p>I <em>really</em> bothers me that the template can be defined in the <code>template.config.yaml</code>, but the font-folder cannot. But I didn&rsquo;t find an easy way to add it, because I&rsquo;m not a big fan of messing with <code>go</code> code.</p>
 <p>Running the command creates an image in <code>static/opengraphimages</code>, which <code>hugo</code> automatically copies over to the output (<code>public</code>) folder.</p>
 <p>Setting</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">cover</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;opengraphimages/Generating Open Graph Images for my Blog.png&#34;</span><span class="w">
-</span></code></pre></div><p>in my front-matter adds the link to my page.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">cover</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;opengraphimages/Generating Open Graph Images for my Blog.png&#34;</span><span class="w">
+</span></span></span></code></pre></div><p>in my front-matter adds the link to my page.</p>
 <h3 id="next-steps">Next Steps<a hidden class="anchor" aria-hidden="true" href="#next-steps">#</a></h3>
 <p>This workflow still requires running the waaaaayyyy too long command for every new post, and manually copying filenames. I would much rather</p>
 <ul>

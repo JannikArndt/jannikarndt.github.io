@@ -6,14 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS) | Jannik Arndt</title>
-<meta name="keywords" content="Scala, Maven, Open Source, DataMover, Sonatype" />
+<meta name="keywords" content="Scala, Maven, Open Source, DataMover, Sonatype">
 <meta name="description" content="If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project.">
+create a JIRA account and then create a ticket for a new project.">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -60,11 +59,11 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 </noscript><meta property="og:title" content="Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)" />
 <meta property="og:description" content="If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project." />
+create a JIRA account and then create a ticket for a new project." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-09-10T21:07:00&#43;01:00" />
-<meta property="article:modified_time" content="2017-09-10T21:07:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="article:published_time" content="2017-09-10T21:07:00+01:00" />
+<meta property="article:modified_time" content="2017-09-10T21:07:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
@@ -72,7 +71,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <meta name="twitter:title" content="Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)"/>
 <meta name="twitter:description" content="If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project."/>
+create a JIRA account and then create a ticket for a new project."/>
 
 
 <script type="application/ld+json">
@@ -101,11 +100,11 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
   "@type": "BlogPosting",
   "headline": "Releasing a Scala + Maven project to Maven Central (Sonatype OSS)",
   "name": "Releasing a Scala \u002b Maven project to Maven Central (Sonatype OSS)",
-  "description": "If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).\nStep 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to\n create a JIRA account and then create a ticket for a new project.",
+  "description": "If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).\nStep 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to\ncreate a JIRA account and then create a ticket for a new project.",
   "keywords": [
     "Scala", "Maven", "Open Source", "DataMover", "Sonatype"
   ],
-  "articleBody": "If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).\nStep 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to\n create a JIRA account and then create a ticket for a new project.  The first question that is usually asked in the ticket is\n Do you own the domain [your group id]? If not, please read: http://central.sonatype.org/pages/choosing-your-coordinates.html\n You can speed up the process by stating that you do own it in the description. Here is an example: https://issues.sonatype.org/browse/OSSRH-34281\nAbout three minutes (or up to 2 business days) later, you have your own repository!\nStep 2: Deploy your first Snapshot  This is a condensed version of the official doc.\n All you need to deploy your first snapshot is to\n add the snapshot repository to the distributionManagement section of your pom.xml:    ossrh https://oss.sonatype.org/content/repositories/snapshots   add the nexus-staging-maven-plugin to your pom.xml:     org.sonatype.plugins nexus-staging-maven-plugin 1.6.7 true  ossrh https://oss.sonatype.org/ true   ...   add your credentials to your settings.xml (on macOS in ~/.m2/settings.xml):     ossrh your-jira-id your-jira-pwd    Since you don’t want your password to be written in clear text, you should generate a User Token. Head to https://oss.sonatype.org/#profile and choose “User Token” in the dropdown menu. Make sure the version in your pom.xml ends in -SNAPSHOT and then  $ mvn clean deploy Et voilà! A few seconds later your snapshot is deployed. Now let’s get to the hard part…\nStep 3: Deploy your first Release The requirements for a release are a bit tougher than those for a snapshot.\nStep 3a: Beef up your pom.xml  The version in the pom.xml may not end in -SNAPSHOT The pom.xml may not contain any snapshot-dependencies The pom.xml must contain the name, description, url, license, developer and scm tags, for example:  DataMover Out of the box scheduling, logging, monitoring and data governance. https://github.com/JannikArndt/DataMover   MIT License http://www.opensource.org/licenses/mit-license.php     Jannik Arndt jannik@jannikarndt.de    scm:git:git://github.com/JannikArndt/DataMover.git scm:git:ssh://github.com:JannikArndt/DataMover.git  https://github.com/JannikArndt/DataMover/tree/master   And you may need the staging repository in the distributionManagement section:    ossrh https://oss.sonatype.org/content/repositories/snapshots   ossrh https://oss.sonatype.org/service/local/staging/deploy/maven2/   (there are so many different ways to configure the repository that I’m not really sure about this)\nStep 3b and 3c: Create sources and javadoc You must upload a …-javadoc.jar and …-sources.jar with the ….pom and the ….jar. This is a bit difficult if you write Scala code, so there used to be the option to disable this requirement on a per-project basis. The currently suggested solution is to fake it:\n If, for some reason (for example, license issue or it’s a Scala project), you can not provide -sources.jar or -javadoc.jar , please make fake -sources.jar or -javadoc.jar with simple README inside to pass the checking. We do not want to disable the rules because some people tend to skip it if they have an option and we want to keep the quality of the user experience as high as possible.\n However, being a scala dev you probably don’t fancy faking anything. scala-maven-plugin to the rescue! In the build section of your pom.xml, you probably already have used the scala-maven-plugin to compile your project. Extend it with the following executions:\n  net.alchim31.maven scala-maven-plugin 3.2.2    compile     attach-javadocs  doc-jar    attach-sources  add-source      Now you don’t even need the maven-release-plugin, maven-source-plugin or maven-javadoc-plugin anymore!\nLet’s head for the dragon…\nStep 3d: Sign your name across my heart your deployables  Warning: This section contains dirty workarounds. Nothing else.\n You need to provide a valid gpg-signature for the …-javadoc.jar, …-sources.jar, ….pom and the ….jar. This means these files may not change between signing and deployment. If you create them (via mvn clean install), sign them and then try to mvn deploy them, however, they will change.\nNow you can try one of the many other ways to deploy, but we’ve already got so far, with javadoc and sources and everything, let’s not throw this all away!\n “Vorwärts immer, rückwärts nimmer.”\n(Carl Latann, unlucky musician only know for being cited by Erich “Fowler” Honecker)\n First things first: Add the maven-gpg-plugin to your pom.xml:\n  org.apache.maven.plugins maven-gpg-plugin 1.6   sign-artifacts verify  sign     This is supposedly running in the verify phase of the maven lifecycle. Or not. It means, though, that you can invoke mvn gpg:sign to create the needed .asc files.\nThis assumes that you have gpg installed and the gpg-agent is running. Also, you need to provide the password to your key —devil or deep blue sea— either as a console argument or in plain text in your settings.xml:\n ossrh  true   gpg2 iShouldNotBeInPlainText   The manual claims that you could encrypt the passphrase, but that’s just a lie. I have spend a lot of time on this, but no success. If anyone manages to read an encrypted passphrase, please let me know!\nWell, this was bad. Let’s go for the big finale…\nStep 3e: Actually deploy Okay, usually a mvn deploy goes through the complete lifecycle and does all the required steps, but we’ve added a few non-standard steps, so…well…this works:\nmvn clean package source:jar gpg:sign install:install deploy:deploy But wait, there’s more!\nStep 3f: Release Head over to https://oss.sonatype.org/#stagingRepositories and (if your prefix starts with anything after ‘c’) scroll to the bottom, where you find your repository!\nThe naming is a bit weird here: The repository is now open, which means you can continue deploying into it. To move forward you have to close it. This is where you’ll get problems if you skipped a step (I told you so!).\nIf everything worked, you should see something like this:\nAnd now you can finally Release your work! Enjoy your work, give yourself a pat on the shoulder and then head back to your code, increase the version to the next -SNAPSHOT and start fixing those bugs you know are still in there…\nOh, and don’t forget to comment on the ticket, otherwise nobody will find your code:\n",
+  "articleBody": "If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).\nStep 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to\ncreate a JIRA account and then create a ticket for a new project. The first question that is usually asked in the ticket is\nDo you own the domain [your group id]? If not, please read: http://central.sonatype.org/pages/choosing-your-coordinates.html\nYou can speed up the process by stating that you do own it in the description. Here is an example: https://issues.sonatype.org/browse/OSSRH-34281\nAbout three minutes (or up to 2 business days) later, you have your own repository!\nStep 2: Deploy your first Snapshot This is a condensed version of the official doc.\nAll you need to deploy your first snapshot is to\nadd the snapshot repository to the distributionManagement section of your pom.xml: ossrh https://oss.sonatype.org/content/repositories/snapshots add the nexus-staging-maven-plugin to your pom.xml: org.sonatype.plugins nexus-staging-maven-plugin 1.6.7 true ossrh https://oss.sonatype.org/ true ... add your credentials to your settings.xml (on macOS in ~/.m2/settings.xml): ossrh your-jira-id your-jira-pwd Since you don’t want your password to be written in clear text, you should generate a User Token. Head to https://oss.sonatype.org/#profile and choose “User Token” in the dropdown menu. Make sure the version in your pom.xml ends in -SNAPSHOT and then $ mvn clean deploy Et voilà! A few seconds later your snapshot is deployed. Now let’s get to the hard part…\nStep 3: Deploy your first Release The requirements for a release are a bit tougher than those for a snapshot.\nStep 3a: Beef up your pom.xml The version in the pom.xml may not end in -SNAPSHOT The pom.xml may not contain any snapshot-dependencies The pom.xml must contain the name, description, url, license, developer and scm tags, for example: DataMover Out of the box scheduling, logging, monitoring and data governance. https://github.com/JannikArndt/DataMover MIT License http://www.opensource.org/licenses/mit-license.php Jannik Arndt jannik@jannikarndt.de scm:git:git://github.com/JannikArndt/DataMover.git scm:git:ssh://github.com:JannikArndt/DataMover.git https://github.com/JannikArndt/DataMover/tree/master And you may need the staging repository in the distributionManagement section: ossrh https://oss.sonatype.org/content/repositories/snapshots ossrh https://oss.sonatype.org/service/local/staging/deploy/maven2/ (there are so many different ways to configure the repository that I’m not really sure about this)\nStep 3b and 3c: Create sources and javadoc You must upload a …-javadoc.jar and …-sources.jar with the ….pom and the ….jar. This is a bit difficult if you write Scala code, so there used to be the option to disable this requirement on a per-project basis. The currently suggested solution is to fake it:\nIf, for some reason (for example, license issue or it’s a Scala project), you can not provide -sources.jar or -javadoc.jar , please make fake -sources.jar or -javadoc.jar with simple README inside to pass the checking. We do not want to disable the rules because some people tend to skip it if they have an option and we want to keep the quality of the user experience as high as possible.\nHowever, being a scala dev you probably don’t fancy faking anything. scala-maven-plugin to the rescue! In the build section of your pom.xml, you probably already have used the scala-maven-plugin to compile your project. Extend it with the following executions:\nnet.alchim31.maven scala-maven-plugin 3.2.2 compile attach-javadocs doc-jar attach-sources add-source Now you don’t even need the maven-release-plugin, maven-source-plugin or maven-javadoc-plugin anymore!\nLet’s head for the dragon…\nStep 3d: Sign your name across my heart your deployables Warning: This section contains dirty workarounds. Nothing else.\nYou need to provide a valid gpg-signature for the …-javadoc.jar, …-sources.jar, ….pom and the ….jar. This means these files may not change between signing and deployment. If you create them (via mvn clean install), sign them and then try to mvn deploy them, however, they will change.\nNow you can try one of the many other ways to deploy, but we’ve already got so far, with javadoc and sources and everything, let’s not throw this all away!\n“Vorwärts immer, rückwärts nimmer.”\n(Carl Latann, unlucky musician only know for being cited by Erich “Fowler” Honecker)\nFirst things first: Add the maven-gpg-plugin to your pom.xml:\norg.apache.maven.plugins maven-gpg-plugin 1.6 sign-artifacts verify sign This is supposedly running in the verify phase of the maven lifecycle. Or not. It means, though, that you can invoke mvn gpg:sign to create the needed .asc files.\nThis assumes that you have gpg installed and the gpg-agent is running. Also, you need to provide the password to your key —devil or deep blue sea— either as a console argument or in plain text in your settings.xml:\nossrh true gpg2 iShouldNotBeInPlainText The manual claims that you could encrypt the passphrase, but that’s just a lie. I have spend a lot of time on this, but no success. If anyone manages to read an encrypted passphrase, please let me know!\nWell, this was bad. Let’s go for the big finale…\nStep 3e: Actually deploy Okay, usually a mvn deploy goes through the complete lifecycle and does all the required steps, but we’ve added a few non-standard steps, so…well…this works:\nmvn clean package source:jar gpg:sign install:install deploy:deploy But wait, there’s more!\nStep 3f: Release Head over to https://oss.sonatype.org/#stagingRepositories and (if your prefix starts with anything after ‘c’) scroll to the bottom, where you find your repository!\nThe naming is a bit weird here: The repository is now open, which means you can continue deploying into it. To move forward you have to close it. This is where you’ll get problems if you skipped a step (I told you so!).\nIf everything worked, you should see something like this:\nAnd now you can finally Release your work! Enjoy your work, give yourself a pat on the shoulder and then head back to your code, increase the version to the next -SNAPSHOT and start fixing those bugs you know are still in there…\nOh, and don’t forget to comment on the ticket, otherwise nobody will find your code:\n",
   "wordCount" : "1063",
   "inLanguage": "en",
   "datePublished": "2017-09-10T21:07:00+01:00",
@@ -146,16 +145,16 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -169,7 +168,7 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -232,51 +231,51 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <ol>
 <li>add the snapshot repository to the <code>distributionManagement</code> section of your <code>pom.xml</code>:</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;distributionManagement&gt;</span>
-      <span class="nt">&lt;snapshotRepository&gt;</span>
-        <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
-        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
-      <span class="nt">&lt;/snapshotRepository&gt;</span>
-    <span class="nt">&lt;/distributionManagement&gt;</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">    <span class="nt">&lt;distributionManagement&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;snapshotRepository&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/snapshotRepository&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/distributionManagement&gt;</span>
+</span></span></code></pre></div><ol start="2">
 <li>add the <a href="https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin"><code>nexus-staging-maven-plugin</code></a> to your <code>pom.xml</code>:</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;build&gt;</span>
-      <span class="nt">&lt;plugins&gt;</span>
-        <span class="nt">&lt;plugin&gt;</span>
-          <span class="nt">&lt;groupId&gt;</span>org.sonatype.plugins<span class="nt">&lt;/groupId&gt;</span>
-          <span class="nt">&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
-          <span class="nt">&lt;version&gt;</span>1.6.7<span class="nt">&lt;/version&gt;</span>
-          <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
-          <span class="nt">&lt;configuration&gt;</span>
-            <span class="nt">&lt;serverId&gt;</span>ossrh<span class="nt">&lt;/serverId&gt;</span>
-            <span class="nt">&lt;nexusUrl&gt;</span>https://oss.sonatype.org/<span class="nt">&lt;/nexusUrl&gt;</span>
-            <span class="nt">&lt;autoReleaseAfterClose&gt;</span>true<span class="nt">&lt;/autoReleaseAfterClose&gt;</span>
-          <span class="nt">&lt;/configuration&gt;</span>
-        <span class="nt">&lt;/plugin&gt;</span>
-        ...
-      <span class="nt">&lt;/plugins&gt;</span>
-    <span class="nt">&lt;/build&gt;</span>
-</code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">    <span class="nt">&lt;build&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;plugins&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;groupId&gt;</span>org.sonatype.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;version&gt;</span>1.6.7<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;serverId&gt;</span>ossrh<span class="nt">&lt;/serverId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;nexusUrl&gt;</span>https://oss.sonatype.org/<span class="nt">&lt;/nexusUrl&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;autoReleaseAfterClose&gt;</span>true<span class="nt">&lt;/autoReleaseAfterClose&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/plugin&gt;</span>
+</span></span><span class="line"><span class="cl">        ...
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/plugins&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/build&gt;</span>
+</span></span></code></pre></div><ol start="3">
 <li>add your credentials to your <code>settings.xml</code> (on macOS in <code>~/.m2/settings.xml</code>):</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;settings&gt;</span>
-      <span class="nt">&lt;servers&gt;</span>
-        <span class="nt">&lt;server&gt;</span>
-          <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
-          <span class="nt">&lt;username&gt;</span>your-jira-id<span class="nt">&lt;/username&gt;</span>
-          <span class="nt">&lt;password&gt;</span>your-jira-pwd<span class="nt">&lt;/password&gt;</span>
-        <span class="nt">&lt;/server&gt;</span>
-      <span class="nt">&lt;/servers&gt;</span>
-    <span class="nt">&lt;/settings&gt;</span>
-</code></pre></div><p>Since you don&rsquo;t want your password to be written in clear text, you should generate a <em>User Token</em>. Head to <a href="https://oss.sonatype.org/#profile">https://oss.sonatype.org/#profile</a> and choose &ldquo;User Token&rdquo; in the dropdown menu.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">    <span class="nt">&lt;settings&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;servers&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;server&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;username&gt;</span>your-jira-id<span class="nt">&lt;/username&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&lt;password&gt;</span>your-jira-pwd<span class="nt">&lt;/password&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/server&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/servers&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/settings&gt;</span>
+</span></span></code></pre></div><p>Since you don&rsquo;t want your password to be written in clear text, you should generate a <em>User Token</em>. Head to <a href="https://oss.sonatype.org/#profile">https://oss.sonatype.org/#profile</a> and choose &ldquo;User Token&rdquo; in the dropdown menu.
 <img loading="lazy" src="/blog/2017/09/usertoken.png" alt="Creating a user token"  />
 </p>
 <ol start="4">
 <li>Make sure the version in your <code>pom.xml</code> ends in <code>-SNAPSHOT</code> and then</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$     mvn clean deploy
-</code></pre></div><p>Et voilà! A few seconds later your snapshot is deployed. Now let&rsquo;s get to the hard part…</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$     mvn clean deploy
+</span></span></code></pre></div><p>Et voilà! A few seconds later your snapshot is deployed. Now let&rsquo;s get to the hard part…</p>
 <h2 id="step-3-deploy-your-first-release">Step 3: Deploy your first Release<a hidden class="anchor" aria-hidden="true" href="#step-3-deploy-your-first-release">#</a></h2>
 <p>The <a href="http://central.sonatype.org/pages/requirements.html">requirements</a> for a release are a bit tougher than those for a snapshot.</p>
 <h3 id="step-3a-beef-up-your-pomxml">Step 3a: Beef up your <code>pom.xml</code><a hidden class="anchor" aria-hidden="true" href="#step-3a-beef-up-your-pomxml">#</a></h3>
@@ -285,74 +284,74 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <li>The <code>pom.xml</code> may not contain any snapshot-dependencies</li>
 <li>The <code>pom.xml</code> must contain the <code>name</code>, <code>description</code>, <code>url</code>, <code>license</code>, <code>developer</code> and <code>scm</code> tags, for example:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml">    <span class="nt">&lt;name&gt;</span>DataMover<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;description&gt;</span>Out of the box scheduling, logging, monitoring and data governance.<span class="nt">&lt;/description&gt;</span>
-    <span class="nt">&lt;url&gt;</span>https://github.com/JannikArndt/DataMover<span class="nt">&lt;/url&gt;</span>
-    <span class="nt">&lt;licenses&gt;</span>
-      <span class="nt">&lt;license&gt;</span>
-        <span class="nt">&lt;name&gt;</span>MIT License<span class="nt">&lt;/name&gt;</span>
-        <span class="nt">&lt;url&gt;</span>http://www.opensource.org/licenses/mit-license.php<span class="nt">&lt;/url&gt;</span>
-      <span class="nt">&lt;/license&gt;</span>
-    <span class="nt">&lt;/licenses&gt;</span>
-    <span class="nt">&lt;developers&gt;</span>
-      <span class="nt">&lt;developer&gt;</span>
-        <span class="nt">&lt;name&gt;</span>Jannik Arndt<span class="nt">&lt;/name&gt;</span>
-        <span class="nt">&lt;email&gt;</span>jannik@jannikarndt.de<span class="nt">&lt;/email&gt;</span>
-      <span class="nt">&lt;/developer&gt;</span>
-    <span class="nt">&lt;/developers&gt;</span>   
-
-    <span class="nt">&lt;scm&gt;</span>
-      <span class="nt">&lt;connection&gt;</span>scm:git:git://github.com/JannikArndt/DataMover.git<span class="nt">&lt;/connection&gt;</span>
-      <span class="nt">&lt;developerConnection&gt;</span>scm:git:ssh://github.com:JannikArndt/DataMover.git
-      <span class="nt">&lt;/developerConnection&gt;</span>
-      <span class="nt">&lt;url&gt;</span>https://github.com/JannikArndt/DataMover/tree/master<span class="nt">&lt;/url&gt;</span>
-    <span class="nt">&lt;/scm&gt;</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>DataMover<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;description&gt;</span>Out of the box scheduling, logging, monitoring and data governance.<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url&gt;</span>https://github.com/JannikArndt/DataMover<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;licenses&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;license&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;name&gt;</span>MIT License<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>http://www.opensource.org/licenses/mit-license.php<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/license&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/licenses&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;developers&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;developer&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;name&gt;</span>Jannik Arndt<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;email&gt;</span>jannik@jannikarndt.de<span class="nt">&lt;/email&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/developer&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/developers&gt;</span>   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scm&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;connection&gt;</span>scm:git:git://github.com/JannikArndt/DataMover.git<span class="nt">&lt;/connection&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;developerConnection&gt;</span>scm:git:ssh://github.com:JannikArndt/DataMover.git
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/developerConnection&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;url&gt;</span>https://github.com/JannikArndt/DataMover/tree/master<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/scm&gt;</span>
+</span></span></code></pre></div><ul>
 <li>And you may need the staging repository in the <code>distributionManagement</code> section:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;distributionManagement&gt;</span>
-    <span class="nt">&lt;snapshotRepository&gt;</span>
-        <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
-        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
-    <span class="nt">&lt;/snapshotRepository&gt;</span>
-    <span class="nt">&lt;repository&gt;</span>
-        <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
-        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/service/local/staging/deploy/maven2/<span class="nt">&lt;/url&gt;</span>
-    <span class="nt">&lt;/repository&gt;</span>
-<span class="nt">&lt;/distributionManagement&gt;</span>
-</code></pre></div><p><em>(there are so many different ways to configure the repository that I&rsquo;m not really sure about this)</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;distributionManagement&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;snapshotRepository&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/snapshotRepository&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;repository&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/service/local/staging/deploy/maven2/<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/repository&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/distributionManagement&gt;</span>
+</span></span></code></pre></div><p><em>(there are so many different ways to configure the repository that I&rsquo;m not really sure about this)</em></p>
 <h3 id="step-3b-and-3c-create-sources-and-javadoc">Step 3b and 3c: Create sources and javadoc<a hidden class="anchor" aria-hidden="true" href="#step-3b-and-3c-create-sources-and-javadoc">#</a></h3>
 <p>You must upload a <code>…-javadoc.jar</code> and <code>…-sources.jar</code> with the <code>….pom</code> and the <code>….jar</code>. This is a bit difficult if you write Scala code, so there used to be the option to disable this requirement on a per-project basis. The <a href="http://central.sonatype.org/pages/requirements.html#supply-javadoc-and-sources">currently suggested solution</a> is to fake it:</p>
 <blockquote>
 <p>If, for some reason (for example, license issue or it&rsquo;s a Scala project), you can not provide <code>-sources.jar</code> or <code>-javadoc.jar</code> , please make fake <code>-sources.jar</code> or <code>-javadoc.jar</code> with simple README inside to pass the checking. We do not want to disable the rules because some people tend to skip it if they have an option and we want to keep the quality of the user experience as high as possible.</p>
 </blockquote>
 <p>However, being a scala dev you probably don&rsquo;t fancy faking anything. <a href="http://davidb.github.io/scala-maven-plugin/example_doc.html"><code>scala-maven-plugin</code></a> to the rescue! In the <code>build</code> section of your <code>pom.xml</code>, you probably already have used the <code>scala-maven-plugin</code> to compile your project. Extend it with the following executions:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
-    <span class="c">&lt;!-- https://mvnrepository.com/artifact/net.alchim31.maven/scala-maven-plugin --&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>net.alchim31.maven<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>scala-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>3.2.2<span class="nt">&lt;/version&gt;</span>
-    <span class="nt">&lt;executions&gt;</span>
-        <span class="nt">&lt;execution&gt;</span>
-            <span class="nt">&lt;goals&gt;</span>
-                <span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
-            <span class="nt">&lt;/goals&gt;</span>
-        <span class="nt">&lt;/execution&gt;</span>
-        <span class="nt">&lt;execution&gt;</span>                         <span class="c">&lt;!-- from here --&gt;</span>
-            <span class="nt">&lt;id&gt;</span>attach-javadocs<span class="nt">&lt;/id&gt;</span>
-            <span class="nt">&lt;goals&gt;</span>
-                <span class="nt">&lt;goal&gt;</span>doc-jar<span class="nt">&lt;/goal&gt;</span>
-            <span class="nt">&lt;/goals&gt;</span>
-        <span class="nt">&lt;/execution&gt;</span>
-        <span class="nt">&lt;execution&gt;</span>
-            <span class="nt">&lt;id&gt;</span>attach-sources<span class="nt">&lt;/id&gt;</span>
-            <span class="nt">&lt;goals&gt;</span>
-                <span class="nt">&lt;goal&gt;</span>add-source<span class="nt">&lt;/goal&gt;</span>
-            <span class="nt">&lt;/goals&gt;</span>
-        <span class="nt">&lt;/execution&gt;</span>                        <span class="c">&lt;!-- to here --&gt;</span>
-    <span class="nt">&lt;/executions&gt;</span>
-<span class="nt">&lt;/plugin&gt;</span>
-</code></pre></div><p>Now you don&rsquo;t even need the <code>maven-release-plugin</code>, <code>maven-source-plugin</code> or <code>maven-javadoc-plugin</code> anymore!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- https://mvnrepository.com/artifact/net.alchim31.maven/scala-maven-plugin --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>net.alchim31.maven<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>scala-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.2.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>                         <span class="c">&lt;!-- from here --&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>attach-javadocs<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>doc-jar<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>attach-sources<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>add-source<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>                        <span class="c">&lt;!-- to here --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>Now you don&rsquo;t even need the <code>maven-release-plugin</code>, <code>maven-source-plugin</code> or <code>maven-javadoc-plugin</code> anymore!</p>
 <p>Let&rsquo;s head for the dragon…</p>
 <h3 id="step-3d-sign-your-name-across-my-heart-your-deployables">Step 3d: Sign your name across <del>my heart</del> your deployables<a hidden class="anchor" aria-hidden="true" href="#step-3d-sign-your-name-across-my-heart-your-deployables">#</a></h3>
 <blockquote>
@@ -365,39 +364,39 @@ Step 1: Claim your Group ID When you first publish something to the Sonatype OSS
 <p><small>(Carl Latann, unlucky musician only know for being cited by Erich “Fowler” Honecker)</small></p>
 </blockquote>
 <p>First things first: Add the <a href="http://maven.apache.org/plugins/maven-gpg-plugin/"><code>maven-gpg-plugin</code></a> to your <code>pom.xml</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;plugin&gt;</span>
-  <span class="c">&lt;!-- GPG signing --&gt;</span>
-  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
-  <span class="nt">&lt;artifactId&gt;</span>maven-gpg-plugin<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.6<span class="nt">&lt;/version&gt;</span>
-  <span class="nt">&lt;executions&gt;</span>
-    <span class="nt">&lt;execution&gt;</span>
-      <span class="nt">&lt;id&gt;</span>sign-artifacts<span class="nt">&lt;/id&gt;</span>
-      <span class="nt">&lt;phase&gt;</span>verify<span class="nt">&lt;/phase&gt;</span>
-      <span class="nt">&lt;goals&gt;</span>
-        <span class="nt">&lt;goal&gt;</span>sign<span class="nt">&lt;/goal&gt;</span>
-      <span class="nt">&lt;/goals&gt;</span>
-    <span class="nt">&lt;/execution&gt;</span>
-  <span class="nt">&lt;/executions&gt;</span>
-<span class="nt">&lt;/plugin&gt;</span>
-</code></pre></div><p>This is supposedly running in the verify phase of the <a href="http://maven.apache.org/ref/3.5.0/maven-core/lifecycles.html#default_Lifecycle">maven lifecycle</a>. <a href="http://maven.apache.org/ref/3.5.0/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging">Or not</a>. It means, though, that you <em>can</em> invoke <code>mvn gpg:sign</code> to create the needed <code>.asc</code> files.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- GPG signing --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>maven-gpg-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>1.6<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;id&gt;</span>sign-artifacts<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;phase&gt;</span>verify<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;goal&gt;</span>sign<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>This is supposedly running in the verify phase of the <a href="http://maven.apache.org/ref/3.5.0/maven-core/lifecycles.html#default_Lifecycle">maven lifecycle</a>. <a href="http://maven.apache.org/ref/3.5.0/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging">Or not</a>. It means, though, that you <em>can</em> invoke <code>mvn gpg:sign</code> to create the needed <code>.asc</code> files.</p>
 <p>This assumes that you have <a href="http://brewformulas.org/gnupg2">gpg installed</a> and the <code>gpg-agent</code> is running. Also, you need to provide the password to your key —devil or deep blue sea— either as a console argument or in plain text in your <code>settings.xml</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;profile&gt;</span>
-    <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
-    <span class="nt">&lt;activation&gt;</span>
-        <span class="nt">&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;</span>
-    <span class="nt">&lt;/activation&gt;</span>
-    <span class="nt">&lt;properties&gt;</span>
-        <span class="nt">&lt;gpg.executable&gt;</span>gpg2<span class="nt">&lt;/gpg.executable&gt;</span>
-        <span class="nt">&lt;gpg.passphrase&gt;</span>iShouldNotBeInPlainText<span class="nt">&lt;/gpg.passphrase&gt;</span>
-    <span class="nt">&lt;/properties&gt;</span>
-<span class="nt">&lt;/profile&gt;</span>
-</code></pre></div><p>The <a href="http://maven.apache.org/plugins/maven-gpg-plugin/usage.html">manual</a> claims that you could encrypt the passphrase, but that&rsquo;s just a lie. I have spend <em>a lot</em> of time on this, but no success. If anyone manages to read an encrypted passphrase, please <a href="mailto:jannik@jannikarndt.de">let me know</a>!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;profile&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;activation&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/activation&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;properties&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;gpg.executable&gt;</span>gpg2<span class="nt">&lt;/gpg.executable&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;gpg.passphrase&gt;</span>iShouldNotBeInPlainText<span class="nt">&lt;/gpg.passphrase&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/properties&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/profile&gt;</span>
+</span></span></code></pre></div><p>The <a href="http://maven.apache.org/plugins/maven-gpg-plugin/usage.html">manual</a> claims that you could encrypt the passphrase, but that&rsquo;s just a lie. I have spend <em>a lot</em> of time on this, but no success. If anyone manages to read an encrypted passphrase, please <a href="mailto:jannik@jannikarndt.de">let me know</a>!</p>
 <p>Well, this was bad. Let&rsquo;s go for the big finale…</p>
 <h3 id="step-3e-actually-deploy">Step 3e: Actually deploy<a hidden class="anchor" aria-hidden="true" href="#step-3e-actually-deploy">#</a></h3>
 <p>Okay, <em>usually</em> a <code>mvn deploy</code> goes through the complete lifecycle and does all the required steps, but we&rsquo;ve added a few non-standard steps, so…well…this works:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mvn clean package source:jar gpg:sign install:install deploy:deploy
-</code></pre></div><p>But wait, there&rsquo;s more!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mvn clean package source:jar gpg:sign install:install deploy:deploy
+</span></span></code></pre></div><p>But wait, there&rsquo;s more!</p>
 <h3 id="step-3f-release">Step 3f: Release<a hidden class="anchor" aria-hidden="true" href="#step-3f-release">#</a></h3>
 <p>Head over to <a href="https://oss.sonatype.org/#stagingRepositories">https://oss.sonatype.org/#stagingRepositories</a> and (if your prefix starts with anything after &lsquo;c&rsquo;) scroll to the bottom, where you find <em>your repository</em>!</p>
 <p><img loading="lazy" src="/blog/2017/09/nexusrelease.png" alt="nexusrelease"  />

@@ -6,12 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>3 Ways How Passwords Get Leaked | Jannik Arndt</title>
-<meta name="keywords" content="DevOps, Security, Programming, Passwords, Leak, git" />
+<meta name="keywords" content="DevOps, Security, Programming, Passwords, Leak, git">
 <meta name="description" content="You don&rsquo;t need to “get hacked” to have your security compromised. Often enough you&rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -59,8 +58,8 @@
 <meta property="og:description" content="You don&rsquo;t need to “get hacked” to have your security compromised. Often enough you&rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2018-07-22T07:00:00&#43;01:00" />
-<meta property="article:modified_time" content="2018-07-22T07:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="article:published_time" content="2018-07-22T07:00:00+01:00" />
+<meta property="article:modified_time" content="2018-07-22T07:00:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
@@ -99,8 +98,8 @@
   "keywords": [
     "DevOps", "Security", "Programming", "Passwords", "Leak", "git"
   ],
-  "articleBody": "You don’t need to “get hacked” to have your security compromised. Often enough you’ll do it yourself. The best way to prevent this is knowing when to be cautious.\n1. Checked into git Checking credentials into git is such a regular thing that toughworks have created their own tool to prevent this.\nWhat you can do about it If it’s already pushed, you’ll have to rotate the crendentials.\nTo at least soften the embarrasment, you can use git commit --amend, and then git push -f, but that might\n get you into even bigger trouble, because your team will hate you, not work, for example if you pushed to a merge request in Gitlab it will keep the old code, despite what’s stored in git lead you (or others) to think that you don’t have to rotate the keys. You do.  How to prevent this  Don’t add passwords to the code, read them from the environment. Use direnv to have different environments for each project. Add the .envrc to your ~/.gitignore_global (for yourself) and the project’s .gitignore (for the others).  You might also consider talisman, but for me it had way too many false positives.\nAlso, if you want to store credentials inside git, try out git-crypt. But beware: You have to first add a filename to .gitattributes and then add the file to git.\n2. Dumped from the Environment When your application crashes, it often helps to know the environment. That’s why tools like sentry will collect and display all environments variables with any error.\nBut you might also write them to the standard out yourself, to have Elasticsearch pick them up.\nWhat you can do about it If you notice credentials showing up in another tool or a place where they don’t belong: Rotate. This is especially true for tools that tend to be used by a lot of people in your organization, which is usually the case for an Elastic stack.\nHow to prevent this It depends on the tools you use. Be aware of the possibility, try what happens when errors are reported and work around it.\n3. Written to the Chat “I can’t get this to run, can you send me the command?”\nUsing passwords in command line arguments should be a no-go, but liquibase for example enforces this behaviour.\nWhat you can do about it Would you really consider your chat as secure? Rather rotate.\nHow to prevent this In the liquibase example, you can write a wrapper-bash-script that reads the password from the environment, like this one:\n#!/bin/sh  RED='\\033[0;31m' BLUE='\\033[0;34m' NC='\\033[0m' # No Color ENV=$1 COMMAND=${@:2} function usage { echo \"Usage: ./lb  \" echo \"  = local, dev, prod\" echo \"  = update, status, rollbackCount 1, ...\" echo \"\" echo \"Configure your .envrc for database access:\" echo \"\" echo \"${BLUE}# local\" echo \"export HOST_PORT_DB_LOCAL=localhost:5431/postgres\" echo \"export DB_USER_LOCAL=postgres\" echo \"export DB_PASSWORD_LOCAL=...\\n\" echo \"# dev\" echo \"export HOST_PORT_DB_DEV=localhost:5434/postgres\" echo \"export DB_USER_DEV=postgres\" echo \"export DB_PASSWORD_DEV=...\\n\" echo \"# prod\" echo \"export HOST_PORT_DB_PROD=localhost:5433/postgres\" echo \"export DB_USER_PROD=postgres\" echo \"export DB_PASSWORD_PROD=...${NC}\" } function setDbConnection { case $ENV in \"local\") HOST_PORT_DB=${HOST_PORT_DB_LOCAL} DB_USER=${DB_USER_LOCAL} DB_PASSWORD=${DB_PASSWORD_LOCAL} ;; \"dev\") HOST_PORT_DB=${HOST_PORT_DB_DEV} DB_USER=${DB_USER_DEV} DB_PASSWORD=${DB_PASSWORD_DEV} ;; \"prod\") HOST_PORT_DB=${HOST_PORT_DB_PROD} DB_USER=${DB_USER_PROD} DB_PASSWORD=${DB_PASSWORD_PROD} ;; *) echo \"${RED}Error: Missing environment!\\n${NC}\" usage exit 1 esac if [[ -z \"${HOST_PORT_DB}\" || -z \"${DB_USER}\" || -z \"${DB_PASSWORD}\" ]]; then echo \"${RED}Error: \\$HOST_PORT_DB, \\$DB_USER or \\$DB_PASSWORD is not defined!\\n${NC}\" usage exit 1 fi } function checkForPostgresDriver { if [ ! -f ./postgresql.jar ]; then echo \"${BLUE}Missing postgresql.jar, downloading…${NC}\\n\" curl -o postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.2.3.jar fi } function runLiquibase { liquibase \\  --driver=org.postgresql.Driver \\  --classpath=./postgresql.jar \\  --changeLogFile=changelog.xml \\  --contexts=$ENV \\  --url=\"jdbc:postgresql://$HOST_PORT_DB\" \\  --username=$DB_USER \\  --password=$DB_PASSWORD \\  ${COMMAND} } setDbConnection checkForPostgresDriver echo \"${BLUE}Running liquibase on ${HOST_PORT_DB}with context ${NC}$ENV${BLUE}and command(s) ${NC}${COMMAND}${BLUE}…\\n${NC}\" runLiquibase ",
-  "wordCount" : "613",
+  "articleBody": "You don’t need to “get hacked” to have your security compromised. Often enough you’ll do it yourself. The best way to prevent this is knowing when to be cautious.\n1. Checked into git Checking credentials into git is such a regular thing that toughworks have created their own tool to prevent this.\nWhat you can do about it If it’s already pushed, you’ll have to rotate the crendentials.\nTo at least soften the embarrasment, you can use git commit --amend, and then git push -f, but that might\nget you into even bigger trouble, because your team will hate you, not work, for example if you pushed to a merge request in Gitlab it will keep the old code, despite what’s stored in git lead you (or others) to think that you don’t have to rotate the keys. You do. How to prevent this Don’t add passwords to the code, read them from the environment. Use direnv to have different environments for each project. Add the .envrc to your ~/.gitignore_global (for yourself) and the project’s .gitignore (for the others). You might also consider talisman, but for me it had way too many false positives.\nAlso, if you want to store credentials inside git, try out git-crypt. But beware: You have to first add a filename to .gitattributes and then add the file to git.\n2. Dumped from the Environment When your application crashes, it often helps to know the environment. That’s why tools like sentry will collect and display all environments variables with any error.\nBut you might also write them to the standard out yourself, to have Elasticsearch pick them up.\nWhat you can do about it If you notice credentials showing up in another tool or a place where they don’t belong: Rotate. This is especially true for tools that tend to be used by a lot of people in your organization, which is usually the case for an Elastic stack.\nHow to prevent this It depends on the tools you use. Be aware of the possibility, try what happens when errors are reported and work around it.\n3. Written to the Chat “I can’t get this to run, can you send me the command?”\nUsing passwords in command line arguments should be a no-go, but liquibase for example enforces this behaviour.\nWhat you can do about it Would you really consider your chat as secure? Rather rotate.\nHow to prevent this In the liquibase example, you can write a wrapper-bash-script that reads the password from the environment, like this one:\n#!/bin/sh RED='\\033[0;31m' BLUE='\\033[0;34m' NC='\\033[0m' # No Color ENV=$1 COMMAND=${@:2} function usage { echo \"Usage: ./lb \" echo \" = local, dev, prod\" echo \" = update, status, rollbackCount 1, ...\" echo \"\" echo \"Configure your .envrc for database access:\" echo \"\" echo \"${BLUE}# local\" echo \"export HOST_PORT_DB_LOCAL=localhost:5431/postgres\" echo \"export DB_USER_LOCAL=postgres\" echo \"export DB_PASSWORD_LOCAL=...\\n\" echo \"# dev\" echo \"export HOST_PORT_DB_DEV=localhost:5434/postgres\" echo \"export DB_USER_DEV=postgres\" echo \"export DB_PASSWORD_DEV=...\\n\" echo \"# prod\" echo \"export HOST_PORT_DB_PROD=localhost:5433/postgres\" echo \"export DB_USER_PROD=postgres\" echo \"export DB_PASSWORD_PROD=...${NC}\" } function setDbConnection { case $ENV in \"local\") HOST_PORT_DB=${HOST_PORT_DB_LOCAL} DB_USER=${DB_USER_LOCAL} DB_PASSWORD=${DB_PASSWORD_LOCAL} ;; \"dev\") HOST_PORT_DB=${HOST_PORT_DB_DEV} DB_USER=${DB_USER_DEV} DB_PASSWORD=${DB_PASSWORD_DEV} ;; \"prod\") HOST_PORT_DB=${HOST_PORT_DB_PROD} DB_USER=${DB_USER_PROD} DB_PASSWORD=${DB_PASSWORD_PROD} ;; *) echo \"${RED}Error: Missing environment!\\n${NC}\" usage exit 1 esac if [[ -z \"${HOST_PORT_DB}\" || -z \"${DB_USER}\" || -z \"${DB_PASSWORD}\" ]]; then echo \"${RED}Error: \\$HOST_PORT_DB, \\$DB_USER or \\$DB_PASSWORD is not defined!\\n${NC}\" usage exit 1 fi } function checkForPostgresDriver { if [ ! -f ./postgresql.jar ]; then echo \"${BLUE}Missing postgresql.jar, downloading…${NC}\\n\" curl -o postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.2.3.jar fi } function runLiquibase { liquibase \\ --driver=org.postgresql.Driver \\ --classpath=./postgresql.jar \\ --changeLogFile=changelog.xml \\ --contexts=$ENV \\ --url=\"jdbc:postgresql://$HOST_PORT_DB\" \\ --username=$DB_USER \\ --password=$DB_PASSWORD \\ ${COMMAND} } setDbConnection checkForPostgresDriver echo \"${BLUE}Running liquibase on ${HOST_PORT_DB} with context ${NC}$ENV${BLUE} and command(s) ${NC}${COMMAND}${BLUE}…\\n${NC}\" runLiquibase ",
+  "wordCount" : "615",
   "inLanguage": "en",
   "datePublished": "2018-07-22T07:00:00+01:00",
   "dateModified": "2018-07-22T07:00:00+01:00",
@@ -140,16 +139,16 @@
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -163,7 +162,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -235,91 +234,91 @@ This is especially true for tools that tend to be used by <em>a lot</em> of peop
 <p>Would you really consider your chat as secure? Rather rotate.</p>
 <h3 id="how-to-prevent-this-2">How to prevent this<a hidden class="anchor" aria-hidden="true" href="#how-to-prevent-this-2">#</a></h3>
 <p>In the liquibase example, you can write a wrapper-bash-script that reads the password from the environment, like this one:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>
-<span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;\033[0;31m&#39;</span>
-<span class="nv">BLUE</span><span class="o">=</span><span class="s1">&#39;\033[0;34m&#39;</span>
-<span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span> <span class="c1"># No Color</span>
-
-<span class="nv">ENV</span><span class="o">=</span><span class="nv">$1</span>
-<span class="nv">COMMAND</span><span class="o">=</span><span class="si">${</span><span class="p">@:</span><span class="nv">2</span><span class="si">}</span>
-
-<span class="k">function</span> usage <span class="o">{</span>
-    <span class="nb">echo</span> <span class="s2">&#34;Usage: ./lb &lt;env&gt; &lt;command&gt;&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;  &lt;env&gt;     = local, dev, prod&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;  &lt;command&gt; = update, status, rollbackCount 1, ...&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;Configure your .envrc for database access:&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2"># local&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export HOST_PORT_DB_LOCAL=localhost:5431/postgres&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export DB_USER_LOCAL=postgres&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export DB_PASSWORD_LOCAL=...\n&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;# dev&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export HOST_PORT_DB_DEV=localhost:5434/postgres&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export DB_USER_DEV=postgres&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export DB_PASSWORD_DEV=...\n&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;# prod&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export HOST_PORT_DB_PROD=localhost:5433/postgres&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export DB_USER_PROD=postgres&#34;</span>
-    <span class="nb">echo</span> <span class="s2">&#34;export DB_PASSWORD_PROD=...</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
-<span class="o">}</span>
-
-<span class="k">function</span> setDbConnection <span class="o">{</span>
-    <span class="k">case</span> <span class="nv">$ENV</span> in
-        <span class="s2">&#34;local&#34;</span><span class="o">)</span>
-        <span class="nv">HOST_PORT_DB</span><span class="o">=</span><span class="si">${</span><span class="nv">HOST_PORT_DB_LOCAL</span><span class="si">}</span>
-        <span class="nv">DB_USER</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_USER_LOCAL</span><span class="si">}</span>
-        <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_PASSWORD_LOCAL</span><span class="si">}</span>
-        <span class="p">;;</span>
-        <span class="s2">&#34;dev&#34;</span><span class="o">)</span>
-        <span class="nv">HOST_PORT_DB</span><span class="o">=</span><span class="si">${</span><span class="nv">HOST_PORT_DB_DEV</span><span class="si">}</span>
-        <span class="nv">DB_USER</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_USER_DEV</span><span class="si">}</span>
-        <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_PASSWORD_DEV</span><span class="si">}</span>
-        <span class="p">;;</span>
-        <span class="s2">&#34;prod&#34;</span><span class="o">)</span>
-        <span class="nv">HOST_PORT_DB</span><span class="o">=</span><span class="si">${</span><span class="nv">HOST_PORT_DB_PROD</span><span class="si">}</span>
-        <span class="nv">DB_USER</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_USER_PROD</span><span class="si">}</span>
-        <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_PASSWORD_PROD</span><span class="si">}</span>
-        <span class="p">;;</span>
-        *<span class="o">)</span>
-        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">Error: Missing environment!\n</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
-        usage
-        <span class="nb">exit</span> <span class="m">1</span>
-    <span class="k">esac</span>
-
-    <span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOST_PORT_DB</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">||</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DB_USER</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">||</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DB_PASSWORD</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-      <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">Error: \$HOST_PORT_DB, \$DB_USER or \$DB_PASSWORD is not defined!\n</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
-      usage
-      <span class="nb">exit</span> <span class="m">1</span>
-    <span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="k">function</span> checkForPostgresDriver <span class="o">{</span>
-    <span class="k">if</span> <span class="o">[</span> ! -f ./postgresql.jar <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Missing postgresql.jar, downloading…</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">\n&#34;</span>
-        curl -o postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.2.3.jar
-    <span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="k">function</span> runLiquibase <span class="o">{</span>
-    liquibase <span class="se">\
-</span><span class="se"></span>          --driver<span class="o">=</span>org.postgresql.Driver <span class="se">\
-</span><span class="se"></span>          --classpath<span class="o">=</span>./postgresql.jar <span class="se">\
-</span><span class="se"></span>          --changeLogFile<span class="o">=</span>changelog.xml <span class="se">\
-</span><span class="se"></span>          --contexts<span class="o">=</span><span class="nv">$ENV</span> <span class="se">\
-</span><span class="se"></span>          --url<span class="o">=</span><span class="s2">&#34;jdbc:postgresql://</span><span class="nv">$HOST_PORT_DB</span><span class="s2">&#34;</span> <span class="se">\
-</span><span class="se"></span>          --username<span class="o">=</span><span class="nv">$DB_USER</span> <span class="se">\
-</span><span class="se"></span>          --password<span class="o">=</span><span class="nv">$DB_PASSWORD</span> <span class="se">\
-</span><span class="se"></span>        <span class="si">${</span><span class="nv">COMMAND</span><span class="si">}</span>
-<span class="o">}</span>
-
-
-setDbConnection
-checkForPostgresDriver
-<span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Running liquibase on </span><span class="si">${</span><span class="nv">HOST_PORT_DB</span><span class="si">}</span><span class="s2"> with context </span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="nv">$ENV</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2"> and command(s) </span><span class="si">${</span><span class="nv">NC</span><span class="si">}${</span><span class="nv">COMMAND</span><span class="si">}${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">…\n</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
-runLiquibase
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;\033[0;31m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">BLUE</span><span class="o">=</span><span class="s1">&#39;\033[0;34m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span> <span class="c1"># No Color</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">ENV</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">COMMAND</span><span class="o">=</span><span class="si">${</span><span class="p">@:</span><span class="nv">2</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> usage <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Usage: ./lb &lt;env&gt; &lt;command&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;  &lt;env&gt;     = local, dev, prod&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;  &lt;command&gt; = update, status, rollbackCount 1, ...&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Configure your .envrc for database access:&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2"># local&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export HOST_PORT_DB_LOCAL=localhost:5431/postgres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export DB_USER_LOCAL=postgres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export DB_PASSWORD_LOCAL=...\n&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;# dev&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export HOST_PORT_DB_DEV=localhost:5434/postgres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export DB_USER_DEV=postgres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export DB_PASSWORD_DEV=...\n&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;# prod&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export HOST_PORT_DB_PROD=localhost:5433/postgres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export DB_USER_PROD=postgres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;export DB_PASSWORD_PROD=...</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> setDbConnection <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nv">$ENV</span> in
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;local&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">HOST_PORT_DB</span><span class="o">=</span><span class="si">${</span><span class="nv">HOST_PORT_DB_LOCAL</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">DB_USER</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_USER_LOCAL</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_PASSWORD_LOCAL</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;;</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;dev&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">HOST_PORT_DB</span><span class="o">=</span><span class="si">${</span><span class="nv">HOST_PORT_DB_DEV</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">DB_USER</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_USER_DEV</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_PASSWORD_DEV</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;;</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;prod&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">HOST_PORT_DB</span><span class="o">=</span><span class="si">${</span><span class="nv">HOST_PORT_DB_PROD</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">DB_USER</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_USER_PROD</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">DB_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">DB_PASSWORD_PROD</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;;</span>
+</span></span><span class="line"><span class="cl">        *<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">Error: Missing environment!\n</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        usage
+</span></span><span class="line"><span class="cl">        <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">esac</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOST_PORT_DB</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">||</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DB_USER</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">||</span> -z <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DB_PASSWORD</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">Error: \$HOST_PORT_DB, \$DB_USER or \$DB_PASSWORD is not defined!\n</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">      usage
+</span></span><span class="line"><span class="cl">      <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> checkForPostgresDriver <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[</span> ! -f ./postgresql.jar <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Missing postgresql.jar, downloading…</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">\n&#34;</span>
+</span></span><span class="line"><span class="cl">        curl -o postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.2.3.jar
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> runLiquibase <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    liquibase <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --driver<span class="o">=</span>org.postgresql.Driver <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --classpath<span class="o">=</span>./postgresql.jar <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --changeLogFile<span class="o">=</span>changelog.xml <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --contexts<span class="o">=</span><span class="nv">$ENV</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --url<span class="o">=</span><span class="s2">&#34;jdbc:postgresql://</span><span class="nv">$HOST_PORT_DB</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --username<span class="o">=</span><span class="nv">$DB_USER</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          --password<span class="o">=</span><span class="nv">$DB_PASSWORD</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="si">${</span><span class="nv">COMMAND</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">setDbConnection
+</span></span><span class="line"><span class="cl">checkForPostgresDriver
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Running liquibase on </span><span class="si">${</span><span class="nv">HOST_PORT_DB</span><span class="si">}</span><span class="s2"> with context </span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="nv">$ENV</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2"> and command(s) </span><span class="si">${</span><span class="nv">NC</span><span class="si">}${</span><span class="nv">COMMAND</span><span class="si">}${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">…\n</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">runLiquibase
+</span></span></code></pre></div>
 
   </div>
 

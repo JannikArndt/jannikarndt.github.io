@@ -6,12 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Using scalap, javap and the scala compiler to understand the journey from code to bytecode | Jannik Arndt</title>
-<meta name="keywords" content="Programming, Scala, Scalac, Scalap, Javap, Scala Compiler, JVM, Bytecode, JAR" />
+<meta name="keywords" content="Programming, Scala, Scalac, Scalap, Javap, Scala Compiler, JVM, Bytecode, JAR">
 <meta name="description" content="Do you know what happens after you compile? Let&rsquo;s take a look at what the Scala compiler tells us, and what scalap and javap can reveal about .class files.">
 <meta name="author" content="Jannik Arndt">
-<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6ba7c53c3f51641b823df58d9ff4f7fcc09ea1d26e863a9b6fddbe45b3fa71a9.css" integrity="sha256-a6fFPD9RZBuCPfWNn/T3/MCeodJuhjqbb92&#43;RbP6cak=" rel="preload stylesheet" as="style">
-<link rel="preload" href="/favicons/apple-touch-icon.png" as="image">
+<link rel="canonical" href="https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
@@ -59,8 +58,8 @@
 <meta property="og:description" content="Do you know what happens after you compile? Let&rsquo;s take a look at what the Scala compiler tells us, and what scalap and javap can reveal about .class files." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2021-03-25T09:00:00&#43;01:00" />
-<meta property="article:modified_time" content="2021-03-25T09:00:00&#43;01:00" /><meta property="og:site_name" content="Jannik Arndt" />
+<meta property="article:published_time" content="2021-03-25T09:00:00+01:00" />
+<meta property="article:modified_time" content="2021-03-25T09:00:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
@@ -99,7 +98,7 @@
   "keywords": [
     "Programming", "Scala", "Scalac", "Scalap", "Javap", "Scala Compiler", "JVM", "Bytecode", "JAR"
   ],
-  "articleBody": "Do you know what happens after you compile? Let’s take a look at what the Scala compiler tells us, and what scalap and javap can reveal about .class files.\nCreating a Minimal Example with sbt First, we’ll need something very small to compile, to still understand all of the output.\nbuild.sbt name := \"scala-start\" version := \"1\" scalaVersion := \"2.13.5\" scalacOptions := Seq(\"-target:11\") project/build.properties sbt.version=1.4.9 src/main/scala/Main.scala object Main { def main(args: Array[String]) = { println(\"Hello.\") } } run\n$ sbt package The result is in target/scala-2.13/scala-start_2.13-1.jar. You can look at/unpack the contents via\n$ jar -xvf target/scala-2.13/scala-start_2.13-1.jar inflated: META-INF/MANIFEST.MF inflated: Main$.class inflated: Main.class To run it via java, you need to add both the jar and the scala-library.jar to the classpath. If you use sbt stage, it gets copied next to the output, but you can also reference the one that is already present on your machine (in this example installed via Homebrew):\n$ java -cp \"/usr/local/Cellar/scala/2.13.5/libexec/lib/*:.\" Main Hello. Creating a Really Minimal Example (without sbt) To go even more minimal, you can work with a single scala-file:\nMain.scala object Main { def main(args: Array[String]) = { println(\"Hello.\") } } Compile and run it via\nscala Main.scala Hello. or\n$ scalac Main.scala $ scala Main Hello. The second version will create two class files (that you also found inside the jar earlier):\n Main.class Main$.class (the object)  Running scalap and javap Now that you have class-files, you can take them apart with\n$ scalap Main Main$ object Main extends scala.AnyRef { def this() = { /* compiled code */ } def main(args: scala.Array[scala.Predef.String]): scala.Unit = { /* compiled code */ } } package Main$; final class Main$ extends scala.AnyRef { def this(): scala.Unit; def main(scala.Array[java.lang.String]): scala.Unit; } object Main$ { final val MODULE$: Main$; } You can also use javap, since it’s just class-files:\n$ javap Main Main$ Compiled from \"Main.scala\" public final class Main { public static void main(java.lang.String[]); } Compiled from \"Main.scala\" public final class Main$ { public static final Main$ MODULE$; public static {}; public void main(java.lang.String[]); } Excursion: Scala 3 / dotty If you compile with the Scala 3 compiler (dotty), the result of scalap will be slightly different:\n$ /usr/local/Cellar/dotty/3.0.0-RC1/bin/scalac Main.scala $ scalap Main Main$ package Main; final class Main extends scala.AnyRef { } object Main { def main(scala.Array[java.lang.String]): scala.Unit; } package Main$; final class Main$ extends scala.AnyRef with java.io.Serializable { def main(scala.Array[java.lang.String]): scala.Unit; def writeReplace(): scala.Any; def this(): scala.Unit; } object Main$ { final val MODULE$: Main$; } …while the javap output stays almost the same (except for implements java.io.Serializable).\n$ javap Main Main$ Compiled from \"Main.scala\" public final class Main { public static void main(java.lang.String[]); } Compiled from \"Main.scala\" public final class Main$ implements java.io.Serializable { public static final Main$ MODULE$; public static {}; public void main(java.lang.String[]); } Printing just before JVM Bytecode Generation The Scala compiler allows you to get a preview with the print flag:\n$ scalac -print:true Main.scala [[syntax trees at end of cleanup]] // Main.scala package empty { object Main extends Object { def main(args: Array[String]): Unit = scala.Predef.println(\"Hello.\"); def init(): Main.type = { Main.super.init(); () } } } The “cleanup” refers to the phase of the compiler. You can see them with\n$ scalac -Vphases // or -Xshow-phases phase name id description ---------- -- ----------- parser 1 parse source into ASTs, perform simple desugaring namer 2 resolve names, attach symbols to named trees packageobjects 3 load package objects typer 4 the meat and potatoes: type the trees superaccessors 5 add super accessors in traits and nested classes extmethods 6 add extension methods for inline classes pickler 7 serialize symbol tables refchecks 8 reference/override checking, translate nested objects patmat 9 translate match expressions uncurry 10 uncurry, translate function values to anonymous classes fields 11 synthesize accessors and fields, add bitmaps for lazy vals tailcalls 12 replace tail calls by jumps specialize 13 @specialized-driven class and method specialization explicitouter 14 this refs to outer pointers erasure 15 erase types, add interfaces for traits posterasure 16 clean up erased inline classes lambdalift 17 move nested functions to top level constructors 18 move field definitions into constructors flatten 19 eliminate inner classes mixin 20 mixin composition cleanup 21 platform-specific cleanups, generate reflective calls delambdafy 22 remove lambdas jvm 23 generate JVM bytecode terminal 24 the last phase during a compilation run You can also get the output after a specific compiler phase with\n$ scalac -Vprint:24 Main.scala [[syntax trees at end of pickler]] // Main.scala package empty { object Main extends scala.AnyRef { def init(): Main.type = { Main.super.init(); () }; def main(args: Array[String]): Unit = scala.Predef.println(\"Hello.\") } } You can also specify ranges:\n$ scalac -Vprint:1-5 Main.scala or all the steps with underscore:\n$ scalac -Vprint:_ Main.scala You can find more information about the compiler-flags\n by running scalac, scalac -V, scalac -X, etc in the docs on this website at the source of truth aka the code  The Bytecode The final step is to see the actual bytecode:\n$ javap -private -c -s -l Main Compiled from \"Main.scala\" public final class Main { public static void main(java.lang.String[]); descriptor: ([Ljava/lang/String;)V Code: 0: getstatic #17 // Field Main$.MODULE$:LMain$;  3: aload_0 4: invokevirtual #19 // Method Main$.main:([Ljava/lang/String;)V  7: return } You can also use a tool such as jclasslib to inspect the bytecode.\nThe Java Code Okay, Bytecode was not the final step, you can take one further and convert it back to Java code! I use cfr for that, and add the scala-library to the classpath:\n$ java -jar cfr.jar Main Main$ --extraclasspath /usr/local/Cellar/scala/2.13.5/libexec/lib/scala-library.jar /* * Decompiled with CFR 0.151. */ import scala.reflect.ScalaSignature; @ScalaSignature(bytes=\"\\u0006\\u0005... (this is 'pickled scala')\") public final class Main { public static void main(String[] stringArray) { Main$.MODULE$.main(stringArray); } } /* * Decompiled with CFR 0.151. */ import scala.Predef$; public final class Main$ { public static final Main$ MODULE$ = new Main$(); public void main(String[] args) { Predef$.MODULE$.println(\"Hello.\"); } private Main$() { } } Errors you can run into NoClassDefFoundError: scala/Predef$ Exception in thread \"main\" java.lang.NoClassDefFoundError: scala/Predef$ at Main$.main(Main.scala:3) at Main.main(Main.scala) Caused by: java.lang.ClassNotFoundException: scala.Predef$ at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:606) at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:168) at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522) = your jar is missing the scala-library. Either package it (using sbt stage for example) or add it to the classpath. Either way you probably want to use\n$ java -cp \"path/to/scala/lib/*:path/to/your/jar\" NameOfTheMainClass for example\n$ java -cp \"/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar\" Main NoClassDefFoundError: scala/Function0 Error: Unable to initialize main class Main Caused by: java.lang.NoClassDefFoundError: scala/Function0 This is the same as above, but you used the\nobject Main extends App { println(\"Hello.\") } code, which gives a slightly nicer error message. The solution is the same: put the scala-library and your jar in the classpath.\nNo such file or class on classpath: Main $ scala Main No such file or class on classpath: Main The scala command can do two things:\n run something from a *.class file if you provide a name compile and run something if you provide a file name  Solution: Either run $ scala Main.scala or $ scalac Main.scala first and then $ scala Main.\nclass/object Main not found. $ scalap Main class/object Main not found. $ scalap Main.scala class/object Main.scala not found. The scalap tool actually needs compiled classes. Run $ scalac Main.scala first.\n",
+  "articleBody": "Do you know what happens after you compile? Let’s take a look at what the Scala compiler tells us, and what scalap and javap can reveal about .class files.\nCreating a Minimal Example with sbt First, we’ll need something very small to compile, to still understand all of the output.\nbuild.sbt name := \"scala-start\" version := \"1\" scalaVersion := \"2.13.5\" scalacOptions := Seq(\"-target:11\") project/build.properties sbt.version=1.4.9 src/main/scala/Main.scala object Main { def main(args: Array[String]) = { println(\"Hello.\") } } run\n$ sbt package The result is in target/scala-2.13/scala-start_2.13-1.jar. You can look at/unpack the contents via\n$ jar -xvf target/scala-2.13/scala-start_2.13-1.jar inflated: META-INF/MANIFEST.MF inflated: Main$.class inflated: Main.class To run it via java, you need to add both the jar and the scala-library.jar to the classpath. If you use sbt stage, it gets copied next to the output, but you can also reference the one that is already present on your machine (in this example installed via Homebrew):\n$ java -cp \"/usr/local/Cellar/scala/2.13.5/libexec/lib/*:.\" Main Hello. Creating a Really Minimal Example (without sbt) To go even more minimal, you can work with a single scala-file:\nMain.scala object Main { def main(args: Array[String]) = { println(\"Hello.\") } } Compile and run it via\nscala Main.scala Hello. or\n$ scalac Main.scala $ scala Main Hello. The second version will create two class files (that you also found inside the jar earlier):\nMain.class Main$.class (the object) Running scalap and javap Now that you have class-files, you can take them apart with\n$ scalap Main Main$ object Main extends scala.AnyRef { def this() = { /* compiled code */ } def main(args: scala.Array[scala.Predef.String]): scala.Unit = { /* compiled code */ } } package Main$; final class Main$ extends scala.AnyRef { def this(): scala.Unit; def main(scala.Array[java.lang.String]): scala.Unit; } object Main$ { final val MODULE$: Main$; } You can also use javap, since it’s just class-files:\n$ javap Main Main$ Compiled from \"Main.scala\" public final class Main { public static void main(java.lang.String[]); } Compiled from \"Main.scala\" public final class Main$ { public static final Main$ MODULE$; public static {}; public void main(java.lang.String[]); } Excursion: Scala 3 / dotty If you compile with the Scala 3 compiler (dotty), the result of scalap will be slightly different:\n$ /usr/local/Cellar/dotty/3.0.0-RC1/bin/scalac Main.scala $ scalap Main Main$ package Main; final class Main extends scala.AnyRef { } object Main { def main(scala.Array[java.lang.String]): scala.Unit; } package Main$; final class Main$ extends scala.AnyRef with java.io.Serializable { def main(scala.Array[java.lang.String]): scala.Unit; def writeReplace(): scala.Any; def this(): scala.Unit; } object Main$ { final val MODULE$: Main$; } …while the javap output stays almost the same (except for implements java.io.Serializable).\n$ javap Main Main$ Compiled from \"Main.scala\" public final class Main { public static void main(java.lang.String[]); } Compiled from \"Main.scala\" public final class Main$ implements java.io.Serializable { public static final Main$ MODULE$; public static {}; public void main(java.lang.String[]); } Printing just before JVM Bytecode Generation The Scala compiler allows you to get a preview with the print flag:\n$ scalac -print:true Main.scala [[syntax trees at end of cleanup]] // Main.scala package \u003cempty\u003e { object Main extends Object { def main(args: Array[String]): Unit = scala.Predef.println(\"Hello.\"); def \u003cinit\u003e(): Main.type = { Main.super.\u003cinit\u003e(); () } } } The “cleanup” refers to the phase of the compiler. You can see them with\n$ scalac -Vphases // or -Xshow-phases phase name id description ---------- -- ----------- parser 1 parse source into ASTs, perform simple desugaring namer 2 resolve names, attach symbols to named trees packageobjects 3 load package objects typer 4 the meat and potatoes: type the trees superaccessors 5 add super accessors in traits and nested classes extmethods 6 add extension methods for inline classes pickler 7 serialize symbol tables refchecks 8 reference/override checking, translate nested objects patmat 9 translate match expressions uncurry 10 uncurry, translate function values to anonymous classes fields 11 synthesize accessors and fields, add bitmaps for lazy vals tailcalls 12 replace tail calls by jumps specialize 13 @specialized-driven class and method specialization explicitouter 14 this refs to outer pointers erasure 15 erase types, add interfaces for traits posterasure 16 clean up erased inline classes lambdalift 17 move nested functions to top level constructors 18 move field definitions into constructors flatten 19 eliminate inner classes mixin 20 mixin composition cleanup 21 platform-specific cleanups, generate reflective calls delambdafy 22 remove lambdas jvm 23 generate JVM bytecode terminal 24 the last phase during a compilation run You can also get the output after a specific compiler phase with\n$ scalac -Vprint:24 Main.scala [[syntax trees at end of pickler]] // Main.scala package \u003cempty\u003e { object Main extends scala.AnyRef { def \u003cinit\u003e(): Main.type = { Main.super.\u003cinit\u003e(); () }; def main(args: Array[String]): Unit = scala.Predef.println(\"Hello.\") } } You can also specify ranges:\n$ scalac -Vprint:1-5 Main.scala or all the steps with underscore:\n$ scalac -Vprint:_ Main.scala You can find more information about the compiler-flags\nby running scalac, scalac -V, scalac -X, etc in the docs on this website at the source of truth aka the code The Bytecode The final step is to see the actual bytecode:\n$ javap -private -c -s -l Main Compiled from \"Main.scala\" public final class Main { public static void main(java.lang.String[]); descriptor: ([Ljava/lang/String;)V Code: 0: getstatic #17 // Field Main$.MODULE$:LMain$; 3: aload_0 4: invokevirtual #19 // Method Main$.main:([Ljava/lang/String;)V 7: return } You can also use a tool such as jclasslib to inspect the bytecode.\nThe Java Code Okay, Bytecode was not the final step, you can take one further and convert it back to Java code! I use cfr for that, and add the scala-library to the classpath:\n$ java -jar cfr.jar Main Main$ --extraclasspath /usr/local/Cellar/scala/2.13.5/libexec/lib/scala-library.jar /* * Decompiled with CFR 0.151. */ import scala.reflect.ScalaSignature; @ScalaSignature(bytes=\"\\u0006\\u0005... (this is 'pickled scala')\") public final class Main { public static void main(String[] stringArray) { Main$.MODULE$.main(stringArray); } } /* * Decompiled with CFR 0.151. */ import scala.Predef$; public final class Main$ { public static final Main$ MODULE$ = new Main$(); public void main(String[] args) { Predef$.MODULE$.println(\"Hello.\"); } private Main$() { } } Errors you can run into NoClassDefFoundError: scala/Predef$ Exception in thread \"main\" java.lang.NoClassDefFoundError: scala/Predef$ at Main$.main(Main.scala:3) at Main.main(Main.scala) Caused by: java.lang.ClassNotFoundException: scala.Predef$ at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:606) at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:168) at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522) =\u003e your jar is missing the scala-library. Either package it (using sbt stage for example) or add it to the classpath. Either way you probably want to use\n$ java -cp \"path/to/scala/lib/*:path/to/your/jar\" NameOfTheMainClass for example\n$ java -cp \"/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar\" Main NoClassDefFoundError: scala/Function0 Error: Unable to initialize main class Main Caused by: java.lang.NoClassDefFoundError: scala/Function0 This is the same as above, but you used the\nobject Main extends App { println(\"Hello.\") } code, which gives a slightly nicer error message. The solution is the same: put the scala-library and your jar in the classpath.\nNo such file or class on classpath: Main $ scala Main No such file or class on classpath: Main The scala command can do two things:\nrun something from a *.class file if you provide a name compile and run something if you provide a file name Solution: Either run $ scala Main.scala or $ scalac Main.scala first and then $ scala Main.\nclass/object Main not found. $ scalap Main class/object Main not found. $ scalap Main.scala class/object Main.scala not found. The scalap tool actually needs compiled classes. Run $ scalac Main.scala first.\n",
   "wordCount" : "1194",
   "inLanguage": "en",
   "datePublished": "2021-03-25T09:00:00+01:00",
@@ -140,16 +139,16 @@
     <nav class="nav">
         <div class="logo">
             <a href="https://www.jannikarndt.de/" accesskey="h" title="JannikArndt.de (Alt + H)">
-                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="logo" aria-label="logo"
+                <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -163,7 +162,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -226,165 +225,165 @@
 <h2 id="creating-a-minimal-example-with-sbt">Creating a Minimal Example with <code>sbt</code><a hidden class="anchor" aria-hidden="true" href="#creating-a-minimal-example-with-sbt">#</a></h2>
 <p>First, we&rsquo;ll need something very small to compile, to still understand <em>all</em> of the output.</p>
 <div class="filename">build.sbt</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;scala-start&#34;</span>
-<span class="n">version</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;1&#34;</span>
-<span class="n">scalaVersion</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;2.13.5&#34;</span>
-<span class="n">scalacOptions</span> <span class="k">:</span><span class="o">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&#34;-target:11&#34;</span><span class="o">)</span>
-</code></pre></div><div class="filename">project/build.properties</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">sbt</span><span class="o">.</span><span class="n">version</span><span class="k">=</span><span class="mf">1.4</span><span class="o">.</span><span class="mi">9</span>
-</code></pre></div><div class="filename">src/main/scala/Main.scala</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
-    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
-        <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>run</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">name</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;scala-start&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">version</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">scalaVersion</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;2.13.5&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">scalacOptions</span> <span class="k">:</span><span class="o">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">&#34;-target:11&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><div class="filename">project/build.properties</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">sbt</span><span class="o">.</span><span class="n">version</span><span class="k">=</span><span class="mf">1.4</span><span class="o">.</span><span class="mi">9</span>
+</span></span></code></pre></div><div class="filename">src/main/scala/Main.scala</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>run</p>
 <pre tabindex="0"><code class="language-shellsession" data-lang="shellsession">$ sbt package
 </code></pre><p>The result is in <code>target/scala-2.13/scala-start_2.13-1.jar</code>. You can look at/unpack the contents via</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ jar -xvf target/scala-2.13/scala-start_2.13-1.jar             
- inflated: META-INF/MANIFEST.MF
- inflated: Main$.class
- inflated: Main.class
-</code></pre></div><p>To run it via <code>java</code>, you need to add both the <code>jar</code> and the <code>scala-library.jar</code> to the classpath. If you use <code>sbt stage</code>, it gets copied next to the output, but you can also reference the one that is already present on your machine (in this example installed via Homebrew):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ java -cp <span class="s2">&#34;/usr/local/Cellar/scala/2.13.5/libexec/lib/*:.&#34;</span> Main  
-Hello.
-</code></pre></div><h2 id="creating-a-really-minimal-example-without-sbt">Creating a Really Minimal Example (without <code>sbt</code>)<a hidden class="anchor" aria-hidden="true" href="#creating-a-really-minimal-example-without-sbt">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ jar -xvf target/scala-2.13/scala-start_2.13-1.jar             
+</span></span><span class="line"><span class="cl"> inflated: META-INF/MANIFEST.MF
+</span></span><span class="line"><span class="cl"> inflated: Main$.class
+</span></span><span class="line"><span class="cl"> inflated: Main.class
+</span></span></code></pre></div><p>To run it via <code>java</code>, you need to add both the <code>jar</code> and the <code>scala-library.jar</code> to the classpath. If you use <code>sbt stage</code>, it gets copied next to the output, but you can also reference the one that is already present on your machine (in this example installed via Homebrew):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ java -cp <span class="s2">&#34;/usr/local/Cellar/scala/2.13.5/libexec/lib/*:.&#34;</span> Main  
+</span></span><span class="line"><span class="cl">Hello.
+</span></span></code></pre></div><h2 id="creating-a-really-minimal-example-without-sbt">Creating a Really Minimal Example (without <code>sbt</code>)<a hidden class="anchor" aria-hidden="true" href="#creating-a-really-minimal-example-without-sbt">#</a></h2>
 <p>To go even more minimal, you can work with a single scala-file:</p>
 <div class="filename">Main.scala</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
-    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
-        <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>Compile and run it via</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">scala Main.scala 
-Hello.
-</code></pre></div><p>or</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalac Main.scala 
-$ scala Main       
-Hello.
-</code></pre></div><p>The second version will create two <code>class</code> files (that you also found inside the <code>jar</code> earlier):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Compile and run it via</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">scala Main.scala 
+</span></span><span class="line"><span class="cl">Hello.
+</span></span></code></pre></div><p>or</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalac Main.scala 
+</span></span><span class="line"><span class="cl">$ scala Main       
+</span></span><span class="line"><span class="cl">Hello.
+</span></span></code></pre></div><p>The second version will create two <code>class</code> files (that you also found inside the <code>jar</code> earlier):</p>
 <ul>
 <li><code>Main.class</code></li>
 <li><code>Main$.class</code> (the object)</li>
 </ul>
 <h2 id="running-scalap-and-javap">Running <code>scalap</code> and <code>javap</code><a hidden class="anchor" aria-hidden="true" href="#running-scalap-and-javap">#</a></h2>
 <p>Now that you have <code>class</code>-files, you can take them apart with</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalap Main Main$
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="k">this</span><span class="o">()</span> <span class="k">=</span> <span class="o">{</span> <span class="cm">/* compiled code */</span> <span class="o">}</span>
-  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">scala.Array</span><span class="o">[</span><span class="kt">scala.Predef.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span> <span class="o">=</span> <span class="o">{</span> <span class="cm">/* compiled code */</span> <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="k">package</span> <span class="nn">Main$</span><span class="o">;</span>
-<span class="k">final</span> <span class="k">class</span> <span class="nc">Main$</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="k">this</span><span class="o">()</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
-  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">scala</span><span class="o">.</span><span class="nc">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
-<span class="o">}</span>
-<span class="k">object</span> <span class="nc">Main$</span> <span class="o">{</span>
-  <span class="k">final</span> <span class="k">val</span> <span class="nc">MODULE</span><span class="n">$</span><span class="k">:</span> <span class="kt">Main$</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>You can also use <code>javap</code>, since it&rsquo;s just class-files:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ javap Main Main$
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
-<span class="o">}</span>
-<span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main$</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Main$</span> <span class="n">MODULE$</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="o">{};</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="excursion-scala-3--dotty">Excursion: Scala 3 / dotty<a hidden class="anchor" aria-hidden="true" href="#excursion-scala-3--dotty">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalap Main Main$
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="k">this</span><span class="o">()</span> <span class="k">=</span> <span class="o">{</span> <span class="cm">/* compiled code */</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">scala.Array</span><span class="o">[</span><span class="kt">scala.Predef.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span> <span class="o">=</span> <span class="o">{</span> <span class="cm">/* compiled code */</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Main$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">final</span> <span class="k">class</span> <span class="nc">Main$</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="k">this</span><span class="o">()</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">scala</span><span class="o">.</span><span class="nc">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main$</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">final</span> <span class="k">val</span> <span class="nc">MODULE</span><span class="n">$</span><span class="k">:</span> <span class="kt">Main$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>You can also use <code>javap</code>, since it&rsquo;s just class-files:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ javap Main Main$
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main$</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Main$</span> <span class="n">MODULE$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="o">{};</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="excursion-scala-3--dotty">Excursion: Scala 3 / dotty<a hidden class="anchor" aria-hidden="true" href="#excursion-scala-3--dotty">#</a></h2>
 <p>If you compile with the Scala 3 compiler (dotty), the result of <code>scalap</code> will be slightly different:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ /usr/local/Cellar/dotty/3.0.0-RC1/bin/scalac Main.scala
-$ scalap Main Main$
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">package</span> <span class="nn">Main</span><span class="o">;</span>
-<span class="k">final</span> <span class="k">class</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
-<span class="o">}</span>
-<span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">scala</span><span class="o">.</span><span class="nc">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
-<span class="o">}</span>
-<span class="k">package</span> <span class="nn">Main$</span><span class="o">;</span>
-<span class="k">final</span> <span class="k">class</span> <span class="nc">Main$</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="k">with</span> <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="nc">Serializable</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">scala</span><span class="o">.</span><span class="nc">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
-  <span class="k">def</span> <span class="n">writeReplace</span><span class="o">()</span><span class="k">:</span> <span class="kt">scala.Any</span><span class="o">;</span>
-  <span class="k">def</span> <span class="k">this</span><span class="o">()</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
-<span class="o">}</span>
-<span class="k">object</span> <span class="nc">Main$</span> <span class="o">{</span>
-  <span class="k">final</span> <span class="k">val</span> <span class="nc">MODULE</span><span class="n">$</span><span class="k">:</span> <span class="kt">Main$</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>…while the <code>javap</code> output stays <em>almost</em> the same (except for <code>implements java.io.Serializable</code>).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ javap Main Main$
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
-<span class="o">}</span>
-<span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main$</span> <span class="kd">implements</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Main$</span> <span class="n">MODULE$</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="o">{};</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="printing-just-before-jvm-bytecode-generation">Printing just before JVM Bytecode Generation<a hidden class="anchor" aria-hidden="true" href="#printing-just-before-jvm-bytecode-generation">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ /usr/local/Cellar/dotty/3.0.0-RC1/bin/scalac Main.scala
+</span></span><span class="line"><span class="cl">$ scalap Main Main$
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Main</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">final</span> <span class="k">class</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">scala</span><span class="o">.</span><span class="nc">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Main$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">final</span> <span class="k">class</span> <span class="nc">Main$</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="k">with</span> <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="nc">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">scala</span><span class="o">.</span><span class="nc">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">])</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">writeReplace</span><span class="o">()</span><span class="k">:</span> <span class="kt">scala.Any</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="k">this</span><span class="o">()</span><span class="k">:</span> <span class="kt">scala.Unit</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main$</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">final</span> <span class="k">val</span> <span class="nc">MODULE</span><span class="n">$</span><span class="k">:</span> <span class="kt">Main$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>…while the <code>javap</code> output stays <em>almost</em> the same (except for <code>implements java.io.Serializable</code>).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ javap Main Main$
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main$</span> <span class="kd">implements</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Main$</span> <span class="n">MODULE$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="o">{};</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="printing-just-before-jvm-bytecode-generation">Printing just before JVM Bytecode Generation<a hidden class="anchor" aria-hidden="true" href="#printing-just-before-jvm-bytecode-generation">#</a></h2>
 <p>The Scala compiler allows you to get a preview with the <code>print</code> flag:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalac -print:true Main.scala
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="o">[[</span><span class="kt">syntax</span> <span class="kt">trees</span> <span class="kt">at</span> <span class="kt">end</span> <span class="kt">of</span>                   <span class="kt">cleanup</span><span class="o">]]</span> <span class="c1">// Main.scala
-</span><span class="c1"></span><span class="k">package</span> <span class="err">&lt;</span><span class="nn">empty</span><span class="o">&gt;</span> <span class="o">{</span>
-  <span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="nc">Object</span> <span class="o">{</span>
-    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">scala</span><span class="o">.</span><span class="nc">Predef</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">);</span>
-    <span class="k">def</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="k">:</span> <span class="kt">Main.</span><span class="k">type</span> <span class="o">=</span> <span class="o">{</span>
-      <span class="nc">Main</span><span class="o">.</span><span class="k">super</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;();</span>
-      <span class="o">()</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>The &ldquo;cleanup&rdquo; refers to the phase of the compiler. You can see them with</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalac -Vphases // or -Xshow-phases         
-    phase name  id  description
-    ----------  --  -----------
-        parser   <span class="m">1</span>  parse <span class="nb">source</span> into ASTs, perform simple desugaring
-         namer   <span class="m">2</span>  resolve names, attach symbols to named trees
-packageobjects   <span class="m">3</span>  load package objects
-         typer   <span class="m">4</span>  the meat and potatoes: <span class="nb">type</span> the trees
-superaccessors   <span class="m">5</span>  add super accessors in traits and nested classes
-    extmethods   <span class="m">6</span>  add extension methods <span class="k">for</span> inline classes
-       pickler   <span class="m">7</span>  serialize symbol tables
-     refchecks   <span class="m">8</span>  reference/override checking, translate nested objects
-        patmat   <span class="m">9</span>  translate match expressions
-       uncurry  <span class="m">10</span>  uncurry, translate <span class="k">function</span> values to anonymous classes
-        fields  <span class="m">11</span>  synthesize accessors and fields, add bitmaps <span class="k">for</span> lazy vals
-     tailcalls  <span class="m">12</span>  replace tail calls by jumps
-    specialize  <span class="m">13</span>  @specialized-driven class and method specialization
- explicitouter  <span class="m">14</span>  this refs to outer pointers
-       erasure  <span class="m">15</span>  erase types, add interfaces <span class="k">for</span> traits
-   posterasure  <span class="m">16</span>  clean up erased inline classes
-    lambdalift  <span class="m">17</span>  move nested functions to top level
-  constructors  <span class="m">18</span>  move field definitions into constructors
-       flatten  <span class="m">19</span>  eliminate inner classes
-         mixin  <span class="m">20</span>  mixin composition
-       cleanup  <span class="m">21</span>  platform-specific cleanups, generate reflective calls
-    delambdafy  <span class="m">22</span>  remove lambdas
-           jvm  <span class="m">23</span>  generate JVM bytecode
-      terminal  <span class="m">24</span>  the last phase during a compilation run
-</code></pre></div><p>You can also get the output after a specific compiler phase with</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalac -Vprint:24 Main.scala
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="o">[[</span><span class="kt">syntax</span> <span class="kt">trees</span> <span class="kt">at</span> <span class="kt">end</span> <span class="kt">of</span>                   <span class="kt">pickler</span><span class="o">]]</span> <span class="c1">// Main.scala
-</span><span class="c1"></span><span class="k">package</span> <span class="err">&lt;</span><span class="nn">empty</span><span class="o">&gt;</span> <span class="o">{</span>
-  <span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
-    <span class="k">def</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="k">:</span> <span class="kt">Main.</span><span class="k">type</span> <span class="o">=</span> <span class="o">{</span>
-      <span class="nc">Main</span><span class="o">.</span><span class="k">super</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;();</span>
-      <span class="o">()</span>
-    <span class="o">};</span>
-    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">scala</span><span class="o">.</span><span class="nc">Predef</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>You can also specify ranges:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalac -Vprint:1-5 Main.scala
-</code></pre></div><p>or all the steps with underscore:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalac -Vprint:_ Main.scala
-</code></pre></div><p>You can find more information about the compiler-flags</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalac -print:true Main.scala
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="o">[[</span><span class="kt">syntax</span> <span class="kt">trees</span> <span class="kt">at</span> <span class="kt">end</span> <span class="kt">of</span>                   <span class="kt">cleanup</span><span class="o">]]</span> <span class="c1">// Main.scala
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">package</span> <span class="err">&lt;</span><span class="nn">empty</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="nc">Object</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">scala</span><span class="o">.</span><span class="nc">Predef</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="k">:</span> <span class="kt">Main.</span><span class="k">type</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Main</span><span class="o">.</span><span class="k">super</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl">      <span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>The &ldquo;cleanup&rdquo; refers to the phase of the compiler. You can see them with</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalac -Vphases // or -Xshow-phases         
+</span></span><span class="line"><span class="cl">    phase name  id  description
+</span></span><span class="line"><span class="cl">    ----------  --  -----------
+</span></span><span class="line"><span class="cl">        parser   <span class="m">1</span>  parse <span class="nb">source</span> into ASTs, perform simple desugaring
+</span></span><span class="line"><span class="cl">         namer   <span class="m">2</span>  resolve names, attach symbols to named trees
+</span></span><span class="line"><span class="cl">packageobjects   <span class="m">3</span>  load package objects
+</span></span><span class="line"><span class="cl">         typer   <span class="m">4</span>  the meat and potatoes: <span class="nb">type</span> the trees
+</span></span><span class="line"><span class="cl">superaccessors   <span class="m">5</span>  add super accessors in traits and nested classes
+</span></span><span class="line"><span class="cl">    extmethods   <span class="m">6</span>  add extension methods <span class="k">for</span> inline classes
+</span></span><span class="line"><span class="cl">       pickler   <span class="m">7</span>  serialize symbol tables
+</span></span><span class="line"><span class="cl">     refchecks   <span class="m">8</span>  reference/override checking, translate nested objects
+</span></span><span class="line"><span class="cl">        patmat   <span class="m">9</span>  translate match expressions
+</span></span><span class="line"><span class="cl">       uncurry  <span class="m">10</span>  uncurry, translate <span class="k">function</span> values to anonymous classes
+</span></span><span class="line"><span class="cl">        fields  <span class="m">11</span>  synthesize accessors and fields, add bitmaps <span class="k">for</span> lazy vals
+</span></span><span class="line"><span class="cl">     tailcalls  <span class="m">12</span>  replace tail calls by jumps
+</span></span><span class="line"><span class="cl">    specialize  <span class="m">13</span>  @specialized-driven class and method specialization
+</span></span><span class="line"><span class="cl"> explicitouter  <span class="m">14</span>  this refs to outer pointers
+</span></span><span class="line"><span class="cl">       erasure  <span class="m">15</span>  erase types, add interfaces <span class="k">for</span> traits
+</span></span><span class="line"><span class="cl">   posterasure  <span class="m">16</span>  clean up erased inline classes
+</span></span><span class="line"><span class="cl">    lambdalift  <span class="m">17</span>  move nested functions to top level
+</span></span><span class="line"><span class="cl">  constructors  <span class="m">18</span>  move field definitions into constructors
+</span></span><span class="line"><span class="cl">       flatten  <span class="m">19</span>  eliminate inner classes
+</span></span><span class="line"><span class="cl">         mixin  <span class="m">20</span>  mixin composition
+</span></span><span class="line"><span class="cl">       cleanup  <span class="m">21</span>  platform-specific cleanups, generate reflective calls
+</span></span><span class="line"><span class="cl">    delambdafy  <span class="m">22</span>  remove lambdas
+</span></span><span class="line"><span class="cl">           jvm  <span class="m">23</span>  generate JVM bytecode
+</span></span><span class="line"><span class="cl">      terminal  <span class="m">24</span>  the last phase during a compilation run
+</span></span></code></pre></div><p>You can also get the output after a specific compiler phase with</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalac -Vprint:24 Main.scala
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="o">[[</span><span class="kt">syntax</span> <span class="kt">trees</span> <span class="kt">at</span> <span class="kt">end</span> <span class="kt">of</span>                   <span class="kt">pickler</span><span class="o">]]</span> <span class="c1">// Main.scala
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">package</span> <span class="err">&lt;</span><span class="nn">empty</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="n">scala</span><span class="o">.</span><span class="nc">AnyRef</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;()</span><span class="k">:</span> <span class="kt">Main.</span><span class="k">type</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Main</span><span class="o">.</span><span class="k">super</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl">      <span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">scala</span><span class="o">.</span><span class="nc">Predef</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>You can also specify ranges:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalac -Vprint:1-5 Main.scala
+</span></span></code></pre></div><p>or all the steps with underscore:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalac -Vprint:_ Main.scala
+</span></span></code></pre></div><p>You can find more information about the compiler-flags</p>
 <ul>
 <li>by running <code>scalac</code>, <code>scalac -V</code>, <code>scalac -X</code>, etc</li>
 <li><a href="https://docs.scala-lang.org/overviews/compiler-options/index.html">in the docs</a></li>
@@ -393,83 +392,83 @@ superaccessors   <span class="m">5</span>  add super accessors in traits and nes
 </ul>
 <h2 id="the-bytecode">The Bytecode<a hidden class="anchor" aria-hidden="true" href="#the-bytecode">#</a></h2>
 <p>The final step is to see the actual bytecode:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ javap -private -c -s -l Main
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
-    <span class="n">descriptor</span><span class="o">:</span> <span class="o">([</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;)</span><span class="n">V</span>
-    <span class="n">Code</span><span class="o">:</span>
-       <span class="n">0</span><span class="o">:</span> <span class="n">getstatic</span>     <span class="err">#</span><span class="n">17</span>                 <span class="c1">// Field Main$.MODULE$:LMain$;
-</span><span class="c1"></span>       <span class="n">3</span><span class="o">:</span> <span class="n">aload_0</span>
-       <span class="n">4</span><span class="o">:</span> <span class="n">invokevirtual</span> <span class="err">#</span><span class="n">19</span>                 <span class="c1">// Method Main$.main:([Ljava/lang/String;)V
-</span><span class="c1"></span>       <span class="n">7</span><span class="o">:</span> <span class="k">return</span>
-<span class="o">}</span>
-</code></pre></div><p>You can also use a tool such as <a href="https://github.com/ingokegel/jclasslib">jclasslib</a> to inspect the bytecode.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ javap -private -c -s -l Main
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Compiled</span> <span class="n">from</span> <span class="s">&#34;Main.scala&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">descriptor</span><span class="o">:</span> <span class="o">([</span><span class="n">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="n">String</span><span class="o">;)</span><span class="n">V</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Code</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">       <span class="n">0</span><span class="o">:</span> <span class="n">getstatic</span>     <span class="err">#</span><span class="n">17</span>                 <span class="c1">// Field Main$.MODULE$:LMain$;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>       <span class="n">3</span><span class="o">:</span> <span class="n">aload_0</span>
+</span></span><span class="line"><span class="cl">       <span class="n">4</span><span class="o">:</span> <span class="n">invokevirtual</span> <span class="err">#</span><span class="n">19</span>                 <span class="c1">// Method Main$.main:([Ljava/lang/String;)V
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>       <span class="n">7</span><span class="o">:</span> <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>You can also use a tool such as <a href="https://github.com/ingokegel/jclasslib">jclasslib</a> to inspect the bytecode.</p>
 <h2 id="the-java-code">The Java Code<a hidden class="anchor" aria-hidden="true" href="#the-java-code">#</a></h2>
 <p>Okay, Bytecode was <em>not</em> the final step, you can take one further and convert it back to Java code! I use <a href="https://github.com/leibnitz27/cfr">cfr</a> for that, and add the <code>scala-library</code> to the classpath:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ java -jar cfr.jar Main Main$ --extraclasspath /usr/local/Cellar/scala/2.13.5/libexec/lib/scala-library.jar
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="cm">/*
-</span><span class="cm"> * Decompiled with CFR 0.151.
-</span><span class="cm"> */</span>
-<span class="kn">import</span> <span class="nn">scala.reflect.ScalaSignature</span><span class="o">;</span>
-
-<span class="nd">@ScalaSignature</span><span class="o">(</span><span class="n">bytes</span><span class="o">=</span><span class="s">&#34;\u0006\u0005... (this is &#39;pickled scala&#39;)&#34;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">stringArray</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">Main$</span><span class="o">.</span><span class="na">MODULE$</span><span class="o">.</span><span class="na">main</span><span class="o">(</span><span class="n">stringArray</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="cm">/*
-</span><span class="cm"> * Decompiled with CFR 0.151.
-</span><span class="cm"> */</span>
-<span class="kn">import</span> <span class="nn">scala.Predef</span><span class="n">$</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main$</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Main$</span> <span class="n">MODULE$</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Main$</span><span class="o">();</span>
-
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">Predef$</span><span class="o">.</span><span class="na">MODULE$</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">private</span> <span class="nf">Main$</span><span class="o">()</span> <span class="o">{</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="errors-you-can-run-into">Errors you can run into<a hidden class="anchor" aria-hidden="true" href="#errors-you-can-run-into">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ java -jar cfr.jar Main Main$ --extraclasspath /usr/local/Cellar/scala/2.13.5/libexec/lib/scala-library.jar
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * Decompiled with CFR 0.151.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">scala.reflect.ScalaSignature</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@ScalaSignature</span><span class="o">(</span><span class="n">bytes</span><span class="o">=</span><span class="s">&#34;\u0006\u0005... (this is &#39;pickled scala&#39;)&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">stringArray</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Main$</span><span class="o">.</span><span class="na">MODULE$</span><span class="o">.</span><span class="na">main</span><span class="o">(</span><span class="n">stringArray</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * Decompiled with CFR 0.151.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">scala.Predef</span><span class="n">$</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Main$</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Main$</span> <span class="n">MODULE$</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Main$</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Predef$</span><span class="o">.</span><span class="na">MODULE$</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">Main$</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="errors-you-can-run-into">Errors you can run into<a hidden class="anchor" aria-hidden="true" href="#errors-you-can-run-into">#</a></h2>
 <h3 id="noclassdeffounderror-scalapredef">NoClassDefFoundError: scala/Predef$<a hidden class="anchor" aria-hidden="true" href="#noclassdeffounderror-scalapredef">#</a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">Exception in thread <span class="s2">&#34;main&#34;</span> java.lang.NoClassDefFoundError: scala/Predef$
-	at Main$.main<span class="o">(</span>Main.scala:3<span class="o">)</span>
-	at Main.main<span class="o">(</span>Main.scala<span class="o">)</span>
-Caused by: java.lang.ClassNotFoundException: scala.Predef$
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass<span class="o">(</span>BuiltinClassLoader.java:606<span class="o">)</span>
-	at java.base/jdk.internal.loader.ClassLoaders<span class="nv">$AppClassLoader</span>.loadClass<span class="o">(</span>ClassLoaders.java:168<span class="o">)</span>
-	at java.base/java.lang.ClassLoader.loadClass<span class="o">(</span>ClassLoader.java:522<span class="o">)</span>
-</code></pre></div><p>=&gt; your <code>jar</code> is missing the <code>scala-library</code>. Either package it (using <code>sbt stage</code> for example) or add it to the classpath. Either way you probably want to use</p>
-<pre tabindex="0"><code>$ java -cp &quot;path/to/scala/lib/*:path/to/your/jar&quot; NameOfTheMainClass
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Exception in thread <span class="s2">&#34;main&#34;</span> java.lang.NoClassDefFoundError: scala/Predef$
+</span></span><span class="line"><span class="cl">	at Main$.main<span class="o">(</span>Main.scala:3<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at Main.main<span class="o">(</span>Main.scala<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Caused by: java.lang.ClassNotFoundException: scala.Predef$
+</span></span><span class="line"><span class="cl">	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass<span class="o">(</span>BuiltinClassLoader.java:606<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at java.base/jdk.internal.loader.ClassLoaders<span class="nv">$AppClassLoader</span>.loadClass<span class="o">(</span>ClassLoaders.java:168<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	at java.base/java.lang.ClassLoader.loadClass<span class="o">(</span>ClassLoader.java:522<span class="o">)</span>
+</span></span></code></pre></div><p>=&gt; your <code>jar</code> is missing the <code>scala-library</code>. Either package it (using <code>sbt stage</code> for example) or add it to the classpath. Either way you probably want to use</p>
+<pre tabindex="0"><code>$ java -cp &#34;path/to/scala/lib/*:path/to/your/jar&#34; NameOfTheMainClass
 </code></pre><p>for example</p>
-<pre tabindex="0"><code>$ java -cp &quot;/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar&quot; Main
+<pre tabindex="0"><code>$ java -cp &#34;/usr/local/Cellar/scala/2.13.5/libexec/lib/*:target/scala-2.13/scala-start_2.13-1.jar&#34; Main
 </code></pre><h3 id="noclassdeffounderror-scalafunction0">NoClassDefFoundError: scala/Function0<a hidden class="anchor" aria-hidden="true" href="#noclassdeffounderror-scalafunction0">#</a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">Error: Unable to initialize main class Main
-Caused by: java.lang.NoClassDefFoundError: scala/Function0
-</code></pre></div><p>This is the same as above, but you used the</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
-  <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
-<span class="o">}</span>
-</code></pre></div><p>code, which gives a slightly nicer error message. The solution is the same: put the <code>scala-library</code> and your <code>jar</code> in the classpath.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Error: Unable to initialize main class Main
+</span></span><span class="line"><span class="cl">Caused by: java.lang.NoClassDefFoundError: scala/Function0
+</span></span></code></pre></div><p>This is the same as above, but you used the</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello.&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>code, which gives a slightly nicer error message. The solution is the same: put the <code>scala-library</code> and your <code>jar</code> in the classpath.</p>
 <h3 id="no-such-file-or-class-on-classpath-main">No such file or class on classpath: Main<a hidden class="anchor" aria-hidden="true" href="#no-such-file-or-class-on-classpath-main">#</a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scala Main       
-No such file or class on classpath: Main
-</code></pre></div><p>The <code>scala</code> command can do two things:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scala Main       
+</span></span><span class="line"><span class="cl">No such file or class on classpath: Main
+</span></span></code></pre></div><p>The <code>scala</code> command can do two things:</p>
 <ul>
 <li>run something from a <code>*.class</code> file if you provide a <em>name</em></li>
 <li>compile and run something if you provide a <em>file name</em></li>
 </ul>
 <p>Solution: Either run <code>$ scala Main.scala</code> or <code>$ scalac Main.scala</code> <em>first</em> and <em>then</em> <code>$ scala Main</code>.</p>
 <h3 id="classobject-main-not-found">class/object Main not found.<a hidden class="anchor" aria-hidden="true" href="#classobject-main-not-found">#</a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ scalap Main      
-class/object Main not found.
-$ scalap Main.scala 
-class/object Main.scala not found.
-</code></pre></div><p>The <code>scalap</code> tool actually needs compiled classes. Run <code>$ scalac Main.scala</code> first.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ scalap Main      
+</span></span><span class="line"><span class="cl">class/object Main not found.
+</span></span><span class="line"><span class="cl">$ scalap Main.scala 
+</span></span><span class="line"><span class="cl">class/object Main.scala not found.
+</span></span></code></pre></div><p>The <code>scalap</code> tool actually needs compiled classes. Run <code>$ scalac Main.scala</code> first.</p>
 
   </div>
 

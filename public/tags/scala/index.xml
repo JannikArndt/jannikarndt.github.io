@@ -101,7 +101,7 @@ Let&amp;rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly kn
       <guid>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
       <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
- create a JIRA account and then create a ticket for a new project.</description>
+create a JIRA account and then create a ticket for a new project.</description>
     </item>
     
     <item>
