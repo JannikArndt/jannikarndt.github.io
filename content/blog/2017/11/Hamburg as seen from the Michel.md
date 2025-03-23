@@ -20,4 +20,4 @@ slug = "hamburg_as_seen_from_the_michel"
 
 Shot on iPhone 8.
 
-<img src="/blog/2017/11/hamburg_vom_michel_aus_ueberblick.png" alt=""> 
+<img src="/blog/2017/11/hamburg_vom_michel_aus_ueberblick.jpg" alt=""> 
