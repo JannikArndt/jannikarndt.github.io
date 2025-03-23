@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,14 +11,15 @@
 This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">
 <noscript>
     <style>
         #theme-toggle,
@@ -36,7 +37,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -55,20 +56,24 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
         }
 
     </style>
-</noscript><meta property="og:title" content="Writing case classes to MongoDB in Scala" />
-<meta property="og:description" content="Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.
-This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-08-19T10:05:00+01:00" />
-<meta property="article:modified_time" content="2017-08-19T10:05:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Writing case classes to MongoDB in Scala"/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Writing case classes to MongoDB in Scala">
+  <meta property="og:description" content="Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.
+This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2017-08-19T10:05:00+01:00">
+    <meta property="article:modified_time" content="2017-08-19T10:05:00+01:00">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="Scala">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Writing case classes to MongoDB in Scala">
 <meta name="twitter:description" content="Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.
-This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer."/>
+This example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.">
 
 
 <script type="application/ld+json">
@@ -104,7 +109,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
   "articleBody": "Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for java.time classes such as ZonedDateTime, LocalDate or Duration.\nThis example uses the official Mongo Scala Driver in version 2.x and the bsoncodec project by Ralph Schaer.\nThe solution First: A complete working example:\nimport java.math.BigDecimal import java.time.{LocalDate, LocalDateTime} import scala.concurrent.Await import scala.concurrent.duration._ import scala.language.postfixOps object MongoDbExample { def main(args: Array[String]): Unit = { val myParcel = Parcel( sender = Address(\"Online Shop 3000\", \"E-Commerce-Street\", \"Berlin\"), receiver = Address(\"Jannik\", \"Fun-Street\", \"Hamburg\"), sent = LocalDate.of(2017, 8, 12), received = Some(LocalDateTime.of(2017, 8, 19, 10, 24)), contents = Seq(Content(\"Cool Robot\", new BigDecimal(\"39.99\")), Content(\"Drone\", new BigDecimal(\"199.99\"))) ) Await.result(DB.parcels.insertOne(myParcel).toFuture, 10 seconds) val allParcels = Await.result(DB.parcels.find().toFuture(), 10 seconds) allParcels.foreach(println) } } case class Parcel(sender: Address, receiver: Address, sent: LocalDate, received: Option[LocalDateTime], contents: Seq[Content]) case class Address(name: String, street: String, city: String) case class Content(name: String, price: BigDecimal) object DB { import ch.rasc.bsoncodec.math._ import ch.rasc.bsoncodec.time._ import org.bson.codecs.configuration.CodecRegistries import org.bson.codecs.configuration.CodecRegistries._ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY import org.mongodb.scala.bson.codecs.Macros._ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content]) private val javaCodecs = CodecRegistries.fromCodecs( new LocalDateTimeDateCodec(), new LocalDateDateCodec(), new BigDecimalStringCodec()) private val codecRegistry = fromRegistries(customCodecs, javaCodecs, DEFAULT_CODEC_REGISTRY) private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") .withCodecRegistry(codecRegistry) val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } This results in the following entry:\n{ \"_id\" : ObjectId(\"5997f9ff96ddbad1d424981d\"), \"sender\" : { \"name\" : \"Online Shop 3000\", \"street\" : \"E-Commerce-Street\", \"city\" : \"Berlin\" }, \"receiver\" : { \"name\" : \"Jannik\", \"street\" : \"Fun-Street\", \"city\" : \"Hamburg\" }, \"sent\" : ISODate(\"2017-08-12T00:00:00.000Z\"), \"received\" : ISODate(\"2017-08-19T10:24:00.000Z\"), \"contents\" : [ { \"name\" : \"Cool Robot\", \"price\" : \"39.99\" }, { \"name\" : \"Drone\", \"price\" : \"199.99\" } ] } How to get there Adding codecs for custom classes The magic is obviously hidden in the DB object. Following just the driver documentation, one might start with this simpler version:\nobject DB { import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } This results in the exception\nException in thread \"main\" org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class de.jannikarndt.MongoDbExample.Parcel. Googleing for the problem, you find quite many outdated solutions, such as salat, which is still maintained but uses the outdated casbah driver (aka “version 1”).\nAlex Landa explains, that version 2 of the driver fixes this problem with macros:\nThe Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).\nSo the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:\nobject DB { import org.bson.codecs.configuration.CodecRegistries._ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY import org.mongodb.scala.bson.codecs.Macros._ import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase} private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content]) private val codecRegistry = fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY) private val database: MongoDatabase = MongoClient().getDatabase(\"TrackingData\") .withCodecRegistry(codecRegistry) val parcels: MongoCollection[Parcel] = database.getCollection(\"Parcels\") } Adding codecs for system classes This brings us one step further, to the next exception:\nException in thread \"main\" org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class java.time.LocalDate. If you try to add classOf[LocalDate] to the list, you get a compile error, stating that\nError:(41, 106) java.time.LocalDate does not have a constructor private val customCodecs = fromProviders(classOf[Parcel], classOf[Address], classOf[Content], classOf[LocalDate]) You (or a macro you invoke) cannot add code to the standard java classes. At this point, you would have to write a codec yourself, extending / implementing org.bson.codecs.Codec and overriding encode and decode.\nLuckily, Ralph Schaer has already done this — not just for LocalDate but for most of java.time, java.sql, URLs, BigDecimal, javax.money, and more, and for many types you can even decide how to encode them, i.e. to date, document or string.\nThat’s what the lines\nprivate val javaCodecs = CodecRegistries.fromCodecs( new LocalDateTimeDateCodec(), new LocalDateDateCodec(), new BigDecimalStringCodec()) private val codecRegistry = fromRegistries(customCodecs, javaCodecs, DEFAULT_CODEC_REGISTRY) in the final solution (see top of the page) are about.\n",
   "wordCount" : "623",
   "inLanguage": "en",
-  "datePublished": "2017-08-19T10:05:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2017-08-19T10:05:00+01:00",
   "dateModified": "2017-08-19T10:05:00+01:00",
   "author":{
     "@type": "Person",
@@ -145,7 +150,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -196,7 +201,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Writing case classes to MongoDB in Scala
     </h1>
     <div class="post-meta"><span title='2017-08-19 10:05:00 +0100 +0100'>August 19, 2017</span>&nbsp;·&nbsp;Jannik Arndt
@@ -312,8 +317,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 </code></pre><p>Googleing for the problem, you find quite many outdated solutions, such as <a href="https://github.com/salat/salat">salat</a>, which is still maintained but uses the outdated <a href="https://github.com/mongodb/casbah/">casbah</a> driver (aka &ldquo;version 1&rdquo;).</p>
 <p>Alex Landa <a href="http://trainologic.com/working-case-classes-mongodb-scala/">explains</a>, that version 2 of the driver fixes this problem with macros:</p>
 <blockquote>
-<p>The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).</p>
-</blockquote>
+<p>The Codec class is generated during the compile time and then added to the default codec registry (using the fromRegistries method).</p></blockquote>
 <p>So the next step is to create codecs for all custom classes and tell the MongoClient to use these codecs:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">DB</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">import</span> <span class="nn">org.bson.codecs.configuration.CodecRegistries._</span>

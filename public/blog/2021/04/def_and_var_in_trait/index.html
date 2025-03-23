@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,21 +10,21 @@
 <meta name="description" content="Scala traits should define defs, because
 
 “A val can override a def, but a def cannot override a val”
-
 (via Alvin Alexander via StackOverflow).
 But it&rsquo;s interesting to look at how the compiler treats that.
 Alvin Alexander did that, but only for Scala 2.12.8.
 Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/">
 <noscript>
     <style>
         #theme-toggle,
@@ -42,7 +42,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -61,32 +61,32 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
         }
 
     </style>
-</noscript><meta property="og:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0" />
-<meta property="og:description" content="Scala traits should define defs, because
-
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0">
+  <meta property="og:description" content="Scala traits should define defs, because
 “A val can override a def, but a def cannot override a val”
-
 (via Alvin Alexander via StackOverflow).
-But it&rsquo;s interesting to look at how the compiler treats that.
-Alvin Alexander did that, but only for Scala 2.12.8.
-Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty)." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2021-04-24T16:00:00+02:00" />
-<meta property="article:modified_time" content="2021-04-24T16:00:00+02:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0"/>
+But it’s interesting to look at how the compiler treats that. Alvin Alexander did that, but only for Scala 2.12.8. Let’s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2021-04-24T16:00:00+02:00">
+    <meta property="article:modified_time" content="2021-04-24T16:00:00+02:00">
+    <meta property="article:tag" content="Scala">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="JVM">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="def and var in traits on Scala 2.12, 2.13 and 3.0.0">
 <meta name="twitter:description" content="Scala traits should define defs, because
 
 “A val can override a def, but a def cannot override a val”
-
 (via Alvin Alexander via StackOverflow).
 But it&rsquo;s interesting to look at how the compiler treats that.
 Alvin Alexander did that, but only for Scala 2.12.8.
-Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty)."/>
+Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).">
 
 
 <script type="application/ld+json">
@@ -122,7 +122,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
   "articleBody": "Scala traits should define defs, because\n“A val can override a def, but a def cannot override a val”\n(via Alvin Alexander via StackOverflow).\nBut it’s interesting to look at how the compiler treats that. Alvin Alexander did that, but only for Scala 2.12.8. Let’s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).\nGetting the scalac versions You can install different versions of the Scala compiler via brew:\n$ brew install scala@2.12 $ brew install scala # currently for 2.13 $ brew install dotty # currently Scala 3.0.0-RC2 Note: you can only have one scala and scalac on your path, so you want to keep the versions you don’t use unlinked (or “keg-only” in brew-speak).\nYou can access the versions via\n$ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -version # one dash only! Scala compiler version 2.12.13 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc. $ /usr/local/Cellar/scala/2.13.5/bin/scalac --version Scala compiler version 2.13.5 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc. $ /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac --version Scala compiler version 3.0.0-RC3 -- Copyright 2002-2021, LAMP/EPFL At the end of scalac As you might know, the compiler works in multiple steps (“phases”)., and it can output the result after each step. The -Xshow-phases option prints out an overview of the compile-phases:\nHere they are written out, if you want to read through them: Scala 2.12.13 $ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -Xshow-phases phase name id description ---------- -- ----------- parser 1 parse source into ASTs, perform simple desugaring namer 2 resolve names, attach symbols to named trees packageobjects 3 load package objects typer 4 the meat and potatoes: type the trees patmat 5 translate match expressions superaccessors 6 add super accessors in traits and nested classes extmethods 7 add extension methods for inline classes pickler 8 serialize symbol tables refchecks 9 reference/override checking, translate nested objects uncurry 10 uncurry, translate function values to anonymous classes fields 11 synthesize accessors and fields, add bitmaps for lazy vals tailcalls 12 replace tail calls by jumps specialize 13 @specialized-driven class and method specialization explicitouter 14 this refs to outer pointers erasure 15 erase types, add interfaces for traits posterasure 16 clean up erased inline classes lambdalift 17 move nested functions to top level constructors 18 move field definitions into constructors flatten 19 eliminate inner classes mixin 20 mixin composition cleanup 21 platform-specific cleanups, generate reflective calls delambdafy 22 remove lambdas jvm 23 generate JVM bytecode terminal 24 the last phase during a compilation run Scala 2.13.5 /usr/local/Cellar/scala/2.13.5/bin/scalac -Xshow-phases phase name id description ---------- -- ----------- parser 1 parse source into ASTs, perform simple desugaring namer 2 resolve names, attach symbols to named trees packageobjects 3 load package objects typer 4 the meat and potatoes: type the trees superaccessors 5 add super accessors in traits and nested classes extmethods 6 add extension methods for inline classes pickler 7 serialize symbol tables refchecks 8 reference/override checking, translate nested objects patmat 9 translate match expressions uncurry 10 uncurry, translate function values to anonymous classes fields 11 synthesize accessors and fields, add bitmaps for lazy vals tailcalls 12 replace tail calls by jumps specialize 13 @specialized-driven class and method specialization explicitouter 14 this refs to outer pointers erasure 15 erase types, add interfaces for traits posterasure 16 clean up erased inline classes lambdalift 17 move nested functions to top level constructors 18 move field definitions into constructors flatten 19 eliminate inner classes mixin 20 mixin composition cleanup 21 platform-specific cleanups, generate reflective calls delambdafy 22 remove lambdas jvm 23 generate JVM bytecode terminal 24 the last phase during a compilation run Scala 3.0.0-RC3 aka dotty /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac -Xshow-phases typer inlinedPositions sbt-deps extractSemanticDB posttyper prepjsinterop sbt-api SetRootTree pickler inlining postInlining staging pickleQuotes {firstTransform, checkReentrant, elimPackagePrefixes, cookComments, checkStatic, betaReduce, inlineVals, expandSAMs, initChecker} {elimRepeated, protectedAccessors, extmethods, uncacheGivenAliases, byNameClosures, hoistSuperArgs, specializeApplyMethods, refchecks} {elimOpaque, tryCatchPatterns, patternMatcher, explicitJSClasses, explicitOuter, explicitSelf, elimByName, stringInterpolatorOpt} {pruneErasedDefs, inlinePatterns, vcInlineMethods, seqLiterals, intercepted, getters, specializeFunctions, liftTry, collectNullableFields, elimOuterSelect, resolveSuper, functionXXLForwarders, paramForwarding, genericTuples, letOverApply, arrayConstructors} erasure {elimErasedValueType, pureStats, vcElideAllocations, arrayApply, addLocalJSFakeNews, elimPolyFunction, tailrec, completeJavaEnums, mixin, lazyVals, memoize, nonLocalReturns, capturedVars} {constructors, instrumentation} {lambdaLift, elimStaticThis, countOuterAccesses} {dropOuterAccessors, flatten, renameLifted, transformWildcards, moveStatic, expandPrivate, restoreScopes, selectStatic, junitBootstrappers, collectSuperCalls, repeatableAnnotations} genSJSIR genBCode Compile results and the result is\n$ /usr/local/Cellar/dotty/3.0.0-RC3/bin/scalac -Xprint:all Main.scala […] result of Main.scala after MegaPhase{dropOuterAccessors, flatten, renameLifted, transformWildcards, moveStatic, expandPrivate, restoreScopes, selectStatic, collectSuperCalls, repeatableAnnotations}: package \u003cempty\u003e { @scala.annotation.internal.SourceFile(\"Main.scala\") class MyClass extends Object , MyTrait { def \u003cinit\u003e(): Unit = { super() this.id = 1 () } private val id: Int def id(): Int = this.id } @scala.annotation.internal.SourceFile(\"Main.scala\") trait MyTrait() extends Object { def id(): Int } } Example Code I combined the function, abstract value and concrete value into one example:\ntrait MyTrait { def id1: Int // function val id2: Int // abstract value val id3: Int = 3 // concrete value } class MyClass extends MyTrait { val id1 = 1 val id2 = 2 override val id3 = 3 } Results Here are the results:\nLet’s unpack this:\n1. Scala 2.12 and 2.13 have the same output: package \u003cempty\u003e { abstract trait MyTrait extends Object { \u003caccessor\u003e \u003csub_synth\u003e protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit; def id1(): Int; \u003cstable\u003e \u003caccessor\u003e def id2(): Int; \u003cstable\u003e \u003caccessor\u003e \u003csub_synth\u003e def id3(): Int; def /*MyTrait*/$init$(): Unit = { MyTrait.this.MyTrait$_setter_$id3_=((3: Int)); () } }; class MyClass extends Object with MyTrait { override \u003caccessor\u003e protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit = (); private[this] val id1: Int = _; \u003cstable\u003e \u003caccessor\u003e def id1(): Int = MyClass.this.id1; private[this] val id2: Int = _; \u003cstable\u003e \u003caccessor\u003e def id2(): Int = MyClass.this.id2; private[this] val id3: Int = _; override \u003cstable\u003e \u003caccessor\u003e def id3(): Int = MyClass.this.id3; def \u003cinit\u003e(): MyClass = { MyClass.super.\u003cinit\u003e(); MyClass.super./*MyTrait*/$init$(); MyClass.this.id1 = 1; MyClass.this.id2 = 2; MyClass.this.id3 = 3; () } } } In the trait, the function\ndef id1: Int becomes\ndef id1(): Int; the abstract val\nval id2: Int becomes\n\u003cstable\u003e \u003caccessor\u003e def id2(): Int; and the concrete val\nval id3: Int = 3 needs the most work:\n\u003cstable\u003e \u003caccessor\u003e \u003csub_synth\u003e def id3(): Int; \u003caccessor\u003e \u003csub_synth\u003e protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit; def /*MyTrait*/$init$(): Unit = { MyTrait.this.MyTrait$_setter_$id3_=((3: Int)); () } (The constructor would not be present if the trait only contained id1 and id2.)\nWhat do mean exactly? I have no idea. Neither does Google.\nIn the class we have private vals for all three:\nprivate[this] val id1: Int = _; \u003cstable\u003e \u003caccessor\u003e def id1(): Int = MyClass.this.id1; private[this] val id2: Int = _; \u003cstable\u003e \u003caccessor\u003e def id2(): Int = MyClass.this.id2; private[this] val id3: Int = _; override \u003cstable\u003e \u003caccessor\u003e def id3(): Int = MyClass.this.id3; and the MyTrait$_setter_$id3_ from the trait is overridden:\noverride \u003caccessor\u003e protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit = (); So in summary: So far, there’s not much of a difference.\n2. Scala 3 has syntax-highlighting! After the compile-phases-output was so ugly, it’s nice to see that the output of the phases is actually colored.\n3. There’s an annotation @scala.annotation.internal.SourceFile(\"Main.scala\") points to the source file. Neat.\n4. are gone I guess now I’ll never find out what they were…\nThis also means that all fields in the trait are now exactly the same:\ndef id1(): Int def id2(): Int def id3(): Int and the setter-function for id3 goes from\n\u003caccessor\u003e \u003csub_synth\u003e protected[this] def MyTrait$_setter_$id3_=(x$1: Int): Unit; to\ndef MyTrait$_setter_$id3_$eq(x$0: Int): Unit In the class, the three are also very much alike:\nprivate val id1: Int def id1(): Int = this.id1 private val id2: Int def id2(): Int = this.id2 private var id3: Int override def id3(): Int = this.id3 Bytecode deep-dive Let’s take one step further and take the actual Bytecode apart, using javap -c:\nObservations:\nScala 2.12 and 2.13 result in the exact same Bytecode Scala 3 places the constructor first The MyTrait$_setter_$id3_$eq(int) actually contains some setting-code now! public void MyTrait$_setter_$id3_$eq(int); Code: 0: aload_0 1: iload_1 2: putfield #25 // Field id3:I 5: return as compared to public void MyTrait$_setter_$id3_$eq(int); Code: 0: return the scala.runtime.Statics$#releaseFence() has a single jvm-operation (invokestatic) resulting from it. Next Level: JVM 17 The compiler can also target a specific version of the Java platform, using the -target:8 (-Xtarget for Scala 3) or -release option. However, for this simple example, there were no differences in the bytecode.\nSummary So, what to make of this? Easy: Using def or val in traits is purely a developer ergonomics decision, not a runtime difference.\n",
   "wordCount" : "1367",
   "inLanguage": "en",
-  "datePublished": "2021-04-24T16:00:00+02:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2021-04-24T16:00:00+02:00",
   "dateModified": "2021-04-24T16:00:00+02:00",
   "author":{
     "@type": "Person",
@@ -163,7 +163,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -214,7 +214,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       def and var in traits on Scala 2.12, 2.13 and 3.0.0
     </h1>
     <div class="post-meta"><span title='2021-04-24 16:00:00 +0200 CEST'>April 24, 2021</span>&nbsp;·&nbsp;Jannik Arndt
@@ -223,8 +223,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
   </header> 
   <div class="post-content"><p>Scala <code>trait</code>s should define <code>def</code>s, because</p>
 <blockquote>
-<p>“A val can override a def, but a def cannot override a val”</p>
-</blockquote>
+<p>“A val can override a def, but a def cannot override a val”</p></blockquote>
 <p>(via <a href="https://alvinalexander.com/scala/fp-book/def-vs-val-abstract-members-traits-classes-override/">Alvin Alexander</a> via <a href="https://stackoverflow.com/questions/13126104/is-there-any-advantage-to-definining-a-val-over-a-def-in-a-trait">StackOverflow</a>).</p>
 <p>But it&rsquo;s interesting to look at how the <em>compiler</em> treats that.
 Alvin Alexander <a href="https://alvinalexander.com/scala/all-wanted-to-know-about-def-val-var-fields-in-traits/">did that</a>, but only for Scala 2.12.8.
@@ -235,8 +234,7 @@ Let&rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known 
 </span></span><span class="line"><span class="cl">$ brew install scala <span class="c1"># currently for 2.13</span>
 </span></span><span class="line"><span class="cl">$ brew install dotty <span class="c1"># currently Scala 3.0.0-RC2</span>
 </span></span></code></pre></div><blockquote>
-<p>Note: you can only have <em>one</em> <code>scala</code> and <code>scalac</code> on your path, so you want to keep the versions you <em>don&rsquo;t</em> use unlinked (or &ldquo;keg-only&rdquo; in brew-speak).</p>
-</blockquote>
+<p>Note: you can only have <em>one</em> <code>scala</code> and <code>scalac</code> on your path, so you want to keep the versions you <em>don&rsquo;t</em> use unlinked (or &ldquo;keg-only&rdquo; in brew-speak).</p></blockquote>
 <p>You can access the versions via</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ /usr/local/Cellar/scala@2.12/2.12.13/bin/scalac -version <span class="c1"># one dash only!</span>
 </span></span><span class="line"><span class="cl">Scala compiler version 2.12.13 -- Copyright 2002-2020, LAMP/EPFL and Lightbend, Inc.

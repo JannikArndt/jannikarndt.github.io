@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,14 +15,15 @@ I installed an MQTT broker and homebridge on the pi.
 ">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">
 <noscript>
     <style>
         #theme-toggle,
@@ -40,7 +41,7 @@ I installed an MQTT broker and homebridge on the pi.
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -59,28 +60,29 @@ I installed an MQTT broker and homebridge on the pi.
         }
 
     </style>
-</noscript><meta property="og:title" content="How to use a Raspberry Pi 3 with Apple Home" />
-<meta property="og:description" content="“Hey Siri, turn on the bedroom lights!” I want that. Here&rsquo;s how I did it:
-
-I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch).
-I bought a raspberry pi (33€).
-I installed an MQTT broker and homebridge on the pi.
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2018-01-13T12:40:00+01:00" />
-<meta property="article:modified_time" content="2018-01-13T12:40:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="How to use a Raspberry Pi 3 with Apple Home"/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="How to use a Raspberry Pi 3 with Apple Home">
+  <meta property="og:description" content="“Hey Siri, turn on the bedroom lights!” I want that. Here’s how I did it:
+I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch). I bought a raspberry pi (33€). I installed an MQTT broker and homebridge on the pi. ">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2018-01-13T12:40:00+01:00">
+    <meta property="article:modified_time" content="2018-01-13T12:40:00+01:00">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="Raspberry Pi">
+    <meta property="article:tag" content="Smart Home">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="How to use a Raspberry Pi 3 with Apple Home">
 <meta name="twitter:description" content="“Hey Siri, turn on the bedroom lights!” I want that. Here&rsquo;s how I did it:
 
 I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch).
 I bought a raspberry pi (33€).
 I installed an MQTT broker and homebridge on the pi.
-"/>
+">
 
 
 <script type="application/ld+json">
@@ -116,7 +118,7 @@ I installed an MQTT broker and homebridge on the pi.
   "articleBody": "“Hey Siri, turn on the bedroom lights!” I want that. Here’s how I did it:\nI bought a bunch of Sonoff devices (5€ each, 10€ for a light switch). I bought a raspberry pi (33€). I installed an MQTT broker and homebridge on the pi. 1. Set up the pi =\u003e See How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard\n2. Install mosquitto and homebridge …and everything else you need:\n$ sudo apt-get update \u0026\u0026 sudo apt-get upgrade $ sudo apt-get install mosquitto $ sudo apt-get install make $ sudo apt-get install nodejs $ sudo apt-get install libavahi-compat-libdnssd-dev $ sudo apt-get install npm $ sudo npm install -g homebridge $ sudo npm install -g homebridge-mqtt-switch-tasmota # for sonoff devices 3. Configure mosquitto The default for mosquitto is to run without any security. Let’s not do this. This creates a user “home” with a password:\n$ sudo mosquitto_passwd -c /etc/mosquitto/passwd home Password: yourpassword Reenter password: yourpassword This will create a password file. You can look at it with\n$ cat /etc/mosquitto/passwd home:$6$yjSnOc95804YRW/E$lokE/zzg4XwKj1BJPOxXDq4njkeovnecAvtYCOmNYgn5v/c8sHP08LnH7rDP0uU59hzmV/5iTXsudDrO6RMWPl+A== Now we need to tell mosquitto to use this password file:\n$ sudo nano /etc/mosquitto/mosquitto.conf Add the lines\npassword_file /etc/mosquitto/passwd allow_anonymous false Exit with ctrl + x, y and enter.\nNow restart the daemon:\n$ sudo systemctl restart mosquitto You can check the status with\n$ sudo /etc/init.d/mosquitto status 4. Configure homebridge First we’ll create a config file for homebridge and open it:\n$ mkdir ~/.homebridge $ touch ~/.homebridge/config.json $ nano ~/.homebridge/config.json Your config should look something like this:\n{ \"bridge\": { \"name\": \"Raspberry Pi\", \"username\": \"XX:XX:XX:XX:XX:XX\", \"port\": 51826, \"pin\": \"XXX-XX-XXX\" }, \"platforms\": [], \"accessories\": [{ \"accessory\": \"mqtt-switch-tasmota\", \"name\": \"My Smart Device\", \"url\": \"mqtt://127.0.0.1\", \"username\": \"home\", \"password\": \"your password from step 3\", \"topics\": { \"statusGet\": \"stat/topic_for_this_device/POWER\", \"statusSet\": \"cmnd/topic_for_this_device/POWER\", \"stateGet\": \"tele/topic_for_this_device/STATE\" } }, {} ] } For more information have a look at the config.json sample or the page of the plugin you’re using (mqtt-switch-tasmota in my case).\nIf you don’t like nano you can also copy the file to your computer, edit it there and then copy it back:\n$ scp pi@192.168.31.231:.homebridge/config.json ~/Downloads/homebridge.json config.json 100% 1830 149.2KB/s 00:00 # edit $ scp ~/Downloads/homebridge.json pi@192.168.31.231:.homebridge/config.json homebridge.json 100% 1457 268.4KB/s 00:00 But beware: Do not edit the file in TextEdit, as it changes the format.\nYou should now be able to start the homebridge app:\n$ homebridge 5. Start homebridge on startup Great! Now all that’s left is to create a user and a service to run homebridge on startup. For this I followed this guide:\nCreate a file for default parameters $ sudo nano /etc/default/homebridge and paste HOMEBRIDGE_OPTS=-U /var/homebridge into the file. Quit with ctrl + x, y, enter.\nCreate a service in systemd $ sudo nano /etc/systemd/system/homebridge.service and paste\n[Unit] Description=Node.js HomeKit Server After=syslog.target network-online.target # [Service] Type=simple User=homebridge EnvironmentFile=/etc/default/homebridge ExecStart=/usr/local/bin/homebridge $HOMEBRIDGE_OPTS Restart=on-failure RestartSec=10 KillMode=process # [Install] WantedBy=multi-user.target Create a user homebridge $ sudo useradd --system homebridge Create a directory for the config $ sudo mkdir /var/homebridge $ sudo cp ~/.homebridge/config.json /var/homebridge/ $ sudo cp -r ~/.homebridge/persist /var/homebridge Start the service $ sudo chmod -R 0777 /var/homebridge $ sudo systemctl daemon-reload $ sudo systemctl enable homebridge $ sudo systemctl start homebridge $ systemctl status homebridge Notice that the config.json is now copied to a different folder, so if you change the one in ~/.homebridge/ you need to copy it to /var/homebridge/ afterwards!\n$ sudo cp ~/.homebridge/config.json /var/homebridge/ $ sudo systemctl restart homebridge 6. Add smart devices You now have control center for you smart devices! Here is a guide on how to connect them!\n",
   "wordCount" : "590",
   "inLanguage": "en",
-  "datePublished": "2018-01-13T12:40:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2018-01-13T12:40:00+01:00",
   "dateModified": "2018-01-13T12:40:00+01:00",
   "author":{
     "@type": "Person",
@@ -157,7 +159,7 @@ I installed an MQTT broker and homebridge on the pi.
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -208,7 +210,7 @@ I installed an MQTT broker and homebridge on the pi.
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       How to use a Raspberry Pi 3 with Apple Home
     </h1>
     <div class="post-meta"><span title='2018-01-13 12:40:00 +0100 CET'>January 13, 2018</span>&nbsp;·&nbsp;Jannik Arndt
@@ -257,8 +259,7 @@ I installed an MQTT broker and homebridge on the pi.
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ mkdir ~/.homebridge
 </span></span><span class="line"><span class="cl">$ touch ~/.homebridge/config.json
 </span></span><span class="line"><span class="cl">$ nano ~/.homebridge/config.json
-</span></span></code></pre></div><p><img loading="lazy" src="../pi/homebridge_config.png" alt=""  />
-</p>
+</span></span></code></pre></div><p><img loading="lazy" src="../pi/homebridge_config.png"></p>
 <p>Your config should look something like this:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nt">&#34;bridge&#34;</span><span class="p">:</span> <span class="p">{</span>
@@ -298,8 +299,7 @@ I installed an MQTT broker and homebridge on the pi.
 </span></span></code></pre></div><p>But beware: Do <em>not</em> edit the file in TextEdit, as it changes the format.</p>
 <p>You should now be able to start the <code>homebridge</code> app:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ homebridge
-</span></span></code></pre></div><p><img loading="lazy" src="../pi/homebridge_start.png" alt=""  />
-</p>
+</span></span></code></pre></div><p><img loading="lazy" src="../pi/homebridge_start.png"></p>
 <h2 id="5-start-homebridge-on-startup">5. Start homebridge on startup<a hidden class="anchor" aria-hidden="true" href="#5-start-homebridge-on-startup">#</a></h2>
 <p>Great! Now all that&rsquo;s left is to create a user and a service to run <code>homebridge</code> on startup. For this I followed <a href="https://timleland.com/setup-homebridge-to-start-on-bootup/">this guide</a>:</p>
 <ol>

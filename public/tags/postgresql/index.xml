@@ -5,28 +5,27 @@
     <link>https://www.jannikarndt.de/tags/postgresql/</link>
     <description>Recent content in PostgreSQL on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 22 Aug 2018 09:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 22 Aug 2018 09:00:00 +0100</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rotating PostgreSQL Passwords with no downtime</title>
       <link>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</link>
       <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</guid>
       <description>&lt;p&gt;Changing the password for a PostgreSQL database user involves two steps: The change in the database and the change in the application code. This blog post describes how to do this without any downtime or failed authentication tries.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Examining a PostgreSQL with psql or pgcli</title>
       <link>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</link>
       <pubDate>Thu, 16 Aug 2018 15:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</guid>
       <description>&lt;p&gt;The PostgreSQL installation comes with a great tool, &lt;code&gt;psql&lt;/code&gt;, to administer and inspect the database. &lt;a href=&#34;https://www.pgcli.com&#34;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; extends this with syntax highlighting and autocompletion.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

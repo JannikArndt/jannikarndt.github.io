@@ -5,19 +5,20 @@
     <link>https://www.jannikarndt.de/tags/kubernetes/</link>
     <description>Recent content in Kubernetes on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 22 Mar 2018 07:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 22 Mar 2018 07:00:00 +0100</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to add an SSH Key as a Kubernetes Secret</title>
       <link>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</link>
       <pubDate>Thu, 22 Mar 2018 07:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</guid>
       <description>&lt;p&gt;Adding an ssh-file as a secret sounds easy, but there are pitfalls.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

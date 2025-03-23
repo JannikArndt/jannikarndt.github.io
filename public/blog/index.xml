@@ -5,35 +5,34 @@
     <link>https://www.jannikarndt.de/blog/</link>
     <description>Recent content in Blog on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 05 Aug 2022 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 05 Aug 2022 11:30:00 +0200</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Finding yourself on the Safe Browsing List — a Post Mortem</title>
       <link>https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/</link>
       <pubDate>Fri, 05 Aug 2022 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/</guid>
       <description>&lt;p&gt;This week we woke up to customer reports that they couldn&amp;rsquo;t reach their &amp;ldquo;Public Portal&amp;rdquo; (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them &amp;ldquo;Deceptive site ahead&amp;rdquo;. What had happened?&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Why growth is so bad</title>
       <link>https://www.jannikarndt.de/blog/2022/02/why_growth_is_so_bad/</link>
       <pubDate>Thu, 03 Feb 2022 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2022/02/why_growth_is_so_bad/</guid>
-      <description>Over the past year, many (including me) have left the company I worked for for more or less growth-related reasons. But what is it about growth that actually drives people away?
-Step 1: need for workforce / talent The first growth isn&amp;rsquo;t bad. You can only do so much in a day, and at some point, your company will need more people to solve all the tasks. Or specialized people, because you don&amp;rsquo;t know all about security, marketing, strategy, finances or a particular problem domain.</description>
+      <description>&lt;p&gt;Over the past year, many (including me) have left the company I worked for for more or less growth-related reasons. But what is it about growth that actually drives people away?&lt;/p&gt;
+&lt;h2 id=&#34;step-1-need-for-workforce--talent&#34;&gt;Step 1: need for workforce / talent&lt;/h2&gt;
+&lt;p&gt;The first growth isn&amp;rsquo;t bad. You can only do so much in a day, and at some point, your company will need more people to solve all the tasks. Or specialized people, because you don&amp;rsquo;t know &lt;em&gt;all&lt;/em&gt; about security, marketing, strategy, finances or a particular problem domain.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Comparison of Chart Libraries for SwiftUI</title>
       <link>https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/</link>
       <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/</guid>
       <description>&lt;p&gt;I want to add charts to my SwiftUI iOS App, &lt;a href=&#34;https://zettl.jannikarndt.de&#34;&gt;Zettl&lt;/a&gt;. For that, I am going to compare the following libraries:&lt;/p&gt;
 &lt;ul&gt;
@@ -53,75 +52,61 @@ plus I will try to implement them myself, based on the following tutorials:
 * [Create Charts in SwiftUI (Line, Bar, Pie) - Xcode 12, Swift 5, 2020 iOS Development](https://youtu.be/F-dt0vOQ4Vg)
 --&gt;</description>
     </item>
-    
     <item>
       <title>Generating Open Graph Images for my Blog</title>
       <link>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</link>
       <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Things Developers are and aren&#39;t Good at</title>
       <link>https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/</link>
       <pubDate>Sat, 01 May 2021 13:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/05/things_developers_are_and_arent_good_at/</guid>
       <description>&lt;p&gt;…in &lt;em&gt;my&lt;/em&gt; experience.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>def and var in traits on Scala 2.12, 2.13 and 3.0.0</title>
       <link>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</link>
       <pubDate>Sat, 24 Apr 2021 16:00:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</guid>
       <description>&lt;p&gt;Scala &lt;code&gt;trait&lt;/code&gt;s should define &lt;code&gt;def&lt;/code&gt;s, because&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“A val can override a def, but a def cannot override a val”&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;“A val can override a def, but a def cannot override a val”&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;(via &lt;a href=&#34;https://alvinalexander.com/scala/fp-book/def-vs-val-abstract-members-traits-classes-override/&#34;&gt;Alvin Alexander&lt;/a&gt; via &lt;a href=&#34;https://stackoverflow.com/questions/13126104/is-there-any-advantage-to-definining-a-val-over-a-def-in-a-trait&#34;&gt;StackOverflow&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;But it&amp;rsquo;s interesting to look at how the &lt;em&gt;compiler&lt;/em&gt; treats that.
 Alvin Alexander &lt;a href=&#34;https://alvinalexander.com/scala/all-wanted-to-know-about-def-val-var-fields-in-traits/&#34;&gt;did that&lt;/a&gt;, but only for Scala 2.12.8.
 Let&amp;rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo</title>
       <link>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</link>
       <pubDate>Mon, 05 Apr 2021 02:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/</guid>
-      <description>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&amp;rsquo; I made a big announcement that our team followed suit:
-But, at good prank isn&amp;rsquo;t just &amp;ldquo;I thought this was true, but it wasn&amp;rsquo;t&amp;rdquo;. It&amp;rsquo;s &amp;ldquo;I though it was a joke, but for a brief moment doubted that&amp;rdquo;. The &amp;ldquo;Oh, no, he didn&amp;rsquo;t&amp;quot;-moment.
-Alas, one more line was necessary:</description>
+      <description>&lt;p&gt;We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools&amp;rsquo; I made a big announcement that &lt;em&gt;our&lt;/em&gt; team followed suit:&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;rust_1.png&#34; loading=&#34;lazy&#34; src=&#34;https://www.jannikarndt.de/blog/2021/04/rust/slack1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;But, at &lt;em&gt;good&lt;/em&gt; prank isn&amp;rsquo;t just &amp;ldquo;I thought this was true, but it wasn&amp;rsquo;t&amp;rdquo;. It&amp;rsquo;s &amp;ldquo;I though it was a joke, but for a brief moment doubted that&amp;rdquo;. The &amp;ldquo;Oh, no, he &lt;em&gt;didn&amp;rsquo;t&lt;/em&gt;&amp;quot;-moment.&lt;/p&gt;
+&lt;p&gt;Alas, one more line was necessary:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Using scalap, javap and the scala compiler to understand the journey from code to bytecode</title>
       <link>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</link>
       <pubDate>Thu, 25 Mar 2021 09:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</guid>
       <description>&lt;p&gt;Do you know what happens after you compile? Let&amp;rsquo;s take a look at what the Scala compiler tells us, and what &lt;code&gt;scalap&lt;/code&gt; and &lt;code&gt;javap&lt;/code&gt; can reveal about &lt;code&gt;.class&lt;/code&gt; files.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Exception-Proof For-Comprehensions</title>
       <link>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</link>
       <pubDate>Tue, 04 Dec 2018 21:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</guid>
       <description>&lt;p&gt;I recently created a &lt;em&gt;wonderful&lt;/em&gt; bug.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>oAuth2 with Akka HTTP</title>
       <link>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</link>
       <pubDate>Sun, 28 Oct 2018 13:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</guid>
       <description>&lt;p&gt;This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:&lt;/p&gt;
 &lt;ul&gt;
@@ -137,153 +122,123 @@ Alas, one more line was necessary:</description>
 &lt;/ul&gt;
 &lt;p&gt;Since oAuth tokens are short lived, the server also has to invalidate expired tokens.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Akka HTTP on Heroku</title>
       <link>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</link>
       <pubDate>Sat, 27 Oct 2018 19:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</guid>
       <description>&lt;p&gt;Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</title>
       <link>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</link>
       <pubDate>Sun, 07 Oct 2018 18:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</guid>
       <description>&lt;p&gt;This example show how to write a reactive reader for the AWS &lt;em&gt;Simple Queue Service&lt;/em&gt;, using Scala and alpakka (respective akka streams).&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How Event Sourcing in Akka Persistent Actors Works</title>
       <link>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</link>
       <pubDate>Fri, 31 Aug 2018 17:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</guid>
       <description>&lt;p&gt;While the &lt;a href=&#34;https://doc.akka.io/docs/&#34;&gt;Akka&lt;/a&gt; documentation is incredibly well written, it has surprisingly few images. Since &lt;em&gt;I&lt;/em&gt; visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Rotating PostgreSQL Passwords with no downtime</title>
       <link>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</link>
       <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/rotating_postgresql_passwords_with_no_downtime/</guid>
       <description>&lt;p&gt;Changing the password for a PostgreSQL database user involves two steps: The change in the database and the change in the application code. This blog post describes how to do this without any downtime or failed authentication tries.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Examining a PostgreSQL with psql or pgcli</title>
       <link>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</link>
       <pubDate>Thu, 16 Aug 2018 15:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/postgresql_with_psql_pgcli/</guid>
       <description>&lt;p&gt;The PostgreSQL installation comes with a great tool, &lt;code&gt;psql&lt;/code&gt;, to administer and inspect the database. &lt;a href=&#34;https://www.pgcli.com&#34;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; extends this with syntax highlighting and autocompletion.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Using your Apple Watch Workout to Geotag DSLR Photos</title>
       <link>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</link>
       <pubDate>Sun, 05 Aug 2018 16:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</guid>
       <description>&lt;p&gt;I want my photos to have location info in them, and Nikon wants &lt;em&gt;way too much&lt;/em&gt; money for that. So I&amp;rsquo;ll do this: Let my Apple Watch track where I go, using the &lt;em&gt;Outdoor Walk&lt;/em&gt;, export the route as GPX and use &lt;em&gt;exiftool&lt;/em&gt; to tag all my images. Here&amp;rsquo;s how I do that.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>3 Ways How Passwords Get Leaked</title>
       <link>https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/</link>
       <pubDate>Sun, 22 Jul 2018 07:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/07/how_passwords_get_leaked/</guid>
       <description>&lt;p&gt;You don&amp;rsquo;t need to “get hacked” to have your security compromised. Often enough you&amp;rsquo;ll do it yourself. The best way to prevent this is knowing when to be cautious.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kirschblütenfeuerwerk</title>
       <link>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</link>
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Russische Kirche, Fernsehturm, Landungsbrücken</title>
       <link>https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/</link>
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Boberg</title>
       <link>https://www.jannikarndt.de/blog/2018/04/boberg/</link>
       <pubDate>Sun, 08 Apr 2018 12:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/04/boberg/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Alsterpanorama</title>
       <link>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</link>
       <pubDate>Sat, 07 Apr 2018 13:38:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hochwasserbassin</title>
       <link>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</link>
       <pubDate>Sat, 07 Apr 2018 12:35:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to add an SSH Key as a Kubernetes Secret</title>
       <link>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</link>
       <pubDate>Thu, 22 Mar 2018 07:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/03/ssh_key_as_kubernetes_secret/</guid>
       <description>&lt;p&gt;Adding an ssh-file as a secret sounds easy, but there are pitfalls.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Lazy Aliases in my Shell</title>
       <link>https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</link>
       <pubDate>Tue, 13 Mar 2018 12:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/</guid>
-      <description>I reduced the startup time of my shell by one second. Here&amp;rsquo;s how:
-What I do I work a lot with the shell (or “Terminal” app on MacOS), mostly kubectl, git, terraform and docker. And of course I use the absolutely best shell of all, oh-my-zsh.
-The Problem I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&amp;rsquo;s annoying, because usually when I open a new tab, I want to quickly check on something, like the logs of a pod or if I have committed something in a different project.</description>
+      <description>&lt;p&gt;I reduced the startup time of my shell by one second. Here&amp;rsquo;s how:&lt;/p&gt;
+&lt;h2 id=&#34;what-i-do&#34;&gt;What I do&lt;/h2&gt;
+&lt;p&gt;I work &lt;em&gt;a lot&lt;/em&gt; with the shell (or “Terminal” app on MacOS), mostly &lt;code&gt;kubectl&lt;/code&gt;, &lt;code&gt;git&lt;/code&gt;, &lt;code&gt;terraform&lt;/code&gt; and &lt;code&gt;docker&lt;/code&gt;. And of course I use the absolutely best shell of all, &lt;a href=&#34;http://ohmyz.sh&#34;&gt;oh-my-zsh&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That&amp;rsquo;s annoying, because usually when I open a new tab, I want to &lt;em&gt;quickly&lt;/em&gt; check on something, like the logs of a pod or if I have committed something in a different project.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to use a Raspberry Pi for your Time Machine backups</title>
       <link>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</link>
       <pubDate>Sat, 13 Jan 2018 20:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_for_your_time_machine_backups/</guid>
       <description>&lt;p&gt;Apples Time Machine is a great backup solution, you only have to do &lt;em&gt;one&lt;/em&gt; thing: Connect your disk from time to time.&lt;/p&gt;
 &lt;p&gt;Since that is way harder than it sounds, there&amp;rsquo;s a second option: Buy a &lt;a href=&#34;https://www.apple.com/de/shop/product/ME177Z/A&#34;&gt;329€ Time Capsule&lt;/a&gt; and do backups over wifi!&lt;/p&gt;
 &lt;p&gt;That&amp;rsquo;s too expensive? Here&amp;rsquo;s how to build your own Time Capsule with a Raspberry Pi 3 and an external hard drive.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to install Tasmota on a Sonoff device without opening it</title>
       <link>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</link>
       <pubDate>Sat, 13 Jan 2018 19:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</guid>
       <description>&lt;p&gt;Sonoff takes the standard ESP8266 chip and adds two things:&lt;/p&gt;
 &lt;ul&gt;
@@ -292,12 +247,10 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 &lt;/ul&gt;
 &lt;p&gt;Unfortunately, the second addition &lt;em&gt;also&lt;/em&gt; means that all communication goes through Sonoff&amp;rsquo;s servers. Here&amp;rsquo;s how to get rid of that. Without soldering or connecting anything.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to use a Raspberry Pi 3 with Apple Home</title>
       <link>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</link>
       <pubDate>Sat, 13 Jan 2018 12:40:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</guid>
       <description>&lt;p&gt;“Hey Siri, turn on the bedroom lights!” I want that. Here&amp;rsquo;s how I did it:&lt;/p&gt;
 &lt;ul&gt;
@@ -306,184 +259,149 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 &lt;li&gt;I installed an MQTT broker and homebridge on the pi.&lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
     <item>
       <title>How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard</title>
       <link>https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</link>
       <pubDate>Sat, 13 Jan 2018 12:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/01/raspberry_pi_3_headless_setup/</guid>
       <description>&lt;p&gt;I bought a raspberry pi as a smart home automation server. Here&amp;rsquo;s how to set it up without connecting a monitor, mouse or keyboard. All you need is an ethernet cable.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Terraform on Google Cloud Engine Quickstart</title>
       <link>https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</link>
       <pubDate>Thu, 23 Nov 2017 20:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/</guid>
       <description>&lt;p&gt;This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Lessons learned in 2017</title>
       <link>https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/</link>
       <pubDate>Sat, 11 Nov 2017 17:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/11/lessons_learned_in_2017/</guid>
       <description>&lt;h2 id=&#34;1&#34;&gt;#1&lt;/h2&gt;
 &lt;h3 id=&#34;conways-law&#34;&gt;Conway’s Law&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;ldquo;organizations which design systems &amp;hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&amp;rdquo;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&amp;ldquo;organizations which design systems &amp;hellip; are constrained to produce designs which are copies of the communication structures of these organizations.&amp;rdquo;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;So true.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>What settings yield the sharpest landscape photo?</title>
       <link>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</link>
       <pubDate>Tue, 07 Nov 2017 18:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</guid>
       <description>&lt;p&gt;I was quite surprised at how difficult it is to get &lt;em&gt;absolutely&lt;/em&gt; razor sharp images out of a very good (high-end-consumer/semi-pro) DSLR camera, namely the Nikon D7100. So I made the test: What settings in terms of aperture, shutter speed and ISO yield the sharpest landscape image?&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hamburg as seen from the Michel</title>
       <link>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</link>
       <pubDate>Sat, 04 Nov 2017 16:50:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
       <link>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</link>
       <pubDate>Sun, 10 Sep 2017 21:07:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
-      <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
-Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
-create a JIRA account and then create a ticket for a new project.</description>
+      <description>&lt;p&gt;If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a &lt;code&gt;pom.xml&lt;/code&gt;. While this can work, it brings a few extra caveats if you want to submit your project to &lt;a href=&#34;https://search.maven.org&#34;&gt;Maven Central&lt;/a&gt; (aka &lt;a href=&#34;http://central.sonatype.org/pages/ossrh-guide.html&#34;&gt;Sonatype OSSRH&lt;/a&gt;).&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;step-1-claim-your-group-id&#34;&gt;Step 1: Claim your Group ID&lt;/h2&gt;
+&lt;p&gt;When you first publish something to the Sonatype OSSRH, you have to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://issues.sonatype.org/secure/Signup!default.jspa&#34;&gt;create a JIRA account&lt;/a&gt; and then&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;amp;pid=10134&#34;&gt;create a ticket for a new project&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first question that is usually asked in the ticket is&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Writing case classes to MongoDB in Scala</title>
       <link>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</link>
       <pubDate>Sat, 19 Aug 2017 10:05:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
       <description>&lt;p&gt;Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for &lt;code&gt;java.time&lt;/code&gt; classes such as &lt;code&gt;ZonedDateTime&lt;/code&gt;, &lt;code&gt;LocalDate&lt;/code&gt; or &lt;code&gt;Duration&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>VERY Quick Start: Terraform</title>
       <link>https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</link>
       <pubDate>Sun, 06 Aug 2017 17:20:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;This post contains the absolut essence from the Terraform Getting Started Guide:
-&lt;a href=&#34;https://www.terraform.io/intro/getting-started/install.html&#34;&gt;https://www.terraform.io/intro/getting-started/install.html&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</description>
+&lt;a href=&#34;https://www.terraform.io/intro/getting-started/install.html&#34;&gt;https://www.terraform.io/intro/getting-started/install.html&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;</description>
     </item>
-    
     <item>
       <title>Where bad code comes from</title>
       <link>https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</link>
       <pubDate>Sat, 22 Jul 2017 05:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/</guid>
       <description>&lt;p&gt;Ever wondered where bad code comes from?&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“This story is done”&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;“This story is done”&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“Shouldn’t someone review it first?”&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;“Shouldn’t someone review it first?”&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“Oh, yeah … erm … I’ll do a quick refactoring first and then…”&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;“Oh, yeah … erm … I’ll do a quick refactoring first and then…”&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;…when that other person is on holiday!&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Storing sparse, key-value-like data in a relational database</title>
       <link>https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</link>
       <pubDate>Fri, 21 Jul 2017 22:45:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/</guid>
       <description>&lt;p&gt;Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Tough Mudder Norddeutschland 2017</title>
       <link>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</link>
       <pubDate>Sat, 15 Jul 2017 17:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
       <description>&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;</description>
     </item>
-    
     <item>
       <title>A Minor Story Live at Methfesselfest</title>
       <link>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</link>
       <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/</guid>
       <description>&lt;iframe width=&#34;100%&#34; height=&#34;400&#34; src=&#34;https://www.youtube-nocookie.com/embed/XjWi6jnxxNU?rel=0&amp;amp;showinfo=0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;</description>
     </item>
-    
     <item>
       <title>Git in one Image</title>
       <link>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</link>
       <pubDate>Sun, 18 Jun 2017 08:30:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/06/git_in_one_image/</guid>
       <description>&lt;p&gt;I tried to create a single image that contains all the most important &lt;code&gt;git&lt;/code&gt; commands:&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34; alt=&#34;&#34;  /&gt;
-&lt;/p&gt;</description>
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://rawgit.com/JannikArndt/git-in-one-image/master/git-in-one-image.svg&#34;&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Two-speed IT</title>
       <link>https://www.jannikarndt.de/blog/2017/05/two_speed_it/</link>
       <pubDate>Tue, 23 May 2017 08:30:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/05/two_speed_it/</guid>
       <description>&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
 &lt;p&gt;You&amp;rsquo;re a corporation. Your IT department is old, slow and can&amp;rsquo;t innovate. Your competitor however can. So you try what every corporation tries: Two-speed IT.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>The real world doesn&#39;t care about encoding</title>
       <link>https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</link>
       <pubDate>Mon, 01 May 2017 11:45:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/05/the_real_world_doesnt_care_about_encoding/</guid>
       <description>&lt;p&gt;Last week one of our programs failed looking up an airplane by its &lt;a href=&#34;https://en.wikipedia.org/wiki/Aircraft_registration&#34;&gt;registration&lt;/a&gt;. That&amp;rsquo;s not a surprise, since ac regs are a &lt;em&gt;horrible&lt;/em&gt; identifier. They change all the time. Also there is almost no naming rule at all. Wikipedia states&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, &lt;code&gt;YR-BMA&lt;/code&gt;). When entered in a flight plan, the dash is omitted (for example, &lt;code&gt;YRBMA&lt;/code&gt;). In some countries that use a number suffix rather than letters, like the United States (&lt;code&gt;N&lt;/code&gt;), South Korea (&lt;code&gt;HL&lt;/code&gt;), and Japan (&lt;code&gt;JA&lt;/code&gt;), the prefix and suffix are connected without a dash.&lt;/p&gt;
-&lt;/blockquote&gt;</description>
+&lt;p&gt;When painted on the fuselage, the prefix and suffix are usually separated by a dash (for example, &lt;code&gt;YR-BMA&lt;/code&gt;). When entered in a flight plan, the dash is omitted (for example, &lt;code&gt;YRBMA&lt;/code&gt;). In some countries that use a number suffix rather than letters, like the United States (&lt;code&gt;N&lt;/code&gt;), South Korea (&lt;code&gt;HL&lt;/code&gt;), and Japan (&lt;code&gt;JA&lt;/code&gt;), the prefix and suffix are connected without a dash.&lt;/p&gt;&lt;/blockquote&gt;</description>
     </item>
-    
     <item>
       <title>Belugas at Finkenwerder</title>
       <link>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</link>
       <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
       <description>&lt;p&gt;My favourite animal: The Beluga!&lt;/p&gt;
 &lt;img src=&#34;https://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;</description>
     </item>
-    
     <item>
       <title>Deploying Pentaho jobs into Production</title>
       <link>https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</link>
       <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/03/deploying_pentaho_jobs_into_production/</guid>
       <description>&lt;p&gt;&lt;strong&gt;TL;DR:&lt;/strong&gt; You don&amp;rsquo;t. We eventually gave up on it.&lt;/p&gt;
 &lt;p&gt;My personal lessons-learned:&lt;/p&gt;
@@ -493,12 +411,10 @@ create a JIRA account and then create a ticket for a new project.</description>
 &lt;li&gt;Kerberos is a bitch.&lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
     <item>
       <title>Extracting Dimensions from an Oracle Database Table</title>
       <link>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</link>
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</guid>
       <description>&lt;h3 id=&#34;task&#34;&gt;Task&lt;/h3&gt;
 &lt;p&gt;You have a denormalized table and want to extract a column into a dimension table.&lt;/p&gt;
@@ -507,56 +423,45 @@ create a JIRA account and then create a ticket for a new project.</description>
 &lt;h3 id=&#34;extra-caveat&#34;&gt;Extra-Caveat&lt;/h3&gt;
 &lt;p&gt;You use an Oracle database.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>talend does not work</title>
       <link>https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</link>
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/01/talend_does_not_work/</guid>
       <description>&lt;p&gt;I cannot believe that googleing “talend does not work” does not find &lt;em&gt;anything&lt;/em&gt; helpful. With this entry I try to fill that void in the internet.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Lessons learned in 2016</title>
       <link>https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</link>
       <pubDate>Tue, 03 Jan 2017 10:12:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/01/lessons_learned_in_2016/</guid>
       <description>&lt;h2 id=&#34;1&#34;&gt;#1&lt;/h2&gt;
 &lt;h3 id=&#34;do-not-fix-your-code&#34;&gt;Do not fix your code.&lt;/h3&gt;
 &lt;p&gt;Rather understand why nothing kept you from creating this bug. Make your code so easy that this bug would have been obvious the first time.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Perfect Home Screen Layout</title>
       <link>https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</link>
       <pubDate>Wed, 23 Nov 2016 23:56:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2016/11/perfect_home_screen_layout/</guid>
       <description>&lt;p&gt;Being &lt;em&gt;the IT-guy aka personal first-level-support&lt;/em&gt;™ for way more people than I am comfortable with, I have held quite a few mobile phones in my hand and stared into the abyss that is their home screen. The home screen is the modern view into someone&amp;rsquo;s soul. In a post-privacy-world it is probably one of the most private things we have, since it is utterly worthless to someone who does not interact with it on an hourly basis and has grown to live with whatever way the apps are scattered around the screen.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Bug Fixing in Production</title>
       <link>https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</link>
       <pubDate>Tue, 22 Nov 2016 23:25:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/</guid>
       <description>&lt;img src=&#34;https://www.jannikarndt.de/blog/2016/11/bugfixing_in_production.png&#34; alt=&#34;&#34;&gt; 
 &lt;p&gt;(via &lt;a href=&#34;https://www.facebook.com/IFreakingLoveProgramming/photos/a.731375420306757.1073741828.731359570308342/1024753800968916/?type=3&amp;amp;theater&#34;&gt;I Love Programming&lt;/a&gt;)&lt;/p&gt;
 &lt;p&gt;Thank goodness, we don&amp;rsquo;t do &lt;em&gt;production&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>The 2016-Personal-Website Infrastructure</title>
       <link>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</link>
       <pubDate>Sun, 20 Nov 2016 13:37:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2016/11/the_2016-personal-website_infrastructure/</guid>
       <description>&lt;p&gt;Since I bought my personal domain name around 2003, I went through several web-solutions,
 using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

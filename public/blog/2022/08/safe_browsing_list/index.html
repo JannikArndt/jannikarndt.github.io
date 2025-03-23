@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
 <meta name="description" content="This week we woke up to customer reports that they couldn&rsquo;t reach their &ldquo;Public Portal&rdquo; (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them &ldquo;Deceptive site ahead&rdquo;. What had happened?">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/">
 <noscript>
     <style>
         #theme-toggle,
@@ -35,7 +36,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -54,18 +55,20 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Finding yourself on the Safe Browsing List — a Post Mortem" />
-<meta property="og:description" content="This week we woke up to customer reports that they couldn&rsquo;t reach their &ldquo;Public Portal&rdquo; (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them &ldquo;Deceptive site ahead&rdquo;. What had happened?" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2022-08-05T11:30:00+02:00" />
-<meta property="article:modified_time" content="2022-08-05T11:30:00+02:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Finding yourself on the Safe Browsing List — a Post Mortem"/>
-<meta name="twitter:description" content="This week we woke up to customer reports that they couldn&rsquo;t reach their &ldquo;Public Portal&rdquo; (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them &ldquo;Deceptive site ahead&rdquo;. What had happened?"/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2022/08/safe_browsing_list/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Finding yourself on the Safe Browsing List — a Post Mortem">
+  <meta property="og:description" content="This week we woke up to customer reports that they couldn’t reach their “Public Portal” (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them “Deceptive site ahead”. What had happened?">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-08-05T11:30:00+02:00">
+    <meta property="article:modified_time" content="2022-08-05T11:30:00+02:00">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Finding yourself on the Safe Browsing List — a Post Mortem">
+<meta name="twitter:description" content="This week we woke up to customer reports that they couldn&rsquo;t reach their &ldquo;Public Portal&rdquo; (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them &ldquo;Deceptive site ahead&rdquo;. What had happened?">
 
 
 <script type="application/ld+json">
@@ -101,7 +104,7 @@
   "articleBody": "This week we woke up to customer reports that they couldn’t reach their “Public Portal” (a way to share their roadmap) anymore. Instead, a red page with a huge warning told them “Deceptive site ahead”. What had happened?\nPortal is a feature where customers can share their product roadmap, collect user feedback and link to other websites. These are hosted under a subdomain such as https://airfocusportal.airfocus.site/. Crucially, if the only thing configured was a link, we would redirect to that directly.\nThis was abused by someone who —in a trial— created such a redirect to a phishing site. We hadn’t noticed it, but Google did. Which means the domain —first the subdomain, then the whole second-level-domain— gets added to the Safe Browsing list, which is used by all major browsers, effectively removing you from the internet.\nSince this block is done by the browser, our uptime-monitoring did not catch it. There would have been a warning in the Google Search Console, from where it slowly made its way from our SEO and Marketing department towards the product team (as in “Any idea what this warning could be?”), but too slow.\nAt least in one regard we were lucky (or clever): Our main product is running on https://www.airfocus.com, a separate domain. This kept the blast radius low.\nFixing and Hoping Jumping from one “Learn more” to the next, we found the warning with the offending sub-domain in the Search Console. We quickly removed the entry and deactivated the feature. And now? Google offers a button to request a review if you removed all problems — but what exactly does that do? Having read too many stories about automated moderation making horrible decision, we double- and triple checked that no other entry would redirect to something nefarious, before we risk a second strike. Then we clicked and waited. And hoped. 2:20 hours later, our site was back.\nLearnings In the 5 months I work at airfocus, we have never compromised on security. But abusing our service for something completely unrelated just wasn’t on anyones radar. Apart from fixing the issue and re-evaluating every functionality, we also wanted to make sure to include this in our monitoring. Fortunately, Google provides a free API to check your sites against. Using that, we built a Kubernetes tool that automatically fetches all available ingresses, checks them against the API and adds a Prometheus metric and alert if a match is found: https://github.com/airfocusio/kube-google-safebrowsing\nBonus Surprise In the process we also discovered that Google Mail will straight reject any e-mail that contains a link to a site on the Safe Browsing list. That totally makes sense, but it also means that any customer-mail that would inform us about their portal being blocked would never even reach us, if it contained a link to the site. The internet works in surprising ways.\n",
   "wordCount" : "473",
   "inLanguage": "en",
-  "datePublished": "2022-08-05T11:30:00+02:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2022-08-05T11:30:00+02:00",
   "dateModified": "2022-08-05T11:30:00+02:00",
   "author":{
     "@type": "Person",
@@ -142,7 +145,7 @@
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -193,7 +196,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Finding yourself on the Safe Browsing List — a Post Mortem
     </h1>
     <div class="post-meta"><span title='2022-08-05 11:30:00 +0200 CEST'>August 5, 2022</span>&nbsp;·&nbsp;Jannik Arndt

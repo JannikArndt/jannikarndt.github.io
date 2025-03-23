@@ -5,16 +5,18 @@
     <link>https://www.jannikarndt.de/tags/databases/</link>
     <description>Recent content in Databases on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Jan 2017 11:20:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/databases/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 07 Jan 2017 11:20:00 +0100</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/databases/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Extracting Dimensions from an Oracle Database Table</title>
       <link>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</link>
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/03/extracting_dimensions_from_an_oracle_database_table/</guid>
       <description>&lt;h3 id=&#34;task&#34;&gt;Task&lt;/h3&gt;
 &lt;p&gt;You have a denormalized table and want to extract a column into a dimension table.&lt;/p&gt;
@@ -23,6 +25,5 @@
 &lt;h3 id=&#34;extra-caveat&#34;&gt;Extra-Caveat&lt;/h3&gt;
 &lt;p&gt;You use an Oracle database.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

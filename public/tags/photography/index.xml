@@ -5,102 +5,85 @@
     <link>https://www.jannikarndt.de/tags/photography/</link>
     <description>Recent content in Photography on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 05 Aug 2018 16:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/photography/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Aug 2018 16:00:00 +0100</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/photography/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using your Apple Watch Workout to Geotag DSLR Photos</title>
       <link>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</link>
       <pubDate>Sun, 05 Aug 2018 16:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/using_your_apple_watch_workout_to_geotag_dslr_photos/</guid>
       <description>&lt;p&gt;I want my photos to have location info in them, and Nikon wants &lt;em&gt;way too much&lt;/em&gt; money for that. So I&amp;rsquo;ll do this: Let my Apple Watch track where I go, using the &lt;em&gt;Outdoor Walk&lt;/em&gt;, export the route as GPX and use &lt;em&gt;exiftool&lt;/em&gt; to tag all my images. Here&amp;rsquo;s how I do that.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kirschblütenfeuerwerk</title>
       <link>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</link>
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/05/kirschbluetenfeuerwerk/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Kirschbluetenfeuerwerk1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Russische Kirche, Fernsehturm, Landungsbrücken</title>
       <link>https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/</link>
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/05/russische_kirche_fernsehturm_landungsbruecken/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/05/Russische Kirche.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Boberg</title>
       <link>https://www.jannikarndt.de/blog/2018/04/boberg/</link>
       <pubDate>Sun, 08 Apr 2018 12:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/04/boberg/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Boberg1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Alsterpanorama</title>
       <link>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</link>
       <pubDate>Sat, 07 Apr 2018 13:38:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/04/alsterpanorama/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Alsterpanorama.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hochwasserbassin</title>
       <link>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</link>
       <pubDate>Sat, 07 Apr 2018 12:35:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/04/Hochwasserbassin2.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>What settings yield the sharpest landscape photo?</title>
       <link>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</link>
       <pubDate>Tue, 07 Nov 2017 18:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/11/what_settings_yield_the_sharpest_landscape_photo/</guid>
       <description>&lt;p&gt;I was quite surprised at how difficult it is to get &lt;em&gt;absolutely&lt;/em&gt; razor sharp images out of a very good (high-end-consumer/semi-pro) DSLR camera, namely the Nikon D7100. So I made the test: What settings in terms of aperture, shutter speed and ISO yield the sharpest landscape image?&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hamburg as seen from the Michel</title>
       <link>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</link>
       <pubDate>Sat, 04 Nov 2017 16:50:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/11/hamburg_as_seen_from_the_michel/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/11/hamburg_vom_michel_aus_1.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Tough Mudder Norddeutschland 2017</title>
       <link>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</link>
       <pubDate>Sat, 15 Jul 2017 17:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/07/tough_mudder_norddeutschland_2017/</guid>
       <description>&lt;img src=&#34;https://www.jannikarndt.de/blog/2017/07/tough_mudder/tough_mudder_1.jpg&#34; alt=&#34;&#34;&gt;</description>
     </item>
-    
     <item>
       <title>Belugas at Finkenwerder</title>
       <link>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</link>
       <pubDate>Sun, 05 Mar 2017 17:01:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/04/belugas_at_finkenwerder/</guid>
       <description>&lt;p&gt;My favourite animal: The Beluga!&lt;/p&gt;
 &lt;img src=&#34;https://www.jannikarndt.de/blog/2017/04/Beluga_1.jpg&#34; alt=&#34;&#34;&gt;</description>
     </item>
-    
   </channel>
 </rss>

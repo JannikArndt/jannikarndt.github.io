@@ -1,137 +1,142 @@
 baseURL: "https://www.jannikarndt.de/"
 title: "Jannik Arndt"
-paginate: 50
+pagination:
+  pagerSize: 50
 theme: PaperMod
-
+defaultContentLanguage: en
+languages:
+  en:
+    languageCode: en
+    languageDirection: ltr
+    languageName: English
+    weight: 1
+    
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-pluralizelisttitles: false
+pluralizeListTitles: false
 disableHugoGeneratorInject: false
 
 minify:
-    disableCSS: true
-    disableHTML: true
-    disableJS: true
-    disableXML: true
-    minifyOutput: false
+  disableCSS: true
+  disableHTML: true
+  disableJS: true
+  disableXML: true
+  minifyOutput: false
 
 outputs:
-    home:
-        - HTML
-        - RSS
-        - JSON
+  home:
+    - HTML
+    - RSS
+    - JSON
 
 server:
   headers:
-  - for: /**
-    values:
-      Content-Security-Policy: "default-src 'self' http://localhost:1313 ws://localhost:1313/livereload; script-src 'self' 'sha256-pYERp1GFTQcj76yK8huGHJtriZpv9dsW7AdV7O+VrcQ=' 'sha256-JVVDOwRpMQvCZqoDwpZ1OUJ81UoJpBxumeEHC89A9PU=' 'sha256-RK7LdSEhpwvmYMT+Jix2uBLUXxlWBpHbN6lasgC6hv8='; style-src 'self';"
-      Referrer-Policy: strict-origin-when-cross-origin
-      X-Content-Type-Options: nosniff
-      X-Frame-Options: DENY
-      X-XSS-Protection: 1; mode=block
+    - for: /**
+      values:
+        Content-Security-Policy: "default-src 'self' http://localhost:1313 ws://localhost:1313/livereload; script-src 'self' 'sha256-pYERp1GFTQcj76yK8huGHJtriZpv9dsW7AdV7O+VrcQ=' 'sha256-JVVDOwRpMQvCZqoDwpZ1OUJ81UoJpBxumeEHC89A9PU=' 'sha256-RK7LdSEhpwvmYMT+Jix2uBLUXxlWBpHbN6lasgC6hv8='; style-src 'self';"
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: "1; mode=block"
 
 params:
-    env: production # to enable google analytics, opengraph, twitter-cards and schema.
-    title: "Jannik Arndt"
-    description: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
-    author: "Jannik Arndt" # author: ["Me", "You"] # multiple authors
-    images: ["jannik.jpg"]
-    defaultContentLanguage: en
-    disableFingerprinting: false
-    hideFooter: true
+  env: production  # to enable Google Analytics, opengraph, twitter-cards and schema.
+  title: "Jannik Arndt"
+  description: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
+  author: "Jannik Arndt"  # author: ["Me", "You"] for multiple authors
+  images:
+    - "jannik.jpg"
+  disableFingerprinting: false
+  social: true
+  hideLangSwitch: true
+  hideFooter: true
+  defaultTheme: auto  # dark, light, or auto
+  disableThemeToggle: false
+  ShowReadingTime: false
+  ShowShareButtons: false
+  ShowPostNavLinks: false  # prev/next links at bottom
+  ShowBreadCrumbs: true
+  disableScrollToTop: true
+  comments: false
+  hidemeta: false
+  showtoc: false
+  tocopen: false
 
+  assets:
+    disableHLJS: true  # disable highlight.js if using Hugo’s built-in highlighter
+    disableScrollBarStyle: true
+    favicon: "favicon.ico"
+    favicon16x16: "favicons/favicon-16x16.png"
+    favicon32x32: "favicons/favicon-32x32.png"
+    apple_touch_icon: "favicons/apple-touch-icon.png"
+    safari_pinned_tab: "favicons/apple-touch-icon.png"
+    theme_color: "#576175"
 
-    defaultTheme: auto # dark, light
-    disableThemeToggle: false
+  label:
+    text: "JannikArndt.de"
+    icon: "/favicons/apple-touch-icon.png"
+    iconHeight: 35
 
-    ShowReadingTime: false
-    ShowShareButtons: false
-    #disableSpecial1stPost: false
-    ShowPostNavLinks: false # prev/next links at bottom
-    ShowBreadCrumbs: true
-    disableScrollToTop: true
-    comments: false
-    hidemeta: false
-    showtoc: false
-    tocopen: false
+  # home-info mode configuration
+  homeInfoParams:
+    Title: "Jannik Arndt"
+    Content: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
 
-    assets:
-        disableHLJS: true # to disable highlight.js
-        # disableFingerprinting: true
-        disableScrollBarStyle: true
-        favicon: "favicon.ico"
-        favicon16x16: "favicons/favicon-16x16.png"
-        favicon32x32: "favicons/favicon-16x16.png"
-        apple_touch_icon: "favicons/apple-touch-icon.png"
-        safari_pinned_tab: "favicons/apple-touch-icon.png"
-        theme_color: "#576175"
+  socialIcons:
+    - name: twitter
+      url: "https://twitter.com/JannikArndt"
+    - name: github
+      url: "https://github.com/JannikArndt"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/jannikarndt"
+    - name: xing
+      url: "https://www.xing.com/profile/Jannik_Arndt"
+    - name: email
+      url: "mailto:jannik@jannikarndt.de"
+    - name: cv
+      url: "/cv.pdf"
 
-    label:
-        text: "JannikArndt.de"
-        icon: "/favicons/apple-touch-icon.png"
-        iconHeight: 35
+  cover:
+    hidden: true         # hide cover image everywhere except in structured data
+    hiddenInList: true     # hide on list pages and home
+    hiddenInSingle: true   # hide on single pages
 
-    # home-info mode
-    homeInfoParams:
-        Title: "Jannik Arndt"
-        Content: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
+  # Fuse.js search options
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys:
+      - "title"
+      - "permalink"
+      - "summary"
+      - "content"
 
-    socialIcons:
-        - name: twitter
-          url: "https://twitter.com/JannikArndt"
-        - name: github
-          url: "https://github.com/JannikArndt"
-        - name: linkedin
-          url: "https://www.linkedin.com/in/jannikarndt"
-        - name: xing
-          url: "https://www.xing.com/profile/Jannik_Arndt"
-        - name: email
-          url: "mailto:jannik@jannikarndt.de"
-        - name: "cv"
-          url: "/cv.pdf"
-
-    cover:
-        hidden: true # hide everywhere but not in structured data
-        hiddenInList: true # hide on list pages and home
-        hiddenInSingle: true # hide on single page
-
-    # for search
-    # https://fusejs.io/api/options.html
-    fuseOpts:
-        isCaseSensitive: false
-        shouldSort: true
-        location: 0
-        distance: 1000
-        threshold: 0.4
-        minMatchCharLength: 0
-        keys: ["title", "permalink", "summary", "content"]
 markup:
-    goldmark:
-        renderer:
-            unsafe: true
+  goldmark:
+    renderer:
+      unsafe: true
 
 menu:
-    main:
-        - identifier: about
-          name: about
-          url: about/
-          weight: 5
-        - name: blog
-          url: archive/
-          weight: 10
-        - name: search
-          url: search/
-          weight: 15
-#        - identifier: categories
-#          name: categories
-#          url: /categories/
-#          weight: 10
-        - identifier: tags
-          name: tags
-          url: /tags/
-          weight: 10
-#Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+  main:
+    - identifier: about
+      name: "about"
+      url: "about/"
+      weight: 5
+    - name: "blog"
+      url: "archive/"
+      weight: 10
+    - name: "search"
+      url: "search/"
+      weight: 15
+    - identifier: tags
+      name: "tags"
+      url: "tags/"
+      weight: 10
+
 pygmentsUseClasses: true

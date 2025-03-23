@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,18 +9,18 @@
 <meta name="keywords" content="Cloud, Infrastructure as Code">
 <meta name="description" content="
 This post contains the absolut essence from the Terraform Getting Started Guide:
-https://www.terraform.io/intro/getting-started/install.html
-">
+https://www.terraform.io/intro/getting-started/install.html">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +38,7 @@ https://www.terraform.io/intro/getting-started/install.html
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,24 +57,23 @@ https://www.terraform.io/intro/getting-started/install.html
         }
 
     </style>
-</noscript><meta property="og:title" content="VERY Quick Start: Terraform" />
-<meta property="og:description" content="
-This post contains the absolut essence from the Terraform Getting Started Guide:
-https://www.terraform.io/intro/getting-started/install.html
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-08-06T17:20:00+01:00" />
-<meta property="article:modified_time" content="2017-08-06T17:20:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="VERY Quick Start: Terraform"/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2017/08/very_quick_start_terraform/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="VERY Quick Start: Terraform">
+  <meta property="og:description" content=" This post contains the absolut essence from the Terraform Getting Started Guide: https://www.terraform.io/intro/getting-started/install.html">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2017-08-06T17:20:00+01:00">
+    <meta property="article:modified_time" content="2017-08-06T17:20:00+01:00">
+    <meta property="article:tag" content="Programming">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="VERY Quick Start: Terraform">
 <meta name="twitter:description" content="
 This post contains the absolut essence from the Terraform Getting Started Guide:
-https://www.terraform.io/intro/getting-started/install.html
-"/>
+https://www.terraform.io/intro/getting-started/install.html">
 
 
 <script type="application/ld+json">
@@ -110,7 +109,7 @@ https://www.terraform.io/intro/getting-started/install.html
   "articleBody": " This post contains the absolut essence from the Terraform Getting Started Guide: https://www.terraform.io/intro/getting-started/install.html\nPreparation brew install terraform Create aws.tf:\nprovider \"aws\" { region = \"us-east-1\" } resource \"aws_instance\" \"example\" { ami = \"ami-2757f631\" // https://cloud-images.ubuntu.com/locator/ec2/ instance_type = \"t2.micro\" } AMI = Amazon Machine Images\nAWS credentials are stored in environment vars:\nexport AWS_ACCESS_KEY_ID=... export AWS_SECRET_ACCESS_KEY=... Init $ terraform init ... Terraform has been successfully initialized! ... $ terraform plan -out planfile + aws_instance.example ami: \"ami-2757f631\" associate_public_ip_address: \"\" ... $ terraform apply planfile aws_instance.example: Creating... ... aws_instance.example: Still creating... (10s elapsed) aws_instance.example: Still creating... (20s elapsed) aws_instance.example: Still creating... (30s elapsed) aws_instance.example: Still creating... (40s elapsed) aws_instance.example: Creation complete (ID: i-00b2e1a29daee4371) $ terraform show aws_instance.example: id = i-00b2e1a29daee4371 ami = ami-2757f631 associate_public_ip_address = true Change ami-2757f631 (Ubuntu 16.04 LTS AMI) =\u003e ami-b374d5a5 (Ubuntu 16.10 AMI)\nIn aws.tf:\nprovider \"aws\" { region = \"us-east-1\" } resource \"aws_instance\" \"example\" { ami = \"ami-b374d5a5\" instance_type = \"t2.micro\" } $ terraform plan Refreshing Terraform state in-memory prior to plan... aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371) ... -/+ aws_instance.example (new resource required) ami: \"ami-2757f631\" =\u003e \"ami-b374d5a5\" (forces new resource) associate_public_ip_address: \"true\" =\u003e \"\" ... $ terraform apply aws_instance.example: Refreshing state... (ID: i-00b2e1a29daee4371) aws_instance.example: Destroying... (ID: i-00b2e1a29daee4371) ... aws_instance.example: Destruction complete aws_instance.example: Creating... ami: \"\" =\u003e \"ami-b374d5a5\" associate_public_ip_address: \"\" =\u003e \"\" ... aws_instance.example: Creation complete (ID: i-05a8f2e88ae0faace) Destroy $ terraform plan -destroy Refreshing Terraform state in-memory prior to plan... ... - aws_instance.example ... $ terraform destroy aws_instance.example: Refreshing state... (ID: i-05a8f2e88ae0faace) ... - aws_instance.example Terraform will delete all your managed infrastructure, as shown above. There is no undo. Only 'yes' will be accepted to confirm. Enter a value: yes aws_instance.example: Destroying... (ID: i-05a8f2e88ae0faace) aws_instance.example: Destruction complete Destroy complete! Resources: 1 destroyed. Assigning an IP to the instance In aws.tf:\nprovider \"aws\" { region = \"us-east-1\" } resource \"aws_instance\" \"example\" { ami = \"ami-b374d5a5\" instance_type = \"t2.micro\" } resource \"aws_eip\" \"ip\" { instance = \"${aws_instance.example.id}\" } $ terraform apply planfile aws_instance.example: Creating... ... aws_instance.example: Creation complete (ID: i-0478b3c5b6a085287) aws_eip.ip: Creating... ... aws_eip.ip: Creation complete (ID: eipalloc-6be79a58) Apply complete! Resources: 2 added, 0 changed, 0 destroyed. $ terraform refresh aws_instance.example: Refreshing state... (ID: i-0478b3c5b6a085287) aws_eip.ip: Refreshing state... (ID: eipalloc-6be79a58) $ terraform show aws_eip.ip: id = eipalloc-6be79a58 association_id = eipassoc-590d9e6c domain = vpc instance = i-0478b3c5b6a085287 network_interface = eni-73845aa6 private_ip = 172.31.17.98 public_ip = 52.204.255.194 vpc = true aws_instance.example: id = i-0478b3c5b6a085287 ami = ami-b374d5a5 associate_public_ip_address = true Dependencies The order in which resources are created is determined by terraforms analysis of (implicit) dependencies. Dependencies can also be defined explicitly, for example:\nresource \"aws_eip\" \"ip\" { instance = \"${aws_instance.example.id}\" depends_on = [\"aws_instance.example\"] # \u003c- explicit dependency } To view a dependency graph:\n$ terraform graph \u003e graph.dot And open with graphviz: aws_eip.ip aws_instance.example provider.aws [root] meta.count-boundary (count boundary fixup) [root] provider.aws (close) [root] root Provisioning/Bootstrapping https://www.terraform.io/docs/provisioners/index.html\nChange aws.tf:\nresource \"aws_instance\" \"example\" { ami = \"ami-b374d5a5\" instance_type = \"t2.micro\" # add provisioner provisioner \"local-exec\" { command = \"echo ${aws_instance.example.public_ip} \u003e ip_address.txt\" } } # add output output \"ip\" { value = \"${aws_eip.ip.public_ip}\" } Provisioners are only run, when a resource is first created!\n$ terraform destroy ... $ terraform apply ... Outputs: ip = 50.17.232.209 ",
   "wordCount" : "523",
   "inLanguage": "en",
-  "datePublished": "2017-08-06T17:20:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2017-08-06T17:20:00+01:00",
   "dateModified": "2017-08-06T17:20:00+01:00",
   "author":{
     "@type": "Person",
@@ -151,7 +150,7 @@ https://www.terraform.io/intro/getting-started/install.html
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -202,7 +201,7 @@ https://www.terraform.io/intro/getting-started/install.html
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       VERY Quick Start: Terraform
     </h1>
     <div class="post-meta"><span title='2017-08-06 17:20:00 +0100 +0100'>August 6, 2017</span>&nbsp;·&nbsp;Jannik Arndt
@@ -211,8 +210,7 @@ https://www.terraform.io/intro/getting-started/install.html
   </header> 
   <div class="post-content"><blockquote>
 <p>This post contains the absolut essence from the Terraform Getting Started Guide:
-<a href="https://www.terraform.io/intro/getting-started/install.html">https://www.terraform.io/intro/getting-started/install.html</a></p>
-</blockquote>
+<a href="https://www.terraform.io/intro/getting-started/install.html">https://www.terraform.io/intro/getting-started/install.html</a></p></blockquote>
 <h2 id="preparation">Preparation<a hidden class="anchor" aria-hidden="true" href="#preparation">#</a></h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">brew install terraform
 </span></span></code></pre></div><p>Create <code>aws.tf</code>:</p>
@@ -417,8 +415,7 @@ provider.aws
 </svg></p>
 <h2 id="provisioningbootstrapping">Provisioning/Bootstrapping<a hidden class="anchor" aria-hidden="true" href="#provisioningbootstrapping">#</a></h2>
 <blockquote>
-<p><a href="https://www.terraform.io/docs/provisioners/index.html">https://www.terraform.io/docs/provisioners/index.html</a></p>
-</blockquote>
+<p><a href="https://www.terraform.io/docs/provisioners/index.html">https://www.terraform.io/docs/provisioners/index.html</a></p></blockquote>
 <p>Change <code>aws.tf</code>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="err">ami</span>           <span class="err">=</span> <span class="nt">&#34;ami-b374d5a5&#34;</span>

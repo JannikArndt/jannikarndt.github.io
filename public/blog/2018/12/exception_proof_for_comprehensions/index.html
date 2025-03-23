@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
 <meta name="description" content="I recently created a wonderful bug.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">
 <noscript>
     <style>
         #theme-toggle,
@@ -35,7 +36,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -54,18 +55,22 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Exception-Proof For-Comprehensions" />
-<meta property="og:description" content="I recently created a wonderful bug." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2018-12-04T21:00:00+01:00" />
-<meta property="article:modified_time" content="2018-12-04T21:00:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Exception-Proof For-Comprehensions"/>
-<meta name="twitter:description" content="I recently created a wonderful bug."/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Exception-Proof For-Comprehensions">
+  <meta property="og:description" content="I recently created a wonderful bug.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2018-12-04T21:00:00+01:00">
+    <meta property="article:modified_time" content="2018-12-04T21:00:00+01:00">
+    <meta property="article:tag" content="Scala">
+    <meta property="article:tag" content="Programming">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Exception-Proof For-Comprehensions">
+<meta name="twitter:description" content="I recently created a wonderful bug.">
 
 
 <script type="application/ld+json">
@@ -101,7 +106,7 @@
   "articleBody": "I recently created a wonderful bug.\nHave a look at this code and tell me: Do you need to look out for exceptions?\nimport scala.concurrent.ExecutionContext.Implicits.global import scala.concurrent.Future import scala.util.{Failure, Success} object Main extends App { val myFuture: Future[Int] = for { foo \u003c- doFoo() bar \u003c- doBar() } yield foo + bar def doFoo(): Future[Int] = ??? def doBar(): Future[Int] = ??? myFuture onComplete { case Success(value) =\u003e println(s\"It's a $value\") case Failure(exception) =\u003e println(s\"Something went wrong: $exception\") } } Nahhh, probably not, because\nFuture{ throw new Throwable } is the same as\nFuture.apply(throw new Throwable) is the same as\nFuture.unit.map(_ =\u003e throw new Throwable) is the same as\nFuture.successful(()).transform(_ map (_ =\u003e throw new Throwable)) and this transform is defined as\ndef transform[S](f: Try[T] =\u003e Try[S])(implicit executor: ExecutionContext): Future[S] and therefore the map is defined as\ndef map[U](f: T =\u003e U): Try[U] and Try has the constructor\nobject Try { /** Constructs a `Try` using the by-name parameter. This * method will ensure any non-fatal exception is caught and a * `Failure` object is returned. */ def apply[T](r: =\u003e T): Try[T] = try Success(r) catch { case NonFatal(e) =\u003e Failure(e) } } and there we finally have our try-catch-block! So we don’t have to care about exceptions in Futures, right?\nThe Catch While the conclusion is correct, and exceptions inside futures will be caught, not all the code is inside a future!\nThe for comprehension de-sugared is the same as\ndoFoo().flatMap(foo =\u003e doBar().map(bar =\u003e foo + bar)) and although doFoo() returns a Future, there can be parts that are not inside that Future:\ndef doFoo(): Future[Int] = { throw new Throwable Future(3) } BÄM! Now there’s no try around the throw and the Throwable will bubble to the top and kill your program.\nThe Solution Obviously, when returning a Future you shouldn’t throw exceptions. But if you’re the caller and don’t have any influence on this, this will save you:\nval myFuture: Future[Int] = for { _ \u003c- Future.unit foo \u003c- doFoo() bar \u003c- doBar() } yield foo + bar It’s pretty much the same way the standard library does it: Start with something successful and map your way from there!\nDe-sugared, this would be\nFuture.unit.flatMap(_ =\u003e doFoo().flatMap(foo =\u003e doBar().map(bar =\u003e foo + bar))) What a mess, just to be on the safe side.\n",
   "wordCount" : "385",
   "inLanguage": "en",
-  "datePublished": "2018-12-04T21:00:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2018-12-04T21:00:00+01:00",
   "dateModified": "2018-12-04T21:00:00+01:00",
   "author":{
     "@type": "Person",
@@ -142,7 +147,7 @@
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -193,7 +198,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Exception-Proof For-Comprehensions
     </h1>
     <div class="post-meta"><span title='2018-12-04 21:00:00 +0100 CET'>December 4, 2018</span>&nbsp;·&nbsp;Jannik Arndt

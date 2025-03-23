@@ -5,50 +5,45 @@
     <link>https://www.jannikarndt.de/tags/scala/</link>
     <description>Recent content in Scala on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Apr 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/scala/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 24 Apr 2021 16:00:00 +0200</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/scala/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>def and var in traits on Scala 2.12, 2.13 and 3.0.0</title>
       <link>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</link>
       <pubDate>Sat, 24 Apr 2021 16:00:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/04/def_and_var_in_trait/</guid>
       <description>&lt;p&gt;Scala &lt;code&gt;trait&lt;/code&gt;s should define &lt;code&gt;def&lt;/code&gt;s, because&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“A val can override a def, but a def cannot override a val”&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;“A val can override a def, but a def cannot override a val”&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;(via &lt;a href=&#34;https://alvinalexander.com/scala/fp-book/def-vs-val-abstract-members-traits-classes-override/&#34;&gt;Alvin Alexander&lt;/a&gt; via &lt;a href=&#34;https://stackoverflow.com/questions/13126104/is-there-any-advantage-to-definining-a-val-over-a-def-in-a-trait&#34;&gt;StackOverflow&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;But it&amp;rsquo;s interesting to look at how the &lt;em&gt;compiler&lt;/em&gt; treats that.
 Alvin Alexander &lt;a href=&#34;https://alvinalexander.com/scala/all-wanted-to-know-about-def-val-var-fields-in-traits/&#34;&gt;did that&lt;/a&gt;, but only for Scala 2.12.8.
 Let&amp;rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly known as dotty).&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Using scalap, javap and the scala compiler to understand the journey from code to bytecode</title>
       <link>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</link>
       <pubDate>Thu, 25 Mar 2021 09:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/03/using_scalap_javap_and_the_scala_compiler/</guid>
       <description>&lt;p&gt;Do you know what happens after you compile? Let&amp;rsquo;s take a look at what the Scala compiler tells us, and what &lt;code&gt;scalap&lt;/code&gt; and &lt;code&gt;javap&lt;/code&gt; can reveal about &lt;code&gt;.class&lt;/code&gt; files.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Exception-Proof For-Comprehensions</title>
       <link>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</link>
       <pubDate>Tue, 04 Dec 2018 21:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/12/exception_proof_for_comprehensions/</guid>
       <description>&lt;p&gt;I recently created a &lt;em&gt;wonderful&lt;/em&gt; bug.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>oAuth2 with Akka HTTP</title>
       <link>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</link>
       <pubDate>Sun, 28 Oct 2018 13:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</guid>
       <description>&lt;p&gt;This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:&lt;/p&gt;
 &lt;ul&gt;
@@ -64,55 +59,50 @@ Let&amp;rsquo;s have a look at 2.12, 2.13 and the just released 3.0 (formerly kn
 &lt;/ul&gt;
 &lt;p&gt;Since oAuth tokens are short lived, the server also has to invalidate expired tokens.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Akka HTTP on Heroku</title>
       <link>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</link>
       <pubDate>Sat, 27 Oct 2018 19:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</guid>
       <description>&lt;p&gt;Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack</title>
       <link>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</link>
       <pubDate>Sun, 07 Oct 2018 18:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/reactive_sqs_reader/</guid>
       <description>&lt;p&gt;This example show how to write a reactive reader for the AWS &lt;em&gt;Simple Queue Service&lt;/em&gt;, using Scala and alpakka (respective akka streams).&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How Event Sourcing in Akka Persistent Actors Works</title>
       <link>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</link>
       <pubDate>Fri, 31 Aug 2018 17:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/08/event_sourcing_in_akka_persistent_actors/</guid>
       <description>&lt;p&gt;While the &lt;a href=&#34;https://doc.akka.io/docs/&#34;&gt;Akka&lt;/a&gt; documentation is incredibly well written, it has surprisingly few images. Since &lt;em&gt;I&lt;/em&gt; visualize concepts to remember them, here is my take on how Event Sourcing in Akka Persistence works:&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34;&gt;&lt;img src=&#34;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.svg&#34; alt=&#34;&#34; onerror=&#34;this.onerror=null; this.src=&#39;https://www.jannikarndt.de/blog/2018/08/AkkaPersistence.png&#39;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)</title>
       <link>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</link>
       <pubDate>Sun, 10 Sep 2017 21:07:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/</guid>
-      <description>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
-Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
-create a JIRA account and then create a ticket for a new project.</description>
+      <description>&lt;p&gt;If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a &lt;code&gt;pom.xml&lt;/code&gt;. While this can work, it brings a few extra caveats if you want to submit your project to &lt;a href=&#34;https://search.maven.org&#34;&gt;Maven Central&lt;/a&gt; (aka &lt;a href=&#34;http://central.sonatype.org/pages/ossrh-guide.html&#34;&gt;Sonatype OSSRH&lt;/a&gt;).&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;step-1-claim-your-group-id&#34;&gt;Step 1: Claim your Group ID&lt;/h2&gt;
+&lt;p&gt;When you first publish something to the Sonatype OSSRH, you have to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://issues.sonatype.org/secure/Signup!default.jspa&#34;&gt;create a JIRA account&lt;/a&gt; and then&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;amp;pid=10134&#34;&gt;create a ticket for a new project&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first question that is usually asked in the ticket is&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Writing case classes to MongoDB in Scala</title>
       <link>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</link>
       <pubDate>Sat, 19 Aug 2017 10:05:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2017/08/writing_case_classes_to_mongodb_in_scala/</guid>
       <description>&lt;p&gt;Storing case classes in a MongoDB database is incredibly easy, once you know how. The same goes for &lt;code&gt;java.time&lt;/code&gt; classes such as &lt;code&gt;ZonedDateTime&lt;/code&gt;, &lt;code&gt;LocalDate&lt;/code&gt; or &lt;code&gt;Duration&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;This example uses the official &lt;a href=&#34;https://mvnrepository.com/artifact/org.mongodb.scala/mongo-scala-driver_2.11&#34;&gt;Mongo Scala Driver&lt;/a&gt; in version 2.x and the &lt;a href=&#34;https://github.com/ralscha/bsoncodec&#34;&gt;bsoncodec&lt;/a&gt; project by &lt;a href=&#34;https://github.com/ralscha&#34;&gt;Ralph Schaer&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

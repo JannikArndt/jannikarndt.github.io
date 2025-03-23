@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
 <meta name="description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">
 <noscript>
     <style>
         #theme-toggle,
@@ -35,7 +36,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -54,18 +55,23 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Akka HTTP on Heroku" />
-<meta property="og:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2018-10-27T19:00:00+01:00" />
-<meta property="article:modified_time" content="2018-10-27T19:00:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Akka HTTP on Heroku"/>
-<meta name="twitter:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks."/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Akka HTTP on Heroku">
+  <meta property="og:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2018-10-27T19:00:00+01:00">
+    <meta property="article:modified_time" content="2018-10-27T19:00:00+01:00">
+    <meta property="article:tag" content="Scala">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="Akka HTTP">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Akka HTTP on Heroku">
+<meta name="twitter:description" content="Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.">
 
 
 <script type="application/ld+json">
@@ -101,7 +107,7 @@
   "articleBody": "Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.\nSetup First, create a new app on Heroku. The easiest way to deploy something is to push it to the attached git repository, as explained on the Deploy page:\nNext, setup you local sbt project. My way would be\n$ sbt new jannikarndt/scala.g8 Do the git thing:\n$ git init $ git add . $ git commit -m \"Template\" and next, connect the repository to Heroku. If you haven’t already, install their cli first:\n$ brew install heroku/brew/heroku ... $ heroku login heroku: Enter your login credentials Email: your@mail.com Password: ************ Logged in as your@mail.com $ heroku git:remote -a yourproject set git remote heroku to https://git.heroku.com/yourproject.git plugins.sbt and build.sbt To create a build that can be run on Heroku, you need the sbt-native-packager in your project/plugins.sbt:\naddSbtPlugin(\"com.typesafe.sbt\" % \"sbt-native-packager\" % \"1.3.12\") You also have to enable the plugin in the build.sbt:\nenablePlugins(JavaAppPackaging) This enables the stage command. Otherwise you’ll end up with weird errors:\nsbt\u003e stage [error] Not a valid command: stage (similar: last-grep, set, last) [error] Not a valid project ID: stage [error] Expected ':' [error] Not a valid key: stage (similar: state, target, tags) [error] stage [error] ^ sbt\u003e compile stage [error] Expected whitespace character [error] Expected '/' [error] compile stage [error] ^ Next, you need to define the Main class to be run. This is also done in your build.sbt:\nmainClass in Compile := Some(\"Main\") Note: If you use packages, you’ll need to write the full identifier, i.e. com.mycompany.myproject.Main or something similar.\nIf you get this part wrong, sbt stage will warn you:\nsbt\u003e stage [info] Wrote /target/scala-2.12/yourproject_2.12-1.0.pom [info] Packaging /target/scala-2.12/yourproject_2.12-1.0.jar ... [info] Done packaging. [warn] You have no main class in your project. No start script will be generated. [warn] You have no main class in your project. No start script will be generated. [success] Total time: 0 s, completed Oct 27, 2018 6:13:13 PM but on Heroku it will actually crash the app:\nheroku[web.1]: State changed from starting to crashed app[web.1]: Error: Main method not found in class Main, please define the main method as: app[web.1]: public static void main(String[] args) app[web.1]: or a JavaFX application class must extend javafx.application.Application The final build.sbt should look something like this:\nname := \"yourproject\" scalaVersion := \"2.12.7\" version := \"1.0\" maintainer := \"you\" mainClass in Compile := Some(\"Main\") enablePlugins(JavaAppPackaging) libraryDependencies ++= Seq( \"com.typesafe.akka\" %% \"akka-http\" % \"10.1.5\", \"com.typesafe.akka\" %% \"akka-stream\" % \"2.5.17\" ) Main.scala Now that you’ve managed to create a build and reference the correct mainClass, there’s only two caveats left: Binding the server. First, on Heroku you can not bind to localhost, you have to write 0.0.0.0 instead. Secondly, the port changes with every start of the app and is given as a parameter (-Dhttp.port=36803) and environment variable ($PORT). The code for this:\nval port: Int = sys.env.getOrElse(\"PORT\", \"8080\").toInt WebServer.startServer(\"0.0.0.0\", port) A complete example for a WebServer would be\nimport akka.http.scaladsl.server._ object Main { def main(args: Array[String]): Unit = { val port: Int = sys.env.getOrElse(\"PORT\", \"8080\").toInt WebServer.startServer(\"0.0.0.0\", port) } } object WebServer extends HttpApp { override protected def routes: Route = pathEndOrSingleSlash { get { complete(\"It works\") } } } Deploy After you tested locally running\n$ sbt compile stage (because that’s exactly the command that will be run on Heroku’s server) and maybe sbt run or sbt reStart, you can finally deploy.\nSince you already connected our git to the remote repository, all you have to do is push:\n$ git push --set-upstream heroku master Enumerating objects: 13, done. Counting objects: 100% (13/13), done. Delta compression using up to 4 threads Compressing objects: 100% (6/6), done. Writing objects: 100% (7/7), 1.25 KiB | 1.25 MiB/s, done. Total 7 (delta 3), reused 0 (delta 0) remote: Compressing source files... done. remote: Building source: remote: remote: -----\u003e Scala app detected remote: -----\u003e Installing JDK 1.8... done remote: -----\u003e Running: sbt compile stage ... remote: [info] Done compiling. remote: [success] Total time: 4 s, completed Oct 27, 2018 5:44:33 PM ... remote: [info] Done packaging. remote: [success] Total time: 3 s, completed Oct 27, 2018 5:44:36 PM remote: -----\u003e Dropping ivy cache from the slug remote: -----\u003e Dropping sbt boot dir from the slug remote: -----\u003e Dropping compilation artifacts from the slug remote: -----\u003e Discovering process types remote: Procfile declares types -\u003e (none) remote: Default types for buildpack -\u003e web remote: remote: -----\u003e Compressing... remote: Done: 71.9M remote: -----\u003e Launching... remote: Released v10 remote: https://yourproject.herokuapp.com/ deployed to Heroku remote: remote: Verifying deploy... done. To https://git.heroku.com/yourproject.git ca5c7c5..4a5a138 master -\u003e master Now head to your url and start building the rest!\n",
   "wordCount" : "777",
   "inLanguage": "en",
-  "datePublished": "2018-10-27T19:00:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2018-10-27T19:00:00+01:00",
   "dateModified": "2018-10-27T19:00:00+01:00",
   "author":{
     "@type": "Person",
@@ -142,7 +148,7 @@
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -193,7 +199,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Akka HTTP on Heroku
     </h1>
     <div class="post-meta"><span title='2018-10-27 19:00:00 +0100 +0100'>October 27, 2018</span>&nbsp;·&nbsp;Jannik Arndt

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>swiftui on Jannik Arndt</title>
+    <title>Swiftui on Jannik Arndt</title>
     <link>https://www.jannikarndt.de/tags/swiftui/</link>
-    <description>Recent content in swiftui on Jannik Arndt</description>
+    <description>Recent content in Swiftui on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 29 Aug 2021 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/swiftui/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 29 Aug 2021 11:30:00 +0200</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/swiftui/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Comparison of Chart Libraries for SwiftUI</title>
       <link>https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/</link>
       <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/</guid>
       <description>&lt;p&gt;I want to add charts to my SwiftUI iOS App, &lt;a href=&#34;https://zettl.jannikarndt.de&#34;&gt;Zettl&lt;/a&gt;. For that, I am going to compare the following libraries:&lt;/p&gt;
 &lt;ul&gt;
@@ -34,6 +36,5 @@ plus I will try to implement them myself, based on the following tutorials:
 * [Create Charts in SwiftUI (Line, Bar, Pie) - Xcode 12, Swift 5, 2020 iOS Development](https://youtu.be/F-dt0vOQ4Vg)
 --&gt;</description>
     </item>
-    
   </channel>
 </rss>

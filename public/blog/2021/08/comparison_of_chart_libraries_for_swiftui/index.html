@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,14 +18,15 @@ danielgindi/Charts
 ">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/">
 <noscript>
     <style>
         #theme-toggle,
@@ -43,7 +44,7 @@ danielgindi/Charts
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -62,25 +63,24 @@ danielgindi/Charts
         }
 
     </style>
-</noscript><meta property="og:title" content="Comparison of Chart Libraries for SwiftUI" />
-<meta property="og:description" content="I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:
-
-ivanschuetz/SwiftCharts
-denniscm190/stock-charts
-spacenation/swiftui-charts
-AppPear/ChartView
-danielgindi/Charts
-
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2021-08-29T11:30:00+02:00" />
-<meta property="article:modified_time" content="2021-08-29T11:30:00+02:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Comparison of Chart Libraries for SwiftUI"/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2021/08/comparison_of_chart_libraries_for_swiftui/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Comparison of Chart Libraries for SwiftUI">
+  <meta property="og:description" content="I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:
+ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts ">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2021-08-29T11:30:00+02:00">
+    <meta property="article:modified_time" content="2021-08-29T11:30:00+02:00">
+    <meta property="article:tag" content="Swift">
+    <meta property="article:tag" content="Swiftui">
+    <meta property="article:tag" content="IOS">
+    <meta property="article:tag" content="Charts">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Comparison of Chart Libraries for SwiftUI">
 <meta name="twitter:description" content="I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:
 
 ivanschuetz/SwiftCharts
@@ -89,7 +89,7 @@ spacenation/swiftui-charts
 AppPear/ChartView
 danielgindi/Charts
 
-"/>
+">
 
 
 <script type="application/ld+json">
@@ -125,7 +125,7 @@ danielgindi/Charts
   "articleBody": "I want to add charts to my SwiftUI iOS App, Zettl. For that, I am going to compare the following libraries:\nivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppPear/ChartView danielgindi/Charts Requirements My needs are\nbar charts for categorial data. Extra: I need images as labels. line charts for time-scale data. With multiple lines. Bonus points if I don’t have to care about the time distribution, i.e. can enter timestamps and they are spread correctly. pie charts for relative comparisons. Here, the magic lies in good annotations. SwiftCharts URL: https://github.com/ivanschuetz/SwiftCharts License: Apache 2 Maturity: Created May 2015 ✅ ~2 backup contributors, 32 in total Last big changes 2019 😬 Last commit to main: 8 days ago 👍 Supported Chart Types Bar Charts ✅ Line Charts ✅ (didn’t check) Donut Charts ✅ (didn’t check) more Code Bar Chart Result integration of UIView in SwiftUI sucks Docs don’t help a lot Examples are very complex Stock-Charts URL: https://github.com/denniscm190/stock-charts License: MIT Maturity: Created April 2021 ⛲ Single-dev-project 👨‍💻 Ongoing development ✅ Last commit to main: 20 days ago 👍 Demo App: https://github.com/denniscm190/trades-demo Supported Chart Types Bar Charts =\u003e as “Capsule” Charts, for one value only ❌ Line Charts: without axis, only for this one specific use-case 🆗 Pie Charts: ❌ Code Bar Chart Line Chart Result Super easy to integrate But very limited to this one use case The code offers some good inspiration to base upon SwiftUI Charts URL: https://github.com/spacenation/swiftui-charts License: MIT Maturity Created Nov 2019 ✅ Single-dev-project 👨‍💻 Last big change in Oct 2020 😬 2 open PRs Bug: Data is ordered in reverse Naming conflict: This package uses the same name as (the much older) https://github.com/danielgindi/Charts. To import both, I forked it to https://github.com/JannikArndt/swiftui-charts, changed the name and cherry-picked the open PRs. Supported Chart Types Bar Charts, also stacked, not no axis or labels 😬 Very simple line charts 🆗 No pie charts ❌ Code Bar Chart Line Chart Result Easy to integrate But quite buggy No axis-options AppPear/ChartView URL: https://github.com/AppPear/ChartView License: MIT Maturity Created continuously between Jun 2019 and today ✅ Version 2 is currently in beta Only small contributions from others Supported Chart Types Bar Charts ✅ (no axis though) Line Charts ✅ (with multiple lines, no axis) Pie Charts ✅ (no labels) Code Bar Chart Line Chart Pie Chart Result Nice library for that particular style, but cannot be changed to view axis / labels / more things danielgindi/Charts URL: https://github.com/danielgindi/Charts License: Apache 2 Maturity Created Mar 2015 🕸 Ongoing maintenance by second dev 4 devs with larger contributions Supported Chart Types Bar Charts ✅ (even horizontal, with every option you can think of) Line Charts ✅ Pie Charts ✅ Code Bar Chart Line Chart Pie Chart Result By far the most comprehensive library No docs, references the Android docs, but good amount of demos Many third-party tutorials, for example this one that explains the integration into SwiftUI The amount of options is a little overwhelming, and the defaults are insane, so you have to go through the options. Conclusion I was close to building my own version of the required charts, until I tried danielgindi/Charts. While it is a heavyweight, I will give it a shot.\nYou can try out the demo-app with all five libraries here: https://github.com/JannikArndt/SwiftUI-Charts-Playground.\n",
   "wordCount" : "537",
   "inLanguage": "en",
-  "datePublished": "2021-08-29T11:30:00+02:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2021-08-29T11:30:00+02:00",
   "dateModified": "2021-08-29T11:30:00+02:00",
   "author":{
     "@type": "Person",
@@ -166,7 +166,7 @@ danielgindi/Charts
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -217,7 +217,7 @@ danielgindi/Charts
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Comparison of Chart Libraries for SwiftUI
     </h1>
     <div class="post-meta"><span title='2021-08-29 11:30:00 +0200 CEST'>August 29, 2021</span>&nbsp;·&nbsp;Jannik Arndt
@@ -518,10 +518,10 @@ plus I will try to implement them myself, based on the following tutorials:
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://www.jannikarndt.de/tags/swift/">swift</a></li>
-      <li><a href="https://www.jannikarndt.de/tags/swiftui/">swiftui</a></li>
-      <li><a href="https://www.jannikarndt.de/tags/ios/">iOS</a></li>
-      <li><a href="https://www.jannikarndt.de/tags/charts/">charts</a></li>
+      <li><a href="https://www.jannikarndt.de/tags/swift/">Swift</a></li>
+      <li><a href="https://www.jannikarndt.de/tags/swiftui/">Swiftui</a></li>
+      <li><a href="https://www.jannikarndt.de/tags/ios/">IOS</a></li>
+      <li><a href="https://www.jannikarndt.de/tags/charts/">Charts</a></li>
     </ul>
   </footer>
 </article>

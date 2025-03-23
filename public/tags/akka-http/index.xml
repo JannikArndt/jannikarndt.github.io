@@ -5,16 +5,18 @@
     <link>https://www.jannikarndt.de/tags/akka-http/</link>
     <description>Recent content in Akka HTTP on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 28 Oct 2018 13:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/akka-http/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 28 Oct 2018 13:00:00 +0100</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/akka-http/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>oAuth2 with Akka HTTP</title>
       <link>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</link>
       <pubDate>Sun, 28 Oct 2018 13:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/oauth2-akka-http/</guid>
       <description>&lt;p&gt;This is a basic example how to implement oAuth2 using Akka HTTP and Scala. It provides three endpoints. From the clients point of view:&lt;/p&gt;
 &lt;ul&gt;
@@ -30,15 +32,12 @@
 &lt;/ul&gt;
 &lt;p&gt;Since oAuth tokens are short lived, the server also has to invalidate expired tokens.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Akka HTTP on Heroku</title>
       <link>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</link>
       <pubDate>Sat, 27 Oct 2018 19:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/10/akka_http_on_heroku/</guid>
       <description>&lt;p&gt;Getting a Akka HTTP-based backend up and running on Heroku for free can be done in less then 30 minutes — if you know the tricks.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

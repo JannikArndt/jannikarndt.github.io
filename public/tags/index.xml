@@ -5,208 +5,167 @@
     <link>https://www.jannikarndt.de/tags/</link>
     <description>Recent content in Tags on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 29 Aug 2021 11:30:00 +0200</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 29 Aug 2021 11:30:00 +0200</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>charts</title>
+      <title>Charts</title>
       <link>https://www.jannikarndt.de/tags/charts/</link>
       <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/charts/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>iOS</title>
+      <title>IOS</title>
       <link>https://www.jannikarndt.de/tags/ios/</link>
       <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/ios/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>swift</title>
+      <title>Swift</title>
       <link>https://www.jannikarndt.de/tags/swift/</link>
       <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/swift/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>swiftui</title>
+      <title>Swiftui</title>
       <link>https://www.jannikarndt.de/tags/swiftui/</link>
       <pubDate>Sun, 29 Aug 2021 11:30:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/swiftui/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>blog</title>
+      <title>Blog</title>
       <link>https://www.jannikarndt.de/tags/blog/</link>
       <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/blog/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>hugo</title>
+      <title>Hugo</title>
       <link>https://www.jannikarndt.de/tags/hugo/</link>
       <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/hugo/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>website</title>
+      <title>Website</title>
       <link>https://www.jannikarndt.de/tags/website/</link>
       <pubDate>Sun, 02 May 2021 14:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/website/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Programming</title>
       <link>https://www.jannikarndt.de/tags/programming/</link>
       <pubDate>Sat, 01 May 2021 13:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/programming/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>JVM</title>
       <link>https://www.jannikarndt.de/tags/jvm/</link>
       <pubDate>Sat, 24 Apr 2021 16:00:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/jvm/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Scala</title>
       <link>https://www.jannikarndt.de/tags/scala/</link>
       <pubDate>Sat, 24 Apr 2021 16:00:00 +0200</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/scala/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Git</title>
       <link>https://www.jannikarndt.de/tags/git/</link>
       <pubDate>Mon, 05 Apr 2021 02:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/git/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Akka HTTP</title>
       <link>https://www.jannikarndt.de/tags/akka-http/</link>
       <pubDate>Sun, 28 Oct 2018 13:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/akka-http/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>AWS</title>
       <link>https://www.jannikarndt.de/tags/aws/</link>
       <pubDate>Sun, 07 Oct 2018 18:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/aws/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>PostgreSQL</title>
       <link>https://www.jannikarndt.de/tags/postgresql/</link>
       <pubDate>Wed, 22 Aug 2018 09:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/postgresql/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Photography</title>
       <link>https://www.jannikarndt.de/tags/photography/</link>
       <pubDate>Sun, 05 Aug 2018 16:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/photography/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Hamburg</title>
       <link>https://www.jannikarndt.de/tags/hamburg/</link>
       <pubDate>Fri, 25 May 2018 23:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/hamburg/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Kubernetes</title>
       <link>https://www.jannikarndt.de/tags/kubernetes/</link>
       <pubDate>Thu, 22 Mar 2018 07:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/kubernetes/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Raspberry Pi</title>
       <link>https://www.jannikarndt.de/tags/raspberry-pi/</link>
       <pubDate>Sat, 13 Jan 2018 20:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/raspberry-pi/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Smart Home</title>
       <link>https://www.jannikarndt.de/tags/smart-home/</link>
       <pubDate>Sat, 13 Jan 2018 19:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/smart-home/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Database</title>
       <link>https://www.jannikarndt.de/tags/database/</link>
       <pubDate>Fri, 21 Jul 2017 22:45:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/database/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Music</title>
       <link>https://www.jannikarndt.de/tags/music/</link>
       <pubDate>Sun, 02 Jul 2017 13:45:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/music/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Databases</title>
       <link>https://www.jannikarndt.de/tags/databases/</link>
       <pubDate>Sat, 07 Jan 2017 11:20:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/tags/databases/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

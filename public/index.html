@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head>
-	<meta name="generator" content="Hugo 0.104.3" /><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.145.0"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,16 +11,17 @@
 <meta name="description" content="Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://www.jannikarndt.de/index.xml">
 <link rel="alternate" type="application/json" href="https://www.jannikarndt.de/index.json">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +39,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,16 +58,17 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Jannik Arndt" />
-<meta property="og:description" content="Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.jannikarndt.de/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Jannik Arndt"/>
-<meta name="twitter:description" content="Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Jannik Arndt">
+  <meta property="og:description" content="Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Jannik Arndt">
+<meta name="twitter:description" content="Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg">
 
 <script type="application/ld+json">
 {
@@ -75,7 +77,7 @@
   "name": "Jannik Arndt",
   "url": "https://www.jannikarndt.de/",
   "description": "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg",
-  "thumbnailUrl": "https://www.jannikarndt.de/favicon.ico",
+  "logo": "https://www.jannikarndt.de/favicon.ico",
   "sameAs": [
       "https://twitter.com/JannikArndt", "https://github.com/JannikArndt", "https://www.linkedin.com/in/jannikarndt", "https://www.xing.com/profile/Jannik_Arndt", "mailto:jannik@jannikarndt.de", "/cv.pdf"
   ]
@@ -102,7 +104,7 @@
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -157,8 +159,9 @@
         Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg
     </div>
     <footer class="entry-footer">
-        <div class="social-icons">
-    <a href="https://twitter.com/JannikArndt" target="_blank" rel="noopener noreferrer me" title="Twitter">
+        <div class="social-icons" >
+    <a href="https://twitter.com/JannikArndt" target="_blank" rel="noopener noreferrer me"
+        title="Twitter">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path
@@ -166,7 +169,8 @@
     </path>
 </svg>
     </a>
-    <a href="https://github.com/JannikArndt" target="_blank" rel="noopener noreferrer me" title="Github">
+    <a href="https://github.com/JannikArndt" target="_blank" rel="noopener noreferrer me"
+        title="Github">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path
@@ -174,7 +178,8 @@
     </path>
 </svg>
     </a>
-    <a href="https://www.linkedin.com/in/jannikarndt" target="_blank" rel="noopener noreferrer me" title="Linkedin">
+    <a href="https://www.linkedin.com/in/jannikarndt" target="_blank" rel="noopener noreferrer me"
+        title="Linkedin">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -182,8 +187,9 @@
     <circle cx="4" cy="4" r="2"></circle>
 </svg>
     </a>
-    <a href="https://www.xing.com/profile/Jannik_Arndt" target="_blank" rel="noopener noreferrer me" title="Xing">
-        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <a href="https://www.xing.com/profile/Jannik_Arndt" target="_blank" rel="noopener noreferrer me"
+        title="Xing">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
     <path
         d="M313.8 303.9L469 32H365L209.4 303.8a1.35 1.35 0 0 0 0 1.7l98.9 173.8c.4.7.8.7 1.6.7H413l-99.3-174.7a1.74 1.74 0 0 1 .1-1.4z"
         fill="currentColor" />
@@ -191,14 +197,16 @@
         d="M221.9 216.2L163 113a2 2 0 0 0-2-1H65l58.9 104.4a1.13 1.13 0 0 1 .1.8L43 352h96.8a1.54 1.54 0 0 0 1.6-.9l80.5-133.7a2.44 2.44 0 0 0 0-1.2z" />
 </svg>
     </a>
-    <a href="mailto:jannik@jannikarndt.de" target="_blank" rel="noopener noreferrer me" title="Email">
+    <a href="mailto:jannik@jannikarndt.de" target="_blank" rel="noopener noreferrer me"
+        title="Email">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
     <polyline points="22,6 12,13 2,6"></polyline>
 </svg>
     </a>
-    <a href="/cv.pdf" target="_blank" rel="noopener noreferrer me" title="Cv">
+    <a href="/cv.pdf" target="_blank" rel="noopener noreferrer me"
+        title="Cv">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path
@@ -215,7 +223,7 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Finding yourself on the Safe Browsing List — a Post Mortem
+    <h2 class="entry-hint-parent">Finding yourself on the Safe Browsing List — a Post Mortem
     </h2>
   </header>
   <div class="entry-content">
@@ -228,12 +236,13 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Why growth is so bad
+    <h2 class="entry-hint-parent">Why growth is so bad
     </h2>
   </header>
   <div class="entry-content">
     <p>Over the past year, many (including me) have left the company I worked for for more or less growth-related reasons. But what is it about growth that actually drives people away?
-Step 1: need for workforce / talent The first growth isn’t bad. You can only do so much in a day, and at some point, your company will need more people to solve all the tasks. Or specialized people, because you don’t know all about security, marketing, strategy, finances or a particular problem domain....</p>
+Step 1: need for workforce / talent The first growth isn’t bad. You can only do so much in a day, and at some point, your company will need more people to solve all the tasks. Or specialized people, because you don’t know all about security, marketing, strategy, finances or a particular problem domain.
+...</p>
   </div>
   <footer class="entry-footer"><span title='2022-02-03 11:30:00 +0200 +0200'>February 3, 2022</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Why growth is so bad" href="https://www.jannikarndt.de/blog/2022/02/why_growth_is_so_bad/"></a>
@@ -241,7 +250,7 @@ Step 1: need for workforce / talent The first growth isn’t bad. You can only d
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Comparison of Chart Libraries for SwiftUI
+    <h2 class="entry-hint-parent">Comparison of Chart Libraries for SwiftUI
     </h2>
   </header>
   <div class="entry-content">
@@ -254,11 +263,11 @@ ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppP
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Generating Open Graph Images for my Blog
+    <h2 class="entry-hint-parent">Generating Open Graph Images for my Blog
     </h2>
   </header>
   <div class="entry-content">
-    <p>...</p>
+    <p></p>
   </div>
   <footer class="entry-footer"><span title='2021-05-02 14:00:00 +0100 +0100'>May 2, 2021</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Generating Open Graph Images for my Blog" href="https://www.jannikarndt.de/blog/2021/05/generating_open_graph_images/"></a>
@@ -266,7 +275,7 @@ ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppP
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Things Developers are and aren&#39;t Good at
+    <h2 class="entry-hint-parent">Things Developers are and aren&#39;t Good at
     </h2>
   </header>
   <div class="entry-content">
@@ -279,7 +288,7 @@ ivanschuetz/SwiftCharts denniscm190/stock-charts spacenation/swiftui-charts AppP
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>def and var in traits on Scala 2.12, 2.13 and 3.0.0
+    <h2 class="entry-hint-parent">def and var in traits on Scala 2.12, 2.13 and 3.0.0
     </h2>
   </header>
   <div class="entry-content">
@@ -295,13 +304,14 @@ But it’s interesting to look at how the compiler treats that. Alvin Alexander 
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo
+    <h2 class="entry-hint-parent">April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo
     </h2>
   </header>
   <div class="entry-content">
     <p>We recently had another team rewrite their service in Rust, with a massive boost in performance. So naturally, for April Fools’ I made a big announcement that our team followed suit:
 But, at good prank isn’t just “I thought this was true, but it wasn’t”. It’s “I though it was a joke, but for a brief moment doubted that”. The “Oh, no, he didn’t&#34;-moment.
-Alas, one more line was necessary:...</p>
+Alas, one more line was necessary:
+...</p>
   </div>
   <footer class="entry-footer"><span title='2021-04-05 02:00:00 +0100 +0100'>April 5, 2021</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to April Fools&#39;: “We rewrote it in Rust” or How To Fake A GitHub Repo" href="https://www.jannikarndt.de/blog/2021/04/how_to_fake_a_github_repo/"></a>
@@ -309,7 +319,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Using scalap, javap and the scala compiler to understand the journey from code to bytecode
+    <h2 class="entry-hint-parent">Using scalap, javap and the scala compiler to understand the journey from code to bytecode
     </h2>
   </header>
   <div class="entry-content">
@@ -322,7 +332,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Exception-Proof For-Comprehensions
+    <h2 class="entry-hint-parent">Exception-Proof For-Comprehensions
     </h2>
   </header>
   <div class="entry-content">
@@ -335,7 +345,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>oAuth2 with Akka HTTP
+    <h2 class="entry-hint-parent">oAuth2 with Akka HTTP
     </h2>
   </header>
   <div class="entry-content">
@@ -350,7 +360,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Akka HTTP on Heroku
+    <h2 class="entry-hint-parent">Akka HTTP on Heroku
     </h2>
   </header>
   <div class="entry-content">
@@ -363,7 +373,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack
+    <h2 class="entry-hint-parent">How to Write and Test a Reactive Reader for AWS SQS Using akka, alpakka and Localstack
     </h2>
   </header>
   <div class="entry-content">
@@ -376,7 +386,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How Event Sourcing in Akka Persistent Actors Works
+    <h2 class="entry-hint-parent">How Event Sourcing in Akka Persistent Actors Works
     </h2>
   </header>
   <div class="entry-content">
@@ -389,7 +399,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Rotating PostgreSQL Passwords with no downtime
+    <h2 class="entry-hint-parent">Rotating PostgreSQL Passwords with no downtime
     </h2>
   </header>
   <div class="entry-content">
@@ -402,7 +412,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Examining a PostgreSQL with psql or pgcli
+    <h2 class="entry-hint-parent">Examining a PostgreSQL with psql or pgcli
     </h2>
   </header>
   <div class="entry-content">
@@ -415,7 +425,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Using your Apple Watch Workout to Geotag DSLR Photos
+    <h2 class="entry-hint-parent">Using your Apple Watch Workout to Geotag DSLR Photos
     </h2>
   </header>
   <div class="entry-content">
@@ -428,7 +438,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>3 Ways How Passwords Get Leaked
+    <h2 class="entry-hint-parent">3 Ways How Passwords Get Leaked
     </h2>
   </header>
   <div class="entry-content">
@@ -441,7 +451,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Kirschblütenfeuerwerk
+    <h2 class="entry-hint-parent">Kirschblütenfeuerwerk
     </h2>
   </header>
   <div class="entry-content">
@@ -454,7 +464,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Russische Kirche, Fernsehturm, Landungsbrücken
+    <h2 class="entry-hint-parent">Russische Kirche, Fernsehturm, Landungsbrücken
     </h2>
   </header>
   <div class="entry-content">
@@ -467,7 +477,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Boberg
+    <h2 class="entry-hint-parent">Boberg
     </h2>
   </header>
   <div class="entry-content">
@@ -480,12 +490,12 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Alsterpanorama
+    <h2 class="entry-hint-parent">Alsterpanorama
     </h2>
   </header>
   <div class="entry-content">
     <p>
-</p>
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-04-07 13:38:00 +0100 +0100'>April 7, 2018</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Alsterpanorama" href="https://www.jannikarndt.de/blog/2018/04/alsterpanorama/"></a>
@@ -493,12 +503,12 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Hochwasserbassin
+    <h2 class="entry-hint-parent">Hochwasserbassin
     </h2>
   </header>
   <div class="entry-content">
     <p>
-</p>
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-04-07 12:35:00 +0100 +0100'>April 7, 2018</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Hochwasserbassin" href="https://www.jannikarndt.de/blog/2018/04/hochwasserbassin/"></a>
@@ -506,7 +516,7 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to add an SSH Key as a Kubernetes Secret
+    <h2 class="entry-hint-parent">How to add an SSH Key as a Kubernetes Secret
     </h2>
   </header>
   <div class="entry-content">
@@ -519,13 +529,14 @@ Alas, one more line was necessary:...</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Lazy Aliases in my Shell
+    <h2 class="entry-hint-parent">Lazy Aliases in my Shell
     </h2>
   </header>
   <div class="entry-content">
     <p>I reduced the startup time of my shell by one second. Here’s how:
 What I do I work a lot with the shell (or “Terminal” app on MacOS), mostly kubectl, git, terraform and docker. And of course I use the absolutely best shell of all, oh-my-zsh.
-The Problem I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That’s annoying, because usually when I open a new tab, I want to quickly check on something, like the logs of a pod or if I have committed something in a different project....</p>
+The Problem I noticed that recently the startup time for a new shell (or new tab) has grown longer than a second. That’s annoying, because usually when I open a new tab, I want to quickly check on something, like the logs of a pod or if I have committed something in a different project.
+...</p>
   </div>
   <footer class="entry-footer"><span title='2018-03-13 12:00:00 +0100 CET'>March 13, 2018</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Lazy Aliases in my Shell" href="https://www.jannikarndt.de/blog/2018/03/lazy_aliases_in_my_shell/"></a>
@@ -533,7 +544,7 @@ The Problem I noticed that recently the startup time for a new shell (or new tab
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to use a Raspberry Pi for your Time Machine backups
+    <h2 class="entry-hint-parent">How to use a Raspberry Pi for your Time Machine backups
     </h2>
   </header>
   <div class="entry-content">
@@ -548,7 +559,7 @@ That’s too expensive? Here’s how to build your own Time Capsule with a Raspb
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to install Tasmota on a Sonoff device without opening it
+    <h2 class="entry-hint-parent">How to install Tasmota on a Sonoff device without opening it
     </h2>
   </header>
   <div class="entry-content">
@@ -562,7 +573,7 @@ a casing with wifi and great connectors and a custom OS and an app to control th
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to use a Raspberry Pi 3 with Apple Home
+    <h2 class="entry-hint-parent">How to use a Raspberry Pi 3 with Apple Home
     </h2>
   </header>
   <div class="entry-content">
@@ -575,7 +586,7 @@ I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch). I boug
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard
+    <h2 class="entry-hint-parent">How to setup a Raspberry Pi 3 headless, without monitor, mouse or keyboard
     </h2>
   </header>
   <div class="entry-content">
@@ -588,7 +599,7 @@ I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch). I boug
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Terraform on Google Cloud Engine Quickstart
+    <h2 class="entry-hint-parent">Terraform on Google Cloud Engine Quickstart
     </h2>
   </header>
   <div class="entry-content">
@@ -601,7 +612,7 @@ I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch). I boug
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Lessons learned in 2017
+    <h2 class="entry-hint-parent">Lessons learned in 2017
     </h2>
   </header>
   <div class="entry-content">
@@ -615,7 +626,7 @@ So true.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>What settings yield the sharpest landscape photo?
+    <h2 class="entry-hint-parent">What settings yield the sharpest landscape photo?
     </h2>
   </header>
   <div class="entry-content">
@@ -628,7 +639,7 @@ So true.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Hamburg as seen from the Michel
+    <h2 class="entry-hint-parent">Hamburg as seen from the Michel
     </h2>
   </header>
   <div class="entry-content">
@@ -641,13 +652,14 @@ So true.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)
+    <h2 class="entry-hint-parent">Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)
     </h2>
   </header>
   <div class="entry-content">
     <p>If you write Scala in a Java-centric environment, chances are you might wind up with a Maven project, defined in a pom.xml. While this can work, it brings a few extra caveats if you want to submit your project to Maven Central (aka Sonatype OSSRH).
 Step 1: Claim your Group ID When you first publish something to the Sonatype OSSRH, you have to
-create a JIRA account and then create a ticket for a new project....</p>
+create a JIRA account and then create a ticket for a new project. The first question that is usually asked in the ticket is
+...</p>
   </div>
   <footer class="entry-footer"><span title='2017-09-10 21:07:00 +0100 +0100'>September 10, 2017</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Releasing a Scala &#43; Maven project to Maven Central (Sonatype OSS)" href="https://www.jannikarndt.de/blog/2017/09/releasing_a_scala_maven_project_to_maven_central/"></a>
@@ -655,7 +667,7 @@ create a JIRA account and then create a ticket for a new project....</p>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Writing case classes to MongoDB in Scala
+    <h2 class="entry-hint-parent">Writing case classes to MongoDB in Scala
     </h2>
   </header>
   <div class="entry-content">
@@ -669,7 +681,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>VERY Quick Start: Terraform
+    <h2 class="entry-hint-parent">VERY Quick Start: Terraform
     </h2>
   </header>
   <div class="entry-content">
@@ -682,7 +694,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Where bad code comes from
+    <h2 class="entry-hint-parent">Where bad code comes from
     </h2>
   </header>
   <div class="entry-content">
@@ -691,7 +703,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 “Shouldn’t someone review it first?”
 “Oh, yeah … erm … I’ll do a quick refactoring first and then…”
 …when that other person is on holiday!
-</p>
+...</p>
   </div>
   <footer class="entry-footer"><span title='2017-07-22 05:00:00 +0100 +0100'>July 22, 2017</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Where bad code comes from" href="https://www.jannikarndt.de/blog/2017/07/where_bad_code_comes_from/"></a>
@@ -699,7 +711,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Storing sparse, key-value-like data in a relational database
+    <h2 class="entry-hint-parent">Storing sparse, key-value-like data in a relational database
     </h2>
   </header>
   <div class="entry-content">
@@ -712,7 +724,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Tough Mudder Norddeutschland 2017
+    <h2 class="entry-hint-parent">Tough Mudder Norddeutschland 2017
     </h2>
   </header>
   <div class="entry-content">
@@ -724,11 +736,11 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>A Minor Story Live at Methfesselfest
+    <h2 class="entry-hint-parent">A Minor Story Live at Methfesselfest
     </h2>
   </header>
   <div class="entry-content">
-    <p></p>
+    <p>...</p>
   </div>
   <footer class="entry-footer"><span title='2017-07-02 13:45:00 +0100 +0100'>July 2, 2017</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to A Minor Story Live at Methfesselfest" href="https://www.jannikarndt.de/blog/2017/07/a_minor_story_live_at_methfesselfest/"></a>
@@ -736,7 +748,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Git in one Image
+    <h2 class="entry-hint-parent">Git in one Image
     </h2>
   </header>
   <div class="entry-content">
@@ -749,7 +761,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Two-speed IT
+    <h2 class="entry-hint-parent">Two-speed IT
     </h2>
   </header>
   <div class="entry-content">
@@ -762,7 +774,7 @@ This example uses the official Mongo Scala Driver in version 2.x and the bsoncod
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>The real world doesn&#39;t care about encoding
+    <h2 class="entry-hint-parent">The real world doesn&#39;t care about encoding
     </h2>
   </header>
   <div class="entry-content">
@@ -776,7 +788,7 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Belugas at Finkenwerder
+    <h2 class="entry-hint-parent">Belugas at Finkenwerder
     </h2>
   </header>
   <div class="entry-content">
@@ -789,7 +801,7 @@ When painted on the fuselage, the prefix and suffix are usually separated by a d
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Deploying Pentaho jobs into Production
+    <h2 class="entry-hint-parent">Deploying Pentaho jobs into Production
     </h2>
   </header>
   <div class="entry-content">
@@ -803,7 +815,7 @@ Pentaho Kettle (or “Community Edition”, CE, i.e. the open-source core) is a 
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Extracting Dimensions from an Oracle Database Table
+    <h2 class="entry-hint-parent">Extracting Dimensions from an Oracle Database Table
     </h2>
   </header>
   <div class="entry-content">
@@ -818,7 +830,7 @@ Extra-Caveat You use an Oracle database.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>talend does not work
+    <h2 class="entry-hint-parent">talend does not work
     </h2>
   </header>
   <div class="entry-content">
@@ -831,7 +843,7 @@ Extra-Caveat You use an Oracle database.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Lessons learned in 2016
+    <h2 class="entry-hint-parent">Lessons learned in 2016
     </h2>
   </header>
   <div class="entry-content">
@@ -844,7 +856,7 @@ Extra-Caveat You use an Oracle database.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Perfect Home Screen Layout
+    <h2 class="entry-hint-parent">Perfect Home Screen Layout
     </h2>
   </header>
   <div class="entry-content">
@@ -857,13 +869,13 @@ Extra-Caveat You use an Oracle database.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Bug Fixing in Production
+    <h2 class="entry-hint-parent">Bug Fixing in Production
     </h2>
   </header>
   <div class="entry-content">
     <p> (via I Love Programming)
 Thank goodness, we don’t do production.
-</p>
+...</p>
   </div>
   <footer class="entry-footer"><span title='2016-11-22 23:25:00 +0100 CET'>November 22, 2016</span>&nbsp;·&nbsp;Jannik Arndt</footer>
   <a class="entry-link" aria-label="post link to Bug Fixing in Production" href="https://www.jannikarndt.de/blog/2016/11/bug_fixing_in_production/"></a>
@@ -871,7 +883,7 @@ Thank goodness, we don’t do production.
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>The 2016-Personal-Website Infrastructure
+    <h2 class="entry-hint-parent">The 2016-Personal-Website Infrastructure
     </h2>
   </header>
   <div class="entry-content">

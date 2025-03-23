@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
 <meta name="description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">
 <noscript>
     <style>
         #theme-toggle,
@@ -35,7 +36,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -54,18 +55,21 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Terraform on Google Cloud Engine Quickstart" />
-<meta property="og:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project)." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-11-23T20:00:00+01:00" />
-<meta property="article:modified_time" content="2017-11-23T20:00:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Terraform on Google Cloud Engine Quickstart"/>
-<meta name="twitter:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project)."/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2017/11/terraform_on_google_cloud_engine_quickstart/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Terraform on Google Cloud Engine Quickstart">
+  <meta property="og:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2017-11-23T20:00:00+01:00">
+    <meta property="article:modified_time" content="2017-11-23T20:00:00+01:00">
+    <meta property="article:tag" content="Programming">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Terraform on Google Cloud Engine Quickstart">
+<meta name="twitter:description" content="This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).">
 
 
 <script type="application/ld+json">
@@ -101,7 +105,7 @@
   "articleBody": "This is a quickstart for building something on Google Compute Engine without clicking any buttons (after you created the project).\nPrerequisites Install terraform:\n$ brew install terraform Install Google Cloud SDK:\n$ brew cask install google-cloud-sdk create a new project in the console and login\n$ gcloud auth application-default login If you are using IntelliJ IDEA, install the HashiCorp Terraform Plugin.\nOption A: Import a project If you have created a project using the console, create a config.tf with the basic settings:\nprovider \"google\" { region = \"eu-central-1\" } resource \"google_project\" \"project\" {} Now run terraform init to download the google provider plugin. Now import the project via\n$ terraform import google_project.project project-id-186346 You now have a corresponding terraform.tfstate file that contains the name, billing account and other info about your project.\nOption B: Create a new project from scratch Make a new folder and create a config.tf file:\nprovider \"google\" { region = \"eu-central-1\" } resource \"google_project\" \"project\" { name = \"holisticon\" project_id = \"holisticon-123456\" billing_account = \"01B8C8-F33191-3DE337\" // optional } Now run terraform init to download the google provider plugin. Next run terraform apply to create the project. Note that the project_id may not already exist. The billing_account is optional. Also you can only have a maximum of 12 projects at the same time.\nAdding people So far you are the owner of the new project. Now you can create IAM roles and add other people to your project:\nresource \"google_project_iam_binding\" \"project_editors\" { project = \"${google_project.project.project_id}\" role = \"roles/editor\" members = [ \"user:nice.coworker@holisticon.de\", ] } You can find a description of all roles here. Note that you cannot grant the owner role through the API but only using the Cloud Platform Console.\n",
   "wordCount" : "284",
   "inLanguage": "en",
-  "datePublished": "2017-11-23T20:00:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2017-11-23T20:00:00+01:00",
   "dateModified": "2017-11-23T20:00:00+01:00",
   "author":{
     "@type": "Person",
@@ -142,7 +146,7 @@
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -193,7 +197,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Terraform on Google Cloud Engine Quickstart
     </h1>
     <div class="post-meta"><span title='2017-11-23 20:00:00 +0100 CET'>November 23, 2017</span>&nbsp;·&nbsp;Jannik Arndt

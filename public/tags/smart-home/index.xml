@@ -5,16 +5,18 @@
     <link>https://www.jannikarndt.de/tags/smart-home/</link>
     <description>Recent content in Smart Home on Jannik Arndt</description>
     <image>
+      <title>Jannik Arndt</title>
       <url>https://www.jannikarndt.de/jannik.jpg</url>
       <link>https://www.jannikarndt.de/jannik.jpg</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 13 Jan 2018 19:00:00 +0100</lastBuildDate><atom:link href="https://www.jannikarndt.de/tags/smart-home/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.145.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 13 Jan 2018 19:00:00 +0100</lastBuildDate>
+    <atom:link href="https://www.jannikarndt.de/tags/smart-home/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to install Tasmota on a Sonoff device without opening it</title>
       <link>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</link>
       <pubDate>Sat, 13 Jan 2018 19:00:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/01/how_to_install_tasmota_on_a_sonoff_device_without_opening_it/</guid>
       <description>&lt;p&gt;Sonoff takes the standard ESP8266 chip and adds two things:&lt;/p&gt;
 &lt;ul&gt;
@@ -23,12 +25,10 @@
 &lt;/ul&gt;
 &lt;p&gt;Unfortunately, the second addition &lt;em&gt;also&lt;/em&gt; means that all communication goes through Sonoff&amp;rsquo;s servers. Here&amp;rsquo;s how to get rid of that. Without soldering or connecting anything.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to use a Raspberry Pi 3 with Apple Home</title>
       <link>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</link>
       <pubDate>Sat, 13 Jan 2018 12:40:00 +0100</pubDate>
-      
       <guid>https://www.jannikarndt.de/blog/2018/01/how_to_use_a_raspberry_pi_3_with_apple_home/</guid>
       <description>&lt;p&gt;“Hey Siri, turn on the bedroom lights!” I want that. Here&amp;rsquo;s how I did it:&lt;/p&gt;
 &lt;ul&gt;
@@ -37,6 +37,5 @@
 &lt;li&gt;I installed an MQTT broker and homebridge on the pi.&lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" dir="ltr">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
 <meta name="description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.">
 <meta name="author" content="Jannik Arndt">
 <link rel="canonical" href="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.e7f3602e998654c8319710b740dc6839c0f10233ebfe26c7c19672d53a7d72c2.css" integrity="sha256-5/NgLpmGVMgxlxC3QNxoOcDxAjPr/ibHwZZy1Tp9csI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7fcbd2a53411d47fcbf501e1854d1b5aab65ef49202a32d4a5e6d8a3f919836e.css" integrity="sha256-f8vSpTQR1H/L9QHhhU0bWqtl70kgKjLUpebYo/kZg24=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://www.jannikarndt.de/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.jannikarndt.de/favicons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <link rel="mask-icon" href="https://www.jannikarndt.de/favicons/apple-touch-icon.png">
 <meta name="theme-color" content="#576175">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">
 <noscript>
     <style>
         #theme-toggle,
@@ -35,7 +36,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -54,18 +55,22 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Storing sparse, key-value-like data in a relational database" />
-<meta property="og:description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/" /><meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2017-07-21T22:45:00+01:00" />
-<meta property="article:modified_time" content="2017-07-21T22:45:00+01:00" /><meta property="og:site_name" content="Jannik Arndt" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg"/>
-
-<meta name="twitter:title" content="Storing sparse, key-value-like data in a relational database"/>
-<meta name="twitter:description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today."/>
+</noscript><meta property="og:url" content="https://www.jannikarndt.de/blog/2017/07/storing_sparse_key_value_like_data_in_a_relational_database/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="Storing sparse, key-value-like data in a relational database">
+  <meta property="og:description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2017-07-21T22:45:00+01:00">
+    <meta property="article:modified_time" content="2017-07-21T22:45:00+01:00">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="Database">
+      <meta property="og:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.jannikarndt.de/jannik.jpg">
+<meta name="twitter:title" content="Storing sparse, key-value-like data in a relational database">
+<meta name="twitter:description" content="Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.">
 
 
 <script type="application/ld+json">
@@ -101,7 +106,7 @@
   "articleBody": "Some ideas seem great at first but turn out to be incredibly bad in hindsight. I reviewed such an idea today.\nBackground The task was to store flight information in a database. The information is transmitted via the IATA SSIM format, which standardizes messages with about 70 different fields. There also are various different types of messages, all of which might contain any of the 70 fields. An example: Airlines can publish their Standard Schedules Messages which contain the seasonal flight schedule, i.e. routes they usually fly on which days of the week. Exceptions from this get their own message (using different fields). Unforeseen changes are published via the Ad hoc Schedules Messages which, of course, use different fields as well. And then there are Movement Messages (from the Airport Handling Manual AHM) which contain the actual information on what each plane does. All of these messages make up a flight: The schedules, the ad hoc changes and what actually happened. The contents overlap but rarely match. In object oriented thinking, this would be extremely easy: You have an abstract message class, implementations for SSM, ASM and MVT and further classes that extend each of these for special cases.\nEfficiently storing this in a database however is not that easy. You’re bound to wind up with a horrifying amount of columns and an awful lot of null entries. The contents will resemble the specification which lists all the elements each message sub-type must or might contain:\nMESSAGES message_id sender_id foo boo tip bli bla blubb 12 9 ‘bar’ null ’top' null null null 13 9 null null null 1 2 42 Why not…? Yes, this structure is the reason someone invented document-oriented databases. However it is the only information that would require us to leave the relational world and operate yet another service. Also, the contents are tightly integrated into a lot of other tables, and we love referential integrity.\nStoring key-value-pairs in a relational database You can store key-value-pairs in a database, for example like this:\nMESSAGES id sender_id 12 9 13 9 VALUES_TABLE id key value message_id 1 ‘foo’ ‘bar’ 12 2 ’tip' ’top' 12 Now in our case the keys are well defined, so you will have a lot of redundancies there. The idea I was reviewing extracted the keys into yet another table:\nMESSAGES id sender_id 12 9 13 9 VALUES_TABLE id key_id value message_id 1 1 ‘bar’ 12 2 3 ’tip' 12 and\nKEYS_TABLE key_id key 1 ‘foo’ 2 ‘boo’ 3 ’tip' 4 ‘bli’ 5 ‘bla’ 6 ‘blubb’ Wonderfull! No nulls, no redundancies, no more than four columns! This idea sounds great!\n…and hell breaks loose Database design fails can live in production for a long time until they get noticed. And that’s when all your precious data is already put into this bad scheme.\nIn the case of the above solution things get ugly the moment you query for something specific. For example all messages where ‘foo’ is ‘bar’:\nSELECT * FROM MESSAGES m JOIN VALUES_TABLE v ON m.id = v.message_id JOIN KEYS_TABLE k ON v.key_id = k.key_id WHERE k.key = 'foo' AND v.value = 'bar' As opposed to\nSELECT * FROM MESSAGES m WHERE m.foo = 'bar' The problem only grows when you create this query from your business code: You have to get the ‘foo’ string from somewhere:\nYou might hard code it. Yak. You might create an enum replicating the KEYS_TABLE. Until that table changes—and beware, not the structure, but the content! You might be extra clever and save a JOINby using the key_id directly! My best guess is that you’d wind up with all three options scattered in your code. Good look.\nThe solution / workaround As I said in the beginning, tables with many columns and null entries might not be very elegant, but databases and developers are used to them. Also, document-oriented databases were invented for a reason. This might just be that reason.\nThere is another option: vertical partitioning. Especially in this use case, where there is a specification that provides the information on where to split:\nMESSAGES id sender_id 12 9 13 9 MESSAGES_PART_1 id foo tip 12 ‘bar’ ’top’ MESSAGES_PART_2 id bli bla blubb 13 1 2 42 Let’s check for our query:\nSELECT * FROM MESSAGES m LEFT JOIN MESSAGES_PART_1 p1 ON m.id = p1.id LEFT JOIN MESSAGES_PART_2 p2 ON m.id = p2.id WHERE p1.foo = 'bar' Well… it doesn’t suck as much. However, if you’re on the INSERT side of the database you’re gonna have a bad time…\n",
   "wordCount" : "755",
   "inLanguage": "en",
-  "datePublished": "2017-07-21T22:45:00+01:00",
+  "image": "https://www.jannikarndt.de/jannik.jpg","datePublished": "2017-07-21T22:45:00+01:00",
   "dateModified": "2017-07-21T22:45:00+01:00",
   "author":{
     "@type": "Person",
@@ -142,7 +147,7 @@
                 <img src="https://www.jannikarndt.de/favicons/apple-touch-icon.png" alt="" aria-label="logo"
                     height="35">JannikArndt.de</a>
             <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -193,7 +198,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://www.jannikarndt.de/">Home</a>&nbsp;»&nbsp;<a href="https://www.jannikarndt.de/blog/">Blog</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Storing sparse, key-value-like data in a relational database
     </h1>
     <div class="post-meta"><span title='2017-07-21 22:45:00 +0100 +0100'>July 21, 2017</span>&nbsp;·&nbsp;Jannik Arndt
@@ -208,40 +213,40 @@ In object oriented thinking, this would be extremely easy: You have an abstract 
 <p>Efficiently storing this in a database however is not that easy. You&rsquo;re bound to wind up with a horrifying amount of columns and an awful lot of null entries. The contents will resemble the specification which lists all the elements each message sub-type must or might contain:</p>
 <h5 id="messages">MESSAGES<a hidden class="anchor" aria-hidden="true" href="#messages">#</a></h5>
 <table>
-<thead>
-<tr>
-<th>message_id</th>
-<th>sender_id</th>
-<th>foo</th>
-<th>boo</th>
-<th>tip</th>
-<th>bli</th>
-<th>bla</th>
-<th>blubb</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>null</td>
-<td>&rsquo;top'</td>
-<td>null</td>
-<td>null</td>
-<td>null</td>
-</tr>
-<tr>
-<td>13</td>
-<td>9</td>
-<td>null</td>
-<td>null</td>
-<td>null</td>
-<td>1</td>
-<td>2</td>
-<td>42</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>message_id</th>
+          <th>sender_id</th>
+          <th>foo</th>
+          <th>boo</th>
+          <th>tip</th>
+          <th>bli</th>
+          <th>bla</th>
+          <th>blubb</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>12</td>
+          <td>9</td>
+          <td>&lsquo;bar&rsquo;</td>
+          <td>null</td>
+          <td>&rsquo;top'</td>
+          <td>null</td>
+          <td>null</td>
+          <td>null</td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>9</td>
+          <td>null</td>
+          <td>null</td>
+          <td>null</td>
+          <td>1</td>
+          <td>2</td>
+          <td>42</td>
+      </tr>
+  </tbody>
 </table>
 <img src="/blog/2017/07/ssm_spec.png" alt=""> 
 <h2 id="why-not">Why not…?<a hidden class="anchor" aria-hidden="true" href="#why-not">#</a></h2>
@@ -250,128 +255,128 @@ In object oriented thinking, this would be extremely easy: You have an abstract 
 <p>You <em>can</em> store key-value-pairs in a database, for example like this:</p>
 <h4 id="messages-1">MESSAGES<a hidden class="anchor" aria-hidden="true" href="#messages-1">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>sender_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-</tr>
-<tr>
-<td>13</td>
-<td>9</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>sender_id</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>12</td>
+          <td>9</td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>9</td>
+      </tr>
+  </tbody>
 </table>
 <h4 id="values_table">VALUES_TABLE<a hidden class="anchor" aria-hidden="true" href="#values_table">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>key</th>
-<th>value</th>
-<th>message_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>&lsquo;foo&rsquo;</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>12</td>
-</tr>
-<tr>
-<td>2</td>
-<td>&rsquo;tip'</td>
-<td>&rsquo;top'</td>
-<td>12</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>key</th>
+          <th>value</th>
+          <th>message_id</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>&lsquo;foo&rsquo;</td>
+          <td>&lsquo;bar&rsquo;</td>
+          <td>12</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>&rsquo;tip'</td>
+          <td>&rsquo;top'</td>
+          <td>12</td>
+      </tr>
+  </tbody>
 </table>
 <p>Now in our case the keys are well defined, so you will have a lot of redundancies there. The idea I was reviewing extracted the keys into yet another table:</p>
 <h4 id="messages-2">MESSAGES<a hidden class="anchor" aria-hidden="true" href="#messages-2">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>sender_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-</tr>
-<tr>
-<td>13</td>
-<td>9</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>sender_id</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>12</td>
+          <td>9</td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>9</td>
+      </tr>
+  </tbody>
 </table>
 <h4 id="values_table-1">VALUES_TABLE<a hidden class="anchor" aria-hidden="true" href="#values_table-1">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>key_id</th>
-<th>value</th>
-<th>message_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>1</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>12</td>
-</tr>
-<tr>
-<td>2</td>
-<td>3</td>
-<td>&rsquo;tip'</td>
-<td>12</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>key_id</th>
+          <th>value</th>
+          <th>message_id</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>&lsquo;bar&rsquo;</td>
+          <td>12</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>3</td>
+          <td>&rsquo;tip'</td>
+          <td>12</td>
+      </tr>
+  </tbody>
 </table>
 <p>and</p>
 <h4 id="keys_table">KEYS_TABLE<a hidden class="anchor" aria-hidden="true" href="#keys_table">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>key_id</th>
-<th>key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>&lsquo;foo&rsquo;</td>
-</tr>
-<tr>
-<td>2</td>
-<td>&lsquo;boo&rsquo;</td>
-</tr>
-<tr>
-<td>3</td>
-<td>&rsquo;tip'</td>
-</tr>
-<tr>
-<td>4</td>
-<td>&lsquo;bli&rsquo;</td>
-</tr>
-<tr>
-<td>5</td>
-<td>&lsquo;bla&rsquo;</td>
-</tr>
-<tr>
-<td>6</td>
-<td>&lsquo;blubb&rsquo;</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>key_id</th>
+          <th>key</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>&lsquo;foo&rsquo;</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>&lsquo;boo&rsquo;</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>&rsquo;tip'</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>&lsquo;bli&rsquo;</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td>&lsquo;bla&rsquo;</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td>&lsquo;blubb&rsquo;</td>
+      </tr>
+  </tbody>
 </table>
 <p>Wonderfull! No nulls, no redundancies, no more than four columns! This idea sounds great!</p>
 <h2 id="and-hell-breaks-loose">…and hell breaks loose<a hidden class="anchor" aria-hidden="true" href="#and-hell-breaks-loose">#</a></h2>
@@ -397,58 +402,58 @@ Also, document-oriented databases were invented for a reason. This might just be
 <p>There is another option: vertical partitioning. Especially in this use case, where there is a specification that provides the information on where to split:</p>
 <h4 id="messages-3">MESSAGES<a hidden class="anchor" aria-hidden="true" href="#messages-3">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>sender_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>9</td>
-</tr>
-<tr>
-<td>13</td>
-<td>9</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>sender_id</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>12</td>
+          <td>9</td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>9</td>
+      </tr>
+  </tbody>
 </table>
 <h4 id="messages_part_1">MESSAGES_PART_1<a hidden class="anchor" aria-hidden="true" href="#messages_part_1">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>foo</th>
-<th>tip</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>&lsquo;bar&rsquo;</td>
-<td>&rsquo;top&rsquo;</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>foo</th>
+          <th>tip</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>12</td>
+          <td>&lsquo;bar&rsquo;</td>
+          <td>&rsquo;top&rsquo;</td>
+      </tr>
+  </tbody>
 </table>
 <h4 id="messages_part_2">MESSAGES_PART_2<a hidden class="anchor" aria-hidden="true" href="#messages_part_2">#</a></h4>
 <table>
-<thead>
-<tr>
-<th>id</th>
-<th>bli</th>
-<th>bla</th>
-<th>blubb</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>13</td>
-<td>1</td>
-<td>2</td>
-<td>42</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>id</th>
+          <th>bli</th>
+          <th>bla</th>
+          <th>blubb</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>13</td>
+          <td>1</td>
+          <td>2</td>
+          <td>42</td>
+      </tr>
+  </tbody>
 </table>
 <p>Let&rsquo;s check for our query:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">MESSAGES</span><span class="w"> </span><span class="n">m</span><span class="w"> 
