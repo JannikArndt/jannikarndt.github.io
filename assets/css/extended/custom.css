@@ -121,7 +121,7 @@ summary {
     --secondary: rgba(0, 0, 0, 0.56);
     --tertiary: rgba(0, 0, 0, 0.16);
     --content: rgb(102, 102, 102);
-    --hljs-bg: #f5f5f5;
+    --code-block-bg: #f5f5f5;
     --code-bg: #f5f5f5;
     --border: #eee;
 }
@@ -133,7 +133,7 @@ summary {
     --secondary: rgba(255, 255, 255, 0.56);
     --tertiary: rgba(255, 255, 255, 0.16);
     --content: rgba(255, 255, 255, 0.74);
-    --hljs-bg: #333c47;
+    --code-block-bg: #333c47;
     --code-bg: #333c47;
     --border: #333;
 }

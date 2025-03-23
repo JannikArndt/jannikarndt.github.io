@@ -63,9 +63,10 @@ params:
   hidemeta: false
   showtoc: false
   tocopen: false
+  ShowCodeCopyButtons: false # adds inline js, not allowed in content policy
+  ShowAllPagesInArchive: true # no changes
 
   assets:
-    disableHLJS: true  # disable highlight.js if using Hugo’s built-in highlighter
     disableScrollBarStyle: true
     favicon: "favicon.ico"
     favicon16x16: "favicons/favicon-16x16.png"
