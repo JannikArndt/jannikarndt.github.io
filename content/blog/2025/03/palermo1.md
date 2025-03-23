@@ -40,7 +40,7 @@ I had thought deciding on dates and an apartment was hard. But the tough part ha
 
 <img src="/blog/2025/03/palermo1_img/big_trunk.jpg" alt="Almost all boxed up">
 
-<img src="/blog/2025/03/palermo1_img/quick_move.gif" alt="That went swiftly">
+<img src="/blog/2025/03/palermo1_img/quick_move.mp4" alt="That went swiftly">
 
 This was only the _first_ batch. We had to come back.
 
