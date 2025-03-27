@@ -137,3 +137,10 @@ summary {
     --code-bg: #333c47;
     --border: #333;
 }
+
+.video-container {
+  display: block;
+  margin: 20px auto;
+  width: 80%; /* Adjust as needed */
+  animation: bounce-playback 4s infinite;
+}
