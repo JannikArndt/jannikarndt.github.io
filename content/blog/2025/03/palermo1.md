@@ -8,6 +8,8 @@ slug: "palermo1"
 toc: false
 draft: false
 comments: false
+cover:
+  image: "blog/2025/03/palermo1_img/apartment_5.jpg"
 ---
 
 I left the cold and dark Hamburg winter and escaped to Palermo for two months. Here's how it started!
