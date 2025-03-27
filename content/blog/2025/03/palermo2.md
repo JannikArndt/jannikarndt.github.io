@@ -9,6 +9,9 @@ showToc: true
 TocOpen: true
 draft: false
 comments: false
+cover:
+  image: "blog/2025/03/palermo2_img/jannik_by_the_sea.jpg"
+
 ---
 
 The first two weeks of my two months in Palermo are almost over, and I learned a lot.
