@@ -1429,37 +1429,18 @@ summary {
         /* Prevent wrapping */
     }
 
-    /* Panorama container styling with scroll indicator */
-    .post-content .panorama-container {
-        position: relative;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
-        white-space: nowrap;
-        /* Prevent wrapping */
-    }
-
+    /* Automatically append the scroll indicator */
     .post-content .panorama-container::after {
-        content: "👉 Scroll";
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
+        content: "← scroll sideways →";
+        display: block;
+        text-align: center;
         font-size: 14px;
         color: var(--secondary);
-        background: rgba(255, 255, 255, 0.8);
-        /* Slightly opaque background */
-        padding: 4px 8px;
-        border-radius: 4px;
+        margin-top: 0px;
+        /* Minimal space between the image and the text */
+        margin-bottom: 50px;
         pointer-events: none;
         /* Prevent interaction */
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .post-content .panorama-container:hover::after,
-    .post-content .panorama-container:focus-within::after {
-        opacity: 1;
-        /* Show the indicator when the user hovers or focuses */
     }
 }/* Background */ .chroma { background-color: #ffffff }
 /* Other */ .chroma .x {  }
