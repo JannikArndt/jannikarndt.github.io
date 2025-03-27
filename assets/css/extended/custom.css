@@ -1,5 +1,5 @@
 body {
-    font-family: 'Helvetica Neue',Arial,sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: auto;
     text-rendering: optimizeLegibility;
@@ -8,7 +8,7 @@ body {
     transition: all .35s;
 }
 
-.archive-count{
+.archive-count {
     color: rgba(0, 0, 0, 0.2);
 }
 
@@ -16,12 +16,32 @@ body {
     margin: 48px auto 24px;
 }
 
+@media (max-width: 768px) {
+
+    .post-content img,
+    .post-content video {
+        width: 100vw;
+        /* Full width of the viewport */
+        max-width: 100vw;
+        /* Prevent scaling issues */
+        margin-left: calc(-50vw + 50%);
+        /* Center the image */
+    }
+}
+
 .chroma {
     background-color: unset !important;
     border: 1px solid;
 }
 
-.chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .o, .chroma .ow {
+.chroma .k,
+.chroma .kc,
+.chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr,
+.chroma .o,
+.chroma .ow {
     color: var(--content) !important;
 }
 
@@ -37,7 +57,7 @@ body {
 .filename {
     margin-bottom: -10px;
     padding: 4px 10px;
-    font-family: Menlo,Monaco,courier new,Courier,monospace;
+    font-family: Menlo, Monaco, courier new, Courier, monospace;
     font-size: .7em;
 }
 
@@ -57,7 +77,9 @@ figure.right {
     float: right;
 }
 
-@media (min-width: 720px) { /* 720 == main-width */
+@media (min-width: 720px) {
+
+    /* 720 == main-width */
     figure.large {
         width: 90vw;
         margin-left: calc(-0.4 * (100vw - var(--main-width)));
@@ -73,20 +95,22 @@ figure img {
         position: sticky;
         float: left;
         --toc-left: calc(100vw / 50);
-        left: var(--toc-left); /* _minimum_ distance from left screen border */
+        left: var(--toc-left);
+        /* _minimum_ distance from left screen border */
         top: 100px;
-        margin-left: -1000px; /* overruled by left */
-    
+        margin-left: -1000px;
+        /* overruled by left */
+
         width: calc((100vw - var(--main-width) - 2 * var(--gap)) / 2 - 2 * var(--toc-left));
         padding: 14px;
         border: solid 1px lightgray;
         font-size: 12px;
     }
-  
+
     .toc .inner {
         padding: 0;
     }
-  
+
     .toc details summary {
         margin-inline-start: 0;
         margin-bottom: 10px;
@@ -139,8 +163,79 @@ summary {
 }
 
 .video-container {
-  display: block;
-  margin: 20px auto;
-  width: 80%; /* Adjust as needed */
-  animation: bounce-playback 4s infinite;
+    display: block;
+    margin: 20px auto;
+    width: 80%;
+    /* Adjust as needed */
+    animation: bounce-playback 4s infinite;
+}
+
+/* Panorama image styling */
+.post-content .panorama {
+    width: 100vw;
+    /* Full width on desktop */
+    max-width: 100vw;
+    /* Prevent scaling issues */
+    margin-left: calc(-50vw + 50%);
+    /* Center the image */
+    display: block;
+}
+
+/* Mobile-specific styling */
+@media (max-width: 768px) {
+    .post-content .panorama {
+        width: auto;
+        /* Allow the image to exceed the viewport width */
+        max-width: none;
+        max-height: 90vw;
+        overflow-x: scroll;
+        /* Enable horizontal scrolling */
+        display: block;
+    }
+
+    .post-content .panorama-container {
+        width: 100vw;
+        /* Full width on desktop */
+        max-width: 100vw;
+        /* Prevent scaling issues */
+        margin-left: calc(-50vw + 50%);
+        /* Center the image */
+        overflow-x: auto;
+        /* Ensure the container scrolls horizontally */
+        white-space: nowrap;
+        /* Prevent wrapping */
+    }
+
+    /* Panorama container styling with scroll indicator */
+    .post-content .panorama-container {
+        position: relative;
+        overflow-x: auto;
+        /* Enable horizontal scrolling */
+        white-space: nowrap;
+        /* Prevent wrapping */
+    }
+
+    .post-content .panorama-container::after {
+        content: "👉 Scroll";
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        color: var(--secondary);
+        background: rgba(255, 255, 255, 0.8);
+        /* Slightly opaque background */
+        padding: 4px 8px;
+        border-radius: 4px;
+        pointer-events: none;
+        /* Prevent interaction */
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .post-content .panorama-container:hover::after,
+    .post-content .panorama-container:focus-within::after {
+        opacity: 1;
+        /* Show the indicator when the user hovers or focuses */
+    }
 }

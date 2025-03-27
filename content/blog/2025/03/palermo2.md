@@ -32,7 +32,10 @@ I make three kinds of pictures:
 Il Parco delle Salute
 - On the left: Porta Felice
 - On the right: Mount Pellegrino behind the Mediterranean Sea
-<img src="/blog/2025/03/palermo2_img/il_parco_delle_salute.jpg" alt="Il Parco delle Salute">
+
+<div class="panorama-container">
+<img src="/blog/2025/03/palermo2_img/il_parco_delle_salute.jpg" alt="Il Parco delle Salute" class="panorama">
+</div>
 
 At the Mediterranean Sea
 <img src="/blog/2025/03/palermo2_img/jannik_by_the_sea.jpg" alt="Jannik by the Mediterranean Sea">
@@ -47,7 +50,9 @@ The botanical garden is not easy to capture in pictures. It is huge.
 <img src="/blog/2025/03/palermo2_img/botanical_garden.jpg" alt="Palermo Botanical Garden">
 
 There's still some wilderness left
-<img src="/blog/2025/03/palermo2_img/the_view.jpg" alt="The wild coast of Palermo">
+<div class="panorama-container">
+<img src="/blog/2025/03/palermo2_img/the_view.jpg" alt="The wild coast of Palermo" class="panorama">
+</div>
 
 That's where I've found my new favorite spot:
 <video src="/blog/2025/03/palermo2_img/ocean.mp4" autoplay loop muted playsinline class="video-container"></video>
