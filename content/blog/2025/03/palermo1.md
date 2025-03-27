@@ -1,5 +1,5 @@
 ---
-title: "My first week in Palermo"
+title: "Moving from Hamburg to Palermo ☀️"
 date: "2025-03-23T18:00:00+02:00"
 author: "Jannik Arndt"
 keywords: [ "Travel", "Personal", "Palermo" ]
@@ -10,7 +10,7 @@ draft: false
 comments: false
 ---
 
-I left the cold and dark Hamburg winter and escaped to Palermo for two months. Here's the story!
+I left the cold and dark Hamburg winter and escaped to Palermo for two months. Here's how it started!
 
 <!--more-->
 
@@ -119,3 +119,6 @@ My _Vicolo Forno Ai Maestri D'Acqua_ ("Bakery Alley of the Masters of Water" —
 I covered my basic needs and went to bed.
 
 <img src="/blog/2025/03/palermo1_img/basic_needs.jpg" alt="Basic needs">
+
+
+> [Continue reading what happened next here]({{< ref "/blog/2025/03/palermo2/" >}})
