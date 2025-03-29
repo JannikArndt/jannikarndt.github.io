@@ -10,7 +10,7 @@ TocOpen: true
 draft: false
 comments: false
 cover:
-  image: "blog/2025/03/palermo2_img/jannik_by_the_sea.jpg"
+  image: "blog/2025/03/palermo2_img/palermo2_cover.jpg"
 
 ---
 
