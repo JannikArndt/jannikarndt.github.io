@@ -3,7 +3,7 @@ name: Deploy to CapRover
 on:
   push:
     branches:
-      - main  # Adjust if your default branch is named differently
+      - master  # Adjust if your default branch is named differently
   workflow_dispatch:
 
 jobs:
