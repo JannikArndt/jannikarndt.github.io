@@ -1,39 +1,41 @@
-name: Build & Deploy via SFTP
+name: Deploy to CapRover
 
 on:
   push:
     branches:
-      - master
+      - main  # Adjust if your default branch is named differently
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
           submodules: true  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 1    # Fetch all history for .GitInfo and .Lastmod
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
-          # extended: true
-
-      - name: Remove public folder
-        run: rm -rf public
-
+      
       - name: Build
         run: hugo --minify
-
-      - name: Deploy File
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
+    
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          username: '${{ secrets.SERVER_USERNAME }}'
-          server: '${{ secrets.SERVER_IP }}'
-          port: '${{ secrets.SERVER_PORT }}'
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          local_path: './public/*'
-          remote_path: '/home/webnhdsfg/html/web'
-          args: '-o ConnectTimeout=5'
+          node-version: '20'
+
+      - name: Install CapRover CLI
+        run: npm install -g caprover
+
+      - name: Deploy to CapRover
+        run: |
+          caprover deploy \
+            --caproverUrl "${{ secrets.CAPROVER_SERVER }}" \
+            --appToken "${{ secrets.CAPROVER_PASSWORD }}" \
+            --appName "${{ secrets.CAPROVER_APP }}" \
+            --tarFile ./public
