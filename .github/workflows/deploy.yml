@@ -38,4 +38,4 @@ jobs:
             --caproverUrl "${{ secrets.CAPROVER_SERVER }}" \
             --appToken "${{ secrets.CAPROVER_PASSWORD }}" \
             --appName "${{ secrets.CAPROVER_APP }}" \
-            --tarFile ./public
+            --branch master
