@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes | Jannik Arndt</title>
+<meta name="keywords" content="Programming, Scala, How-To, Tutorial, Case Class, JSON4S, Jackson">
+<meta name="description" content="Here is an overview of different JSON-elements and how to unmarshal or deserialize them into Scala case-classes using the standard libraries spray-json, json4s and jackson.">
+<meta name="author" content="Jannik Arndt">
+<link rel="canonical" href="http://localhost:1313/blog/2017/12/how_to_unmarshal_or_deserialize_or_parse_json_to_scala_case_classes/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.ba3e25cf01fcd0612e7b4caf55b03ded592ba5e66b10f5c3b491fc880e4939c1.css" integrity="sha256-uj4lzwH80GEue0yvVbA97VkrpeZrEPXDtJH8iA5JOcE=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicons/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicons/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#576175">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/blog/2017/12/how_to_unmarshal_or_deserialize_or_parse_json_to_scala_case_classes/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="http://localhost:1313/blog/2017/12/how_to_unmarshal_or_deserialize_or_parse_json_to_scala_case_classes/">
+  <meta property="og:site_name" content="Jannik Arndt">
+  <meta property="og:title" content="How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes">
+  <meta property="og:description" content="Here is an overview of different JSON-elements and how to unmarshal or deserialize them into Scala case-classes using the standard libraries spray-json, json4s and jackson.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2017-12-16T14:00:00+01:00">
+    <meta property="article:modified_time" content="2017-12-16T14:00:00+01:00">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="Scala">
+      <meta property="og:image" content="http://localhost:1313/jannik.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/jannik.jpg">
+<meta name="twitter:title" content="How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes">
+<meta name="twitter:description" content="Here is an overview of different JSON-elements and how to unmarshal or deserialize them into Scala case-classes using the standard libraries spray-json, json4s and jackson.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blog",
+      "item": "http://localhost:1313/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes",
+      "item": "http://localhost:1313/blog/2017/12/how_to_unmarshal_or_deserialize_or_parse_json_to_scala_case_classes/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes",
+  "name": "How To Unmarshal\/​Deserialize\/​Parse JSON to Scala Case Classes",
+  "description": "Here is an overview of different JSON-elements and how to unmarshal or deserialize them into Scala case-classes using the standard libraries spray-json, json4s and jackson.\n",
+  "keywords": [
+    "Programming", "Scala", "How-To", "Tutorial", "Case Class", "JSON4S", "Jackson"
+  ],
+  "articleBody": "Here is an overview of different JSON-elements and how to unmarshal or deserialize them into Scala case-classes using the standard libraries spray-json, json4s and jackson.\nJSON elements Data is written in key-value-pairs:\n{ \"name\" : \"John\" } Values can be\nstrings:\n{ \"name\" : \"John\" } numbers:\n{ \"age\" : 32 } other objects:\n{ \"address\" : { \"street\" : \"Main Rd.\", \"city\" : \"Somewhere\" } arrays:\n{ \"children\" : [ \"John Jr.\", \"Mary\" ] } an array of objects:\n{ \"hobbies\" : [ { \"hobby\" : \"football\", \"on\" : \"Mondays\" }, { \"hobby\" : \"dancing\", \"on\" : \"Fridays\" } ] } booleans:\n{ \"alive\" : true } and null:\n{ \"dogs\" : null } Caveat: Arrays can contain various, unnamed elements { \"john\": [ \"John\", 42, true, [ \"John Jr.\", \"Mary\" ] ] } Caveat: A list of various, unnamed object is a valid JSON-file [ { \"name\": \"John\" }, { \"age\": 42, \"address\": \"Someplace\" } ] Tools that help you My favorites are https://jsonlint.com for validating and formatting and http://www.jsondata.ninja for exploring JSON.\nLibraries http://www.json.org lists JSON-libraries for every language you might ever have heard of, including COBOL … but not for Scala. It might be that there are just too many, as this stackoverflow-answer suggests.\nI am going to provide examples for spray-json, json4s and jackson, since these are, in my opinion, the standard libraries.\nspray-json spray is the original name of what now is akka-http. The json component however kept its name, spray-json.\nbuild.sbt:\nlibraryDependencies += \"io.spray\" %% \"spray-json\" % \"1.3.3\" Test 1: SimplePerson.scala case class SimplePerson(name: String) MyJsonProtocol.scala: spray-json needs an object that defines how many values a case class holds:\nobject MyJsonProtocol extends DefaultJsonProtocol { implicit val simplePersonFormat = jsonFormat1(SimplePerson) } val simplePersonJson = \"\"\"{ \"name\" : \"John\" }\"\"\" val jsonAst = simplePersonJson.parseJson val simplePerson = jsonAst.convertTo[SimplePerson] // Result=SimplePerson(John) Test 2: Additional JSON field Now what if there are additional field in the json?\nval personWithAgeJson = \"\"\"{ \"name\" : \"John\", \"age\" : 32 }\"\"\" val jsonAst = personWithAgeJson.parseJson val simplePerson = jsonAst.convertTo[SimplePerson] // Result=SimplePerson(John) Okay, so we need another case-class:\ncase class PersonWithAge(name: String, age: Int) object MyJsonProtocol extends DefaultJsonProtocol { implicit val simplePersonFormat = jsonFormat1(SimplePerson) implicit val personWithAgeFormat = jsonFormat2(PersonWithAge) } val personWithAgeJson = \"\"\"{ \"name\" : \"John\", \"age\" : 32 }\"\"\" val jsonAst = personWithAgeJson.parseJson val personWithAge = jsonAst.convertTo[PersonWithAge] // Result=PersonWithAge(John,32) Test 3: Missing/optional field Okay, does this work when the age is missing?\nval personWithAgeJson = \"\"\"{ \"name\" : \"John\" }\"\"\" val jsonAst = personWithAgeJson.parseJson val personWithAge = jsonAst.convertTo[PersonWithAge] // Result: spray.json.DeserializationException: Object is missing required member 'age' No. Since everything in JSON is optional, the case classes need to reflect that.\ncase class OptionalPerson(name: Option[String], age: Option[Int]) object MyJsonProtocol extends DefaultJsonProtocol { … implicit val optionalPersonFormat = jsonFormat2(OptionalPerson) } val optionalPerson = \"\"\"{ \"name\" : \"John\" }\"\"\" val jsonAst = optionalPerson.parseJson val personWithoutAge = jsonAst.convertTo[OptionalPerson] Caveat: The keys are case-sensitive { \"name\" : \"John\" } works,\n{ \"Name\" : \"John\" } will either fail with a DeserializationException or, if you use Option, resolve to None!\nTest 4: Nested objects Let’s move on to a more complex example with nested objects:\n{ \"name\": \"John\", \"age\": 32, \"address\": { \"street\": \"Main Rd.\", \"city\": \"Somewhere\" }, \"children\": [\"John Jr.\", \"Mary\"], \"alive\": true, \"dogs\": null } Our case-classes are:\ncase class Person(name: String, age: Option[Int], address: Option[Address], children: Option[Seq[String]], alive: Option[Boolean], dogs: Option[Seq[Dog]]) // see caveat 2 case class Address(street: Option[String], city: Option[String]) case class Dog(name: String) object PersonJsonProtocol extends DefaultJsonProtocol { implicit val addressFormat = jsonFormat2(Address) // see caveat 1 implicit val dogFormat = jsonFormat1(Dog) implicit val personFormat = jsonFormat6(Person) } val personJson = Source.fromResource(\"john_with_address.json\").mkString val jsonAst = personJson.parseJson val person = jsonAst.convertTo[Person] // Result=Person(John, // Some(32), // Some(Address(Some(Main Rd.),Some(Somewhere))), // Some(List(JohnJr., Mary)), // Some(true), // None) Caveat 1: Order in the JsonProtocol Since Person uses the Address class, the jsonFormat2(Address) needs to be defined before the jsonFormat6(Person). Otherwise you will get\n[error] SprayJsonTest_Nested.scala:20:43: could not find implicit value for evidence parameter of type sprayJsonTests.PersonJsonProtocol.JF[Option[sprayJsonTests.Address]] Caveat 2: An empty list is not None While some libraries treat empty lists or sequences the same as None, spray-json will throw a\nspray.json.DeserializationException: Expected Collection as JsArray, but got null when you define the case-class as\ncase class Person(…, dogs: Seq[Dog]) and than write \"dogs\": null in your JSON.\nTest 5: Weird collection of things Now sometimes these JavaScript-guys just dump all their objects into an array and throw it at your server, letting you duck-type the hell out of it. For example:\n[ { \"person\": [ \"John\", 42, true, [ \"John Jr.\", \"Mary\" ] ] }, { \"street\": \"Main Rd.\", \"city\": \"Somewhere\" }, { \"dogs\": null }, { \"hobby\": \"football\", \"on\": \"Mondays\" }, { \"hobby\": \"dancing\", \"on\": \"Fridays\" } ] While it is incredibly easy to turn this into a proper object in JavaScript\nvar goodObject = Object.assign({}, { \"person\" : person }, { \"street\" : street }, … ) you can’t always convince them to. Let’s see how spray-json deals with this:\n",
+  "wordCount" : "829",
+  "inLanguage": "en",
+  "image": "http://localhost:1313/jannik.jpg","datePublished": "2017-12-16T14:00:00+01:00",
+  "dateModified": "2017-12-16T14:00:00+01:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jannik Arndt"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/blog/2017/12/how_to_unmarshal_or_deserialize_or_parse_json_to_scala_case_classes/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jannik Arndt",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="JannikArndt.de (Alt + H)">
+                <img src="http://localhost:1313/favicons/apple-touch-icon.png" alt="" aria-label="logo"
+                    height="35">JannikArndt.de</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about/" title="about">
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archive/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/blog/">Blog</a></div>
+    <h1 class="post-title entry-hint-parent">
+      How To Unmarshal/​Deserialize/​Parse JSON to Scala Case Classes
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta"><span title='2017-12-16 14:00:00 +0100 CET'>December 16, 2017</span>&nbsp;·&nbsp;Jannik Arndt
+
+</div>
+  </header> 
+  <div class="post-content"><p>Here is an overview of different JSON-elements and how to unmarshal or deserialize them into Scala <code>case</code>-classes using the standard libraries <code>spray-json</code>, <code>json4s</code> and <code>jackson</code>.</p>
+<h2 id="json-elements">JSON elements<a hidden class="anchor" aria-hidden="true" href="#json-elements">#</a></h2>
+<p>Data is written in key-value-pairs:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;John&#34;</span> <span class="p">}</span>
+</span></span></code></pre></div><p>Values can be</p>
+<ul>
+<li>
+<p>strings:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;John&#34;</span> <span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>numbers:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;age&#34;</span> <span class="p">:</span> <span class="mi">32</span> <span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>other objects:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;address&#34;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;street&#34;</span> <span class="p">:</span> <span class="s2">&#34;Main Rd.&#34;</span><span class="p">,</span> <span class="nt">&#34;city&#34;</span> <span class="p">:</span> <span class="s2">&#34;Somewhere&#34;</span> <span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>arrays:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;children&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&#34;John Jr.&#34;</span><span class="p">,</span> <span class="s2">&#34;Mary&#34;</span> <span class="p">]</span> <span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>an array of objects:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;hobbies&#34;</span> <span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="nt">&#34;hobby&#34;</span> <span class="p">:</span> <span class="s2">&#34;football&#34;</span><span class="p">,</span> <span class="nt">&#34;on&#34;</span> <span class="p">:</span> <span class="s2">&#34;Mondays&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="nt">&#34;hobby&#34;</span> <span class="p">:</span> <span class="s2">&#34;dancing&#34;</span><span class="p">,</span> <span class="nt">&#34;on&#34;</span> <span class="p">:</span> <span class="s2">&#34;Fridays&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>booleans:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;alive&#34;</span> <span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p>and null:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;dogs&#34;</span> <span class="p">:</span> <span class="kc">null</span> <span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="caveat-arrays-can-contain-various-unnamed-elements">Caveat: Arrays can contain various, unnamed elements<a hidden class="anchor" aria-hidden="true" href="#caveat-arrays-can-contain-various-unnamed-elements">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;john&#34;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&#34;John&#34;</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="p">[</span> <span class="s2">&#34;John Jr.&#34;</span><span class="p">,</span> <span class="s2">&#34;Mary&#34;</span> <span class="p">]</span> <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="caveat-a-list-of-various-unnamed-object-is-a-valid-json-file">Caveat: A list of various, unnamed object is a valid JSON-file<a hidden class="anchor" aria-hidden="true" href="#caveat-a-list-of-various-unnamed-object-is-a-valid-json-file">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;John&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="s2">&#34;Someplace&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><h3 id="tools-that-help-you">Tools that help you<a hidden class="anchor" aria-hidden="true" href="#tools-that-help-you">#</a></h3>
+<p>My favorites are <a href="https://jsonlint.com">https://jsonlint.com</a> for validating and formatting and <a href="http://www.jsondata.ninja">http://www.jsondata.ninja</a> for exploring JSON.</p>
+<h1 id="libraries">Libraries<a hidden class="anchor" aria-hidden="true" href="#libraries">#</a></h1>
+<p><a href="http://www.json.org">http://www.json.org</a> lists JSON-libraries for every language you might ever have heard of, including <em>COBOL</em> … but not for Scala. It might be that there are just too many, as <a href="https://stackoverflow.com/a/14442630/1507481">this stackoverflow-answer</a> suggests.</p>
+<p>I am going to provide examples for <code>spray-json</code>, <code>json4s</code> and <code>jackson</code>, since these are, in my opinion, the standard libraries.</p>
+<h2 id="spray-json">spray-json<a hidden class="anchor" aria-hidden="true" href="#spray-json">#</a></h2>
+<p><a href="http://spray.io"><code>spray</code></a> is the original name of what now is <code>akka-http</code>. The json component however kept its name, <a href="https://github.com/spray/spray-json"><code>spray-json</code></a>.</p>
+<p><code>build.sbt</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&#34;io.spray&#34;</span> <span class="o">%%</span>  <span class="s">&#34;spray-json&#34;</span> <span class="o">%</span> <span class="s">&#34;1.3.3&#34;</span>
+</span></span></code></pre></div><h3 id="test-1-simplepersonscala">Test 1: <code>SimplePerson.scala</code><a hidden class="anchor" aria-hidden="true" href="#test-1-simplepersonscala">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">SimplePerson</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span></span></code></pre></div><p><code>MyJsonProtocol.scala</code>: <code>spray-json</code> needs an object that defines how many values a <code>case</code> class holds:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">MyJsonProtocol</span> <span class="k">extends</span> <span class="nc">DefaultJsonProtocol</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">implicit</span> <span class="k">val</span> <span class="n">simplePersonFormat</span> <span class="k">=</span> <span class="n">jsonFormat1</span><span class="o">(</span><span class="nc">SimplePerson</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">simplePersonJson</span> <span class="k">=</span> <span class="s">&#34;&#34;&#34;{ &#34;name&#34; : &#34;John&#34; }&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">jsonAst</span>          <span class="k">=</span> <span class="n">simplePersonJson</span><span class="o">.</span><span class="n">parseJson</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">simplePerson</span>     <span class="k">=</span> <span class="n">jsonAst</span><span class="o">.</span><span class="n">convertTo</span><span class="o">[</span><span class="kt">SimplePerson</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Result=SimplePerson(John)
+</span></span></span></code></pre></div><h3 id="test-2-additional-json-field">Test 2: Additional JSON field<a hidden class="anchor" aria-hidden="true" href="#test-2-additional-json-field">#</a></h3>
+<p>Now what if there are additional field in the json?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personWithAgeJson</span> <span class="k">=</span> <span class="s">&#34;&#34;&#34;{ &#34;name&#34; : &#34;John&#34;, &#34;age&#34; : 32 }&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">jsonAst</span>           <span class="k">=</span> <span class="n">personWithAgeJson</span><span class="o">.</span><span class="n">parseJson</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">simplePerson</span>      <span class="k">=</span> <span class="n">jsonAst</span><span class="o">.</span><span class="n">convertTo</span><span class="o">[</span><span class="kt">SimplePerson</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Result=SimplePerson(John)
+</span></span></span></code></pre></div><p>Okay, so we need another <code>case</code>-class:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">PersonWithAge</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">age</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">MyJsonProtocol</span> <span class="k">extends</span> <span class="nc">DefaultJsonProtocol</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">implicit</span> <span class="k">val</span> <span class="n">simplePersonFormat</span> <span class="k">=</span> <span class="n">jsonFormat1</span><span class="o">(</span><span class="nc">SimplePerson</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">implicit</span> <span class="k">val</span> <span class="n">personWithAgeFormat</span> <span class="k">=</span> <span class="n">jsonFormat2</span><span class="o">(</span><span class="nc">PersonWithAge</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personWithAgeJson</span> <span class="k">=</span> <span class="s">&#34;&#34;&#34;{ &#34;name&#34; : &#34;John&#34;, &#34;age&#34; : 32 }&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">jsonAst</span>           <span class="k">=</span> <span class="n">personWithAgeJson</span><span class="o">.</span><span class="n">parseJson</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personWithAge</span>     <span class="k">=</span> <span class="n">jsonAst</span><span class="o">.</span><span class="n">convertTo</span><span class="o">[</span><span class="kt">PersonWithAge</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Result=PersonWithAge(John,32)
+</span></span></span></code></pre></div><h3 id="test-3-missingoptional-field">Test 3: Missing/optional field<a hidden class="anchor" aria-hidden="true" href="#test-3-missingoptional-field">#</a></h3>
+<p>Okay, does this work when the age is missing?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personWithAgeJson</span> <span class="k">=</span> <span class="s">&#34;&#34;&#34;{ &#34;name&#34; : &#34;John&#34; }&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">jsonAst</span>           <span class="k">=</span> <span class="n">personWithAgeJson</span><span class="o">.</span><span class="n">parseJson</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personWithAge</span>     <span class="k">=</span> <span class="n">jsonAst</span><span class="o">.</span><span class="n">convertTo</span><span class="o">[</span><span class="kt">PersonWithAge</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Result: spray.json.DeserializationException: Object is missing required member &#39;age&#39;
+</span></span></span></code></pre></div><p>No. Since everything in JSON is optional, the <code>case</code> classes need to reflect that.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">OptionalPerson</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">],</span> <span class="n">age</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">MyJsonProtocol</span> <span class="k">extends</span> <span class="nc">DefaultJsonProtocol</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">…</span>
+</span></span><span class="line"><span class="cl">  <span class="k">implicit</span> <span class="k">val</span> <span class="n">optionalPersonFormat</span> <span class="k">=</span> <span class="n">jsonFormat2</span><span class="o">(</span><span class="nc">OptionalPerson</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">optionalPerson</span>    <span class="k">=</span> <span class="s">&#34;&#34;&#34;{ &#34;name&#34; : &#34;John&#34; }&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">jsonAst</span>           <span class="k">=</span> <span class="n">optionalPerson</span><span class="o">.</span><span class="n">parseJson</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personWithoutAge</span>  <span class="k">=</span> <span class="n">jsonAst</span><span class="o">.</span><span class="n">convertTo</span><span class="o">[</span><span class="kt">OptionalPerson</span><span class="o">]</span>
+</span></span></code></pre></div><h4 id="caveat-the-keys-are-case-sensitive">Caveat: The keys are <strong>case-sensitive</strong><a hidden class="anchor" aria-hidden="true" href="#caveat-the-keys-are-case-sensitive">#</a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;John&#34;</span> <span class="p">}</span>
+</span></span></code></pre></div><p>works,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;Name&#34;</span> <span class="p">:</span> <span class="s2">&#34;John&#34;</span> <span class="p">}</span>
+</span></span></code></pre></div><p>will either fail with a <code>DeserializationException</code> or, if you use <code>Option</code>, resolve to <code>None</code>!</p>
+<h3 id="test-4-nested-objects">Test 4: Nested objects<a hidden class="anchor" aria-hidden="true" href="#test-4-nested-objects">#</a></h3>
+<p>Let&rsquo;s move on to a more complex example with nested objects:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;John&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;street&#34;</span><span class="p">:</span> <span class="s2">&#34;Main Rd.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;city&#34;</span><span class="p">:</span> <span class="s2">&#34;Somewhere&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;John Jr.&#34;</span><span class="p">,</span> <span class="s2">&#34;Mary&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;alive&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;dogs&#34;</span><span class="p">:</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Our <code>case</code>-classes are:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">age</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">address</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Address</span><span class="o">],</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">children</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">]],</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">alive</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Boolean</span><span class="o">],</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">dogs</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">Dog</span><span class="o">]])</span> <span class="c1">// see caveat 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Address</span><span class="o">(</span><span class="n">street</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">],</span> <span class="n">city</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Dog</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">object</span> <span class="nc">PersonJsonProtocol</span> <span class="k">extends</span> <span class="nc">DefaultJsonProtocol</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">implicit</span> <span class="k">val</span> <span class="n">addressFormat</span> <span class="k">=</span> <span class="n">jsonFormat2</span><span class="o">(</span><span class="nc">Address</span><span class="o">)</span> <span class="c1">// see caveat 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">implicit</span> <span class="k">val</span> <span class="n">dogFormat</span>     <span class="k">=</span> <span class="n">jsonFormat1</span><span class="o">(</span><span class="nc">Dog</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">implicit</span> <span class="k">val</span> <span class="n">personFormat</span>  <span class="k">=</span> <span class="n">jsonFormat6</span><span class="o">(</span><span class="nc">Person</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personJson</span> <span class="k">=</span> <span class="nc">Source</span><span class="o">.</span><span class="n">fromResource</span><span class="o">(</span><span class="s">&#34;john_with_address.json&#34;</span><span class="o">).</span><span class="n">mkString</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">jsonAst</span>    <span class="k">=</span> <span class="n">personJson</span><span class="o">.</span><span class="n">parseJson</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">person</span>     <span class="k">=</span> <span class="n">jsonAst</span><span class="o">.</span><span class="n">convertTo</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Result=Person(John,
+</span></span></span><span class="line"><span class="cl"><span class="c1">//               Some(32),
+</span></span></span><span class="line"><span class="cl"><span class="c1">//               Some(Address(Some(Main Rd.),Some(Somewhere))),
+</span></span></span><span class="line"><span class="cl"><span class="c1">//               Some(List(JohnJr., Mary)),
+</span></span></span><span class="line"><span class="cl"><span class="c1">//               Some(true),
+</span></span></span><span class="line"><span class="cl"><span class="c1">//               None)
+</span></span></span></code></pre></div><h4 id="caveat-1-order-in-the-jsonprotocol">Caveat 1: Order in the JsonProtocol<a hidden class="anchor" aria-hidden="true" href="#caveat-1-order-in-the-jsonprotocol">#</a></h4>
+<p>Since <code>Person</code> uses the <code>Address</code> class, the <code>jsonFormat2(Address)</code> needs to be defined <em>before</em> the <code>jsonFormat6(Person)</code>. Otherwise you will get</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="o">[</span><span class="kt">error</span><span class="o">]</span> <span class="nc">SprayJsonTest_Nested</span><span class="o">.</span><span class="n">scala</span><span class="k">:</span><span class="err">20</span><span class="kt">:</span><span class="err">43</span><span class="kt">:</span> <span class="kt">could</span> <span class="kt">not</span> <span class="kt">find</span> <span class="kt">implicit</span> <span class="kt">value</span> <span class="kt">for</span> <span class="kt">evidence</span> <span class="kt">parameter</span> <span class="kt">of</span> <span class="k">type</span> <span class="kt">sprayJsonTests.PersonJsonProtocol.JF</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">sprayJsonTests.Address</span><span class="o">]]</span>
+</span></span></code></pre></div><h4 id="caveat-2-an-empty-list-is-not-none">Caveat 2: An empty list is not <code>None</code><a hidden class="anchor" aria-hidden="true" href="#caveat-2-an-empty-list-is-not-none">#</a></h4>
+<p>While some libraries treat empty lists or sequences the same as <code>None</code>, <code>spray-json</code> will throw a</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">spray</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="nc">DeserializationException</span><span class="k">:</span> <span class="kt">Expected</span> <span class="kt">Collection</span> <span class="kt">as</span> <span class="kt">JsArray</span><span class="o">,</span> <span class="n">but</span> <span class="n">got</span> <span class="kc">null</span>
+</span></span></code></pre></div><p>when you define the <code>case</code>-class as</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">case</span> <span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="err">…</span><span class="o">,</span> <span class="n">dogs</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Dog</span><span class="o">])</span>
+</span></span></code></pre></div><p>and than write <code>&quot;dogs&quot;: null</code> in your JSON.</p>
+<h3 id="test-5-weird-collection-of-things">Test 5: Weird collection of things<a hidden class="anchor" aria-hidden="true" href="#test-5-weird-collection-of-things">#</a></h3>
+<p>Now sometimes these JavaScript-guys just dump all their objects into an array and throw it at your server, letting you duck-type the hell out of it. For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;person&#34;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&#34;John&#34;</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="p">[</span> <span class="s2">&#34;John Jr.&#34;</span><span class="p">,</span> <span class="s2">&#34;Mary&#34;</span> <span class="p">]</span> <span class="p">]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;street&#34;</span><span class="p">:</span> <span class="s2">&#34;Main Rd.&#34;</span><span class="p">,</span> <span class="nt">&#34;city&#34;</span><span class="p">:</span> <span class="s2">&#34;Somewhere&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;dogs&#34;</span><span class="p">:</span> <span class="kc">null</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;hobby&#34;</span><span class="p">:</span> <span class="s2">&#34;football&#34;</span><span class="p">,</span> <span class="nt">&#34;on&#34;</span><span class="p">:</span> <span class="s2">&#34;Mondays&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nt">&#34;hobby&#34;</span><span class="p">:</span> <span class="s2">&#34;dancing&#34;</span><span class="p">,</span> <span class="nt">&#34;on&#34;</span><span class="p">:</span> <span class="s2">&#34;Fridays&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>While it is incredibly easy to turn this into a proper object in JavaScript</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">goodObject</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span> <span class="p">{</span> <span class="s2">&#34;person&#34;</span> <span class="o">:</span> <span class="nx">person</span> <span class="p">},</span> <span class="p">{</span> <span class="s2">&#34;street&#34;</span> <span class="o">:</span> <span class="nx">street</span> <span class="p">},</span> <span class="err">…</span> <span class="p">)</span>
+</span></span></code></pre></div><p>you can&rsquo;t always convince them to. Let&rsquo;s see how <code>spray-json</code> deals with this:</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/programming/">Programming</a></li>
+      <li><a href="http://localhost:1313/tags/scala/">Scala</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
