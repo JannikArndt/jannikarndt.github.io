@@ -83,7 +83,7 @@ params:
   # home-info mode configuration
   homeInfoParams:
     Title: "Jannik Arndt"
-    Content: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
+    Content: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg<br>Also a yoga teacher: [yogawithjannik.com](https://www.yogawithjannik.com)"
 
   socialIcons:
     - name: twitter
