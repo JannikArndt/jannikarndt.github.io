@@ -83,7 +83,7 @@ params:
   # home-info mode configuration
   homeInfoParams:
     Title: "Jannik Arndt"
-    Content: "Software Engineer, Yoga Teacher, Life Enthusiast<br>Find my yoga stuff at [yogawithjannik.com](https://www.yogawithjannik.com)"
+    Content: "Software Engineer, Yoga Teacher, Life Enthusiast<br>For yoga, see [yogawithjannik.com](https://www.yogawithjannik.com)"
 
   socialIcons:
     - name: x
