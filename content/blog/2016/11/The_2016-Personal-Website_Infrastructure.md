@@ -15,6 +15,8 @@ Since I bought my personal domain name around 2003, I went through several web-s
 using static html pages, php pages, a custom designed php cms, finally Wordpress and now, as of yesterday, I am back to static html. The 2016-flavour however, which is another attempt of separation of presentation and content (a concept I highly endorse as a LaTeX user).
 <!--more-->
 
+> **Update, 2026:** The site now runs on Hugo + CapRover + Docker, deployed via GitHub Actions. This post describes what I was doing in 2016: GitHub Pages, DeployHQ, and git submodules. I don't recommend the submodule approach — I said as much in the post at the time.
+
 My main reason was though, that I was spending more time updating Wordpress, its plugins and themes than acutal content.
 
 Since quite a lot of research, trial-and-error and configuration have lead to the current model, in this post I will share the details with anyone willing to upgrade her website to a 2016-system (with only one and a half months left).

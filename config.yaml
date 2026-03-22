@@ -92,6 +92,8 @@ params:
       url: "https://github.com/JannikArndt"
     - name: linkedin
       url: "https://www.linkedin.com/in/jannikarndt"
+    - name: xing
+      url: "https://www.xing.com/profile/Jannik_Arndt"
     - name: email
       url: "mailto:jannik@jannikarndt.de"
     - name: cv

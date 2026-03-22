@@ -13,7 +13,7 @@ Personal website and blog for **Jannik Arndt** at https://www.jannikarndt.de. It
 - A brief bio/timeline on the About page
 - Travel writing (2025 onwards, based in Palermo)
 
-The owner is a former Scala/backend engineer (MOIA, airfocus) who now teaches yoga, builds iOS apps, and travels. The site reflects that full arc, which means the content ranges from deeply technical to very personal.
+The owner is a former Scala/backend engineer (MOIA, airfocus) who now teaches yoga, builds iOS apps, and does contracting work. Currently based in Hamburg. The site reflects that full arc, which means the content ranges from deeply technical to very personal.
 
 ---
 
@@ -257,27 +257,28 @@ Things that are known to be outdated, wrong, or worth addressing. Work through t
 
 | # | Issue | File | Line |
 |---|-------|------|------|
-| 1 | Tagline "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg" is stale | `config.yaml` | 47, 86 |
-| 2 | Twitter social icon links to twitter.com — should be X or removed | `config.yaml` | 89–91 |
-| 3 | Xing profile link — platform is effectively dead outside Germany | `config.yaml` | 95–97 |
+| 1 | ~~Tagline updated to "Software Engineer, Yoga Teacher, Life Enthusiast"~~ ✓ done | `config.yaml` | 47, 86 |
+| 2 | ~~Twitter icon updated to X, URL updated to x.com~~ ✓ done | `config.yaml` | 89–91 |
+| 3 | ~~Xing reinstated~~ ✓ done (still relevant in Germany) | `config.yaml` | 95–97 |
 | 4 | CV PDF at `/cv.pdf` — verify it reflects current status (last updated?) | `static/cv.pdf` | — |
 
 ### Medium Priority — Outdated Technical Posts
 
 | # | Post | Issue |
 |---|------|-------|
-| 5 | `2016/11/The_2016-Personal-Website_Infrastructure.md` | Describes GitHub Pages + DeployHQ + git submodules. Site now uses CapRover + Docker + GitHub Actions. Add an update notice or write a follow-up post. |
-| 6 | `2018/10/Akka HTTP on Heroku.md` | Heroku free tier was eliminated November 2022. All "free" references are misleading. Add a deprecation note. |
-| 7 | `2018/01/How to install Tasmota on a Sonoff device without opening it.md` | SonOTA method is deprecated. Current flashing method is different. |
-| 8 | `2018/01/How to use a Raspberry Pi 3 with Apple Home.md` | Apple Home/HomeKit architecture changed significantly since 2018. |
-| 9 | `2021/08/Comparing Charts in SwiftUI.md` | Apple released the native `Charts` framework at WWDC 2022. None of the third-party libraries listed need to be used anymore. |
+| 5 | ~~Disclaimer added~~ ✓ done | `2016/11/The_2016-Personal-Website_Infrastructure.md` | |
+| 6 | ~~Disclaimer added~~ ✓ done | `2018/10/Akka HTTP on Heroku.md` | |
+| 7 | ~~Disclaimer added~~ ✓ done | `2018/01/How to install Tasmota on a Sonoff device without opening it.md` | |
+| 8 | ~~Disclaimer added~~ ✓ done | `2018/01/How to use a Raspberry Pi 3 with Apple Home.md` | |
+| 9 | ~~Disclaimer added~~ ✓ done | `2021/08/Comparing Charts in SwiftUI.md` | |
 
 ### Lower Priority — Opinion Posts to Review
 
 | # | Post | Consideration |
 |---|------|---------------|
-| 10 | `2022/02/Why growth is so bad.md` | Strong critique of company growth. Re-read it from a recruiter's perspective. Consider whether it still reflects current thinking, or whether the framing should be updated. |
-| 11 | `2017/05/Two Speed IT.md` | "You don't have good employees. You drove them away." Cynical but defensible. Decide if comfortable with this representing you publicly. |
+| 10 | `2022/02/Why growth is so bad.md` | Kept as-is. Still reflects current thinking. |
+| 11 | ~~`2017/05/Two Speed IT.md`~~ ✓ deleted | |
+| 11b | ~~`2017/01/talend_does_not_work.md`~~ ✓ deleted | |
 | 12 | `2021/04/April Fools- We rewrote it in Rust.md` | Detailed git commit forgery instructions. Educational/satirical intent is clear in context, but the instructions are complete enough to be misused out of context. |
 
 ### Technical Issues
@@ -296,7 +297,7 @@ Things that are known to be outdated, wrong, or worth addressing. Work through t
 | 17 | No yoga content on the main site despite it being half the current identity. |
 | 18 | No iOS app showcase despite it being the stated career focus. |
 | 19 | "Lessons Learned" annual series stopped after 2017 — these were among the strongest posts. |
-| 20 | About page doesn't mention the Palermo move or current location (just "iOS Apps, Yoga & travel"). |
+| 20 | ~~About page updated: contractor work (NDA), iOS apps in development, back in Hamburg~~ ✓ done |
 
 ---
 
@@ -306,10 +307,10 @@ Current state in `config.yaml`:
 
 | Platform | URL | Status |
 |----------|-----|--------|
-| Twitter/X | https://twitter.com/JannikArndt | Active but URL is pre-rebrand |
+| X (Twitter) | https://x.com/JannikArndt | Active |
 | GitHub | https://github.com/JannikArndt | Active |
 | LinkedIn | https://www.linkedin.com/in/jannikarndt | Active |
-| Xing | https://www.xing.com/profile/Jannik_Arndt | Platform declining |
+| Xing | https://www.xing.com/profile/Jannik_Arndt | Active (relevant in Germany) |
 | Email | mailto:jannik@jannikarndt.de | Active |
 | CV | /cv.pdf | Check if current |
 

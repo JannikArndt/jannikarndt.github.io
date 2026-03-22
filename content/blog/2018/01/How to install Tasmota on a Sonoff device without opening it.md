@@ -11,6 +11,8 @@ toc = true
   author = "Jannik Arndt"
 +++
 
+> **Update, 2026:** The SonOTA flashing method described here is deprecated. The Tasmota project now has a [web installer](https://tasmota.github.io/install/) that's simpler and doesn't require any of this. The rest of this post reflects how it worked in 2018.
+
 Sonoff takes the standard ESP8266 chip and adds two things:
 
 - a casing with wifi and great connectors and
