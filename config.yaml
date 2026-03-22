@@ -44,7 +44,7 @@ server:
 params:
   env: production  # to enable Google Analytics, opengraph, twitter-cards and schema.
   title: "Jannik Arndt"
-  description: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg"
+  description: "Software Engineer, Yoga Teacher, Life Enthusiast"
   author: "Jannik Arndt"  # author: ["Me", "You"] for multiple authors
   images:
     - "jannik.jpg"
@@ -83,17 +83,15 @@ params:
   # home-info mode configuration
   homeInfoParams:
     Title: "Jannik Arndt"
-    Content: "Scala-Dev, Swift-Hacker, Product-Junkie from Hamburg<br>Also a yoga teacher: [yogawithjannik.com](https://www.yogawithjannik.com)"
+    Content: "Software Engineer, Yoga Teacher, Life Enthusiast<br>Also a yoga teacher: [yogawithjannik.com](https://www.yogawithjannik.com)"
 
   socialIcons:
-    - name: twitter
-      url: "https://twitter.com/JannikArndt"
+    - name: x
+      url: "https://x.com/JannikArndt"
     - name: github
       url: "https://github.com/JannikArndt"
     - name: linkedin
       url: "https://www.linkedin.com/in/jannikarndt"
-    - name: xing
-      url: "https://www.xing.com/profile/Jannik_Arndt"
     - name: email
       url: "mailto:jannik@jannikarndt.de"
     - name: cv
