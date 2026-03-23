@@ -12,6 +12,8 @@ draft: false
 comments: false
 ---
 
+> **Update, 2026:** Apple released a native [`Charts`](https://developer.apple.com/documentation/charts) framework at WWDC 2022. You probably don't need any of the libraries compared here — start there first. The rest of this post reflects the options available in 2021.
+
 I want to add charts to my SwiftUI iOS App, [Zettl](https://zettl.jannikarndt.de). For that, I am going to compare the following libraries:
 
 * [ivanschuetz/SwiftCharts](https://github.com/ivanschuetz/SwiftCharts)

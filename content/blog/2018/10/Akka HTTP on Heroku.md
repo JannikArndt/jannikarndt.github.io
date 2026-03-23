@@ -15,6 +15,8 @@ Getting a Akka HTTP-based backend up and running on Heroku for free can be done 
 
 <!--more-->
 
+> **Update, 2026:** Heroku killed their free tier in November 2022. This tutorial still works, but it'll cost you money now. Worth knowing before you dive in.
+
 ## Setup
 
 First, [create a new app on Heroku](https://dashboard.heroku.com/new-app). The easiest way to deploy something is to push it to the attached git repository, as explained on the _Deploy_ page:

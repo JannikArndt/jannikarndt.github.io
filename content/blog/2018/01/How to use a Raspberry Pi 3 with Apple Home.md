@@ -11,6 +11,8 @@ toc = true
   author = "Jannik Arndt"
 +++
 
+> **Update, 2026:** Apple's Home architecture has changed significantly since 2018. Homebridge still exists and still works, but the setup has evolved. Check [homebridge.io](https://homebridge.io) for current instructions. The rest of this post reflects how it worked in 2018.
+
 “Hey Siri, turn on the bedroom lights!” I want that. Here's how I did it:
 
 - I bought a bunch of Sonoff devices (5€ each, 10€ for a light switch).
