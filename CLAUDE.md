@@ -297,7 +297,13 @@ Things that are known to be outdated, wrong, or worth addressing. Work through t
 | 17 | No yoga content on the main site despite it being half the current identity. |
 | 18 | No iOS app showcase despite it being the stated career focus. |
 | 19 | "Lessons Learned" annual series stopped after 2017 — these were among the strongest posts. |
-| 20 | ~~About page updated: contractor work (NDA), iOS apps in development, back in Hamburg~~ ✓ done |
+| 20 | About page updated: contractor work (NDA), iOS apps in development, back in Hamburg | (reverted; original context was fine) |
+
+---
+
+## Recent Additions
+
+- **STYLE.md** — A standalone Claude system prompt for writing in Jannik's voice. Use this when asking Claude to write blog posts, emails, or other content. It includes voice guidance, structure patterns, post-type-specific tips, and real examples from published posts.
 
 ---
 
